@@ -13,6 +13,7 @@ cut was never in the list" are indistinguishable.
 from __future__ import annotations
 
 import json
+import threading
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -75,6 +76,7 @@ class JevClient:
     run_id: str = field(default_factory=lambda: uuid.uuid4().hex[:12])
     usage: Usage = field(default_factory=Usage)
     backend: Backend | None = None
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
 
     def __post_init__(self) -> None:
         self.run_dir = Path(self.run_dir or Path("runs") / self.run_id)
@@ -84,9 +86,10 @@ class JevClient:
     # -- lifecycle -------------------------------------------------------------
 
     def _ensure_backend(self) -> Backend:
-        if self.backend is None:
-            self.backend = make_backend(self.config)
-        return self.backend
+        with self._lock:
+            if self.backend is None:
+                self.backend = make_backend(self.config)
+            return self.backend
 
     def close(self) -> None:
         if self.backend is not None and hasattr(self.backend, "close"):
@@ -118,6 +121,7 @@ class JevClient:
                 f"state + {len(questions)} questions = {total} tok exceeds the "
                 f"{CONTEXT_TOTAL_TOKENS} per-request limit"
             )
+        # Read under the lock: Pass C calls this from several threads at once.
         if self.usage.requests + 1 > self.config.max_requests_per_video:
             raise BudgetError(f"request budget exhausted ({self.config.max_requests_per_video})")
         if self.usage.input_tokens + total > self.config.max_tokens_per_video:
@@ -162,6 +166,7 @@ class JevClient:
     def _trace(self, **kw: Any) -> None:
         response: Response | None = kw.pop("response")
         answers: dict[str, Any] = {}
+        reported_cost: float | None = None
         model_used = None
         # Fall back to the pre-flight estimate when the backend reports no usage, so a
         # missing field costs accuracy in the cost report rather than losing the call.
@@ -172,12 +177,15 @@ class JevClient:
             if response.input_tokens is not None:
                 input_tokens = response.input_tokens
             if response.cost_usd is not None:
-                self.usage.reported_cost_usd += response.cost_usd
-                self.usage.has_reported_cost = True
+                reported_cost = response.cost_usd
             answers = {k: a.to_dict() for k, a in response.answers.items()}
 
-        self.usage.requests += 1
-        self.usage.input_tokens += input_tokens
+        with self._lock:
+            self.usage.requests += 1
+            self.usage.input_tokens += input_tokens
+            if reported_cost is not None:
+                self.usage.reported_cost_usd += reported_cost
+                self.usage.has_reported_cost = True
 
         record = {
             "run_id": self.run_id,
@@ -201,8 +209,9 @@ class JevClient:
             "error": kw["error"],
             "meta": kw["meta"],
         }
-        with (self.run_dir / "trace.jsonl").open("a") as fh:
-            fh.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
+        line = json.dumps(record, ensure_ascii=False, default=str) + "\n"
+        with self._lock, (self.run_dir / "trace.jsonl").open("a") as fh:
+            fh.write(line)
 
     def summary(self) -> dict:
         return {

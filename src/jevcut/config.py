@@ -49,6 +49,8 @@ class Config:
     window_overlap: int = 10
     max_anchors_per_window: int = 3
     contains_moment_threshold: float = 0.6
+    anchor_removal_s: float = 20.0  # neighbourhood dropped before re-asking a window
+    scan_concurrency: int = 8
 
     # --- gates (007/008) --- PLACEHOLDER until 014
     mid_thought_threshold: float = 0.5

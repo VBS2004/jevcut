@@ -17,6 +17,7 @@ from jevcut.client import JevClient
 from jevcut.config import Config
 from jevcut.models import Transcript
 from jevcut.render import render_lines
+from jevcut.scan import scan, windows, write_anchors
 from jevcut.transcript import ingest, sanity_check
 
 
@@ -69,6 +70,30 @@ def cmd_region(args: argparse.Namespace) -> int:
     region = cuts_mod.build_region(transcript, found, args.anchor, config)
     print(f"# region {region.t0:.1f}s-{region.t1:.1f}s, {len(region.cuts)} cut options")
     print(region.text)
+    return 0
+
+
+def cmd_scan(args: argparse.Namespace) -> int:
+    """Pass C: transcript -> anchors.json (005). Costs real requests."""
+    load_env()
+    config = _config(args)
+    transcript = Transcript.from_json(args.transcript)
+    print(f"backend: {config.backend} / {config.model}")
+    print(f"{len(transcript)} sentences -> {len(windows(transcript, config))} windows")
+
+    with JevClient(config) as client:
+        anchors = scan(client, transcript, config)
+        out = Path(args.out or "anchors.json")
+        write_anchors(anchors, out)
+
+        summary = client.summary()
+        print(f"{len(anchors)} anchors -> {out}")
+        for a in anchors:
+            print(f"  {a.sentence_id} {a.t0:7.1f}s {a.kind:12} "
+                  f"moment={a.p_moment:.2f} conf={a.anchor_confidence:.2f}")
+        print(f"{summary['requests']} requests, {summary['input_tokens']} tokens, "
+              f"${summary['cost_usd']:.6f}"
+              f"{' (reported)' if summary['cost_is_reported'] else ' (estimated)'}")
     return 0
 
 
@@ -129,6 +154,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("anchor", help="sentence id, e.g. L042")
     p.add_argument("--cuts")
     p.set_defaults(func=cmd_region)
+
+    p = sub.add_parser("scan", help="transcript.json -> anchors.json (005)")
+    p.add_argument("transcript")
+    p.add_argument("--out")
+    p.set_defaults(func=cmd_scan)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
     p.add_argument("--text", default="And that's exactly why he refused to sign it.")

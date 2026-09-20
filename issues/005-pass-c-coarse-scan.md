@@ -5,6 +5,7 @@
 | **Milestone** | M1 VOD pipeline |
 | **Depends on** | 002, 004 |
 | **Blocks** | 006 |
+| **Status** | **Done** (M0 branch) — `src/jevcut/scan.py`, `src/jevcut/questions.py`, `tests/test_scan.py` |
 | **Size** | M |
 
 ## Why
@@ -45,3 +46,34 @@ gate's threshold *is* the cost model.
   against the 32k limit before sending.
 - Resist adding a 4th and 5th question here. Each one multiplies across every window, and
   this is the pass that runs on everything.
+
+## Implementation note
+
+All criteria met except the recall measurement, which needs 011. Verified live on the
+27-sentence fixture: three anchors for 3 requests at $0.000136, and the picks were the
+three lines a human editor would choose (the emotional peak, the reveal, the closing
+lesson).
+
+`JevClient` gained a lock — Pass C is the first caller to use a thread pool, and the
+trace file and usage counters are shared mutable state.
+
+## Finding: `contains_moment` does not fall across rounds
+
+Observed p_moment per removal round: **0.88 -> 0.93 -> 0.96**. It *rose* as the best
+material was removed.
+
+Not a contradiction. A Noul is absolute, not relative: each round asks "is there anything
+quotable in this text" about a **different, shorter** state, and a shorter window with
+less filler in it can legitimately read as denser. But it means the gate does **not**
+work as a diminishing-returns signal — the `max_anchors_per_window` cap is what actually
+stopped the loop here, not the threshold.
+
+Consequences:
+
+- The cost model's assumption that a flat window costs one request still holds (that path
+  is tested), but the assumption that rich windows self-limit does not.
+- Issue 014 should test an explicit alternative: ask "is there anything left worth
+  quoting **besides** what has already been chosen", with the chosen lines named in the
+  state. That is a relative question, which is the thing we actually want to know.
+- Until then, treat `max_anchors_per_window` as the real control and
+  `contains_moment_threshold` as a floor for genuinely empty windows.

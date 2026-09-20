@@ -7,8 +7,9 @@ decides exactly where each clip should **start** and **stop** — using
 [Jev](https://docs.typesafe.ai/models.md), TypeSafe's System One model, as a judge over
 transcript text, with all arithmetic, timing and rendering in code.
 
-Status: **M0 done** (issues 001–003) — ingest, cut-point extraction and the Jev client
-wrapper are implemented and tested. The passes that call Jev (005–007) are next.
+Status: **M0 done, Pass C live** (issues 001–003, 005) — ingest, cut-point extraction and the Jev client
+wrapper are implemented and tested, and the coarse scan (005) finds anchors against
+the live API. Boundary refinement (006) is next.
 See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
 
 ---
@@ -80,6 +81,7 @@ uv run pytest                # 32 tests, no API key needed
 uv run jevcut transcribe video.mp4 --from-json eval/fixtures/interview.words.json --out t.json
 uv run jevcut cuts t.json --out c.json
 uv run jevcut region t.json L009
+uv run jevcut scan t.json          # Pass C — costs real requests
 
 uv run jevcut smoke                         # one live Noul, traced
 ```
