@@ -1,0 +1,1142 @@
+[
+ {
+  "text": "So",
+  "t0": 0.724,
+  "t1": 0.974,
+  "speaker": "A"
+ },
+ {
+  "text": "walk",
+  "t0": 1.033,
+  "t1": 1.353,
+  "speaker": "A"
+ },
+ {
+  "text": "me",
+  "t0": 1.542,
+  "t1": 1.792,
+  "speaker": "A"
+ },
+ {
+  "text": "through",
+  "t0": 1.831,
+  "t1": 2.256,
+  "speaker": "A"
+ },
+ {
+  "text": "what",
+  "t0": 2.415,
+  "t1": 2.735,
+  "speaker": "A"
+ },
+ {
+  "text": "actually",
+  "t0": 2.851,
+  "t1": 3.311,
+  "speaker": "A"
+ },
+ {
+  "text": "happened",
+  "t0": 3.346,
+  "t1": 3.806,
+  "speaker": "A"
+ },
+ {
+  "text": "that",
+  "t0": 3.958,
+  "t1": 4.278,
+  "speaker": "A"
+ },
+ {
+  "text": "night.",
+  "t0": 4.307,
+  "t1": 4.697,
+  "speaker": "A"
+ },
+ {
+  "text": "We",
+  "t0": 5.3,
+  "t1": 5.55,
+  "speaker": "B"
+ },
+ {
+  "text": "were",
+  "t0": 5.593,
+  "t1": 5.913,
+  "speaker": "B"
+ },
+ {
+  "text": "about",
+  "t0": 6.044,
+  "t1": 6.399,
+  "speaker": "B"
+ },
+ {
+  "text": "forty",
+  "t0": 6.634,
+  "t1": 6.989,
+  "speaker": "B"
+ },
+ {
+  "text": "minutes",
+  "t0": 7.041,
+  "t1": 7.466,
+  "speaker": "B"
+ },
+ {
+  "text": "into",
+  "t0": 7.544,
+  "t1": 7.864,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 8.047,
+  "t1": 8.332,
+  "speaker": "B"
+ },
+ {
+  "text": "deploy",
+  "t0": 8.599,
+  "t1": 8.989,
+  "speaker": "B"
+ },
+ {
+  "text": "when",
+  "t0": 9.159,
+  "t1": 9.479,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 9.602,
+  "t1": 9.887,
+  "speaker": "B"
+ },
+ {
+  "text": "first",
+  "t0": 10.161,
+  "t1": 10.516,
+  "speaker": "B"
+ },
+ {
+  "text": "alert",
+  "t0": 10.548,
+  "t1": 10.903,
+  "speaker": "B"
+ },
+ {
+  "text": "came",
+  "t0": 11.146,
+  "t1": 11.466,
+  "speaker": "B"
+ },
+ {
+  "text": "in.",
+  "t0": 11.561,
+  "t1": 11.846,
+  "speaker": "B"
+ },
+ {
+  "text": "And",
+  "t0": 12.422,
+  "t1": 12.707,
+  "speaker": "B"
+ },
+ {
+  "text": "honestly",
+  "t0": 12.807,
+  "t1": 13.267,
+  "speaker": "B"
+ },
+ {
+  "text": "nobody",
+  "t0": 13.499,
+  "t1": 13.889,
+  "speaker": "B"
+ },
+ {
+  "text": "thought",
+  "t0": 13.956,
+  "t1": 14.381,
+  "speaker": "B"
+ },
+ {
+  "text": "it",
+  "t0": 14.552,
+  "t1": 14.802,
+  "speaker": "B"
+ },
+ {
+  "text": "was",
+  "t0": 14.988,
+  "t1": 15.273,
+  "speaker": "B"
+ },
+ {
+  "text": "real.",
+  "t0": 15.39,
+  "t1": 15.745,
+  "speaker": "B"
+ },
+ {
+  "text": "We",
+  "t0": 15.907,
+  "t1": 16.157,
+  "speaker": "B"
+ },
+ {
+  "text": "get",
+  "t0": 16.194,
+  "t1": 16.479,
+  "speaker": "B"
+ },
+ {
+  "text": "false",
+  "t0": 16.514,
+  "t1": 16.869,
+  "speaker": "B"
+ },
+ {
+  "text": "alerts",
+  "t0": 16.943,
+  "t1": 17.333,
+  "speaker": "B"
+ },
+ {
+  "text": "constantly.",
+  "t0": 17.53,
+  "t1": 18.095,
+  "speaker": "B"
+ },
+ {
+  "text": "But",
+  "t0": 18.94,
+  "t1": 19.225,
+  "speaker": "B"
+ },
+ {
+  "text": "then",
+  "t0": 19.397,
+  "t1": 19.717,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 19.855,
+  "t1": 20.14,
+  "speaker": "B"
+ },
+ {
+  "text": "second",
+  "t0": 20.238,
+  "t1": 20.628,
+  "speaker": "B"
+ },
+ {
+  "text": "one",
+  "t0": 20.855,
+  "t1": 21.14,
+  "speaker": "B"
+ },
+ {
+  "text": "fired.",
+  "t0": 21.341,
+  "t1": 21.731,
+  "speaker": "B"
+ },
+ {
+  "text": "Then",
+  "t0": 21.815,
+  "t1": 22.135,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 22.304,
+  "t1": 22.589,
+  "speaker": "B"
+ },
+ {
+  "text": "third.",
+  "t0": 22.746,
+  "t1": 23.136,
+  "speaker": "B"
+ },
+ {
+  "text": "At",
+  "t0": 24.513,
+  "t1": 24.763,
+  "speaker": "A"
+ },
+ {
+  "text": "what",
+  "t0": 24.858,
+  "t1": 25.178,
+  "speaker": "A"
+ },
+ {
+  "text": "point",
+  "t0": 25.452,
+  "t1": 25.807,
+  "speaker": "A"
+ },
+ {
+  "text": "did",
+  "t0": 25.858,
+  "t1": 26.143,
+  "speaker": "A"
+ },
+ {
+  "text": "you",
+  "t0": 26.272,
+  "t1": 26.557,
+  "speaker": "A"
+ },
+ {
+  "text": "realise",
+  "t0": 26.774,
+  "t1": 27.199,
+  "speaker": "A"
+ },
+ {
+  "text": "it",
+  "t0": 27.258,
+  "t1": 27.508,
+  "speaker": "A"
+ },
+ {
+  "text": "was",
+  "t0": 27.655,
+  "t1": 27.94,
+  "speaker": "A"
+ },
+ {
+  "text": "not",
+  "t0": 27.971,
+  "t1": 28.256,
+  "speaker": "A"
+ },
+ {
+  "text": "a",
+  "t0": 28.449,
+  "t1": 28.664,
+  "speaker": "A"
+ },
+ {
+  "text": "false",
+  "t0": 28.883,
+  "t1": 29.238,
+  "speaker": "A"
+ },
+ {
+  "text": "alarm?",
+  "t0": 29.407,
+  "t1": 29.797,
+  "speaker": "A"
+ },
+ {
+  "text": "When",
+  "t0": 30.758,
+  "t1": 31.078,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 31.279,
+  "t1": 31.564,
+  "speaker": "B"
+ },
+ {
+  "text": "payment",
+  "t0": 31.739,
+  "t1": 32.164,
+  "speaker": "B"
+ },
+ {
+  "text": "service",
+  "t0": 32.335,
+  "t1": 32.76,
+  "speaker": "B"
+ },
+ {
+  "text": "went",
+  "t0": 32.898,
+  "t1": 33.218,
+  "speaker": "B"
+ },
+ {
+  "text": "dark.",
+  "t0": 33.457,
+  "t1": 33.812,
+  "speaker": "B"
+ },
+ {
+  "text": "That",
+  "t0": 34.077,
+  "t1": 34.397,
+  "speaker": "B"
+ },
+ {
+  "text": "is",
+  "t0": 34.54,
+  "t1": 34.79,
+  "speaker": "B"
+ },
+ {
+  "text": "when",
+  "t0": 34.983,
+  "t1": 35.303,
+  "speaker": "B"
+ },
+ {
+  "text": "my",
+  "t0": 35.339,
+  "t1": 35.589,
+  "speaker": "B"
+ },
+ {
+  "text": "stomach",
+  "t0": 35.791,
+  "t1": 36.216,
+  "speaker": "B"
+ },
+ {
+  "text": "dropped.",
+  "t0": 36.404,
+  "t1": 36.864,
+  "speaker": "B"
+ },
+ {
+  "text": "I",
+  "t0": 38.365,
+  "t1": 38.58,
+  "speaker": "B"
+ },
+ {
+  "text": "have",
+  "t0": 38.674,
+  "t1": 38.994,
+  "speaker": "B"
+ },
+ {
+  "text": "been",
+  "t0": 39.114,
+  "t1": 39.434,
+  "speaker": "B"
+ },
+ {
+  "text": "doing",
+  "t0": 39.628,
+  "t1": 39.983,
+  "speaker": "B"
+ },
+ {
+  "text": "this",
+  "t0": 40.009,
+  "t1": 40.329,
+  "speaker": "B"
+ },
+ {
+  "text": "for",
+  "t0": 40.469,
+  "t1": 40.754,
+  "speaker": "B"
+ },
+ {
+  "text": "eleven",
+  "t0": 40.817,
+  "t1": 41.207,
+  "speaker": "B"
+ },
+ {
+  "text": "years",
+  "t0": 41.258,
+  "t1": 41.613,
+  "speaker": "B"
+ },
+ {
+  "text": "and",
+  "t0": 41.648,
+  "t1": 41.933,
+  "speaker": "B"
+ },
+ {
+  "text": "I",
+  "t0": 42.153,
+  "t1": 42.368,
+  "speaker": "B"
+ },
+ {
+  "text": "have",
+  "t0": 42.422,
+  "t1": 42.742,
+  "speaker": "B"
+ },
+ {
+  "text": "never",
+  "t0": 42.826,
+  "t1": 43.181,
+  "speaker": "B"
+ },
+ {
+  "text": "seen",
+  "t0": 43.303,
+  "t1": 43.623,
+  "speaker": "B"
+ },
+ {
+  "text": "a",
+  "t0": 43.869,
+  "t1": 44.084,
+  "speaker": "B"
+ },
+ {
+  "text": "cascade",
+  "t0": 44.125,
+  "t1": 44.55,
+  "speaker": "B"
+ },
+ {
+  "text": "move",
+  "t0": 44.687,
+  "t1": 45.007,
+  "speaker": "B"
+ },
+ {
+  "text": "that",
+  "t0": 45.17,
+  "t1": 45.49,
+  "speaker": "B"
+ },
+ {
+  "text": "fast.",
+  "t0": 45.739,
+  "t1": 46.094,
+  "speaker": "B"
+ },
+ {
+  "text": "Every",
+  "t0": 47.591,
+  "t1": 47.946,
+  "speaker": "B"
+ },
+ {
+  "text": "retry",
+  "t0": 48.039,
+  "t1": 48.394,
+  "speaker": "B"
+ },
+ {
+  "text": "made",
+  "t0": 48.522,
+  "t1": 48.842,
+  "speaker": "B"
+ },
+ {
+  "text": "it",
+  "t0": 48.955,
+  "t1": 49.205,
+  "speaker": "B"
+ },
+ {
+  "text": "worse.",
+  "t0": 49.455,
+  "t1": 49.845,
+  "speaker": "B"
+ },
+ {
+  "text": "The",
+  "t0": 50.114,
+  "t1": 50.399,
+  "speaker": "B"
+ },
+ {
+  "text": "clients",
+  "t0": 50.458,
+  "t1": 50.883,
+  "speaker": "B"
+ },
+ {
+  "text": "were",
+  "t0": 50.949,
+  "t1": 51.269,
+  "speaker": "B"
+ },
+ {
+  "text": "hammering",
+  "t0": 51.349,
+  "t1": 51.844,
+  "speaker": "B"
+ },
+ {
+  "text": "a",
+  "t0": 51.925,
+  "t1": 52.14,
+  "speaker": "B"
+ },
+ {
+  "text": "service",
+  "t0": 52.286,
+  "t1": 52.711,
+  "speaker": "B"
+ },
+ {
+  "text": "that",
+  "t0": 52.884,
+  "t1": 53.204,
+  "speaker": "B"
+ },
+ {
+  "text": "could",
+  "t0": 53.293,
+  "t1": 53.648,
+  "speaker": "B"
+ },
+ {
+  "text": "not",
+  "t0": 53.669,
+  "t1": 53.954,
+  "speaker": "B"
+ },
+ {
+  "text": "answer.",
+  "t0": 54.083,
+  "t1": 54.508,
+  "speaker": "B"
+ },
+ {
+  "text": "That",
+  "t0": 55.59,
+  "t1": 55.91,
+  "speaker": "A"
+ },
+ {
+  "text": "is",
+  "t0": 56.178,
+  "t1": 56.428,
+  "speaker": "A"
+ },
+ {
+  "text": "the",
+  "t0": 56.627,
+  "t1": 56.912,
+  "speaker": "A"
+ },
+ {
+  "text": "thundering",
+  "t0": 57.066,
+  "t1": 57.596,
+  "speaker": "A"
+ },
+ {
+  "text": "herd",
+  "t0": 57.777,
+  "t1": 58.097,
+  "speaker": "A"
+ },
+ {
+  "text": "problem.",
+  "t0": 58.293,
+  "t1": 58.753,
+  "speaker": "A"
+ },
+ {
+  "text": "Exactly.",
+  "t0": 60.086,
+  "t1": 60.546,
+  "speaker": "B"
+ },
+ {
+  "text": "And",
+  "t0": 60.769,
+  "t1": 61.054,
+  "speaker": "B"
+ },
+ {
+  "text": "we",
+  "t0": 61.301,
+  "t1": 61.551,
+  "speaker": "B"
+ },
+ {
+  "text": "had",
+  "t0": 61.779,
+  "t1": 62.064,
+  "speaker": "B"
+ },
+ {
+  "text": "no",
+  "t0": 62.186,
+  "t1": 62.436,
+  "speaker": "B"
+ },
+ {
+  "text": "backoff",
+  "t0": 62.56,
+  "t1": 62.985,
+  "speaker": "B"
+ },
+ {
+  "text": "on",
+  "t0": 63.031,
+  "t1": 63.281,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 63.466,
+  "t1": 63.751,
+  "speaker": "B"
+ },
+ {
+  "text": "client",
+  "t0": 63.788,
+  "t1": 64.178,
+  "speaker": "B"
+ },
+ {
+  "text": "side.",
+  "t0": 64.215,
+  "t1": 64.57,
+  "speaker": "B"
+ },
+ {
+  "text": "None.",
+  "t0": 64.644,
+  "t1": 64.999,
+  "speaker": "B"
+ },
+ {
+  "text": "That",
+  "t0": 65.062,
+  "t1": 65.382,
+  "speaker": "B"
+ },
+ {
+  "text": "was",
+  "t0": 65.49,
+  "t1": 65.775,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 65.809,
+  "t1": 66.094,
+  "speaker": "B"
+ },
+ {
+  "text": "whole",
+  "t0": 66.114,
+  "t1": 66.469,
+  "speaker": "B"
+ },
+ {
+  "text": "bug.",
+  "t0": 66.528,
+  "t1": 66.848,
+  "speaker": "B"
+ },
+ {
+  "text": "Three",
+  "t0": 67.658,
+  "t1": 68.013,
+  "speaker": "B"
+ },
+ {
+  "text": "characters",
+  "t0": 68.04,
+  "t1": 68.57,
+  "speaker": "B"
+ },
+ {
+  "text": "of",
+  "t0": 68.817,
+  "t1": 69.067,
+  "speaker": "B"
+ },
+ {
+  "text": "config.",
+  "t0": 69.247,
+  "t1": 69.672,
+  "speaker": "B"
+ },
+ {
+  "text": "That",
+  "t0": 69.73,
+  "t1": 70.05,
+  "speaker": "B"
+ },
+ {
+  "text": "is",
+  "t0": 70.136,
+  "t1": 70.386,
+  "speaker": "B"
+ },
+ {
+  "text": "what",
+  "t0": 70.496,
+  "t1": 70.816,
+  "speaker": "B"
+ },
+ {
+  "text": "took",
+  "t0": 70.931,
+  "t1": 71.251,
+  "speaker": "B"
+ },
+ {
+  "text": "down",
+  "t0": 71.303,
+  "t1": 71.623,
+  "speaker": "B"
+ },
+ {
+  "text": "checkout",
+  "t0": 71.864,
+  "t1": 72.324,
+  "speaker": "B"
+ },
+ {
+  "text": "for",
+  "t0": 72.602,
+  "t1": 72.887,
+  "speaker": "B"
+ },
+ {
+  "text": "ninety",
+  "t0": 73.028,
+  "t1": 73.418,
+  "speaker": "B"
+ },
+ {
+  "text": "minutes.",
+  "t0": 73.564,
+  "t1": 74.024,
+  "speaker": "B"
+ },
+ {
+  "text": "How",
+  "t0": 74.568,
+  "t1": 74.853,
+  "speaker": "A"
+ },
+ {
+  "text": "did",
+  "t0": 74.962,
+  "t1": 75.247,
+  "speaker": "A"
+ },
+ {
+  "text": "you",
+  "t0": 75.336,
+  "t1": 75.621,
+  "speaker": "A"
+ },
+ {
+  "text": "find",
+  "t0": 75.857,
+  "t1": 76.177,
+  "speaker": "A"
+ },
+ {
+  "text": "it?",
+  "t0": 76.239,
+  "t1": 76.524,
+  "speaker": "A"
+ },
+ {
+  "text": "Pure",
+  "t0": 77.901,
+  "t1": 78.221,
+  "speaker": "B"
+ },
+ {
+  "text": "luck.",
+  "t0": 78.378,
+  "t1": 78.733,
+  "speaker": "B"
+ },
+ {
+  "text": "Someone",
+  "t0": 78.791,
+  "t1": 79.216,
+  "speaker": "B"
+ },
+ {
+  "text": "noticed",
+  "t0": 79.377,
+  "t1": 79.802,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 79.829,
+  "t1": 80.114,
+  "speaker": "B"
+ },
+ {
+  "text": "request",
+  "t0": 80.272,
+  "t1": 80.697,
+  "speaker": "B"
+ },
+ {
+  "text": "rate",
+  "t0": 80.971,
+  "t1": 81.291,
+  "speaker": "B"
+ },
+ {
+  "text": "was",
+  "t0": 81.535,
+  "t1": 81.82,
+  "speaker": "B"
+ },
+ {
+  "text": "climbing",
+  "t0": 82.022,
+  "t1": 82.482,
+  "speaker": "B"
+ },
+ {
+  "text": "while",
+  "t0": 82.569,
+  "t1": 82.924,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 83.04,
+  "t1": 83.325,
+  "speaker": "B"
+ },
+ {
+  "text": "error",
+  "t0": 83.388,
+  "t1": 83.743,
+  "speaker": "B"
+ },
+ {
+  "text": "rate",
+  "t0": 83.964,
+  "t1": 84.284,
+  "speaker": "B"
+ },
+ {
+  "text": "was",
+  "t0": 84.442,
+  "t1": 84.727,
+  "speaker": "B"
+ },
+ {
+  "text": "climbing.",
+  "t0": 84.95,
+  "t1": 85.445,
+  "speaker": "B"
+ },
+ {
+  "text": "Normally",
+  "t0": 86.174,
+  "t1": 86.634,
+  "speaker": "B"
+ },
+ {
+  "text": "those",
+  "t0": 86.865,
+  "t1": 87.22,
+  "speaker": "B"
+ },
+ {
+  "text": "move",
+  "t0": 87.496,
+  "t1": 87.816,
+  "speaker": "B"
+ },
+ {
+  "text": "opposite",
+  "t0": 88.057,
+  "t1": 88.517,
+  "speaker": "B"
+ },
+ {
+  "text": "ways.",
+  "t0": 88.747,
+  "t1": 89.102,
+  "speaker": "B"
+ },
+ {
+  "text": "That",
+  "t0": 89.335,
+  "t1": 89.655,
+  "speaker": "B"
+ },
+ {
+  "text": "inversion",
+  "t0": 89.867,
+  "t1": 90.362,
+  "speaker": "B"
+ },
+ {
+  "text": "is",
+  "t0": 90.441,
+  "t1": 90.691,
+  "speaker": "B"
+ },
+ {
+  "text": "the",
+  "t0": 90.846,
+  "t1": 91.131,
+  "speaker": "B"
+ },
+ {
+  "text": "signature.",
+  "t0": 91.243,
+  "t1": 91.773,
+  "speaker": "B"
+ },
+ {
+  "text": "And",
+  "t0": 92.229,
+  "t1": 92.514,
+  "speaker": "A"
+ },
+ {
+  "text": "now",
+  "t0": 92.606,
+  "t1": 92.891,
+  "speaker": "A"
+ },
+ {
+  "text": "you",
+  "t0": 92.979,
+  "t1": 93.264,
+  "speaker": "A"
+ },
+ {
+  "text": "alert",
+  "t0": 93.464,
+  "t1": 93.819,
+  "speaker": "A"
+ },
+ {
+  "text": "on",
+  "t0": 94.087,
+  "t1": 94.337,
+  "speaker": "A"
+ },
+ {
+  "text": "it.",
+  "t0": 94.474,
+  "t1": 94.759,
+  "speaker": "A"
+ },
+ {
+  "text": "Now",
+  "t0": 96.41,
+  "t1": 96.695,
+  "speaker": "B"
+ },
+ {
+  "text": "we",
+  "t0": 96.964,
+  "t1": 97.214,
+  "speaker": "B"
+ },
+ {
+  "text": "alert",
+  "t0": 97.328,
+  "t1": 97.683,
+  "speaker": "B"
+ },
+ {
+  "text": "on",
+  "t0": 97.761,
+  "t1": 98.011,
+  "speaker": "B"
+ },
+ {
+  "text": "it.",
+  "t0": 98.09,
+  "t1": 98.375,
+  "speaker": "B"
+ },
+ {
+  "text": "It",
+  "t0": 98.446,
+  "t1": 98.696,
+  "speaker": "B"
+ },
+ {
+  "text": "took",
+  "t0": 98.769,
+  "t1": 99.089,
+  "speaker": "B"
+ },
+ {
+  "text": "an",
+  "t0": 99.271,
+  "t1": 99.521,
+  "speaker": "B"
+ },
+ {
+  "text": "outage",
+  "t0": 99.775,
+  "t1": 100.165,
+  "speaker": "B"
+ },
+ {
+  "text": "to",
+  "t0": 100.404,
+  "t1": 100.654,
+  "speaker": "B"
+ },
+ {
+  "text": "learn",
+  "t0": 100.799,
+  "t1": 101.154,
+  "speaker": "B"
+ },
+ {
+  "text": "something",
+  "t0": 101.343,
+  "t1": 101.838,
+  "speaker": "B"
+ },
+ {
+  "text": "a",
+  "t0": 102.066,
+  "t1": 102.281,
+  "speaker": "B"
+ },
+ {
+  "text": "graph",
+  "t0": 102.323,
+  "t1": 102.678,
+  "speaker": "B"
+ },
+ {
+  "text": "could",
+  "t0": 102.87,
+  "t1": 103.225,
+  "speaker": "B"
+ },
+ {
+  "text": "have",
+  "t0": 103.482,
+  "t1": 103.802,
+  "speaker": "B"
+ },
+ {
+  "text": "told",
+  "t0": 104.025,
+  "t1": 104.345,
+  "speaker": "B"
+ },
+ {
+  "text": "us.",
+  "t0": 104.56,
+  "t1": 104.845,
+  "speaker": "B"
+ }
+]

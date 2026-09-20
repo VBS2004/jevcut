@@ -5,6 +5,7 @@
 | **Milestone** | M0 Foundations |
 | **Depends on** | 001 |
 | **Blocks** | 003, 005 |
+| **Status** | **Done** (M0 branch) — `src/jevcut/transcript.py`, `tests/test_transcript.py` |
 | **Size** | M |
 
 ## Why
@@ -45,3 +46,7 @@ timings are what make a cut point addressable.
   `starts_mid_thought` in Pass E. Clean transcripts hide the defect we're trying to catch.
 - Keep the raw ASR output next to the normalized form; 010's triage needs to separate ASR
   errors from model errors.
+
+## Implementation note
+
+Whisper backend written but unexercised -- no ASR installed here, so it is covered only by the import guard. The `--from-json` path and segmentation are fully tested. `sanity_check()` implements the 400-800 sentences/hour band.

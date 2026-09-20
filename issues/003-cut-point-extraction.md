@@ -5,6 +5,7 @@
 | **Milestone** | M0 Foundations |
 | **Depends on** | 002 |
 | **Blocks** | 006, 017 |
+| **Status** | **Done** (M0 branch) — `src/jevcut/cuts.py`, `src/jevcut/render.py`, `tests/test_cuts.py`, `tests/test_render.py` |
 | **Size** | M |
 
 ## Why
@@ -49,3 +50,7 @@ looks exactly like a model error in the logs.
   skip it — a silent recall hole is the hardest bug in this system to diagnose.
 - Music beds and laughter destroy pause detection. Fall back to sentence ends when the
   pause-candidate rate collapses, and log when that happens.
+
+## Implementation note
+
+The 95% recall criterion is **not met yet** -- it needs the labeled set from 011. `coverage()` is implemented and ready to run against it. Shot detection is written but untested (scenedetect not installed).

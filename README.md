@@ -7,7 +7,9 @@ decides exactly where each clip should **start** and **stop** — using
 [Jev](https://docs.typesafe.ai/models.md), TypeSafe's System One model, as a judge over
 transcript text, with all arithmetic, timing and rendering in code.
 
-Status: **design phase.** No code yet. See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
+Status: **M0 done** (issues 001–003) — ingest, cut-point extraction and the Jev client
+wrapper are implemented and tested. The passes that call Jev (005–007) are next.
+See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
 
 ---
 
@@ -67,6 +69,23 @@ issues/     the work, one file per task, numbered and dependency-ordered
 src/        implementation (empty)
 eval/       labeled clips + metric harness (empty)
 ```
+
+## Running it
+
+```bash
+uv sync --extra dev          # add --extra asr for Whisper, --extra shots for scene detection
+uv run pytest                # 32 tests, no API key needed
+
+# ingest -> cut points -> the exact state Pass D will send
+uv run jevcut transcribe video.mp4 --from-json eval/fixtures/interview.words.json --out t.json
+uv run jevcut cuts t.json --out c.json
+uv run jevcut region t.json L009
+
+TYPESAFE_API_KEY=... uv run jevcut smoke   # one live Noul, traced
+```
+
+`eval/fixtures/interview.words.json` is a synthetic word list, so everything above runs
+with no ASR model and no API key.
 
 ## Reading order
 
