@@ -42,13 +42,39 @@ def test_speaker_change_survives_thinning(long_talk):
     assert any(c.kind == "speaker_change" for c in found)
 
 
-def test_shots_are_merged_not_duplicated(two_sentences):
-    t = _transcript(two_sentences)
+def test_shots_are_merged_not_duplicated(long_talk):
+    # long_talk, not two_sentences: on a 4-second transcript the two edge candidates sit
+    # within the thinning window of the only sentence end and displace it.
+    t = _transcript(long_talk)
     plain = cuts_mod.extract(t)
-    near = plain[0].t + 0.05  # inside the 200ms merge window
+    boundary = next(c for c in plain if c.kind == "sentence_end")
+    near = boundary.t + 0.05  # inside the 200ms merge window
     with_shot = cuts_mod.extract(t, shots=[near])
     assert len(with_shot) == len(plain)
-    assert with_shot[0].kind == "shot"  # strongest physical signal wins the label
+    merged = next(c for c in with_shot if abs(c.t - near) < 0.2)
+    assert merged.kind == "shot"  # strongest physical signal wins the label
+
+
+def test_the_transcript_edges_are_always_candidates(long_talk):
+    """Without these, a clip that opens on the first line is unrecoverable -- and it
+    looks like a model error rather than a missing option."""
+    t = _transcript(long_talk)
+    found = cuts_mod.extract(t)
+    assert any(abs(c.t - t.sentences[0].t0) < 1e-6 for c in found)
+    assert any(abs(c.t - t.sentences[-1].t1) < 1e-6 for c in found)
+
+
+def test_edges_survive_aggressive_thinning(long_talk):
+    t = _transcript(long_talk)
+    found = cuts_mod.extract(t, Config(min_cut_spacing_s=15.0))
+    assert [c.kind for c in found].count("edge") == 2
+
+
+def test_edge_coverage_lifts_recall_on_an_opening_clip(long_talk):
+    """003's gating metric, on the case the edges fix."""
+    t = _transcript(long_talk)
+    targets = [t.sentences[0].t0, t.sentences[-1].t1]
+    assert cuts_mod.coverage(cuts_mod.extract(t), targets)["recall"] == 1.0
 
 
 def test_region_numbers_cuts_locally(long_talk):

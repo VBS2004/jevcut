@@ -50,6 +50,11 @@ class Config:
     max_anchors_per_window: int = 3
     contains_moment_threshold: float = 0.6
     anchor_removal_s: float = 20.0  # neighbourhood dropped before re-asking a window
+    # Cross-window dedupe radius. Separate from anchor_removal_s on purpose: one governs
+    # "don't re-elect the same moment" inside a window, the other "these two windows found
+    # the same moment". Sharing a knob means 014 cannot tune either without moving both.
+    anchor_dedupe_s: float = 20.0
+    min_tail_window: int = 20  # shorter trailing windows are merged into the previous one
     scan_concurrency: int = 8
 
     # --- gates (007/008) --- PLACEHOLDER until 014

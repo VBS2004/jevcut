@@ -19,7 +19,9 @@ from jevcut.render import cut_id, render_markers
 # the strongest *physical* signal when two candidates coincide, while this one ranks how
 # good a *clip boundary* each kind makes. A sentence end beats a shot change, because a
 # viewer forgives a cut on a held frame and never forgives one mid-word.
-CUT_THIN_WEIGHT = {"speaker_change": 4, "sentence_end": 3, "shot": 2, "pause": 1}
+# "edge" is first because it is unrecoverable: no other candidate can stand in for the
+# start of the first sentence or the end of the last.
+CUT_THIN_WEIGHT = {"edge": 5, "speaker_change": 4, "sentence_end": 3, "shot": 2, "pause": 1}
 
 
 def extract(
@@ -31,6 +33,14 @@ def extract(
     """Enumerate every plausible boundary, then thin to the target density."""
     config = config or Config()
     raw: list[CutPoint] = []
+
+    if transcript.sentences:
+        # The two boundaries the sentence-pair loop below can never emit: a clip may
+        # legitimately open on the first word or close on the last, and without these
+        # the model is simply not offered that option. That is a silent recall hole --
+        # it looks like a model error in the traces and is really a missing candidate.
+        raw.append(CutPoint(id="", t=transcript.sentences[0].t0, kind="edge"))
+        raw.append(CutPoint(id="", t=transcript.sentences[-1].t1, kind="edge"))
 
     for i, s in enumerate(transcript.sentences):
         nxt = transcript.sentences[i + 1] if i + 1 < len(transcript.sentences) else None

@@ -66,6 +66,8 @@ class Response:
     cost_usd: float | None = None
     request_id: str | None = None
     provider: str | None = None
+    # Real HTTP requests spent on this one logical call, retries included.
+    http_attempts: int = 1
     raw: dict = field(default_factory=dict, repr=False)
 
 
@@ -181,7 +183,9 @@ class OpenRouterBackend:
             )
             try:
                 with urllib.request.urlopen(request, timeout=self.timeout_s) as resp:
-                    return parse_response(json.loads(resp.read().decode()))
+                    response = parse_response(json.loads(resp.read().decode()))
+                    response.http_attempts = attempt + 1
+                    return response
             except urllib.error.HTTPError as exc:
                 detail = exc.read().decode(errors="replace")[:500]
                 if exc.code not in RETRY_STATUSES or attempt == self.max_retries:

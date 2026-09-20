@@ -14,7 +14,9 @@ from pathlib import Path
 # Which kind label survives when two candidates land within the merge window. This is
 # about naming the strongest physical signal present, not about which cut to prefer --
 # see CUT_THIN_WEIGHT in cuts.py, which orders them differently and for a different reason.
-CUT_KIND_PRIORITY = {"shot": 3, "speaker_change": 2, "sentence_end": 1, "pause": 0}
+# "edge" is the very start and end of the transcript: not a physical signal, but a
+# boundary that must always be offered, so it outranks everything for labelling too.
+CUT_KIND_PRIORITY = {"edge": 4, "shot": 3, "speaker_change": 2, "sentence_end": 1, "pause": 0}
 
 
 @dataclass(frozen=True, slots=True)

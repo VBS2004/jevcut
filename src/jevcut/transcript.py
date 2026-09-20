@@ -17,12 +17,15 @@ from __future__ import annotations
 
 import difflib
 import json
+import logging
 import re
 from pathlib import Path
 
 from jevcut.config import Config
 from jevcut.models import Sentence, Transcript, Word
 from jevcut.render import id_width, sentence_id
+
+log = logging.getLogger(__name__)
 
 # Trailing quote/bracket allowed after the terminator: 'he said "stop."' ends a sentence.
 _SENTENCE_END = re.compile(r"[.!?…][\"')\]]*$")
@@ -83,7 +86,7 @@ def segment_words(words: list[Word], config: Config | None = None) -> list[Sente
 
 def _split_long(group: list[Word], max_words: int) -> list[list[Word]]:
     """Split at the largest internal pause, recursively, until short enough."""
-    if len(group) <= max_words:
+    if len(group) <= max(max_words, 2):
         return [group]
 
     best_i, best_gap = None, -1.0
@@ -95,6 +98,11 @@ def _split_long(group: list[Word], max_words: int) -> list[list[Word]]:
             best_i, best_gap = i, gap
     if best_i is None:
         best_i = len(group) // 2
+
+    # Every split must shrink both halves, or the recursion never terminates. With a
+    # small max_words the margin can push best_i onto the last index, making `left` the
+    # whole group and `right` empty -- a RecursionError at max_sentence_words=1.
+    best_i = min(max(best_i, 0), len(group) - 2)
 
     left, right = group[: best_i + 1], group[best_i + 1 :]
     return _split_long(left, max_words) + _split_long(right, max_words)
@@ -154,9 +162,17 @@ def transcribe_media(
     every run, and we do not want an earlier hallucination steering a later segment.
     """
     config = config or Config()
-    cache = Path(f"{media}.words.json")
+    # The model size is part of the key: a `base` transcript must not be served to a
+    # caller that asked for `large`. "Byte-identical re-run" means identical inputs, not
+    # identical paths.
+    cache = Path(f"{media}.words.{model_size}.json")
     if cache.exists():
-        return from_word_json(cache)
+        cached = from_word_json(cache)
+        if cached:
+            return cached
+        # An empty cache is a failed decode, not a silent video. Writing it would poison
+        # every future run with no symptom beyond "transcript is empty".
+        log.warning("ignoring empty ASR cache %s; re-transcribing", cache)
 
     try:
         from faster_whisper import WhisperModel
@@ -185,6 +201,14 @@ def transcribe_media(
         for w in seg.words or []:
             if w.word.strip():
                 words.append(Word(text=w.word.strip(), t0=float(w.start), t1=float(w.end)))
+
+    if not words:
+        # Fail loudly rather than caching nothing: an empty result is a broken decode or
+        # a too-aggressive no_speech_threshold, and both are worth seeing now.
+        raise RuntimeError(
+            f"ASR produced no words for {media}. Check the audio track, or lower "
+            f"no_speech_threshold (currently {config.no_speech_threshold})."
+        )
 
     cache.write_text(
         json.dumps([{"text": w.text, "t0": w.t0, "t1": w.t1} for w in words], indent=2)

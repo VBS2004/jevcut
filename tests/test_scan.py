@@ -177,3 +177,108 @@ def test_scan_stays_inside_the_request_budget(tmp_path):
     anchors = scan(client, t, Config())
     assert anchors == []
     assert client.usage.requests <= 12
+
+
+# --- resilience ---------------------------------------------------------------
+
+
+def test_one_failing_window_does_not_discard_the_others(tmp_path):
+    """pool.map re-raises the first worker exception and throws away every result behind
+    it: a 5xx on the last window used to mean paying for all of them and writing none."""
+    t = _transcript(200)
+
+    class FlakyBackend:
+        """Fails the first window asked, then picks whatever line it was offered."""
+
+        name = "flaky"
+
+        def __init__(self):
+            self.calls = 0
+
+        def system_one(self, state, questions, model):
+            self.calls += 1
+            if self.calls == 1:
+                raise RuntimeError("upstream 503")
+            offered = [o for o in questions["anchor"].criteria if o != NO_ANCHOR]
+            return Response(
+                model="m",
+                answers={
+                    "contains_moment": Answer(type="noul", noul=0.9),
+                    "anchor": Answer(
+                        type="choice", choice=offered[0], confidence=0.6,
+                        probabilities={offered[0]: 1.0},
+                    ),
+                    "kind": Answer(type="choice", choice="story", confidence=0.8),
+                },
+                input_tokens=100,
+            )
+
+    config = Config(scan_concurrency=1, max_anchors_per_window=1)
+    client = JevClient(config, run_dir=tmp_path / "run")
+    client.backend = FlakyBackend()
+
+    anchors = scan(client, t, config)
+    windows_asked = len(windows(t, config))
+    assert windows_asked == 3
+    assert anchors, "surviving windows must still produce anchors"
+    assert len(anchors) == windows_asked - 1  # every window but the failed one
+
+
+def test_a_missing_answer_is_not_read_as_a_flat_window(tmp_path, caplog):
+    class Broken:
+        name = "broken"
+
+        def system_one(self, state, questions, model):
+            return Response(model="m", answers={}, input_tokens=10)
+
+    client = JevClient(Config(), run_dir=tmp_path / "run")
+    client.backend = Broken()
+    t = _transcript(20)
+    with caplog.at_level("WARNING"):
+        assert scan_window(client, Window(id=0, sentences=t.sentences), Config()) == []
+    assert "contains_moment" in caplog.text
+
+
+def test_an_option_we_never_offered_is_logged(tmp_path, caplog):
+    t = _transcript(20)
+    client = _client(tmp_path, [(0.9, "L999")])  # not in this window
+    with caplog.at_level("WARNING"):
+        assert scan_window(client, Window(id=0, sentences=t.sentences), Config()) == []
+    assert "not one of the" in caplog.text
+
+
+# --- window tails and knob separation -----------------------------------------
+
+
+def test_a_short_tail_window_is_folded_into_the_previous_one():
+    """A trailing stub costs a whole request (~250 tokens of overhead alone) for content
+    the previous window already overlaps."""
+    t = _transcript(85)
+    config = Config(window_sentences=80, window_overlap=10, min_tail_window=20)
+    found = windows(t, config)
+    assert len(found) == 1
+    assert len(found[0].sentences) == 85
+
+
+def test_a_substantial_tail_window_is_kept():
+    t = _transcript(120)
+    found = windows(t, Config(min_tail_window=20))
+    assert len(found) == 2
+    assert len(found[1].sentences) >= 20
+
+
+def test_tail_merging_never_drops_or_duplicates_a_sentence():
+    for n in (81, 85, 99, 100, 140, 200, 211, 600):
+        t = _transcript(n)
+        found = windows(t, Config())
+        ids = [sid for w in found for sid in w.line_ids]
+        assert set(ids) == {s.id for s in t.sentences}, n
+        for w in found:
+            assert len(set(w.line_ids)) == len(w.line_ids), n
+
+
+def test_dedupe_radius_is_tunable_independently_of_the_removal_radius():
+    a = Anchor("L010", 0, "story", 100.0, 101.0, 0.9, 0.5, 0.5)
+    b = Anchor("L011", 1, "story", 110.0, 111.0, 0.8, 0.5, 0.5)
+    assert len(dedupe([a, b], Config(anchor_dedupe_s=5.0, anchor_removal_s=60.0))) == 2
+    assert len(dedupe([a, b], Config(anchor_dedupe_s=30.0, anchor_removal_s=1.0))) == 1

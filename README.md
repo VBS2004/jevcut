@@ -75,7 +75,7 @@ eval/       labeled clips + metric harness (empty)
 
 ```bash
 uv sync --extra dev          # add --extra asr for Whisper, --extra shots for scene detection
-uv run pytest                # 32 tests, no API key needed
+uv run pytest                # 92 tests, no API key needed
 
 # ingest -> cut points -> the exact state Pass D will send
 uv run jevcut transcribe video.mp4 --from-json eval/fixtures/interview.words.json --out t.json
@@ -93,6 +93,11 @@ with no ASR model and no API key.
 `/api/alpha/decisions` with `typesafe/jev-1.13` and needs `OPENROUTER_API_KEY`;
 `typesafe` uses the first-party SDK and `TYPESAFE_API_KEY`. Copy `.env.example` to
 `.env.local` — it is gitignored, and a variable already set in your shell always wins.
+
+## Review
+
+[docs/REVIEW-LOG.md](docs/REVIEW-LOG.md) records what a review of M0 found, with the
+reproduction for each defect. Worth reading before trusting any of this.
 
 ## Reading order
 

@@ -58,15 +58,26 @@ class Usage:
     requests: int = 0
     input_tokens: int = 0
 
+    http_attempts: int = 0
     reported_cost_usd: float = 0.0
-    has_reported_cost: bool = False
+    reported_cost_tokens: int = 0
+    unreported_cost_tokens: int = 0
+
+    @property
+    def has_reported_cost(self) -> bool:
+        return self.reported_cost_tokens > 0
 
     @property
     def cost_usd(self) -> float:
-        """What was billed when the provider says so, our own arithmetic otherwise."""
-        if self.has_reported_cost:
-            return self.reported_cost_usd
-        return self.input_tokens * PRICE_PER_INPUT_TOKEN
+        """Billed cost where the provider gave one, arithmetic for the rest.
+
+        Tracked per call rather than as a single latch: one response carrying
+        ``usage.cost`` must not make the other ninety-nine free. ``parse_response`` is
+        deliberately tolerant of a missing field, so a mixed run is a case that will
+        actually happen, and it used to report ~1% of true spend while labelling itself
+        "(reported)".
+        """
+        return self.reported_cost_usd + self.unreported_cost_tokens * PRICE_PER_INPUT_TOKEN
 
 
 @dataclass
@@ -104,7 +115,11 @@ class JevClient:
     # -- the one call ----------------------------------------------------------
 
     def check_budget(self, state: Any, questions: dict[str, Any]) -> dict[str, int]:
-        """Enforce the documented context limits before spending anything."""
+        """Per-request context limits. Pure: no counters read or written.
+
+        Kept separate from :meth:`_reserve` so a caller can size a request without
+        spending any of the run's budget to find out.
+        """
         state_tokens = estimate_tokens(state)
         per_question = {k: estimate_tokens(question_payload(q)) for k, q in questions.items()}
         longest = max(per_question.values(), default=0)
@@ -121,13 +136,28 @@ class JevClient:
                 f"state + {len(questions)} questions = {total} tok exceeds the "
                 f"{CONTEXT_TOTAL_TOKENS} per-request limit"
             )
-        # Read under the lock: Pass C calls this from several threads at once.
-        if self.usage.requests + 1 > self.config.max_requests_per_video:
-            raise BudgetError(f"request budget exhausted ({self.config.max_requests_per_video})")
-        if self.usage.input_tokens + total > self.config.max_tokens_per_video:
-            raise BudgetError(f"token budget exhausted ({self.config.max_tokens_per_video})")
-
         return {"state": state_tokens, "total": total, "longest_question": longest}
+
+    def _reserve(self, estimated_tokens: int) -> None:
+        """Claim this run's budget for one request, atomically, before sending it.
+
+        Checking a counter and then incrementing it after the response returns is a
+        check-then-act race: with ``scan_concurrency`` threads in flight, every one of
+        them reads the same stale count and none of them is refused. Measured at 8
+        threads against a budget of 5, that let 12 requests through. The budget guard's
+        whole job is to stop rather than silently exceed, so the slot is taken here --
+        up front, under the lock, on the estimate -- and reconciled against reported
+        usage in :meth:`_trace`.
+        """
+        with self._lock:
+            if self.usage.requests + 1 > self.config.max_requests_per_video:
+                raise BudgetError(
+                    f"request budget exhausted ({self.config.max_requests_per_video})"
+                )
+            if self.usage.input_tokens + estimated_tokens > self.config.max_tokens_per_video:
+                raise BudgetError(f"token budget exhausted ({self.config.max_tokens_per_video})")
+            self.usage.requests += 1
+            self.usage.input_tokens += estimated_tokens
 
     def ask(
         self,
@@ -139,6 +169,7 @@ class JevClient:
     ) -> Any:
         estimate = self.check_budget(state, questions)
         backend = self._ensure_backend()
+        self._reserve(estimate["total"])
 
         started = time.monotonic()
         error: str | None = None
@@ -167,6 +198,7 @@ class JevClient:
         response: Response | None = kw.pop("response")
         answers: dict[str, Any] = {}
         reported_cost: float | None = None
+        http_attempts = 1
         model_used = None
         # Fall back to the pre-flight estimate when the backend reports no usage, so a
         # missing field costs accuracy in the cost report rather than losing the call.
@@ -178,14 +210,21 @@ class JevClient:
                 input_tokens = response.input_tokens
             if response.cost_usd is not None:
                 reported_cost = response.cost_usd
+            http_attempts = max(response.http_attempts, 1)
             answers = {k: a.to_dict() for k, a in response.answers.items()}
 
         with self._lock:
-            self.usage.requests += 1
-            self.usage.input_tokens += input_tokens
+            # The slot and an estimate were already claimed in _reserve; settle up.
+            self.usage.input_tokens += input_tokens - kw["estimate"]["total"]
+            # A backend can retry internally, so one ask() may be several real HTTP
+            # requests. Requests are the binding constraint in the cost model, so count
+            # what was actually sent rather than what was asked for.
+            self.usage.requests += http_attempts - 1
             if reported_cost is not None:
                 self.usage.reported_cost_usd += reported_cost
-                self.usage.has_reported_cost = True
+                self.usage.reported_cost_tokens += input_tokens
+            else:
+                self.usage.unreported_cost_tokens += input_tokens
 
         record = {
             "run_id": self.run_id,
@@ -196,6 +235,8 @@ class JevClient:
             "request_id": response.request_id if response is not None else None,
             "provider": response.provider if response is not None else None,
             "reported_cost_usd": response.cost_usd if response is not None else None,
+            # >1 means the backend retried inside this one ask().
+            "http_attempts": http_attempts,
             # Model requested vs. model that answered: an alias moving underneath a tuned
             # threshold is exactly the kind of drift this line catches later.
             "model_requested": self.config.model,
@@ -221,4 +262,5 @@ class JevClient:
             "input_tokens": self.usage.input_tokens,
             "cost_usd": self.usage.cost_usd,
             "cost_is_reported": self.usage.has_reported_cost,
+            "cost_is_partly_estimated": self.usage.unreported_cost_tokens > 0,
         }

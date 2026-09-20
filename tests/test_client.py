@@ -268,3 +268,93 @@ def test_overhead_is_counted_against_the_budget(tmp_path):
     client = _client(tmp_path)
     estimate = client.check_budget({"a": "hello"}, {"q": {}})
     assert estimate["total"] > REQUEST_OVERHEAD_TOKENS
+
+
+# --- concurrency and accounting regressions -----------------------------------
+
+
+def test_the_request_budget_holds_under_concurrency(tmp_path):
+    """check_budget used to read the counters outside the lock while _trace incremented
+    them after the response. At 8 threads on a budget of 5, that let 12 requests through."""
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+
+    class SlowBackend:
+        name = "slow"
+
+        def system_one(self, state, questions, model):
+            threading.Event().wait(0.01)  # widen the check-then-act window
+            return Response(model="m", answers={}, input_tokens=10)
+
+    budget = 5
+    client = JevClient(Config(max_requests_per_video=budget), run_dir=tmp_path / "run")
+    client.backend = SlowBackend()
+
+    def call(_):
+        try:
+            client.ask({"a": 1}, {"q": {}}, pass_name="scan")
+            return True
+        except BudgetError:
+            return False
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        allowed = sum(pool.map(call, range(40)))
+    assert allowed == budget
+
+
+def test_check_budget_does_not_consume_the_budget(tmp_path):
+    client = _client(tmp_path, max_requests_per_video=1)
+    for _ in range(5):
+        client.check_budget({"a": 1}, {"q": {}})
+    assert client.usage.requests == 0
+    client.ask({"a": 1}, {"q": {}}, pass_name="scan")  # the one real request still fits
+
+
+def test_a_reserved_slot_is_settled_against_reported_usage(tmp_path):
+    client = _client(tmp_path)  # FakeBackend reports 1234 input tokens
+    client.ask({"a": 1}, {"q": {}}, pass_name="scan")
+    assert client.usage.input_tokens == 1234  # not estimate + reported
+
+
+def test_mixed_cost_reporting_is_not_latched(tmp_path):
+    """One response carrying usage.cost must not make the other ninety-nine free."""
+
+    class Mixed:
+        name = "mixed"
+        n = 0
+
+        def system_one(self, state, questions, model):
+            Mixed.n += 1
+            return Response(
+                model="m",
+                answers={},
+                input_tokens=1000,
+                cost_usd=1.155e-05 if Mixed.n == 1 else None,
+            )
+
+    client = JevClient(Config(), run_dir=tmp_path / "run")
+    client.backend = Mixed()
+    for _ in range(100):
+        client.ask({"a": 1}, {"q": {}}, pass_name="x")
+
+    summary = client.summary()
+    assert summary["cost_usd"] == pytest.approx(1.155e-05 + 99 * 1000 * 0.042 / 1e6)
+    assert summary["cost_is_partly_estimated"] is True
+
+
+def test_internal_retries_are_counted_as_requests(tmp_path):
+    """Requests are the binding constraint, so three HTTP calls must count as three."""
+
+    class RetryingBackend:
+        name = "retrying"
+
+        def system_one(self, state, questions, model):
+            return Response(model="m", answers={}, input_tokens=10, http_attempts=3)
+
+    client = JevClient(Config(), run_dir=tmp_path / "run")
+    client.backend = RetryingBackend()
+    client.ask({"a": 1}, {"q": {}}, pass_name="scan")
+    assert client.usage.requests == 3
+
+    record = json.loads((client.run_dir / "trace.jsonl").read_text().splitlines()[0])
+    assert record["http_attempts"] == 3
