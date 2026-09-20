@@ -45,3 +45,22 @@ a pinned model ID, token accounting, and a trace of exactly what was asked. Buil
 ## Implementation note
 
 All four criteria met. 429 retry is `RetryPolicy(respect_retry_after=True)`, set explicitly rather than relying on the SDK default. Note: the installed SDK is 0.7.0, newer than the 0.5.7 the docs reference; signatures verified against the installed version.
+
+## Update — OpenRouter backend
+
+The key in use is an OpenRouter key, so transport moved behind `backends.py`:
+`OpenRouterBackend` (stdlib HTTP, no new dependency) and `TypeSafeBackend` (the SDK), both
+returning one normalized `Response`. `load_env()` reads `.env.local` without overriding a
+variable already set in the shell.
+
+Verified live on 2026-09-20: all three primitives round-trip, and the clip
+"And that is the thundering herd problem…" scored `starts_mid_thought` **0.89**,
+`payoff` **1.98/2** at confidence 0.97 — the gate behaves as designed on a real example.
+
+Two things the live calls taught us, both now in the code:
+
+- OpenRouter returns `usage.cost`, so **billed cost is recorded, not recomputed**; the
+  trace also carries the provider's request id for chasing a single call.
+- There is a **fixed ~250-token cost per request**. The token estimator was recalibrated
+  to `250 + chars/3.5` and now matches observed usage within 10%, which is issue 018's
+  criterion. See [COST-MODEL.md](../docs/COST-MODEL.md#measured-2026-09-20).

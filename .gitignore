@@ -19,5 +19,7 @@ venv/
 *.webm
 .whisper_cache/
 
-# env
+# env — secrets, never committed
 .env
+.env.*
+!.env.example

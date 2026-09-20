@@ -20,11 +20,18 @@ PRICE_PER_INPUT_TOKEN = 0.042 / 1_000_000  # output tokens are free
 @dataclass
 class Config:
     # --- model ---
-    # Pinned to a version, not an alias: aliases move, and a threshold tuned against one
-    # version is not valid on the next. The response's `model` field is logged per call.
-    model_id: str = "jev-1.13.0"
+    # "openrouter" -> POST /api/alpha/decisions with typesafe/jev-1.13 (OPENROUTER_API_KEY)
+    # "typesafe"   -> the first-party SDK (TYPESAFE_API_KEY)
+    backend: str = "openrouter"
+    # None takes the backend's default, which is a pinned version in both cases -- never
+    # an alias, because an alias moves and a threshold tuned against one version is not
+    # valid on the next. The `model` the response reports is logged per call.
+    model_id: str | None = None
     timeout_s: float = 120.0
     max_retries: int = 5
+    # Optional, OpenRouter leaderboards only.
+    openrouter_referer: str | None = None
+    openrouter_title: str | None = None
 
     # --- ingest (002) ---
     sentence_gap_s: float = 0.7  # silence that forces a sentence break
@@ -70,6 +77,12 @@ class Config:
             "anchor_confidence": 0.3,
         }
     )
+
+    @property
+    def model(self) -> str:
+        from jevcut.backends import BACKEND_DEFAULT_MODEL
+
+        return self.model_id or BACKEND_DEFAULT_MODEL[self.backend]
 
     def to_dict(self) -> dict:
         d = asdict(self)

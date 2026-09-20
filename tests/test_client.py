@@ -2,48 +2,37 @@ import json
 
 import pytest
 
+from jevcut.backends import Answer, BackendError, OpenRouterBackend, Response, parse_response
 from jevcut.client import BudgetError, JevClient, estimate_tokens
 from jevcut.config import Config
 
 
-class FakeAnswer:
-    type = "noul"
-    noul = 0.81
-    confidence = None
-    choice = None
-    score = None
-    probabilities = None
-    legend = None
+class FakeBackend:
+    name = "fake"
 
-
-class FakeUsage:
-    input_tokens = 1234
-    output_tokens = 0
-
-
-class FakeResponse:
-    model = "jev-1.13.0"
-    usage = FakeUsage()
-    answers = {"q": FakeAnswer()}
-
-
-class FakeSDK:
     def __init__(self):
         self.calls = []
 
-    def system_one(self, state, questions, model=None):
+    def system_one(self, state, questions, model):
         self.calls.append((state, questions, model))
-        return FakeResponse()
+        return Response(
+            model="typesafe/jev-1.13",
+            answers={"q": Answer(type="noul", noul=0.81)},
+            input_tokens=1234,
+        )
 
 
 def _client(tmp_path, **overrides) -> JevClient:
     c = JevClient(Config(**overrides), run_dir=tmp_path / "run")
-    c._client = FakeSDK()
+    c.backend = FakeBackend()
     return c
 
 
+# --- config -------------------------------------------------------------------
+
+
 def test_config_round_trips(tmp_path):
-    original = Config(model_id="jev-1.13.0", pause_cut_s=0.4)
+    original = Config(backend="openrouter", pause_cut_s=0.4)
     path = tmp_path / "config.json"
     original.to_json(path)
     assert Config.from_json(path) == original
@@ -51,7 +40,20 @@ def test_config_round_trips(tmp_path):
 
 def test_config_rejects_unknown_keys():
     with pytest.raises(ValueError, match="unknown config keys"):
-        Config.from_dict({"model_id": "x", "nope": 1})
+        Config.from_dict({"backend": "openrouter", "nope": 1})
+
+
+def test_backend_defaults_are_pinned_versions_not_aliases():
+    assert Config(backend="openrouter").model == "typesafe/jev-1.13"
+    assert Config(backend="typesafe").model == "jev-1.13.0"
+    assert "latest" not in Config().model
+
+
+def test_explicit_model_id_wins():
+    assert Config(model_id="typesafe/jev-1.14").model == "typesafe/jev-1.14"
+
+
+# --- tracing and budget -------------------------------------------------------
 
 
 def test_ask_traces_every_call(tmp_path):
@@ -62,8 +64,9 @@ def test_ask_traces_every_call(tmp_path):
     assert len(lines) == 1
     record = json.loads(lines[0])
     assert record["pass"] == "verify"
-    assert record["model_requested"] == "jev-1.13.0"
-    assert record["model_answered"] == "jev-1.13.0"
+    assert record["backend"] == "openrouter"
+    assert record["model_requested"] == "typesafe/jev-1.13"
+    assert record["model_answered"] == "typesafe/jev-1.13"
     assert record["answers"]["q"]["noul"] == 0.81
     assert record["questions"] == {"q": {"type": "noul"}}
     assert record["error"] is None
@@ -79,14 +82,14 @@ def test_usage_uses_reported_tokens_not_the_estimate(tmp_path):
 def test_model_is_pinned_on_the_call(tmp_path):
     client = _client(tmp_path)
     client.ask({"a": 1}, {"q": {}}, pass_name="scan")
-    assert client._client.calls[0][2] == "jev-1.13.0"
+    assert client.backend.calls[0][2] == "typesafe/jev-1.13"
 
 
 def test_oversized_state_fails_before_sending(tmp_path):
     client = _client(tmp_path)
     with pytest.raises(BudgetError, match="longest question"):
         client.ask({"big": "x" * 200_000}, {"q": {}}, pass_name="scan")
-    assert client._client.calls == []
+    assert client.backend.calls == []
 
 
 def test_request_budget_is_enforced(tmp_path):
@@ -102,7 +105,7 @@ def test_failures_are_traced_too(tmp_path):
     def boom(*a, **k):
         raise RuntimeError("429 whatever")
 
-    client._client.system_one = boom
+    client.backend.system_one = boom
     with pytest.raises(RuntimeError):
         client.ask({"a": 1}, {"q": {}}, pass_name="scan")
 
@@ -112,3 +115,156 @@ def test_failures_are_traced_too(tmp_path):
 
 def test_token_estimate_is_in_the_right_ballpark():
     assert 20 <= estimate_tokens("x" * 100) <= 30
+
+
+# --- openrouter backend -------------------------------------------------------
+
+
+def test_openrouter_payload_matches_the_decisions_api(monkeypatch):
+    from typesafe_sdk import Choice, Noul, NoulCriteria
+
+    monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-v1-test")
+    backend = OpenRouterBackend()
+    payload = backend.build_payload(
+        "Help! My payouts have been failing for 3 days.",
+        {
+            "is_urgent": Noul(
+                instructions="Does this message convey urgency?",
+                criteria=NoulCriteria(true="Explicitly time-sensitive", false="No urgency expressed"),
+            ),
+            "department": Choice(
+                instructions="Which team should handle this?",
+                criteria={"billing": "Payments", "technical": "Bugs"},
+            ),
+        },
+        "typesafe/jev-1.13",
+    )
+    assert payload["model"] == "typesafe/jev-1.13"
+    assert payload["state"].startswith("Help!")
+    assert payload["questions"]["is_urgent"] == {
+        "type": "noul",
+        "instructions": "Does this message convey urgency?",
+        "criteria": {"true": "Explicitly time-sensitive", "false": "No urgency expressed"},
+    }
+    assert payload["questions"]["department"]["type"] == "choice"
+
+
+def test_openrouter_headers(monkeypatch):
+    monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-v1-test")
+    headers = OpenRouterBackend(title="jevcut").  _headers()
+    assert headers["Authorization"] == "Bearer sk-or-v1-test"
+    assert headers["X-Title"] == "jevcut"
+    assert "HTTP-Referer" not in headers  # optional, omitted when unset
+
+
+def test_missing_key_fails_with_a_useful_message(monkeypatch, tmp_path):
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.chdir(tmp_path)  # away from the repo's .env.local
+    with pytest.raises(BackendError, match="OPENROUTER_API_KEY"):
+        OpenRouterBackend()
+
+
+def test_parse_response_reads_all_three_primitives():
+    response = parse_response(
+        {
+            "model": "typesafe/jev-1.13",
+            "usage": {"prompt_tokens": 512},
+            "answers": {
+                "is_urgent": {"type": "noul", "noul": 0.93},
+                "department": {
+                    "type": "choice",
+                    "choice": "billing",
+                    "confidence": 0.88,
+                    "probabilities": {"billing": 0.9, "technical": 0.1},
+                },
+                "frustration": {"type": "score", "score": 1.4, "confidence": 0.5},
+            },
+        }
+    )
+    assert response.model == "typesafe/jev-1.13"
+    assert response.input_tokens == 512
+    assert response.answers["is_urgent"].noul == 0.93
+    assert response.answers["department"].probabilities["billing"] == 0.9
+    assert response.answers["frustration"].score == 1.4
+
+
+def test_parse_response_handles_a_decision_envelope():
+    response = parse_response({"decision": {"answers": {"q": {"type": "noul", "noul": 0.1}}}})
+    assert response.answers["q"].noul == 0.1
+
+
+def test_parse_response_rejects_a_broken_shape():
+    with pytest.raises(BackendError, match="answers shape"):
+        parse_response({"answers": ["not", "a", "dict"]})
+
+
+# --- env loading --------------------------------------------------------------
+
+
+def test_env_local_is_read_but_never_overrides_the_real_env(monkeypatch, tmp_path):
+    from jevcut.backends import load_env
+
+    (tmp_path / ".env.local").write_text("OPENROUTER_API_KEY=from-file\nOTHER=x\n")
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("OTHER", raising=False)
+    load_env(tmp_path)
+    import os
+
+    assert os.environ["OPENROUTER_API_KEY"] == "from-file"
+
+    monkeypatch.setenv("OPENROUTER_API_KEY", "from-shell")
+    load_env(tmp_path)
+    assert os.environ["OPENROUTER_API_KEY"] == "from-shell"
+
+
+# --- cost and token accounting ------------------------------------------------
+
+
+def test_reported_cost_beats_our_arithmetic(tmp_path):
+    class BilledBackend(FakeBackend):
+        def system_one(self, state, questions, model):
+            self.calls.append((state, questions, model))
+            return Response(
+                model="typesafe/jev-1.13-20260917",
+                answers={"q": Answer(type="noul", noul=0.5)},
+                input_tokens=275,
+                cost_usd=1.155e-05,
+                request_id="gen-dec-123",
+                provider="TypeSafe",
+            )
+
+    client = JevClient(Config(), run_dir=tmp_path / "run")
+    client.backend = BilledBackend()
+    client.ask({"a": 1}, {"q": {}}, pass_name="scan")
+
+    summary = client.summary()
+    assert summary["cost_usd"] == pytest.approx(1.155e-05)
+    assert summary["cost_is_reported"] is True
+
+    record = json.loads((client.run_dir / "trace.jsonl").read_text().splitlines()[0])
+    assert record["request_id"] == "gen-dec-123"
+    assert record["provider"] == "TypeSafe"
+
+
+def test_cost_falls_back_to_arithmetic_when_unreported(tmp_path):
+    client = _client(tmp_path)  # FakeBackend reports tokens but no cost
+    client.ask({"a": 1}, {"q": {}}, pass_name="scan")
+    assert client.summary()["cost_is_reported"] is False
+    assert client.summary()["cost_usd"] == pytest.approx(1234 * 0.042 / 1e6)
+
+
+def test_estimator_matches_observed_usage_within_10_percent():
+    """The two live observations the constants were fitted to (issue 018's criterion)."""
+    from jevcut.client import REQUEST_OVERHEAD_TOKENS
+
+    for content_chars, reported in ((94, 275), (1532, 696)):
+        predicted = REQUEST_OVERHEAD_TOKENS + estimate_tokens("x" * content_chars)
+        assert abs(predicted - reported) / reported < 0.10
+
+
+def test_overhead_is_counted_against_the_budget(tmp_path):
+    from jevcut.client import REQUEST_OVERHEAD_TOKENS
+
+    client = _client(tmp_path)
+    estimate = client.check_budget({"a": "hello"}, {"q": {}})
+    assert estimate["total"] > REQUEST_OVERHEAD_TOKENS

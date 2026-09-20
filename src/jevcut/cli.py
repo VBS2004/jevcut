@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 from jevcut import cuts as cuts_mod
+from jevcut.backends import load_env
 from jevcut.client import JevClient
 from jevcut.config import Config
 from jevcut.models import Transcript
@@ -75,7 +76,9 @@ def cmd_smoke(args: argparse.Namespace) -> int:
     """One live Noul against the API. Confirms key, model pinning and tracing."""
     from typesafe_sdk import Noul, NoulCriteria
 
+    load_env()
     config = _config(args)
+    print(f"backend: {config.backend} / {config.model}")
     with JevClient(config) as client:
         response = client.ask(
             {"clip": {"text": args.text}},

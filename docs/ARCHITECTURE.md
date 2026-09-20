@@ -134,6 +134,26 @@ Against a 1,200 req/min limit, VOD backfill is free and live costs 15 req/min pe
 so roughly 70 concurrent streams before the account limit binds. That, not the token bill,
 is the number that decides whether this scales.
 
+## Reaching the model
+
+Two backends behind one normalized `Response`, so no pass knows which is in use:
+
+| Backend | Transport | Model | Key |
+| --- | --- | --- | --- |
+| `openrouter` (default) | `POST /api/alpha/decisions`, stdlib HTTP | `typesafe/jev-1.13` | `OPENROUTER_API_KEY` |
+| `typesafe` | `typesafe-sdk` | `jev-1.13.0` | `TYPESAFE_API_KEY` |
+
+Question payloads are identical either way — the SDK's `model_dump()` already emits the
+exact JSON the Decisions API documents, so questions are authored once as `Noul`/`Choice`/
+`Score` objects regardless of route.
+
+**On pinning.** `typesafe/jev-1.13` is a minor-version pointer, not a fixed build: it
+resolved to `typesafe/jev-1.13-20260917` on 2026-09-20. It is stable enough to develop
+against, but **issue 014 must pin the dated ID** before any threshold is called tuned,
+because a threshold tuned against one build is not valid on the next. Every trace line
+records `model_requested` alongside `model_answered`, so the day that pointer moves is
+visible in the logs rather than inferred from drifting metrics.
+
 ## Non-goals
 
 - No generated titles, captions or descriptions. Jev doesn't generate; use another model

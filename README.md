@@ -81,11 +81,16 @@ uv run jevcut transcribe video.mp4 --from-json eval/fixtures/interview.words.jso
 uv run jevcut cuts t.json --out c.json
 uv run jevcut region t.json L009
 
-TYPESAFE_API_KEY=... uv run jevcut smoke   # one live Noul, traced
+uv run jevcut smoke                         # one live Noul, traced
 ```
 
 `eval/fixtures/interview.words.json` is a synthetic word list, so everything above runs
 with no ASR model and no API key.
+
+**Reaching Jev.** Two backends, same code above them. `openrouter` (the default) posts to
+`/api/alpha/decisions` with `typesafe/jev-1.13` and needs `OPENROUTER_API_KEY`;
+`typesafe` uses the first-party SDK and `TYPESAFE_API_KEY`. Copy `.env.example` to
+`.env.local` — it is gitignored, and a variable already set in your shell always wins.
 
 ## Reading order
 

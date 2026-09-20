@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from jevcut.backends import Backend, Response, make_backend, question_payload
 from jevcut.config import (
     CONTEXT_STATE_PLUS_QUESTION_TOKENS,
     CONTEXT_TOTAL_TOKENS,
@@ -35,25 +36,20 @@ class BudgetError(RuntimeError):
     """
 
 
+# Calibrated against live traces rather than assumed. Two observations through
+# OpenRouter: ~94 chars of state+questions -> 275 reported input tokens, and ~1532 chars
+# -> 696. That fits a large fixed cost per request (the API's own scaffolding around the
+# questions) plus ~3.5 chars per token of our content. A plain chars/4 rule underestimates
+# a small request by 10x, which would make the budget guard useless exactly where it
+# matters. Issue 018 refines these from a larger sample.
+REQUEST_OVERHEAD_TOKENS = 250
+CHARS_PER_TOKEN = 3.5
+
+
 def estimate_tokens(obj: Any) -> int:
-    """Rough pre-flight estimate (~4 chars/token). Reconciled against reported usage."""
+    """Content tokens only, excluding per-request overhead."""
     text = obj if isinstance(obj, str) else json.dumps(obj, ensure_ascii=False, default=str)
-    return max(1, len(text) // 4)
-
-
-def _question_payload(q: Any) -> Any:
-    """A question as JSON, for the trace. SDK objects expose model_dump(); raw payloads
-    are already data and must pass through untouched -- a stringified question is useless
-    for the diffing that issue 010 does."""
-    if isinstance(q, (dict, list, str, int, float, bool, type(None))):
-        return q
-    for attr in ("model_dump", "dict", "_asdict"):
-        if hasattr(q, attr):
-            try:
-                return getattr(q, attr)()
-            except TypeError:
-                pass
-    return str(q)
+    return max(1, int(len(text) / CHARS_PER_TOKEN))
 
 
 @dataclass
@@ -61,8 +57,14 @@ class Usage:
     requests: int = 0
     input_tokens: int = 0
 
+    reported_cost_usd: float = 0.0
+    has_reported_cost: bool = False
+
     @property
     def cost_usd(self) -> float:
+        """What was billed when the provider says so, our own arithmetic otherwise."""
+        if self.has_reported_cost:
+            return self.reported_cost_usd
         return self.input_tokens * PRICE_PER_INPUT_TOKEN
 
 
@@ -72,7 +74,7 @@ class JevClient:
     run_dir: Path | None = None
     run_id: str = field(default_factory=lambda: uuid.uuid4().hex[:12])
     usage: Usage = field(default_factory=Usage)
-    _client: Any = field(default=None, repr=False)
+    backend: Backend | None = None
 
     def __post_init__(self) -> None:
         self.run_dir = Path(self.run_dir or Path("runs") / self.run_id)
@@ -81,26 +83,14 @@ class JevClient:
 
     # -- lifecycle -------------------------------------------------------------
 
-    def _ensure_client(self) -> Any:
-        if self._client is None:
-            from typesafe_sdk import RetryPolicy, TypeSafeClient
-
-            self._client = TypeSafeClient(
-                model=self.config.model_id,
-                timeout=self.config.timeout_s,
-                # The SDK retries and honours retry-after by default; set it explicitly so
-                # the behaviour is visible here rather than inherited silently.
-                retry=RetryPolicy(
-                    max_retries=self.config.max_retries,
-                    respect_retry_after=True,
-                ),
-            )
-        return self._client
+    def _ensure_backend(self) -> Backend:
+        if self.backend is None:
+            self.backend = make_backend(self.config)
+        return self.backend
 
     def close(self) -> None:
-        if self._client is not None and hasattr(self._client, "close"):
-            self._client.close()
-            self._client = None
+        if self.backend is not None and hasattr(self.backend, "close"):
+            self.backend.close()  # type: ignore[attr-defined]
 
     def __enter__(self) -> JevClient:
         return self
@@ -113,9 +103,9 @@ class JevClient:
     def check_budget(self, state: Any, questions: dict[str, Any]) -> dict[str, int]:
         """Enforce the documented context limits before spending anything."""
         state_tokens = estimate_tokens(state)
-        per_question = {k: estimate_tokens(_question_payload(q)) for k, q in questions.items()}
+        per_question = {k: estimate_tokens(question_payload(q)) for k, q in questions.items()}
         longest = max(per_question.values(), default=0)
-        total = state_tokens + sum(per_question.values())
+        total = REQUEST_OVERHEAD_TOKENS + state_tokens + sum(per_question.values())
 
         if state_tokens + longest > CONTEXT_STATE_PLUS_QUESTION_TOKENS:
             worst = max(per_question, key=per_question.get)  # type: ignore[arg-type]
@@ -144,13 +134,13 @@ class JevClient:
         meta: dict | None = None,
     ) -> Any:
         estimate = self.check_budget(state, questions)
-        client = self._ensure_client()
+        backend = self._ensure_backend()
 
         started = time.monotonic()
         error: str | None = None
-        response = None
+        response: Response | None = None
         try:
-            response = client.system_one(state, questions, model=self.config.model_id)
+            response = backend.system_one(state, questions, self.config.model)
             return response
         except Exception as exc:
             error = f"{type(exc).__name__}: {exc}"
@@ -170,22 +160,21 @@ class JevClient:
     # -- tracing ---------------------------------------------------------------
 
     def _trace(self, **kw: Any) -> None:
-        response = kw.pop("response")
+        response: Response | None = kw.pop("response")
         answers: dict[str, Any] = {}
         model_used = None
+        # Fall back to the pre-flight estimate when the backend reports no usage, so a
+        # missing field costs accuracy in the cost report rather than losing the call.
         input_tokens = kw["estimate"]["total"]
 
         if response is not None:
-            model_used = getattr(response, "model", None)
-            usage = getattr(response, "usage", None)
-            if usage is not None and getattr(usage, "input_tokens", None) is not None:
-                input_tokens = usage.input_tokens
-            for key, ans in (getattr(response, "answers", {}) or {}).items():
-                answers[key] = {
-                    f: getattr(ans, f)
-                    for f in ("type", "noul", "choice", "score", "confidence", "probabilities", "legend")
-                    if getattr(ans, f, None) is not None
-                }
+            model_used = response.model
+            if response.input_tokens is not None:
+                input_tokens = response.input_tokens
+            if response.cost_usd is not None:
+                self.usage.reported_cost_usd += response.cost_usd
+                self.usage.has_reported_cost = True
+            answers = {k: a.to_dict() for k, a in response.answers.items()}
 
         self.usage.requests += 1
         self.usage.input_tokens += input_tokens
@@ -194,15 +183,20 @@ class JevClient:
             "run_id": self.run_id,
             "ts": time.time(),
             "pass": kw["pass_name"],
+            "backend": self.config.backend,
+            # The provider's own request id: what you quote when chasing one call.
+            "request_id": response.request_id if response is not None else None,
+            "provider": response.provider if response is not None else None,
+            "reported_cost_usd": response.cost_usd if response is not None else None,
             # Model requested vs. model that answered: an alias moving underneath a tuned
             # threshold is exactly the kind of drift this line catches later.
-            "model_requested": self.config.model_id,
+            "model_requested": self.config.model,
             "model_answered": model_used,
             "latency_s": round(kw["latency_s"], 3),
             "estimated_tokens": kw["estimate"],
             "input_tokens": input_tokens,
             "state": kw["state"],
-            "questions": {k: _question_payload(q) for k, q in kw["questions"].items()},
+            "questions": {k: question_payload(q) for k, q in kw["questions"].items()},
             "answers": answers,
             "error": kw["error"],
             "meta": kw["meta"],
@@ -217,4 +211,5 @@ class JevClient:
             "requests": self.usage.requests,
             "input_tokens": self.usage.input_tokens,
             "cost_usd": self.usage.cost_usd,
+            "cost_is_reported": self.usage.has_reported_cost,
         }
