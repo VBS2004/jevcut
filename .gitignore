@@ -1,0 +1,23 @@
+# runs contain full transcripts of user media — never commit
+runs/
+eval/media/
+eval/results/*.csv
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# models / caches
+*.wav
+*.mp4
+*.mkv
+*.webm
+.whisper_cache/
+
+# env
+.env
