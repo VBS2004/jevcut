@@ -1,5 +1,8 @@
 # Architecture
 
+> New here? [CONCEPTS.md](CONCEPTS.md) defines sentence IDs (`L018`), cut points (`C03`)
+> and regions. This page assumes them.
+
 ## Division of labour
 
 The single rule this design is built on: **Jev judges meaning; code owns everything

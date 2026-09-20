@@ -2,6 +2,8 @@
 
 The core of the project. Everything else is plumbing.
 
+> The `L042` and `«C07»` notation is defined in [CONCEPTS.md](CONCEPTS.md).
+
 Rules these obey, from [how to build with System One](https://docs.typesafe.ai/concepts/how-to-build-with-system-one.md)
 and the [jaggedness page](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md):
 

@@ -101,5 +101,8 @@ reproduction for each defect. Worth reading before trusting any of this.
 
 ## Reading order
 
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) → [docs/QUESTIONS.md](docs/QUESTIONS.md) →
-[ROADMAP.md](ROADMAP.md) → pick an issue.
+**[docs/CONCEPTS.md](docs/CONCEPTS.md)** → [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) →
+[docs/QUESTIONS.md](docs/QUESTIONS.md) → [ROADMAP.md](ROADMAP.md) → pick an issue.
+
+Start with CONCEPTS: it defines the sentence IDs, cut points and regions that every other
+document uses without explaining.
