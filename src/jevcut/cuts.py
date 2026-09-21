@@ -61,9 +61,7 @@ def extract(
         for a, b in zip(s.words, s.words[1:]):
             gap = b.t0 - a.t1
             if gap >= config.pause_cut_s:
-                raw.append(
-                    CutPoint(id="", t=a.t1 + gap / 2, kind="pause", gap_ms=gap * 1000)
-                )
+                raw.append(CutPoint(id="", t=a.t1 + gap / 2, kind="pause", gap_ms=gap * 1000))
 
     for t in shots or []:
         raw.append(CutPoint(id="", t=float(t), kind="shot", gap_ms=0.0))
@@ -83,7 +81,9 @@ def _merge(cuts: list[CutPoint], window_s: float) -> list[CutPoint]:
         last = out[-1]
         if c.t - last.t <= window_s:
             better = CUT_KIND_PRIORITY[c.kind] > CUT_KIND_PRIORITY[last.kind]
-            tie = CUT_KIND_PRIORITY[c.kind] == CUT_KIND_PRIORITY[last.kind] and c.gap_ms > last.gap_ms
+            tie = (
+                CUT_KIND_PRIORITY[c.kind] == CUT_KIND_PRIORITY[last.kind] and c.gap_ms > last.gap_ms
+            )
             if better or tie:
                 out[-1] = CutPoint(id="", t=c.t, kind=c.kind, gap_ms=max(c.gap_ms, last.gap_ms))
         else:

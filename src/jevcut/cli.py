@@ -27,9 +27,7 @@ def _config(args: argparse.Namespace) -> Config:
 
 def cmd_transcribe(args: argparse.Namespace) -> int:
     config = _config(args)
-    transcript = ingest(
-        args.input, config, from_json=args.from_json, reference=args.reference
-    )
+    transcript = ingest(args.input, config, from_json=args.from_json, reference=args.reference)
     out = Path(args.out or "transcript.json")
     transcript.to_json(out)
 
@@ -67,8 +65,10 @@ def cmd_cuts(args: argparse.Namespace) -> int:
     )
     stats = cuts_mod.stats(found, transcript.duration)
     print(f"{stats['count']} cut points -> {out}")
-    print(f"  median spacing {stats['median_spacing_s']:.2f}s (target 2-4s), "
-          f"max {stats['max_spacing_s']:.1f}s")
+    print(
+        f"  median spacing {stats['median_spacing_s']:.2f}s (target 2-4s), "
+        f"max {stats['max_spacing_s']:.1f}s"
+    )
     print(f"  by kind: {stats['by_kind']}")
     return 0
 
@@ -77,9 +77,11 @@ def cmd_region(args: argparse.Namespace) -> int:
     """Print the exact Pass D state for one anchor. Useful for eyeballing wording."""
     config = _config(args)
     transcript = Transcript.from_json(args.transcript)
-    found = [
-        cuts_mod.CutPoint(**c) for c in json.loads(Path(args.cuts).read_text())
-    ] if args.cuts else cuts_mod.extract(transcript, config)
+    found = (
+        [cuts_mod.CutPoint(**c) for c in json.loads(Path(args.cuts).read_text())]
+        if args.cuts
+        else cuts_mod.extract(transcript, config)
+    )
     region = cuts_mod.build_region(transcript, found, args.anchor, config)
     print(f"# region {region.t0:.1f}s-{region.t1:.1f}s, {len(region.cuts)} cut options")
     print(region.text)
@@ -102,11 +104,15 @@ def cmd_scan(args: argparse.Namespace) -> int:
         summary = client.summary()
         print(f"{len(anchors)} anchors -> {out}")
         for a in anchors:
-            print(f"  {a.sentence_id} {a.t0:7.1f}s {a.kind:12} "
-                  f"moment={a.p_moment:.2f} conf={a.anchor_confidence:.2f}")
-        print(f"{summary['requests']} requests, {summary['input_tokens']} tokens, "
-              f"${summary['cost_usd']:.6f}"
-              f"{' (reported)' if summary['cost_is_reported'] else ' (estimated)'}")
+            print(
+                f"  {a.sentence_id} {a.t0:7.1f}s {a.kind:12} "
+                f"moment={a.p_moment:.2f} conf={a.anchor_confidence:.2f}"
+            )
+        print(
+            f"{summary['requests']} requests, {summary['input_tokens']} tokens, "
+            f"${summary['cost_usd']:.6f}"
+            f"{' (reported)' if summary['cost_is_reported'] else ' (estimated)'}"
+        )
     return 0
 
 
@@ -138,8 +144,10 @@ def cmd_smoke(args: argparse.Namespace) -> int:
         print(f"starts_mid_thought = {response.answers['starts_mid_thought'].noul:.3f}")
         print(f"answered by: {response.model}")
         summary = client.summary()
-        print(f"{summary['requests']} request(s), {summary['input_tokens']} input tokens, "
-              f"${summary['cost_usd']:.6f}")
+        print(
+            f"{summary['requests']} request(s), {summary['input_tokens']} input tokens, "
+            f"${summary['cost_usd']:.6f}"
+        )
     return 0
 
 

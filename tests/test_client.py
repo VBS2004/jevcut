@@ -130,7 +130,9 @@ def test_openrouter_payload_matches_the_decisions_api(monkeypatch):
         {
             "is_urgent": Noul(
                 instructions="Does this message convey urgency?",
-                criteria=NoulCriteria(true="Explicitly time-sensitive", false="No urgency expressed"),
+                criteria=NoulCriteria(
+                    true="Explicitly time-sensitive", false="No urgency expressed"
+                ),
             ),
             "department": Choice(
                 instructions="Which team should handle this?",
@@ -151,7 +153,7 @@ def test_openrouter_payload_matches_the_decisions_api(monkeypatch):
 
 def test_openrouter_headers(monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-v1-test")
-    headers = OpenRouterBackend(title="jevcut").  _headers()
+    headers = OpenRouterBackend(title="jevcut")._headers()
     assert headers["Authorization"] == "Bearer sk-or-v1-test"
     assert headers["X-Title"] == "jevcut"
     assert "HTTP-Referer" not in headers  # optional, omitted when unset

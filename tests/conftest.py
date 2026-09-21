@@ -12,7 +12,11 @@ def make_words(spec: list[tuple[str, float, float]], speaker: str | None = None)
 
 
 def speech(
-    text: str, start: float = 0.0, *, word_s: float = 0.4, gap_s: float = 0.05,
+    text: str,
+    start: float = 0.0,
+    *,
+    word_s: float = 0.4,
+    gap_s: float = 0.05,
     speaker: str | None = None,
 ) -> list[Word]:
     """Evenly-paced words. Punctuation in `text` drives sentence breaks."""
@@ -33,5 +37,7 @@ def long_talk() -> list[Word]:
     """~3 minutes with a speaker change and a long silence in the middle."""
     a = speech("We tried the obvious fix first and it did not work at all.", 0.0, speaker="A")
     b = speech("So what did you do next then?", 30.0, speaker="B")
-    c = speech("We rewrote the scheduler. That took three weeks. It was worth it.", 45.0, speaker="A")
+    c = speech(
+        "We rewrote the scheduler. That took three weeks. It was worth it.", 45.0, speaker="A"
+    )
     return a + b + c

@@ -52,7 +52,9 @@ class Answer:
 
     def to_dict(self) -> dict:
         # slots=True means no __dict__, so walk the declared fields.
-        return {f.name: getattr(self, f.name) for f in fields(self) if getattr(self, f.name) is not None}
+        return {
+            f.name: getattr(self, f.name) for f in fields(self) if getattr(self, f.name) is not None
+        }
 
 
 @dataclass(slots=True)
@@ -150,9 +152,7 @@ class OpenRouterBackend:
             load_env()
             self.api_key = os.environ.get("OPENROUTER_API_KEY")
         if not self.api_key:
-            raise BackendError(
-                "OPENROUTER_API_KEY is not set. Put it in .env.local or export it."
-            )
+            raise BackendError("OPENROUTER_API_KEY is not set. Put it in .env.local or export it.")
 
     def build_payload(self, state: Any, questions: dict[str, Any], model: str) -> dict:
         return {
@@ -243,8 +243,15 @@ class TypeSafeBackend:
                 key: _answer_from_dict(
                     {
                         f: getattr(ans, f, None)
-                        for f in ("type", "noul", "choice", "score", "confidence",
-                                  "probabilities", "legend")
+                        for f in (
+                            "type",
+                            "noul",
+                            "choice",
+                            "score",
+                            "confidence",
+                            "probabilities",
+                            "legend",
+                        )
                     }
                 )
                 for key, ans in (getattr(raw, "answers", {}) or {}).items()

@@ -247,9 +247,7 @@ def sanity_check(transcript: Transcript) -> list[str]:
     if minutes >= 5:
         per_hour = len(transcript) / (minutes / 60.0)
         if not 400 <= per_hour <= 800:
-            problems.append(
-                f"{per_hour:.0f} sentences/hour is outside the 400-800 sanity band"
-            )
+            problems.append(f"{per_hour:.0f} sentences/hour is outside the 400-800 sanity band")
 
     for s in transcript.sentences:
         if s.words:

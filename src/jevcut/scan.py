@@ -80,14 +80,18 @@ def windows(transcript: Transcript, config: Config | None = None) -> list[Window
         # floored at one sentence so the loop always advances.
         span = chunk[-1].t1 - chunk[0].t0
         overlap_s = min(config.window_overlap_s, span / 2)
-        cursor = max(cursor + 1, _first_ending_after(sentences, chunk[-1].t1 - overlap_s, cursor + 1))
+        cursor = max(
+            cursor + 1, _first_ending_after(sentences, chunk[-1].t1 - overlap_s, cursor + 1)
+        )
 
     # A short trailing window costs a whole request -- ~250 tokens of fixed overhead
     # before any content -- for a handful of sentences the previous window already
     # overlaps. Fold it back in rather than paying for it.
     if len(out) > 1 and len(out[-1].sentences) < config.min_tail_window:
         tail = out.pop()
-        merged = out[-1].sentences + [s for s in tail.sentences if s.id not in {x.id for x in out[-1].sentences}]
+        merged = out[-1].sentences + [
+            s for s in tail.sentences if s.id not in {x.id for x in out[-1].sentences}
+        ]
         out[-1] = Window(id=out[-1].id, sentences=merged)
     return out
 
@@ -104,9 +108,7 @@ def _first_ending_after(sentences: list[Sentence], t: float, lo: int) -> int:
     return len(sentences)
 
 
-def scan_window(
-    client: JevClient, window: Window, config: Config | None = None
-) -> list[Anchor]:
+def scan_window(client: JevClient, window: Window, config: Config | None = None) -> list[Anchor]:
     """Ask one window, then repeat with the winner's neighbourhood removed.
 
     Up to ``max_anchors_per_window``, stopping as soon as ``contains_moment`` says there
@@ -135,7 +137,9 @@ def scan_window(
             # so is the difference between "nothing here" and "we never found out".
             log.warning(
                 "window %s round %s: no contains_moment in the response (keys: %s)",
-                window.id, len(anchors), sorted(answers),
+                window.id,
+                len(anchors),
+                sorted(answers),
             )
             break
 
@@ -153,7 +157,10 @@ def scan_window(
             # this apart from an ordinary miss, which it cannot do if we stay quiet.
             log.warning(
                 "window %s round %s: anchor %r is not one of the %s options offered",
-                window.id, len(anchors), choice, len(remaining),
+                window.id,
+                len(anchors),
+                choice,
+                len(remaining),
             )
             break
 
@@ -190,8 +197,7 @@ def dedupe(anchors: list[Anchor], config: Config | None = None) -> list[Anchor]:
     kept: list[Anchor] = []
     for a in ordered:
         clash = any(
-            a.sentence_id == k.sentence_id
-            or abs(a.t0 - k.t0) < config.anchor_dedupe_s
+            a.sentence_id == k.sentence_id or abs(a.t0 - k.t0) < config.anchor_dedupe_s
             for k in kept
         )
         if not clash:
@@ -199,9 +205,7 @@ def dedupe(anchors: list[Anchor], config: Config | None = None) -> list[Anchor]:
     return sorted(kept, key=lambda a: a.t0)
 
 
-def scan(
-    client: JevClient, transcript: Transcript, config: Config | None = None
-) -> list[Anchor]:
+def scan(client: JevClient, transcript: Transcript, config: Config | None = None) -> list[Anchor]:
     """Every window in parallel, bounded by the account's request budget.
 
     Windows are independent, so one failing must not discard the others. ``pool.map``
@@ -229,7 +233,9 @@ def scan(
     if failures:
         log.warning(
             "%s of %s windows failed; %s anchors kept from the rest",
-            len(failures), len(found), len(anchors),
+            len(failures),
+            len(found),
+            len(anchors),
         )
     return dedupe(anchors, config)
 

@@ -41,7 +41,9 @@ class ScriptedBackend:
                     type="choice",
                     choice=choice,
                     confidence=0.7,
-                    probabilities={o: (0.6 if o == choice else 0.4 / len(options)) for o in options},
+                    probabilities={
+                        o: (0.6 if o == choice else 0.4 / len(options)) for o in options
+                    },
                 ),
                 "kind": Answer(type="choice", choice="story", confidence=0.8),
             },
@@ -161,7 +163,9 @@ def test_anchors_per_window_is_capped(tmp_path):
     t = _transcript(120)
     ids = [t.sentences[i].id for i in (2, 40, 80, 110)]
     client = _client(tmp_path, [(0.9, i) for i in ids])
-    anchors = scan_window(client, Window(id=0, sentences=t.sentences), Config(max_anchors_per_window=3))
+    anchors = scan_window(
+        client, Window(id=0, sentences=t.sentences), Config(max_anchors_per_window=3)
+    )
     assert len(anchors) == 3
 
 
@@ -193,10 +197,12 @@ def test_dedupe_collapses_near_neighbours_not_distant_ones():
 
 
 def test_dedupe_returns_anchors_in_time_order():
-    out = dedupe([
-        Anchor("L050", 0, "story", 400.0, 401.0, 0.8, 0.5, 0.5),
-        Anchor("L010", 0, "story", 100.0, 101.0, 0.9, 0.5, 0.5),
-    ])
+    out = dedupe(
+        [
+            Anchor("L050", 0, "story", 400.0, 401.0, 0.8, 0.5, 0.5),
+            Anchor("L010", 0, "story", 100.0, 101.0, 0.9, 0.5, 0.5),
+        ]
+    )
     assert [a.t0 for a in out] == [100.0, 400.0]
 
 
@@ -239,7 +245,9 @@ def test_one_failing_window_does_not_discard_the_others(tmp_path):
                 answers={
                     "contains_moment": Answer(type="noul", noul=0.9),
                     "anchor": Answer(
-                        type="choice", choice=offered[0], confidence=0.6,
+                        type="choice",
+                        choice=offered[0],
+                        confidence=0.6,
                         probabilities={offered[0]: 1.0},
                     ),
                     "kind": Answer(type="choice", choice="story", confidence=0.8),
