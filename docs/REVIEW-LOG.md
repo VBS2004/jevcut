@@ -34,7 +34,9 @@ hand-rolled module left untested.
 ### Checked, no finding
 
 Windowing covers every sentence with exactly `window_overlap` shared lines (verified
-n = 0…600, including after tail merging). `render_markers` emits each cut once, in time
+n = 0…600, including after tail merging). *Still true of coverage; the overlap itself is
+now `window_overlap_s`, measured in seconds — counting it in sentences let the insurance
+shrink on fast speech. Found reading autoclip, not in this review.* `render_markers` emits each cut once, in time
 order, including mid-sentence pauses. The `MAX_CHOICE_OPTIONS - 1` guard leaves room for
 the no-match option. `Config` round-trip and unknown-key rejection. `.gitignore`'s
 `.env.*` / `!.env.example` pair — no secret is tracked. `load_env` precedence over the

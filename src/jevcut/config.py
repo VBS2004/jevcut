@@ -46,7 +46,11 @@ class Config:
 
     # --- scan (005) --- PLACEHOLDER until 014
     window_sentences: int = 80
-    window_overlap: int = 10
+    # Overlap is seam insurance for a moment straddling a boundary, and a moment's length
+    # is measured in seconds -- so this must be too. Counted in sentences it shrinks on
+    # fast speech, exactly where moments are densest. 60s matches the old 10-sentence
+    # default at the documented 600-sentences-per-hour density.
+    window_overlap_s: float = 60.0
     max_anchors_per_window: int = 3
     contains_moment_threshold: float = 0.6
     anchor_removal_s: float = 20.0  # neighbourhood dropped before re-asking a window

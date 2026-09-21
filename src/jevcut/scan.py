@@ -48,21 +48,39 @@ class Anchor:
 
 
 def windows(transcript: Transcript, config: Config | None = None) -> list[Window]:
-    """Fixed-size windows with overlap, so a moment straddling a boundary isn't lost
-    by both sides."""
+    """Fixed-size windows, stepped so the overlap holds its length in *seconds*.
+
+    The window is sized in sentences because what it bounds is the state Jev reads. The
+    step is measured in seconds because what the overlap insures against is a moment
+    straddling a boundary, and a moment's length is seconds -- 20 to 90 of them.
+
+    Counted in sentences, the overlap's real length swings with delivery: the same ten
+    sentences are a minute of a measured talk and twenty seconds of rapid dialogue. On
+    fast speech the insurance silently falls below a clip's length and a straddling
+    moment is seen only in halves by both neighbours, nominated by neither -- a recall
+    hole that reads as a model error in the traces.
+    """
     config = config or Config()
-    size, overlap = config.window_sentences, config.window_overlap
-    step = max(size - overlap, 1)
+    size = config.window_sentences
     sentences = transcript.sentences
+    if not sentences:
+        return []
 
     out: list[Window] = []
-    for i, start in enumerate(range(0, max(len(sentences), 1), step)):
-        chunk = sentences[start : start + size]
-        if not chunk:
+    cursor = 0
+    while cursor < len(sentences):
+        chunk = sentences[cursor : cursor + size]
+        out.append(Window(id=len(out), sentences=chunk))
+        if cursor + size >= len(sentences):
             break
-        out.append(Window(id=i, sentences=chunk))
-        if start + size >= len(sentences):
-            break
+
+        # Step back from this window's end by the overlap, in seconds, then convert that
+        # instant back to a sentence index. Capped at half the window's own span so a
+        # mis-set overlap cannot collapse the step and cost a request per sentence, and
+        # floored at one sentence so the loop always advances.
+        span = chunk[-1].t1 - chunk[0].t0
+        overlap_s = min(config.window_overlap_s, span / 2)
+        cursor = max(cursor + 1, _first_ending_after(sentences, chunk[-1].t1 - overlap_s, cursor + 1))
 
     # A short trailing window costs a whole request -- ~250 tokens of fixed overhead
     # before any content -- for a handful of sentences the previous window already
@@ -72,6 +90,18 @@ def windows(transcript: Transcript, config: Config | None = None) -> list[Window
         merged = out[-1].sentences + [s for s in tail.sentences if s.id not in {x.id for x in out[-1].sentences}]
         out[-1] = Window(id=out[-1].id, sentences=merged)
     return out
+
+
+def _first_ending_after(sentences: list[Sentence], t: float, lo: int) -> int:
+    """Index of the first sentence at or after ``lo`` with any content past ``t``.
+
+    Takes the sentence that straddles ``t`` rather than the one after it: erring wide
+    costs a sentence of tokens, erring narrow costs the overlap it was chosen for.
+    """
+    for i in range(lo, len(sentences)):
+        if sentences[i].t1 > t:
+            return i
+    return len(sentences)
 
 
 def scan_window(

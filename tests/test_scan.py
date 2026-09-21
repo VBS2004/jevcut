@@ -10,9 +10,11 @@ from jevcut.transcript import segment_words
 from conftest import speech
 
 
-def _transcript(n_sentences: int = 200) -> Transcript:
+def _transcript(n_sentences: int = 200, word_s: float = 0.3) -> Transcript:
+    """``word_s`` sets the speaking pace: 9 words a sentence, so 0.62 is ~6s a sentence,
+    the documented 600-sentences-per-hour density."""
     text = " ".join(f"this is sentence number {i} and it ends here." for i in range(n_sentences))
-    sentences = segment_words(speech(text, 0.0, word_s=0.3, gap_s=0.05))
+    sentences = segment_words(speech(text, 0.0, word_s=word_s, gap_s=0.05))
     return Transcript(sentences=sentences, duration=sentences[-1].t1)
 
 
@@ -56,12 +58,37 @@ def _client(tmp_path, script, **overrides) -> JevClient:
 
 def test_windows_overlap_so_a_straddling_moment_is_not_lost():
     t = _transcript(200)
-    found = windows(t, Config(window_sentences=80, window_overlap=10))
+    found = windows(t, Config(window_sentences=80, window_overlap_s=45.0))
     assert [w.id for w in found] == list(range(len(found)))
     assert len(found[0].sentences) == 80
-    # consecutive windows share exactly `overlap` sentences
-    shared = set(found[0].line_ids) & set(found[1].line_ids)
-    assert len(shared) == 10
+    # consecutive windows share at least `window_overlap_s` seconds of speech
+    shared_s = found[0].sentences[-1].t1 - found[1].sentences[0].t0
+    assert shared_s >= 45.0
+
+
+@pytest.mark.parametrize("word_s", [0.1, 0.3, 0.62, 1.0])
+def test_overlap_holds_its_length_in_seconds_at_any_pace(word_s):
+    """The recall hole this shape exists to close.
+
+    Counted in sentences, the overlap shrinks on fast speech until it is shorter than a
+    clip -- so a moment on the seam is truncated in both neighbours and nominated by
+    neither. Measured in seconds it is the same insurance at any delivery.
+    """
+    t = _transcript(200, word_s=word_s)
+    # 100 sentences so the window spans well over twice the overlap at every pace here;
+    # the half-span cap has its own test below.
+    found = windows(t, Config(window_sentences=100, window_overlap_s=45.0))
+    assert len(found) > 1
+    for a, b in zip(found, found[1:]):
+        assert b.sentences[0].t0 < a.sentences[-1].t1  # they really do overlap
+        assert a.sentences[-1].t1 - b.sentences[0].t0 >= 45.0
+
+
+def test_a_huge_overlap_cannot_collapse_the_step():
+    """A mis-set overlap should cost tokens, never a request per sentence."""
+    t = _transcript(200)
+    found = windows(t, Config(window_sentences=80, window_overlap_s=10_000.0))
+    assert len(found) < 20
 
 
 def test_every_sentence_appears_in_some_window():
@@ -71,8 +98,13 @@ def test_every_sentence_appears_in_some_window():
 
 
 def test_an_hour_of_video_is_about_eight_windows():
-    """005's acceptance criterion, at the documented 600-sentences-per-hour density."""
-    t = _transcript(600)
+    """005's acceptance criterion, at the documented 600-sentences-per-hour density.
+
+    The pace matters now that the step is measured in seconds, so this builds a real
+    hour rather than 600 sentences of whatever length the fixture happens to produce.
+    """
+    t = _transcript(600, word_s=0.62)
+    assert 3500 <= t.duration <= 3800  # the fixture really is an hour
     assert 7 <= len(windows(t)) <= 9
 
 
@@ -254,7 +286,9 @@ def test_a_short_tail_window_is_folded_into_the_previous_one():
     """A trailing stub costs a whole request (~250 tokens of overhead alone) for content
     the previous window already overlaps."""
     t = _transcript(85)
-    config = Config(window_sentences=80, window_overlap=10, min_tail_window=20)
+    # A small overlap is what leaves a stub behind at all: at the 60s default this
+    # fixture's pace puts 19 sentences in the overlap, so the tail is a real window.
+    config = Config(window_sentences=80, window_overlap_s=5.0, min_tail_window=20)
     found = windows(t, config)
     assert len(found) == 1
     assert len(found[0].sentences) == 85

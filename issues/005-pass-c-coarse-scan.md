@@ -16,7 +16,8 @@ gate's threshold *is* the cost model.
 
 ## Build
 
-- Split transcript into **80-sentence windows**, 10-sentence overlap so a moment straddling
+- Split transcript into **80-sentence windows**, stepped so the overlap holds **60s** of
+  speech whatever the speaking pace (`window_overlap_s`), so a moment straddling
   a boundary isn't lost by both sides.
 - Per window, one request with the three questions from
   [QUESTIONS.md](../docs/QUESTIONS.md#pass-c--coarse-scan): `contains_moment` (Noul),
