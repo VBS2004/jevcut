@@ -23,6 +23,25 @@ vibe in an argument.
 - **Blind rating tool** for the human metrics (`mid_thought_rate`, `dangling_ref_rate`,
   `payoff_rate`): shuffles clips from all systems into one pool, hides provenance, records
   ratings. Without the shuffle these numbers are worthless.
+- **Rating protocol, taken from Valand et al.** ([PRIOR-ART](../docs/PRIOR-ART.md#research-literature))
+  rather than invented, since they ran it on the same question and published the design:
+  - **Pairwise A/B**, not absolute scoring in isolation. Two clips of the *same moment* cut
+    by different systems, side by side.
+  - **1 (very poor) to 10 (broadcast ready)**, plus an optional free-text comment. The
+    anchors matter: "broadcast ready" is a concrete standard, "good" is not.
+  - **Every rater sees the same clips in the same pairings.** Randomising per rater buys
+    nothing here and destroys direct comparability.
+  - **Keep the session to 10–12 minutes** — roughly 5 moments, 10 clips. Beyond that,
+    attention decays and so does the data.
+  - **Record rater class**, specifically video-editing experience. In their study editors
+    scored the baseline *lower* (5.47 vs 5.89) **and** separated the systems further:
+    experts discriminate harder, so the class mix changes the headline number. Report per
+    class, like the genre breakdown above.
+  - **Attention check: drop raters who give everything the maximum.** They dropped 3 of 64
+    that way. Cheap, and it catches the failure mode that matters.
+  - **Expect about +1 point.** Their boundary refinement moved 5.89 → 6.84 over static
+    clipping, and trimming took it to 7.40. If jevcut shows +4, suspect the harness before
+    believing it.
 - Append every run to `eval/results/results.csv` with model ID, thresholds, git SHA.
 - Per-genre breakdown, always. An aggregate number hides that the system works on podcasts
   and fails on gameplay.

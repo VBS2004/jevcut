@@ -291,6 +291,56 @@ exactly Pass E's `starts_mid_thought`, `dangling_reference` and `payoff`.
 If jevcut ships with those three rates measured and published, that alone differentiates it
 from everything in this section.
 
+## Research literature
+
+### AI-Based Video Clipping of Soccer Events (Valand et al., 2021)
+
+*Mach. Learn. Knowl. Extr. 3(4)* — SimulaMet / UiT / OsloMet. Automates highlight clipping
+for Norwegian and Swedish elite soccer with logo-transition detection, scene-boundary
+detection (TransNetV2) and optional trimming.
+
+**The first outside support this thesis has, from a domain with no speech in it.** The
+industry baseline they set out to beat is a **static clip at −A and +B seconds around the
+marked event** — Baseline 0 and Baseline 3, exactly. Their complaint about it:
+
+> the clips often **start far too early or in the middle of the event of interest**, and
+> they often **end abruptly in the middle of a replay**
+
+which is the README's claim about mid-thought starts and missing payoffs, reached
+independently in a different medium.
+
+**The evidence is the production process, not the models.** Those leagues run a two-tier
+annotation scheme: tier one marks *which* moment (fast, cheap, low-latency); tier two
+"searches for a better clipping position", described as "time-consuming and costly" and
+done only "if time and resources are available" — to the point that lower-league games go
+unclipped. **An industry pays a separate tier of humans purely to fix boundaries, and
+drops it when money is short.**
+
+That is the closest thing we have to an answer for [RESEARCH.md](../RESEARCH.md) failure
+mode 1, *"selection is the hard part, not boundaries"*, and it points the other way:
+selection is tier one and cheap, boundaries are tier two and expensive.
+
+**A prior on the size of the win.** Subjective scores, 1 (very poor) to 10 (broadcast
+ready): static clipping **5.89**, boundary-refined **6.84**, boundary-refined and trimmed
+**7.40**. So beating a constant offset is worth roughly **+1 point on a 10-point scale** —
+real, and not enormous. Expect the same order of magnitude, not a transformation.
+
+**Interior trimming, a concept jevcut does not have.** They cut *inside* the clip, dropping
+celebration footage between the goal and the replays, and that version scored highest.
+jevcut picks `t0` and `t1` and keeps everything between. The speech analogue is dropping a
+tangent or a filler stretch mid-clip. **Logged as an idea, not a recommendation:** cutting
+the interior of continuous speech is far more jarring than cutting between soccer replays,
+and it would need a visible-edit convention to not read as a mistake.
+
+**Logo transitions** are a domain-specific boundary anchor — a production artifact that
+already marks where a segment ends. Not literally transferable, but it is the same move as
+jevcut's `speaker_change` and `shot` cut kinds: take the boundaries the medium hands you
+before inferring any.
+
+**Taken:** the subjective evaluation protocol (now in
+[012](../issues/012-metrics-harness.md)), the +1-point prior, the two-tier argument for
+failure mode 1. **Noted, not taken:** interior trimming.
+
 ## Directories worth watching
 
 New Jev projects are appearing weekly; check these before building anything:
