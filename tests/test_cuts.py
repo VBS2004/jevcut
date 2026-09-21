@@ -95,6 +95,43 @@ def test_region_rejects_an_oversized_option_list(long_talk):
             cuts_mod.build_region(t_long, dense, t.sentences[0].id, Config(region_pad_s=99999))
 
 
+def test_a_long_gap_resolves_to_the_word_not_the_midpoint():
+    """The regression the gap model exists to prevent (003).
+
+    With 8s of silence between sentences, the midpoint sits 4s from either word. A human
+    labels the start at the next word, so scoring against ``t`` would report a correct
+    pick as seconds early.
+    """
+    words = speech("first part ends here.", 0.0) + speech("second part starts later.", 10.0)
+    t = _transcript(words)
+    found = cuts_mod.extract(t)
+    first_end, second_start = t.sentences[0].t1, t.sentences[1].t0
+    cut = next(c for c in found if first_end < c.t < second_start)
+
+    assert cut.t_end == pytest.approx(first_end, abs=0.01)
+    assert cut.t_start == pytest.approx(second_start, abs=0.01)
+    assert abs(cut.t - second_start) > 3.0  # what the midpoint would have cost
+
+
+def test_a_cut_with_no_gap_is_already_word_anchored():
+    cut = cuts_mod.CutPoint(id="C00", t=42.0, kind="shot")
+    assert cut.t_start == cut.t_end == cut.t
+
+
+def test_coverage_matches_the_edge_for_the_role():
+    # A 2s gap: this one cut can serve a start at 12.0 or an end at 10.0.
+    cut = cuts_mod.CutPoint(id="C00", t=11.0, kind="sentence_end", gap_ms=2000.0)
+    assert cuts_mod.coverage([cut], [12.0], role="start")["recall"] == 1.0
+    assert cuts_mod.coverage([cut], [12.0], role="end")["recall"] == 0.0
+    assert cuts_mod.coverage([cut], [10.0], role="end")["recall"] == 1.0
+    assert cuts_mod.coverage([cut], [10.0, 12.0], role="either")["recall"] == 1.0
+
+
+def test_coverage_rejects_an_unknown_role():
+    with pytest.raises(ValueError):
+        cuts_mod.coverage([], [1.0], role="middle")
+
+
 def test_coverage_reports_misses():
     cuts = [cuts_mod.CutPoint(id="C00", t=10.0, kind="pause")]
     result = cuts_mod.coverage(cuts, targets=[10.4, 55.0], tolerance_s=1.0)

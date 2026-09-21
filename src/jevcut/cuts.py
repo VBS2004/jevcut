@@ -158,15 +158,41 @@ def stats(cuts: list[CutPoint], duration: float) -> dict:
     }
 
 
-def coverage(cuts: list[CutPoint], targets: list[float], tolerance_s: float = 1.0) -> dict:
+def coverage(
+    cuts: list[CutPoint],
+    targets: list[float],
+    tolerance_s: float = 1.0,
+    role: str = "either",
+) -> dict:
     """Issue 003's gating metric: is there a candidate near every boundary a human chose?
 
     Below 95%, no amount of question tuning helps -- the model cannot choose an option it
     was never given.
+
+    Compares the **role-resolved** edge, never the midpoint ``t``: human labels are
+    word-anchored, so matching them against a midpoint spends up to half a gap of the
+    tolerance on a difference of convention rather than of judgment.
+
+    ``role`` is ``"start"``, ``"end"``, or ``"either"``. ``"either"`` is the honest answer
+    to "could a candidate serve this boundary at all", since one cut point can serve both
+    roles at two different instants; pass the specific role when the targets are known to
+    be all starts or all ends.
     """
     if not targets:
         return {"recall": 1.0, "misses": [], "n": 0}
-    misses = [t for t in targets if not any(abs(c.t - t) <= tolerance_s for c in cuts)]
+
+    if role == "start":
+        edges = [(c.t_start,) for c in cuts]
+    elif role == "end":
+        edges = [(c.t_end,) for c in cuts]
+    elif role == "either":
+        edges = [(c.t_start, c.t_end) for c in cuts]
+    else:
+        raise ValueError(f"role must be 'start', 'end' or 'either', not {role!r}")
+
+    misses = [
+        t for t in targets if not any(abs(e - t) <= tolerance_s for pair in edges for e in pair)
+    ]
     return {
         "recall": 1 - len(misses) / len(targets),
         "misses": misses,

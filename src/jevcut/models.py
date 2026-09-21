@@ -43,12 +43,36 @@ class Sentence:
 
 @dataclass(frozen=True, slots=True)
 class CutPoint:
-    """A candidate boundary. ``t`` sits mid-silence, not on the last phoneme."""
+    """A candidate boundary -- a *gap* between speech, not an instant.
+
+    ``t`` is the midpoint of that gap: one representative number for ordering,
+    merging, thinning and spacing, which is all those need.
+
+    Every other consumer wants the gap's edge, chosen by the role the cut ends up
+    playing, because a midpoint reports a *correct* choice as wrong by half the gap.
+    Humans label a clip start just before the first word, so on a 2s pause a perfect
+    pick measures 1.0s early -- systematically, always in the same direction, and worst
+    at the long gaps where clip boundaries actually sit. That error lands straight on
+    ``start_err_p90`` (issue 013's ship criterion) and on ``cuts.coverage``.
+
+    A cut with no measurable gap (``shot``, ``edge``) is already word-anchored, and all
+    three values collapse to ``t``.
+    """
 
     id: str
     t: float
     kind: str
     gap_ms: float = 0.0
+
+    @property
+    def t_start(self) -> float:
+        """Used as a clip START: where the next word begins."""
+        return self.t + self.gap_ms / 2000.0
+
+    @property
+    def t_end(self) -> float:
+        """Used as a clip END: where the previous word ended."""
+        return self.t - self.gap_ms / 2000.0
 
 
 @dataclass(slots=True)

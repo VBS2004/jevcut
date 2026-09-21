@@ -28,8 +28,27 @@ looks exactly like a model error in the logs.
 
 - Merge candidates within 200ms of each other, keeping the strongest kind
   (`shot` > `speaker_change` > `sentence_end` > `pause`).
-- Place the cut timestamp **in the middle of the silence**, not at the last word's end —
-  clips that start on a breath sound wrong.
+- A cut point is a **gap, not an instant.** Keep `t` at the middle of the gap for merging,
+  thinning and spacing — those want one representative instant — and resolve the real
+  timestamp from the role it ends up playing:
+
+  ```python
+  t_start = t + gap_ms/2000   # where the next word begins   -> this cut used as a clip START
+  t_end   = t - gap_ms/2000   # where the previous word ended -> used as a clip END
+  ```
+
+  **Why, and it is not about how it sounds:** `t` at the midpoint makes a *correct* choice
+  measure as wrong. A human labels a start just before the first word, so on a 2s pause a
+  perfect pick scores 1.0s early. That bias is systematic (always early for a start),
+  proportional to gap length — and clip boundaries sit at the *longest* gaps, because that
+  is what speakers do between topics. It lands directly on `start_err_p90`, the M2 ship
+  criterion, and on `coverage()` below. Baseline 4 in
+  [013](013-baseline-comparison.md) is word-anchored, so jevcut would lose its own
+  comparison on a timestamp convention rather than on judgment.
+
+  Making a clip *sound* right — not cutting on the first phoneme — is a render concern and
+  lives in [009](009-edl-and-render.md), which also consumes `gap_ms` for its lead/tail
+  clamp. Jev's answer is unaffected either way: it still picks `C07`.
 - ID as `C%02d` within each region, assigned at region-construction time.
 - Render helper: transcript text with `«C07»` markers inlined between sentences, the exact
   form Pass D's state uses.
@@ -41,6 +60,9 @@ looks exactly like a model error in the logs.
 - [ ] `cuts.extract(transcript)` returns candidates at the target density.
 - [ ] **Recall check against the eval set (011): for ≥95% of human-labeled clip starts,
       a candidate exists within 1.0s.** This is the gating metric for this issue.
+      `coverage()` must compare against `t_start`/`t_end`, not `t` — measuring the midpoint
+      against word-anchored human labels spends up to half a gap of the 1.0s tolerance on
+      nothing.
 - [ ] A ±90s region yields 30–60 candidates — well under the 255-option Choice limit.
 - [ ] Markers render without breaking sentence IDs.
 
@@ -52,5 +74,10 @@ looks exactly like a model error in the logs.
   pause-candidate rate collapses, and log when that happens.
 
 ## Implementation note
+
+`cuts.py` currently sets `t = s.t1 + gap/2` and stores `gap_ms` alongside it, so the gap
+edges are already recoverable and **no re-extraction is needed** — the change is adding the
+two derived values on `CutPoint` and pointing `coverage()`, Pass D's timestamp resolution
+and 009's render at them. Small and mechanical; the enumeration itself is untouched.
 
 The 95% recall criterion is **not met yet** -- it needs the labeled set from 011. `coverage()` is implemented and ready to run against it. Shot detection is written but untested (scenedetect not installed).

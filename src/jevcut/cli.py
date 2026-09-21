@@ -50,7 +50,20 @@ def cmd_cuts(args: argparse.Namespace) -> int:
 
     out = Path(args.out or "cuts.json")
     out.write_text(
-        json.dumps([{"id": c.id, "t": c.t, "kind": c.kind, "gap_ms": c.gap_ms} for c in found], indent=2)
+        json.dumps(
+            [
+                {
+                    "id": c.id,
+                    "t": c.t,
+                    "t_start": round(c.t_start, 3),
+                    "t_end": round(c.t_end, 3),
+                    "kind": c.kind,
+                    "gap_ms": c.gap_ms,
+                }
+                for c in found
+            ],
+            indent=2,
+        )
     )
     stats = cuts_mod.stats(found, transcript.duration)
     print(f"{stats['count']} cut points -> {out}")
