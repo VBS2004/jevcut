@@ -30,6 +30,35 @@ Sentence IDs come from the
 render the transcript as `L042| text…` so a Choice can point at a line. Cut IDs do the
 same thing for boundaries.
 
+### "But `L042` still contains a number"
+
+It does, and that is fine, because the constraint above is narrower than it first reads.
+Jev cannot do **arithmetic or ordering** on numbers. It never has to here: `L042` is a
+**name**, not a quantity, and the only operation performed on it is matching.
+
+The stronger reason: **in a Choice, Jev does not write the ID at all.** Code enumerates the
+options; the answer is a probability spread across that enumerated set. There is no step
+where the model must recall "042" and emit it correctly — it is putting weight on one
+member of a list we own. Every project in [PRIOR-ART](PRIOR-ART.md) does the same and they
+work; autoclip tags *every word* `[1042]word` and says outright that the model "never has
+to derive an index, only copy one".
+
+**Where it would genuinely break** is a question that asks Jev to compare or count IDs —
+"is `L041` before `L088`?", "how many lines between these two?". That is arithmetic and it
+would fail. Nothing here does it: order comes from code and from the fact that the state
+renders lines in order already.
+
+**The real risk is confusability, not numeracy.** `L041`, `L042` and `L043` differ by one
+character, so a pick that lands on a neighbour of the intended line is plausible — an
+off-by-one from labels that look alike, not from a model that cannot count. Opaque labels
+(`qux`, `vim`) would be harder to confuse, at the cost of every trace and region render
+becoming unreadable to a human.
+
+That is a measurable question rather than an argument: the top-2 margin already says when a
+pick was confusable, [010](../issues/010-trace-logging.md) reports the adjacency rate, and
+[014](../issues/014-threshold-tuning.md) A/B-tests the label scheme. Do not change it on
+taste.
+
 ## Cut points, concretely
 
 A cut point is a place you *could* cut: the end of a sentence, a pause of 350ms or more,

@@ -22,6 +22,14 @@ responses at **zero marginal cost**.
   thresholds, composite weights, duration bands, anchors-per-window, region width.
 - Also sweep the per-`kind` instruction variants from 006 — those *do* cost API calls, so
   run them last and on a subset.
+- **A/B the option-label scheme**, same subset, same run: `L001`-style (current, zero-padded
+  and sequential) vs `L1`-style (fewer tokens, variable width) vs opaque non-sequential
+  tokens. Identical state, identical questions — only the labels change.
+  Measure: how often the chosen anchor changes at all, the **adjacency rate** from
+  [010](010-trace-logging.md), and tokens per request.
+  The question is confusability, not numeracy — adjacent IDs differ by one character and a
+  pick can land on a neighbour ([CONCEPTS](../docs/CONCEPTS.md#but-l042-still-contains-a-number)).
+  Opaque labels would cost readable traces, so they need a measured win, not an argument.
 - Produce **calibration plots** per Noul: predicted probability vs. observed rate on
   labeled data, bucketed. This is the check that a 0.7 threshold means anything.
 - Per-genre threshold sets if the sweep shows genre-dependence — feeds 020's presets.
