@@ -35,6 +35,33 @@ to rate, and an editable EDL is what makes a human's fix visible as data.
 - Fast seek with `-ss` before `-i` lands on the nearest keyframe. For a system whose entire
   claim is boundary precision, that is not acceptable — re-encode, or seek accurately and
   eat the cost.
-- Add 150–250ms of pre-roll before `t0` when rendering. The cut point sits mid-silence;
-  a hard cut on the first phoneme sounds clipped even when the boundary is correct. This
-  is a render-side nicety and must **not** be folded back into the measured boundary.
+- **Align the rendered edges into the measured silence — never pad by a constant.** A hard
+  cut on the first phoneme sounds clipped even when the boundary is correct, but a flat
+  150–250ms pre-roll (what this issue used to specify) is the wrong fix: the gap before a
+  word varies with how the speaker breathes, so one constant clips plosives on a tight entry
+  and leaves dead air on a slow one. autoclip states the reasoning and ships the fix — see
+  [PRIOR-ART](../docs/PRIOR-ART.md#artbyjazi-autoclip).
+
+  The chosen cut point already carries its own gap (`gap_ms` on `CutPoint`, see
+  [003](003-cut-point-extraction.md)), so no separate silence lookup is needed — derive
+  `silence.start`/`silence.end` from it. Anchor each offset to the adjacent **word**, then
+  clamp it inside the gap:
+
+  ```
+  LEAD_S   = 0.12   # start this far before the first word — catches the breath, no dead beat
+  TAIL_S   = 0.28   # hold this long after the last word — an abrupt tail reads as a mistake
+  MARGIN_S = 0.04   # never cut this close to a silence edge; detection has hysteresis
+  RADIUS_S = 0.75   # no silence found within this of the boundary → fall back to a constant
+
+  start = max(silence.start + MARGIN_S, min(silence.end   - LEAD_S, t0))
+  end   = min(silence.end   - MARGIN_S, max(silence.start + TAIL_S, t1))
+  ```
+
+  Head and tail offsets **differ on purpose**: tight in, hold out. Fallback when no silence
+  is within `RADIUS_S`: 0.25s lead, 0.35s tail.
+
+- Alignment can only ever widen a clip, so **re-check any duration ceiling after aligning**,
+  not before.
+
+- All of the above is render-side and must **not** be folded back into the measured
+  boundary — 012 scores `t0`/`t1`, not the rendered edges. Keep both in the EDL.
