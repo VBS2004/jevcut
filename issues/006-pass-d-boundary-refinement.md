@@ -50,3 +50,32 @@ thesis, and 013 exists to test it.
 - Low Choice confidence here usually means several adjacent cut points are all acceptable —
   which is harmless. Don't gate on it without checking that first. Several acceptable
   alternatives spread probability just like genuine confusion does.
+
+## Note: handling a near-tied `kind`
+
+Observed live on 2026-09-20. A clip recounting an outage *and* using it to explain
+thundering herd returned:
+
+```
+explanation  0.470   <- winner
+story        0.440
+joke         0.060
+hot_take     0.030
+confidence   0.33
+```
+
+Low confidence, but **not confusion** — both labels are correct, and the nonsense options
+got ~0. This is the documented case where several acceptable alternatives spread
+probability, which is not a reason to reject anything. A confidence gate on `kind` would
+have thrown away a good clip for being two good things at once.
+
+**Rule to implement:** when the top two `kind` probabilities are within ~0.1, prefer
+**`story`** boundary wording. A story's boundaries (start where the situation is
+established, end at the outcome) *contain* an explanation's, so the wider rule is the
+safe one — the failure mode of guessing wrong is a clip missing its setup, which is
+exactly what Pass E's `starts_mid_thought` gate is built to catch.
+
+Diagnose a spread by looking at **which** options share the probability, never at the
+confidence number alone: two fair readings of the same text is case 2, unrelated
+categories lighting up is case 1 (the model did not understand) and is a real problem.
+Issue 014 should sweep the tie threshold.

@@ -7,7 +7,8 @@ decides exactly where each clip should **start** and **stop** — using
 [Jev](https://docs.typesafe.ai/models.md), TypeSafe's System One model, as a judge over
 transcript text, with all arithmetic, timing and rendering in code.
 
-Status: **M0 done, Pass C live** (issues 001–003, 005) — ingest, cut-point extraction and the Jev client
+Status: **paused for research** — see [RESEARCH.md](RESEARCH.md).
+M0 done, Pass C live (issues 001–003, 005) — ingest, cut-point extraction and the Jev client
 wrapper are implemented and tested, and the coarse scan (005) finds anchors against
 the live API. Boundary refinement (006) is next.
 See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).

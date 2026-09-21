@@ -1,5 +1,8 @@
 # Roadmap
 
+> **Paused before issue 006** pending the research phase in [RESEARCH.md](RESEARCH.md).
+> The thesis below was never validated against real repos or real data.
+
 20 issues, 5 milestones. Ordered so that **the thing most likely to kill the project gets
 tested earliest**: if Pass D can't pick boundaries better than "peak sentence ± 15s", the
 whole thesis is wrong, and M2 is where that becomes undeniable.
