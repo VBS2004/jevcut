@@ -143,6 +143,26 @@ failure mode 1, the one that costs most if true, and it lives in issue trackers 
 threads, not in source. Baseline 4 remains the live threat to the thesis and is now the
 thing [006](issues/006-pass-d-boundary-refinement.md) has to beat.
 
+## Open, and deliberately not chased
+
+**Does candidate coverage hold on a long single-speaker talk?** AMI answers the
+speaker-count version of this (96% with labels stripped), but its sentences are shaped by
+turn-taking, and a 45-minute uninterrupted talk has a different rhythm whose topic
+boundaries may not land on sentence ends as cleanly.
+
+Searched 2026-09-22, so nobody repeats it. The right-shaped corpus is
+**Malioutov & Barzilay's manually segmented MIT lectures** (possibly distributed with
+[bayes-seg](https://github.com/jacobeisenstein/bayes-seg)); VIDEOAULA (34 Portuguese CS
+lectures) and AVL (86 boundaries) also exist. **The likely blocker is timings** — these are
+sentence-indexed text, and without seconds they cannot test candidate coverage at all.
+
+The realistic route is running ASR ourselves over single-speaker audio with known
+boundaries, which YouTube chapter markers would supply free. Not worth it now: the claim
+that sent us looking (coverage collapses without speaker changes) turned out to be false,
+and [011](issues/011-eval-set.md)'s real labels answer the genre question better than a
+proxy corpus in the wrong language. [003](issues/003-cut-point-extraction.md) carries the
+per-genre criterion.
+
 ## What would let building resume
 
 Either:
