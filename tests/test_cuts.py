@@ -1,10 +1,10 @@
 import pytest
 
+from conftest import speech
 from jevcut import cuts as cuts_mod
 from jevcut.config import Config
 from jevcut.models import Transcript
 from jevcut.transcript import segment_words
-from conftest import speech
 
 
 def _transcript(words) -> Transcript:

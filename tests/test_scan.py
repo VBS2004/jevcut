@@ -1,13 +1,13 @@
 import pytest
 
+from conftest import speech
 from jevcut.backends import Answer, Response
 from jevcut.client import JevClient
 from jevcut.config import Config
 from jevcut.models import Transcript
 from jevcut.questions import NO_ANCHOR, scan_questions
-from jevcut.scan import dedupe, scan, scan_window, windows, Anchor, Window
+from jevcut.scan import Anchor, Window, dedupe, scan, scan_window, windows
 from jevcut.transcript import segment_words
-from conftest import speech
 
 
 def _transcript(n_sentences: int = 200, word_s: float = 0.3) -> Transcript:

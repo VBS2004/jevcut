@@ -1,8 +1,7 @@
-from jevcut.config import Config
-from jevcut.models import Word
-from jevcut.transcript import align_to_reference, segment_words, sanity_check
-from jevcut.models import Transcript
 from conftest import speech
+from jevcut.config import Config
+from jevcut.models import Transcript, Word
+from jevcut.transcript import align_to_reference, sanity_check, segment_words
 
 
 def test_splits_on_punctuation(two_sentences):

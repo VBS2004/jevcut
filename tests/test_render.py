@@ -1,8 +1,8 @@
+from conftest import speech
 from jevcut import cuts as cuts_mod
 from jevcut.models import CutPoint, Transcript
 from jevcut.render import id_width, render_lines, render_markers
 from jevcut.transcript import segment_words
-from conftest import speech
 
 
 def test_id_width_grows_past_a_thousand():
