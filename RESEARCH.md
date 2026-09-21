@@ -24,6 +24,10 @@ Three ways this could be wrong, in order of how much they'd cost us:
    perceives.
 3. **The gate rejects too much.** If `standalone` and `dangling_reference` fire on clips
    humans find perfectly fine, we ship fewer clips than a naive tool and call it quality.
+4. **Classical methods already solve it.** The most likely one, and the one the current
+   design never considers. Topic segmentation is a thirty-year-old field and acoustic
+   boundary detection is older. If a classical segmenter puts boundaries where humans do,
+   Jev is an expensive way to reproduce free output.
 
 ## What we are actually doing
 
@@ -45,6 +49,30 @@ judgment in it that Jev would do better than what is there now. Record findings 
 `docs/PRIOR-ART.md`, which already has the format.
 
 Read the code, not the README. A README states intent; the code states what happens.
+
+## Classical baselines to check first
+
+The design currently uses acoustics only as a *candidate generator* (pauses, shot cuts)
+and assumes a model is needed to choose among them. That assumption is untested, and these
+methods predate the assumption:
+
+**Acoustic / signal** — silence and speech-activity segmentation: `silero-vad`, WebRTC VAD,
+`auditok`, `inaSpeechSegmenter`; speaker diarization: `pyannote.audio`; shot boundaries:
+`PySceneDetect`, TransNetV2. These produce boundaries with **no model call at all**.
+
+**Text / topic segmentation** — TextTiling, C99, BayesSeg, and modern neural successors.
+These answer "where does one subject end and the next begin" directly, which is close to
+what Pass D is asking Jev to do.
+
+**Question to hold while reading:** does the method put a boundary where a human would?
+If yes, it belongs in the eval as a **free baseline** that jevcut must beat — and if it
+wins, the honest move is to use it for boundaries and reserve Jev for the judgments that
+genuinely need semantics (is this moment worth clipping, does it stand alone, does the
+payoff land). That is a better product than the one currently designed, not a defeat.
+
+A hybrid is the likeliest good answer: classical methods enumerate and pre-rank the
+candidates, Jev picks among a shortlist. That is cheaper and more accurate than either
+alone, and it is not what [ARCHITECTURE.md](docs/ARCHITECTURE.md) currently describes.
 
 ## Starting points
 
