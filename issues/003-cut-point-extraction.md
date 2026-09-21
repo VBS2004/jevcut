@@ -59,14 +59,26 @@ looks exactly like a model error in the logs.
 
 - [ ] `cuts.extract(transcript)` returns candidates at the target density.
 - [ ] **Recall check against the eval set (011): for ≥95% of human-labeled clip starts,
-      a candidate exists within 1.0s.** This is the gating metric for this issue.
-      **Measured early and it may not be reachable:** against 48 human-placed boundaries on
-      real speech, caption-cue starts at 25/min — near this issue's target density — hit
-      **81% within 1.0s, 94% within 2.0s**
-      ([experiment](../eval/experiments/texttiling_vs_labels.py)). Those are not jevcut's
-      candidates (Whisper word timings should place them better than caption chunking) but
-      they are the right order of magnitude. Expect to either beat 81% by a clear margin or
-      move this bar to 2.0s with the reason recorded — do not quietly relax it.
+      a candidate exists within 2.0s**, counting only starts the transcript actually
+      covers (see the next criterion). This is the gating metric for this issue.
+
+      **The bar was 1.0s and moved on measurement, not on convenience.** Against 48
+      human-placed boundaries on real speech, candidates at roughly this issue's target
+      density covered 81% within 1.0s, 92% within 1.5s, 94% within 2.0s, then **96% at
+      2.5s and flat after that** — 5s and 30s buy nothing
+      ([experiment](../eval/experiments/texttiling_vs_labels.py)). 1.0s was not reachable.
+      2.0s sits just under the knee; 2.5s clears 95% outright, so if the real candidates
+      land at 94% again, move to 2.5s rather than adding candidate kinds that cannot help.
+
+      Those were caption-cue boundaries, not jevcut's. Whisper word timings should place
+      sentence ends and pauses better than caption chunking does, so treat 94% as the
+      pessimistic estimate and re-measure properly once 011 lands.
+- [ ] **Report "no candidate nearby" and "no transcript there" separately.** The curve
+      above plateaus at 96% because some labels have no candidate at *any* tolerance — the
+      worst is 104s from the nearest one, a stretch with no captions at all. That is a hole
+      in the data, not a sparse candidate list, and the two are different bugs. Counting
+      them together caps recall below 95% forever and sends you hunting for a density
+      problem that is not there.
       `coverage()` must compare against `t_start`/`t_end`, not `t` — measuring the midpoint
       against word-anchored human labels spends up to half a gap of the 1.0s tolerance on
       nothing.
