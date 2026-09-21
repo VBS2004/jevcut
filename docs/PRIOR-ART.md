@@ -354,10 +354,15 @@ and parsing it, not from memory — [`eval/experiments/ami_coverage.py`](../eval
   ranges, so they resolve to seconds exactly.
 - **It is the only human boundary set in speech available before [011](../issues/011-eval-set.md).**
   968 usable top-level boundaries over 71.8 h.
-- **No noise floor in it.** Exactly one meeting (ES2008a) carries two annotators, and the
-  corpus documentation says plainly that "reliability test results are not currently
-  available for this scheme". 011 still has to measure inter-labeler disagreement itself —
-  that hope is dead, and it was worth an hour to find out rather than plan around it.
+- **No noise floor in it — zero double-annotated meetings.** ES2008a first looked like the
+  exception, carrying topics from both `Raj` and `rdhillon`. It is not: the topics are
+  numbered **1–14 continuously**, Raj covering 1–5 and rdhillon 6–14. It is one
+  segmentation with the work split, not two independent ones, and measuring "disagreement"
+  across it compares the first half of a meeting with the second (median 426s, which is
+  what exposed the error). The corpus documentation agrees: "reliability test results are
+  not currently available for this scheme". **011 must measure inter-labeler disagreement
+  itself**, and until it does, no absolute error number from AMI can be judged — only
+  relative ones.
 - **A topic boundary is not a clip boundary.** "The subject changed" is not "this
   self-contained thought starts here". It can test whether the candidate list *contains*
   the right cut; it cannot say whether a moment was worth clipping.

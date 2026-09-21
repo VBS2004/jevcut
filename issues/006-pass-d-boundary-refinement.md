@@ -13,6 +13,28 @@
 isn't. Picking the exact cut point instead of snapping to a window is the entire quality
 thesis, and 013 exists to test it.
 
+## What it has to beat, measured before it was built
+
+A Choice over enumerated cut points was tested against human topic boundaries before this
+issue started: it beat a random pick from the same options by >2× and beat a
+biggest-pause heuristic, **and lost to a tuned constant offset from the anchor** (8.7s vs
+5.5s median, [RESEARCH.md](../RESEARCH.md)).
+
+That was a proxy — topic boundaries, no noise floor, untuned wording — so it is not a
+verdict on this issue. Treat it as the bar being higher than it looked: **the mechanism
+demonstrably extracts signal, and demonstrably has not yet beaten arithmetic.** If Pass D
+lands here too, the honest move is the one [RESEARCH.md](../RESEARCH.md) already names —
+code for boundaries, Jev for worth and standalone — not another wording pass.
+
+Two things that experiment says to do differently here:
+
+- **Report against a tuned constant, not a strawman** — baseline 4 in
+  [013](013-baseline-comparison.md), swept on the tune split.
+- **Do not expect confidence to save a weak pick.** Accuracy was flat across every
+  confidence band, so there was no threshold that isolated the good answers. Check whether
+  that holds with this issue's real wording before designing any gate around
+  `start_cut` confidence.
+
 ## Build
 
 - **Read the scan header before spending anything.** `read_scan` returns coverage

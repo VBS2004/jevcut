@@ -143,6 +143,54 @@ failure mode 1, the one that costs most if true, and it lives in issue trackers 
 threads, not in source. Baseline 4 remains the live threat to the thesis and is now the
 thing [006](issues/006-pass-d-boundary-refinement.md) has to beat.
 
+## The thesis, measured on a proxy (2026-09-22)
+
+`ami_coverage.py` showed the right cut is **on the sheet** 95% of the time. The thesis is
+about whether it gets **circled**, and nothing had ever tested that. 900 requests, $0.078,
+[`eval/experiments/pick_vs_snap.py`](eval/experiments/pick_vs_snap.py). Given a region with
+cut points enumerated and an anchor inside a topic, how close to the human topic start does
+each method land?
+
+| method | median | p90 | ≤2s | ≤5s |
+| --- | --- | --- | --- | --- |
+| **jev** (Choice over cut points) | 8.7s | 31.0s | 20% | 34% |
+| **snap to anchor−20s** (best of a sweep) | **5.5s** | **20.7s** | **24%** | **47%** |
+| biggest pause in region | 15.0s | 47.7s | 19% | 25% |
+| random cut from the same options | 20.6s | 56.0s | 11% | 17% |
+| earliest cut in region | 61.7s | 73.7s | 0% | 0% |
+
+**Two things are true at once, and both matter.**
+
+1. **The mechanism works.** Jev beats a random pick from the identical option list by more
+   than 2× on median, and beats the biggest-pause heuristic. It is extracting real semantic
+   signal, not decorating a coin flip.
+2. **It loses to a tuned constant offset.** Reproduced across two independent runs (8.7s,
+   8.8s) and two wordings (variant B: 11.0s). **Confidence is flat** — 27–39% within 5s at
+   every band — so no threshold rescues it.
+
+**Caveats, and they are load-bearing.** A meeting's topic boundary is not a clip boundary:
+subjects change gradually and by negotiation, where "this thought starts here" may be far
+crisper. **There is no noise floor** (AMI has zero double-annotated meetings), so if two
+humans would disagree by 10s here, every row above is inside the noise. The wording is
+untuned — that is [014](issues/014-threshold-tuning.md)'s job. And the anchor is
+synthesised, so a swept constant partly inverts this script's own sampling.
+
+So this is a **warning, not a verdict**. It cannot kill the thesis. It does raise the bar.
+
+**The pattern it belongs to is the real finding.** This is the fourth independent time a
+constant or a simple rule has matched or beaten a clever method at boundary placement:
+
+- autoclip refines boundaries with **no model call** and treats it as solved;
+- StreamClipper and Streamsnip ship **trigger − 30s**, and people pay for one of them;
+- Valand et al. measured their static **−A/+B** baseline at 5.89 against 6.84 for
+  refinement — real, and about one point on a ten-point scale;
+- and now a tuned constant beats a Choice on this proxy.
+
+None of that says refinement is worthless — the soccer paper measured it as genuinely
+better with 61 humans. It says **the margin is ~1 point and has to be fought for**, and
+that any Pass D win must be demonstrated against a *tuned* constant rather than a strawman.
+[013](issues/013-baseline-comparison.md) now carries that baseline.
+
 ## Open, and deliberately not chased
 
 **Does candidate coverage hold on a long single-speaker talk?** AMI answers the
