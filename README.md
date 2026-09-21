@@ -82,7 +82,8 @@ eval/       labeled clips + metric harness (empty)
 ```bash
 uv sync --extra dev          # add --extra asr for Whisper, --extra shots for scene detection
 uv run pytest                # 101 tests, no API key needed
-uv run ruff check .          # lint; `ruff format` is not run on this tree, see below
+uv run ruff check .          # lint; see below for the 3 known findings
+uv run ruff format .         # formatting; the tree is already formatted
 
 # ingest -> cut points -> the exact state Pass D will send
 uv run jevcut transcribe video.mp4 --from-json eval/fixtures/interview.words.json --out t.json
@@ -96,10 +97,14 @@ uv run jevcut smoke                         # one live Noul, traced
 `eval/fixtures/interview.words.json` is a synthetic word list, so everything above runs
 with no ASR model and no API key.
 
-**Lint, not format.** `ruff check` is clean apart from 9 long lines and 3 `zip(xs, xs[1:])`
-that could be `itertools.pairwise`. `ruff format` is deliberately *not* applied: it would
-restyle 8 of 10 modules, and the tree has not been reformatted since. Run it if you want
-it, as one isolated commit with a `.git-blame-ignore-revs` entry — not mixed into a change.
+**Lint.** The tree is formatted and `ruff check` reports three findings, all left on
+purpose: one long line in `cli.py` that is a Noul criterion string — splitting it risks
+losing a space in prompt text that has to read exactly as written — and an `l` loop
+variable with its single-element slice in `test_render.py`, where `next(...)` would only
+trade an `IndexError` for a `StopIteration` in a test that fails either way.
+
+The formatting run is listed in `.git-blame-ignore-revs`. Turn it on with
+`git config blame.ignoreRevsFile .git-blame-ignore-revs` so blame skips it.
 
 **Reaching Jev.** Two backends, same code above them. `openrouter` (the default) posts to
 `/api/alpha/decisions` with `typesafe/jev-1.13` and needs `OPENROUTER_API_KEY`;
