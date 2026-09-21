@@ -8,6 +8,7 @@ those two apart; this module's job is to make it rarely matter.
 
 from __future__ import annotations
 
+import itertools
 import statistics
 from pathlib import Path
 
@@ -145,7 +146,7 @@ def build_region(
 
 def stats(cuts: list[CutPoint], duration: float) -> dict:
     """Density report. ``median_spacing_s`` should land in the 2-4s target band."""
-    spacings = [b.t - a.t for a, b in zip(cuts, cuts[1:])]
+    spacings = [b.t - a.t for a, b in itertools.pairwise(cuts)]
     by_kind: dict[str, int] = {}
     for c in cuts:
         by_kind[c.kind] = by_kind.get(c.kind, 0) + 1

@@ -1,3 +1,5 @@
+import itertools
+
 import pytest
 
 from conftest import speech
@@ -79,7 +81,7 @@ def test_overlap_holds_its_length_in_seconds_at_any_pace(word_s):
     # the half-span cap has its own test below.
     found = windows(t, Config(window_sentences=100, window_overlap_s=45.0))
     assert len(found) > 1
-    for a, b in zip(found, found[1:]):
+    for a, b in itertools.pairwise(found):
         assert b.sentences[0].t0 < a.sentences[-1].t1  # they really do overlap
         assert a.sentences[-1].t1 - b.sentences[0].t0 >= 45.0
 

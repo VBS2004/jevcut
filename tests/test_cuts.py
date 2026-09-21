@@ -1,3 +1,5 @@
+import itertools
+
 import pytest
 
 from conftest import speech
@@ -33,7 +35,7 @@ def test_cut_sits_in_the_middle_of_the_silence():
 def test_thinning_respects_minimum_spacing(long_talk):
     config = Config(min_cut_spacing_s=2.0)
     found = cuts_mod.extract(_transcript(long_talk), config)
-    spacings = [b.t - a.t for a, b in zip(found, found[1:])]
+    spacings = [b.t - a.t for a, b in itertools.pairwise(found)]
     assert all(s >= 2.0 - 1e-9 for s in spacings)
 
 
