@@ -25,6 +25,20 @@ that's 1.5s, then 1.5s median error is done, and chasing 0.5s is chasing noise.
   Pass E does anything.
 - Reconcile disagreements in a third pass; **keep the pre-reconciliation deltas** — that's
   the noise floor.
+- **Chat-triggered clips are a free selection label, and only that.** Every `!clip` in a
+  live chat, and every Twitch Clip, is a human saying "this moment is worth clipping",
+  timestamped, at scale, on public content. It is the closest thing this task has to a
+  SponsorBlock, and it speaks to the [RESEARCH.md](../RESEARCH.md) failure mode that costs
+  the most if true — that selection, not boundaries, is the hard part. Three limits, each
+  disqualifying it for boundary work:
+  - it is a **reaction**, so it lags the moment by human response time — which is exactly
+    why StreamClipper and Streamsnip both subtract a flat 30s (see
+    [017](017-retro-start-and-tail.md));
+  - it marks **selection only**: no start, no end, no acceptable range;
+  - it skews to chat-active streams and meme-able moments, not a well-made point.
+
+  Usable for "do humans agree about *which* moments"; never for "where does it start".
+  Keep it out of the boundary labels entirely.
 - Store as `eval/labels/<video_id>.json`. Videos by URL + checksum, not committed.
 - Rights: public/CC content, or content the team owns. No redistribution of source media.
 
