@@ -58,6 +58,22 @@ lesson).
 `JevClient` gained a lock — Pass C is the first caller to use a thread pool, and the
 trace file and usage counters are shared mutable state.
 
+Windowing changed after this issue was marked Done (`8aace33`). `window_overlap` (10
+sentences) became `window_overlap_s` (60s), and `windows()` now steps back from a window's
+end in seconds and converts that instant to a sentence index. Counted in sentences the
+overlap swung with delivery — ten sentences is a minute of a measured talk and twenty
+seconds of rapid dialogue — so on fast speech it fell below a clip's length and a
+straddling moment was nominated by neither neighbour. 60s is the same overlap the old
+default gave at the documented 600-sentences-per-hour density. The step is capped at half
+the window's own span, so a mis-set overlap costs tokens rather than a request per
+sentence, and floored at one sentence so the loop always advances.
+
+**Left open for 014:** the window is still *sized* in sentences. At very fast speech an
+80-sentence window spans only a couple of minutes, the half-span cap binds, and no overlap
+can insure against a 90s moment — the size is in the wrong unit for that case too. This
+surfaced from a test failure at `word_s=0.1` and was deliberately not chased: picking a
+better rule needs real density data, not a guess.
+
 ## Finding: `contains_moment` does not fall across rounds
 
 Observed p_moment per removal round: **0.88 -> 0.93 -> 0.96**. It *rose* as the best

@@ -89,9 +89,47 @@ Directories, refreshed weekly:
 [AnotiaWang/awesome-jev](https://github.com/AnotiaWang/awesome-jev),
 [fatwang2/awesome-jev](https://github.com/fatwang2/awesome-jev).
 
-Already studied (see [docs/PRIOR-ART.md](docs/PRIOR-ART.md)):
-`trungdq88/youtube-sponsor-detection`, `ChetasLua/jevmeter`, `valentynkit/jev-skip`.
-These were skimmed, not read. Re-reading their source is itself a research task.
+Read in full — source, not README (see [docs/PRIOR-ART.md](docs/PRIOR-ART.md)):
+`trungdq88/youtube-sponsor-detection`, `artbyjazi/autoclip`. The second is not Jev-based,
+which is the point: it ships the same product with a generative model and no Jev anywhere.
+
+Skimmed only, and re-reading their source is still a research task:
+`ChetasLua/jevmeter`, `valentynkit/jev-skip`.
+
+## What the reads have produced
+
+Detail is in [docs/PRIOR-ART.md](docs/PRIOR-ART.md); what it changed here:
+
+| Commit | Settled |
+| --- | --- |
+| `1b37b98` | v1 is verbal-only and the README says so. Nothing in the design can see a moment carrying no words; the non-verbal case is specced and deferred in [021](issues/021-event-clips.md) |
+| `f30a3e8` | autoclip logged in PRIOR-ART |
+| `e7b7f66` | [009](issues/009-edl-and-render.md): rendered edges align into the measured silence. The flat 150–250ms pre-roll it specified is the wrong fix — the gap before a word varies with how the speaker breathes |
+| `46a3bad` | [013](issues/013-baseline-comparison.md): Baseline 4, snap + align with no model call. Baselines 1–3 all vary selection and boundaries together, so none of them isolates the thesis |
+| `7eebb2d` | [003](issues/003-cut-point-extraction.md): a cut point is a gap, resolved to `t_start`/`t_end` by role. The midpoint reported a correct pick as wrong by half the gap, on `start_err_p90` |
+| `8aace33` | [005](issues/005-pass-c-coarse-scan.md): windows step by seconds. Overlap counted in sentences shrank on fast speech, below a clip's length |
+
+Three findings worth carrying forward:
+
+- **ID-addressing is not a Jev advantage.** autoclip reached "the model never emits a
+  timestamp" without Jev: word indices, every word tagged, so the model copies an index
+  rather than deriving one. What survives is narrower — autoclip *clamps* an out-of-range
+  index, while a Choice cannot emit an invalid option at all.
+- **Failure modes 2 and 4 got more likely, not less.** autoclip refines boundaries in three
+  deterministic passes with no model call, and treats the result as settled — its open gate
+  for v0.1.0 is reframe quality. That is "snapping is good enough" and "classical methods
+  already solve it", already in production.
+- **The comparison found two defects in our own design** (`7eebb2d`, `8aace33`). Both were
+  invisible until there was something to measure against, and neither was a model problem.
+
+Nobody in the category publishes accuracy numbers — not autoclip, whose README says clip
+picks are unverified, and not the sponsor repo, which commits no eval results. The
+[011](issues/011-eval-set.md)/[012](issues/012-metrics-harness.md) harness would be the
+first measurement in the space.
+
+**Most valuable next read: classical topic segmenters** — TextTiling, C99 and their neural
+successors. Baseline 4 makes no-model boundary placement the thing to understand before
+[006](issues/006-pass-d-boundary-refinement.md) is built.
 
 ## What would let building resume
 
