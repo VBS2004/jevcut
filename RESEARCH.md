@@ -14,7 +14,7 @@ real code or real data. A convincing plan is not evidence.
 > dedicated standalone gate (mid-thought / dangling reference / no payoff) removes the
 > defects people actually complain about.
 
-Three ways this could be wrong, in order of how much they'd cost us:
+Four ways this could be wrong, in order of how much they'd cost us:
 
 1. **Selection is the hard part, not boundaries.** If humans mostly disagree about
    *which* moments to clip and barely at all about where they start, the whole cut-point
@@ -28,6 +28,12 @@ Three ways this could be wrong, in order of how much they'd cost us:
    design never considers. Topic segmentation is a thirty-year-old field and acoustic
    boundary detection is older. If a classical segmenter puts boundaries where humans do,
    Jev is an expensive way to reproduce free output.
+
+A fifth, found while reading the sponsor repo and **settled rather than left open**: the
+thesis is about *verbal* clips, and nothing in the design can see a moment that carries no
+words. v1 is scoped to verbal content and says so in the README; the non-verbal case is
+specced and deferred in [issue 021](issues/021-event-clips.md). Research below stays
+focused on whether the boundary thesis holds **for speech**.
 
 ## What we are actually doing
 

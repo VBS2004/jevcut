@@ -13,6 +13,11 @@ wrapper are implemented and tested, and the coarse scan (005) finds anchors agai
 the live API. Boundary refinement (006) is next.
 See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
 
+**Scope: v1 clips verbal content** — podcasts, interviews, talks, panels, streams where
+people talk. The judge is Jev over transcript text, so a moment carrying no words (a crash,
+a scream, a stunt) is invisible to it by construction. That is a deliberate v1 boundary,
+not an oversight: see [issue 021](issues/021-event-clips.md).
+
 ---
 
 ## The bet

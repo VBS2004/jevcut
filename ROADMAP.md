@@ -63,6 +63,10 @@ redesign rather than building M3 on a false premise.
 - [018 — Cost telemetry and budget guard](issues/018-cost-telemetry.md)
 - [020 — CLI and content presets](issues/020-cli-and-presets.md)
 
+### Deferred (post-v1)
+- [021 — Event clips: non-verbal moments](issues/021-event-clips.md) — v1 is verbal-only by
+  decision. Not on the critical path; do not start before the M2 gate passes.
+
 ## Sizes
 
 `S` ≈ half a day · `M` ≈ 1–2 days · `L` ≈ 3–5 days · `XL` ≈ a week+ (usually because it
@@ -79,3 +83,5 @@ Things that would change the plan, and what we'd do:
 | `retro_recovery` < 50% (017) | Cut live mode. It's a worse VOD mode |
 | Pass C misses >30% of labeled clips (012) | Gate too tight — lower `contains_moment`, accept more anchors, let Pass E do the rejecting |
 | `jev-latest` moves mid-project | Pin the old version ID, re-run 012 on both, migrate deliberately |
+| Pass C recall is low and the misses are non-verbal (012) | **Not a threshold problem.** Don't loosen `contains_moment` — that row above applies to verbal misses only. Event clips need [021](issues/021-event-clips.md) |
+| Event clips turn out to need no Choice (mechanical boundaries) | Thesis is scoped to verbal content, not general. Say so; it's a finding, not a defeat |
