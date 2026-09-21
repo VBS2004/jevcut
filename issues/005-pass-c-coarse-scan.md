@@ -68,6 +68,17 @@ default gave at the documented 600-sentences-per-hour density. The step is cappe
 the window's own span, so a mis-set overlap costs tokens rather than a request per
 sentence, and floored at one sentence so the loop always advances.
 
+`scan()` returns a `ScanResult`, not a bare list. It always collected per-window failures
+— one bad window must not sink the rest — but returned only the anchors, so its own
+docstring's promise that "the caller decides whether a partial scan is usable" was
+unkeepable: two anchors from a clean run and two from the single window that survived
+twenty 5xx's were the same value. The counts now travel with the anchors and reach
+`anchors.json` under a `scan` header, `read_scan` refuses a bare list rather than assuming
+it was complete, and the CLI prints an INCOMPLETE banner on stdout with the rest of its
+output and exits non-zero when nothing was scanned. Found by reading FunClip, which has the
+same bug in a louder form — on zero matches it hands back the whole video
+([PRIOR-ART](../docs/PRIOR-ART.md#modelscope-funclip)).
+
 **Left open for 014:** the window is still *sized* in sentences. At very fast speech an
 80-sentence window spans only a couple of minutes, the half-span cap binds, and no overlap
 can insure against a 90s moment — the size is in the wrong unit for that case too. This

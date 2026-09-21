@@ -8,7 +8,17 @@ from jevcut.client import JevClient
 from jevcut.config import Config
 from jevcut.models import Transcript
 from jevcut.questions import NO_ANCHOR, scan_questions
-from jevcut.scan import Anchor, Window, dedupe, scan, scan_window, windows
+from jevcut.scan import (
+    Anchor,
+    ScanResult,
+    Window,
+    dedupe,
+    read_scan,
+    scan,
+    scan_window,
+    windows,
+    write_scan,
+)
 from jevcut.transcript import segment_words
 
 
@@ -214,8 +224,9 @@ def test_scan_stays_inside_the_request_budget(tmp_path):
     t = _transcript(600)
     # every window yields one anchor, then reports nothing left
     client = _client(tmp_path, [(0.9, "L000")] * 0)  # script empty -> flat everywhere
-    anchors = scan(client, t, Config())
-    assert anchors == []
+    result = scan(client, t, Config())
+    assert result.anchors == []
+    assert result.complete, "a quiet video is not a failed scan"
     assert client.usage.requests <= 12
 
 
@@ -259,11 +270,19 @@ def test_one_failing_window_does_not_discard_the_others(tmp_path):
     client = JevClient(config, run_dir=tmp_path / "run")
     client.backend = FlakyBackend()
 
-    anchors = scan(client, t, config)
+    result = scan(client, t, config)
     windows_asked = len(windows(t, config))
     assert windows_asked == 3
-    assert anchors, "surviving windows must still produce anchors"
-    assert len(anchors) == windows_asked - 1  # every window but the failed one
+    assert result.anchors, "surviving windows must still produce anchors"
+    assert len(result.anchors) == windows_asked - 1  # every window but the failed one
+
+    # The anchors alone cannot say the scan was partial -- that is the bug this
+    # carries. The counts must come back with them.
+    assert not result.complete
+    assert result.windows_total == 3
+    assert result.windows_failed == 1
+    assert result.coverage == pytest.approx(2 / 3)
+    assert len(result.failures) == 1 and "window" in result.failures[0]
 
 
 def test_a_missing_answer_is_not_read_as_a_flat_window(tmp_path, caplog):
@@ -326,3 +345,41 @@ def test_dedupe_radius_is_tunable_independently_of_the_removal_radius():
     b = Anchor("L011", 1, "story", 110.0, 111.0, 0.8, 0.5, 0.5)
     assert len(dedupe([a, b], Config(anchor_dedupe_s=5.0, anchor_removal_s=60.0))) == 2
     assert len(dedupe([a, b], Config(anchor_dedupe_s=30.0, anchor_removal_s=1.0))) == 1
+
+
+# --- the scan artifact -------------------------------------------------------
+
+
+def test_a_partial_scan_survives_the_round_trip(tmp_path):
+    """The counts must reach disk. Pass D reads this file, not the ScanResult."""
+    result = ScanResult(
+        anchors=[Anchor("L010", 0, "story", 100.0, 101.0, 0.9, 0.5, 0.5)],
+        windows_total=4,
+        windows_failed=3,
+        failures=["window 1: HTTPError: 503"],
+    )
+    path = tmp_path / "anchors.json"
+    write_scan(result, path)
+    back = read_scan(path)
+
+    assert back.anchors == result.anchors
+    assert back.windows_total == 4
+    assert back.windows_failed == 3
+    assert back.coverage == pytest.approx(0.25)
+    assert not back.complete
+    assert back.failures == result.failures
+
+
+def test_a_complete_scan_says_so(tmp_path):
+    path = tmp_path / "anchors.json"
+    write_scan(ScanResult(anchors=[], windows_total=7), path)
+    back = read_scan(path)
+    assert back.complete and back.coverage == 1.0 and back.windows_total == 7
+
+
+def test_a_bare_anchor_list_is_refused_not_assumed_complete(tmp_path):
+    """The old format carries no coverage, and guessing it would reintroduce the bug."""
+    path = tmp_path / "anchors.json"
+    path.write_text("[]")
+    with pytest.raises(ValueError, match="coverage is unknown"):
+        read_scan(path)

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 
@@ -17,7 +18,7 @@ from jevcut.client import JevClient
 from jevcut.config import Config
 from jevcut.models import Transcript
 from jevcut.render import render_lines
-from jevcut.scan import scan, windows, write_anchors
+from jevcut.scan import scan, windows, write_scan
 from jevcut.transcript import ingest, sanity_check
 
 
@@ -97,13 +98,13 @@ def cmd_scan(args: argparse.Namespace) -> int:
     print(f"{len(transcript)} sentences -> {len(windows(transcript, config))} windows")
 
     with JevClient(config) as client:
-        anchors = scan(client, transcript, config)
+        result = scan(client, transcript, config)
         out = Path(args.out or "anchors.json")
-        write_anchors(anchors, out)
+        write_scan(result, out)
 
         summary = client.summary()
-        print(f"{len(anchors)} anchors -> {out}")
-        for a in anchors:
+        print(f"{len(result.anchors)} anchors -> {out}")
+        for a in result.anchors:
             print(
                 f"  {a.sentence_id} {a.t0:7.1f}s {a.kind:12} "
                 f"moment={a.p_moment:.2f} conf={a.anchor_confidence:.2f}"
@@ -113,7 +114,17 @@ def cmd_scan(args: argparse.Namespace) -> int:
             f"${summary['cost_usd']:.6f}"
             f"{' (reported)' if summary['cost_is_reported'] else ' (estimated)'}"
         )
-    return 0
+        # Loud, on stdout with everything else: "0 anchors" from a dead API and
+        # "0 anchors" from a boring video must not read the same.
+        if not result.complete:
+            print(
+                f"\nINCOMPLETE: {result.windows_failed} of {result.windows_total} "
+                f"windows failed ({result.coverage:.0%} covered). The anchors above "
+                f"are from the rest, so treat them as a floor, not a result."
+            )
+            for line in result.failures:
+                print(f"  {line}")
+    return 0 if result.coverage else 1
 
 
 def cmd_smoke(args: argparse.Namespace) -> int:
@@ -152,6 +163,9 @@ def cmd_smoke(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Without this, library warnings reach the user through logging's fallback
+    # handler as bare unlabelled lines on stderr, while the CLI prints to stdout.
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
     parser = argparse.ArgumentParser(prog="jevcut", description=__doc__)
     parser.add_argument("--config", help="path to a config JSON")
     sub = parser.add_subparsers(dest="command", required=True)

@@ -15,6 +15,11 @@ thesis, and 013 exists to test it.
 
 ## Build
 
+- **Read the scan header before spending anything.** `read_scan` returns coverage
+  alongside the anchors ([005](005-pass-c-coarse-scan.md)). A scan that missed a third of
+  its windows is a floor, not a result, and refining it produces a confident-looking clip
+  list for a video nobody finished looking at. Decide the policy here and state it: refuse
+  under some coverage, or proceed and mark every clip. Do not ignore the field.
 - Region: anchor ±90s of transcript, cut points inlined as `«C07»`
   (helper from 003).
 - One request per anchor, four questions in parallel:

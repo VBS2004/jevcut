@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from jevcut.client import JevClient
@@ -45,6 +45,41 @@ class Anchor:
 
     def to_dict(self) -> dict:
         return asdict(self)
+
+
+@dataclass(slots=True)
+class ScanResult:
+    """Pass C's output, carrying enough context to tell a thin scan from a broken one.
+
+    The anchor list alone cannot. Two anchors from a fully scanned video and two from
+    the single window that survived while twenty others 5xx'd are the same list, and
+    the second is a recall hole wearing the first's clothes -- 003's hardest bug to
+    diagnose, because it reads downstream as "the model found nothing here".
+
+    So the counts travel with the anchors, and reach disk. Deciding what to do about a
+    partial scan is Pass D's ([006](../../issues/006-pass-d-boundary-refinement.md)),
+    which is only possible because the numbers are here to decide on.
+    """
+
+    anchors: list[Anchor]
+    windows_total: int
+    windows_failed: int = 0
+    #: One line per failed window, e.g. "window 3: HTTPError: 503". For the log and
+    #: the artifact, never for control flow.
+    failures: list[str] = field(default_factory=list)
+
+    @property
+    def complete(self) -> bool:
+        return self.windows_failed == 0
+
+    @property
+    def coverage(self) -> float:
+        """Fraction of windows that answered. 1.0 when nothing failed."""
+        return (
+            1.0
+            if not self.windows_total
+            else (self.windows_total - self.windows_failed) / self.windows_total
+        )
 
 
 def windows(transcript: Transcript, config: Config | None = None) -> list[Window]:
@@ -205,14 +240,15 @@ def dedupe(anchors: list[Anchor], config: Config | None = None) -> list[Anchor]:
     return sorted(kept, key=lambda a: a.t0)
 
 
-def scan(client: JevClient, transcript: Transcript, config: Config | None = None) -> list[Anchor]:
+def scan(client: JevClient, transcript: Transcript, config: Config | None = None) -> ScanResult:
     """Every window in parallel, bounded by the account's request budget.
 
     Windows are independent, so one failing must not discard the others. ``pool.map``
     re-raises the first worker exception and throws away every result behind it, which
     on a long video means paying for twenty windows and writing no ``anchors.json`` at
     all because the twenty-first hit a 5xx that outlived its retries. Failures are
-    collected and logged instead; the caller decides whether a partial scan is usable.
+    collected instead, and returned with the anchors so the caller can actually decide
+    whether a partial scan is usable -- a log line alone left that promise unkeepable.
     """
     config = config or Config()
     found = windows(transcript, config)
@@ -237,12 +273,44 @@ def scan(client: JevClient, transcript: Transcript, config: Config | None = None
             len(found),
             len(anchors),
         )
-    return dedupe(anchors, config)
+    return ScanResult(
+        anchors=dedupe(anchors, config),
+        windows_total=len(found),
+        windows_failed=len(failures),
+        failures=[f"window {wid}: {type(exc).__name__}: {exc}" for wid, exc in failures],
+    )
 
 
-def write_anchors(anchors: list[Anchor], path: str | Path) -> None:
-    Path(path).write_text(json.dumps([a.to_dict() for a in anchors], indent=2))
+def write_scan(result: ScanResult, path: str | Path) -> None:
+    """Persist a scan. The `scan` header is the point: a bare anchor list on disk
+    cannot say whether the video was fully looked at."""
+    Path(path).write_text(
+        json.dumps(
+            {
+                "scan": {
+                    "windows_total": result.windows_total,
+                    "windows_failed": result.windows_failed,
+                    "coverage": round(result.coverage, 4),
+                    "failures": result.failures,
+                },
+                "anchors": [a.to_dict() for a in result.anchors],
+            },
+            indent=2,
+        )
+    )
 
 
-def read_anchors(path: str | Path) -> list[Anchor]:
-    return [Anchor(**d) for d in json.loads(Path(path).read_text())]
+def read_scan(path: str | Path) -> ScanResult:
+    data = json.loads(Path(path).read_text())
+    if isinstance(data, list):
+        raise ValueError(
+            f"{path} is a bare anchor list with no scan header, so its coverage is "
+            "unknown. Re-run the scan rather than assuming it was complete."
+        )
+    head = data.get("scan", {})
+    return ScanResult(
+        anchors=[Anchor(**d) for d in data["anchors"]],
+        windows_total=head["windows_total"],
+        windows_failed=head.get("windows_failed", 0),
+        failures=head.get("failures", []),
+    )
