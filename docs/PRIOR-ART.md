@@ -341,6 +341,40 @@ before inferring any.
 [012](../issues/012-metrics-harness.md)), the +1-point prior, the two-tier argument for
 failure mode 1. **Noted, not taken:** interior trimming.
 
+## Datasets
+
+### AMI Meeting Corpus
+
+~100 h of recorded multi-party meetings, **CC BY 4.0**. Verified 2026-09-22 by downloading
+and parsing it, not from memory — [`eval/experiments/ami_coverage.py`](../eval/experiments/ami_coverage.py).
+
+- **Annotations download is 22 MB and needs no media.** Word-level timings per speaker,
+  punctuation marked (`punc="true"`), and manual **topic segmentation** over 139 meetings:
+  2025 topics, 369 of them nested subtopics. Boundaries are stand-off references to word-ID
+  ranges, so they resolve to seconds exactly.
+- **It is the only human boundary set in speech available before [011](../issues/011-eval-set.md).**
+  968 usable top-level boundaries over 71.8 h.
+- **No noise floor in it.** Exactly one meeting (ES2008a) carries two annotators, and the
+  corpus documentation says plainly that "reliability test results are not currently
+  available for this scheme". 011 still has to measure inter-labeler disagreement itself —
+  that hope is dead, and it was worth an hour to find out rather than plan around it.
+- **A topic boundary is not a clip boundary.** "The subject changed" is not "this
+  self-contained thought starts here". It can test whether the candidate list *contains*
+  the right cut; it cannot say whether a moment was worth clipping.
+
+**What it measured:** 003's coverage gate, on jevcut's real `cuts.extract()` —
+**95% within 2.0s**, 99% within 2.5s, median 0.00s. The caption-cue proxy used earlier had
+predicted 94%, so that method held up.
+
+**And the finding underneath it:** 60% of that coverage comes from `speaker_change`, 35%
+from `sentence_end`. AMI is multi-party meetings, where topic shifts land on turn-taking. A
+conference talk or a solo podcast has no speaker changes at all, so the majority
+contributor disappears and coverage will be materially worse. **95% is the meetings number,
+not the jevcut number** — see [003](../issues/003-cut-point-extraction.md).
+
+**Taken:** a rerunnable coverage harness on real speech, two years before 011 could give
+one. **Not taken:** the noise floor, which is not in there.
+
 ## Directories worth watching
 
 New Jev projects are appearing weekly; check these before building anything:

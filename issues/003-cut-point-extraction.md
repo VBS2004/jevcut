@@ -73,6 +73,25 @@ looks exactly like a model error in the logs.
       Those were caption-cue boundaries, not jevcut's. Whisper word timings should place
       sentence ends and pauses better than caption chunking does, so treat 94% as the
       pessimistic estimate and re-measure properly once 011 lands.
+
+      **Re-measured 2026-09-22 with jevcut's own `cuts.extract()`**, against 968 human
+      topic boundaries across 71.8 h of AMI meetings
+      ([experiment](../eval/experiments/ami_coverage.py)): **95% within 2.0s**, 99% within
+      2.5s, median 0.00s, p90 1.49s. The bar is met — and the proxy's 94% was accurate, so
+      the earlier method stands.
+- [ ] **Report coverage per genre, because this number is mostly speaker changes.** Of the
+      boundaries covered within 2.0s, **60% were reached by a `speaker_change` candidate**
+      and 35% by a `sentence_end`. AMI is multi-party meetings, where a topic shift lands on
+      turn-taking. A conference talk or a solo podcast has **no speaker changes at all**, so
+      the majority contributor vanishes and coverage will be materially worse there. 95% is
+      the meetings number, not jevcut's. Until this is measured on single-speaker content,
+      do not quote it as the project's coverage, and expect the bar to end up per-genre the
+      way [011](011-eval-set.md) and [014](014-threshold-tuning.md) already expect
+      thresholds to.
+
+      Related: candidates came out at **12.5/min**, under this issue's own target of one
+      every 2–4s (15–30/min). Thinning is not the binding constraint — there simply are not
+      that many candidates in this content.
 - [ ] **Report "no candidate nearby" and "no transcript there" separately.** The curve
       above plateaus at 96% because some labels have no candidate at *any* tolerance — the
       worst is 104s from the nearest one, a stretch with no captions at all. That is a hole
