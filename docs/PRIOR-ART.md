@@ -366,11 +366,17 @@ and parsing it, not from memory — [`eval/experiments/ami_coverage.py`](../eval
 **95% within 2.0s**, 99% within 2.5s, median 0.00s. The caption-cue proxy used earlier had
 predicted 94%, so that method held up.
 
-**And the finding underneath it:** 60% of that coverage comes from `speaker_change`, 35%
-from `sentence_end`. AMI is multi-party meetings, where topic shifts land on turn-taking. A
-conference talk or a solo podcast has no speaker changes at all, so the majority
-contributor disappears and coverage will be materially worse. **95% is the meetings number,
-not the jevcut number** — see [003](../issues/003-cut-point-extraction.md).
+**And the lesson underneath it, which was nearly the wrong one.** The kind breakdown came
+back 60% `speaker_change` / 35% `sentence_end`, read as "the majority contributor vanishes
+on single-speaker content", and written up as such. Re-running with the speaker labels
+stripped — what a solo transcript looks like to `extract()` — gives **96% against 95%**,
+and flips the breakdown to 95% `sentence_end`.
+
+`speaker_change` outranks `sentence_end` in the 200ms merge, and a turn boundary nearly
+always carries a sentence end at the same instant, so it was taking the *label* for a
+timestamp that existed either way. **A kind breakdown reports which name won a merge, not
+which signal found the boundary.** Corrected in [003](../issues/003-cut-point-extraction.md);
+the cheap follow-up run is the only reason it did not stand.
 
 **Taken:** a rerunnable coverage harness on real speech, two years before 011 could give
 one. **Not taken:** the noise floor, which is not in there.

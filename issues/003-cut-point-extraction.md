@@ -79,15 +79,31 @@ looks exactly like a model error in the logs.
       ([experiment](../eval/experiments/ami_coverage.py)): **95% within 2.0s**, 99% within
       2.5s, median 0.00s, p90 1.49s. The bar is met — and the proxy's 94% was accurate, so
       the earlier method stands.
-- [ ] **Report coverage per genre, because this number is mostly speaker changes.** Of the
-      boundaries covered within 2.0s, **60% were reached by a `speaker_change` candidate**
-      and 35% by a `sentence_end`. AMI is multi-party meetings, where a topic shift lands on
-      turn-taking. A conference talk or a solo podcast has **no speaker changes at all**, so
-      the majority contributor vanishes and coverage will be materially worse there. 95% is
-      the meetings number, not jevcut's. Until this is measured on single-speaker content,
-      do not quote it as the project's coverage, and expect the bar to end up per-genre the
-      way [011](011-eval-set.md) and [014](014-threshold-tuning.md) already expect
-      thresholds to.
+- [ ] **Report coverage per genre — but not for the reason first recorded here.** The kind
+      breakdown said 60% `speaker_change` / 35% `sentence_end`, which read as "the majority
+      contributor disappears on single-speaker content". **That inference was wrong, and
+      testing it took one run.** Re-running the same 968 boundaries with the speaker labels
+      stripped — exactly what a solo transcript looks like to `extract()` — gives **96%
+      within 2.0s, against 95% with speakers**, and flips the breakdown to 95%
+      `sentence_end`.
+
+      The cause is the merge rule above: candidates within 200ms collapse to the strongest
+      kind, and `speaker_change` outranks `sentence_end`. A turn boundary nearly always has
+      a sentence end at the same instant, so `speaker_change` was taking the *label* for a
+      timestamp `sentence_end` would have supplied anyway. **It was contributing naming, not
+      coverage.** Read every kind breakdown through that merge before drawing a conclusion
+      from it.
+
+      What is still genuinely unmeasured is *genre*, not speaker count: AMI sentences are
+      shaped by turn-taking, and a 45-minute uninterrupted talk has a different rhythm whose
+      topic boundaries may not land on sentence ends so neatly. Expect the bar to end up
+      per-genre the way [011](011-eval-set.md) and [014](014-threshold-tuning.md) already
+      expect thresholds to.
+- [ ] **Check whether `pause` earns its place in coverage.** It was the nearest candidate to
+      **0%** of boundaries in both runs — `sentence_end` is always closer. That does not make
+      it useless, since cutting mid-silence is about how the edit *sounds*
+      ([009](009-edl-and-render.md)), but it is not buying recall here and it costs option
+      slots in every Choice.
 
       Related: candidates came out at **12.5/min**, under this issue's own target of one
       every 2–4s (15–30/min). Thinning is not the binding constraint — there simply are not
