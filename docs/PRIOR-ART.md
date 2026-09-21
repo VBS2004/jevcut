@@ -55,6 +55,63 @@ Browser extension deciding sponsor segments at watch time from captions.
 costs credibility), cheap code-side pre-filtering, publishing real cost/latency numbers.
 **Rejected:** window-granularity boundaries.
 
+## Classical methods
+
+### TextTiling (Hearst 1997), via NLTK
+
+Tested, not just read — [`eval/experiments/texttiling_vs_labels.py`](../eval/experiments/texttiling_vs_labels.py).
+
+**What it does.** Chops text into fixed 20-word chunks, and at every gap compares the ~200
+words before against the ~200 after. Lots of shared vocabulary means one subject is still
+running; a deep valley means the vocabulary changed. Boundaries are the deepest valleys,
+snapped to the nearest paragraph break.
+
+**Tested against 48 human-placed boundaries** — SponsorBlock's labels on 20 real
+transcripts, 336 minutes of speech. A sponsor read starts where the creator leaves the
+subject, so its start is a topic boundary a person chose and timestamped.
+
+| params | boundaries | /min | @1s | @2s | @5s | @15s |
+| --- | --- | --- | --- | --- | --- | --- |
+| w=20 k=10 (default) | 505 | 1.50 | 4% / **4%** | 12% / 9% | 23% / 20% | 60% / 49% |
+| w=10 k=6 | 1051 | 3.13 | 6% / **9%** | 21% / 17% | 56% / 37% | 88% / 73% |
+| w=30 k=15 | 334 | 0.99 | 0% / **3%** | 4% / 5% | 15% / 14% | 44% / 35% |
+| w=50 k=20 | 194 | 0.58 | 4% / 1% | 6% / 3% | 10% / 8% | 27% / 23% |
+
+Second figure is **chance at the same boundary density** — the same number of marks
+scattered at random. That pairing is the experiment. Without it the default setting reads
+as "60% recall" and looks like it works; it is emitting one boundary every 40 seconds, so a
+±15s window already covers most of the timeline.
+
+**At 1–2s, the resolution a cut point needs, it is at or below chance at every setting.**
+Three of four score worse than random. Precision is ≤9.5% (505 boundaries for 48 labels).
+
+There is real signal — 11–18 points over chance in the 5–15s band, so lexical cohesion does
+shift when a read begins. It resolves at tens of seconds. It is a map of the country when
+you need a house number.
+
+This was close to the easiest case available: a sponsor read introduces wholly new
+vocabulary (brand names, "discount code", "link in the description"). Failing there is
+strong evidence it will not find where a thought begins.
+
+**Caveats.** Sponsor boundaries are not clip boundaries. TextTiling snaps to paragraph
+breaks and a transcript has none, so one was synthesised per caption cue — a defensible
+choice that could move the numbers, and the largest caveat here. n=48. C99 and the neural
+successors are untested, but they answer the same coarse question.
+
+**Taken:** the density-controlled chance baseline, which is the method, not the result —
+see [012](../issues/012-metrics-harness.md). **Rejected:** topic segmentation as a source of
+cut points, and as a Pass C prior: 60%/49% is not good enough to gate on.
+
+### Snapping to a fine boundary
+
+The other classical method, the same 48 labels, and the one that still threatens the
+thesis. Caption-cue starts — linguistically dumb, free, 25/min, near issue 003's target
+density — land **81% within 1.0s and 94% within 2.0s**, median 0.5s.
+
+So **failure mode 4 splits, and only half of it dies.** "Topic segmentation already solves
+this" is answered: no. "Classical boundary snapping already solves this" is very much
+alive — it is what autoclip ships and what Baseline 4 measures.
+
 ## TypeSafe docs that directly shape the design
 
 | Page | What it decides here |

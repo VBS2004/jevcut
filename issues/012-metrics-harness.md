@@ -26,6 +26,19 @@ vibe in an argument.
 - Append every run to `eval/results/results.csv` with model ID, thresholds, git SHA.
 - Per-genre breakdown, always. An aggregate number hides that the system works on podcasts
   and fails on gameplay.
+- **Report recall against chance at the same prediction density.** A system that emits
+  enough boundaries hits every label by luck, and recall alone cannot tell that apart from
+  skill. Scatter the same *number* of predictions at random over the same video, average a
+  few hundred trials, report both. This is not theoretical: it is what turned an apparent
+  60% for TextTiling into a null result
+  ([PRIOR-ART](../docs/PRIOR-ART.md#classical-methods)), and the
+  [experiment script](../eval/experiments/texttiling_vs_labels.py) already implements it.
+- **Also report `Pk` and `WindowDiff`.** Topic segmentation has spent thirty years on
+  exactly this measurement problem and these are its standard answers — both penalise
+  over-segmentation, which `start_err_p90` does not. jevcut's metric may well be the better
+  fit, since it cares about one exact cut while they score a whole partition, but that
+  should be a stated choice. Reporting both costs nothing and is legible to anyone who
+  knows the field.
 
 ## Acceptance criteria
 

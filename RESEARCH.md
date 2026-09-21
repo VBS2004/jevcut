@@ -28,6 +28,11 @@ Four ways this could be wrong, in order of how much they'd cost us:
    design never considers. Topic segmentation is a thirty-year-old field and acoustic
    boundary detection is older. If a classical segmenter puts boundaries where humans do,
    Jev is an expensive way to reproduce free output.
+   → **Half answered, 2026-09-21.** Tested against 48 human-placed boundaries
+   ([PRIOR-ART](docs/PRIOR-ART.md#classical-methods)). *Topic segmentation*: dead at clip
+   granularity — TextTiling is at or below chance at 1–2s at every parameter setting.
+   *Boundary snapping*: alive and the live threat — caption-cue starts alone hit 81% within
+   1.0s. The threat narrowed to Baseline 4; it did not go away.
 
 A fifth, found while reading the sponsor repo and **settled rather than left open**: the
 thesis is about *verbal* clips, and nothing in the design can see a moment that carries no
@@ -127,9 +132,16 @@ picks are unverified, and not the sponsor repo, which commits no eval results. T
 [011](issues/011-eval-set.md)/[012](issues/012-metrics-harness.md) harness would be the
 first measurement in the space.
 
-**Most valuable next read: classical topic segmenters** — TextTiling, C99 and their neural
-successors. Baseline 4 makes no-model boundary placement the thing to understand before
-[006](issues/006-pass-d-boundary-refinement.md) is built.
+**Done, 2026-09-21: classical topic segmenters.** TextTiling measured against real labels
+rather than read about — see failure mode 4 above and
+[`eval/experiments/`](eval/experiments/texttiling_vs_labels.py). It does not reach clip
+granularity, so it is not a candidate generator and not a Pass C prior.
+
+**Most valuable next: evidence, not another codebase.** The README's three failure modes
+still come from reasoning about the category rather than from anyone complaining. That is
+failure mode 1, the one that costs most if true, and it lives in issue trackers and user
+threads, not in source. Baseline 4 remains the live threat to the thesis and is now the
+thing [006](issues/006-pass-d-boundary-refinement.md) has to beat.
 
 ## What would let building resume
 

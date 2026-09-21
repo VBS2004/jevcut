@@ -60,6 +60,13 @@ looks exactly like a model error in the logs.
 - [ ] `cuts.extract(transcript)` returns candidates at the target density.
 - [ ] **Recall check against the eval set (011): for ≥95% of human-labeled clip starts,
       a candidate exists within 1.0s.** This is the gating metric for this issue.
+      **Measured early and it may not be reachable:** against 48 human-placed boundaries on
+      real speech, caption-cue starts at 25/min — near this issue's target density — hit
+      **81% within 1.0s, 94% within 2.0s**
+      ([experiment](../eval/experiments/texttiling_vs_labels.py)). Those are not jevcut's
+      candidates (Whisper word timings should place them better than caption chunking) but
+      they are the right order of magnitude. Expect to either beat 81% by a clear margin or
+      move this bar to 2.0s with the reason recorded — do not quietly relax it.
       `coverage()` must compare against `t_start`/`t_end`, not `t` — measuring the midpoint
       against word-anchored human labels spends up to half a gap of the 1.0s tolerance on
       nothing.
@@ -72,6 +79,16 @@ looks exactly like a model error in the logs.
   skip it — a silent recall hole is the hardest bug in this system to diagnose.
 - Music beds and laughter destroy pause detection. Fall back to sentence ends when the
   pause-candidate rate collapses, and log when that happens.
+- **`sentence_end` lives or dies on punctuation.** In the transcripts used for the
+  experiment above, 5 of 6 sampled videos had *zero* cues ending in terminal punctuation —
+  auto-generated captions carry none. Whisper does punctuate, so jevcut is not exposed the
+  same way, but the primary candidate kind is one ASR setting away from vanishing. Count
+  sentence candidates per minute and fail loudly if the rate collapses, the same way the
+  pause fallback does.
+- **Do not try to derive pauses from caption cue timings.** The same transcripts are ~99%
+  contiguous (`564/583`, `682/683`, `358/358`) — each cue starts exactly where the last
+  ended, so inter-cue gaps are ~0 and a pause detector reading them finds nothing. Pauses
+  need word-level timings or real silence detection.
 
 ## Implementation note
 
