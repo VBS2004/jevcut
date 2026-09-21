@@ -71,6 +71,110 @@ costs credibility), cheap code-side pre-filtering, publishing real cost/latency 
 
 ## Non-Jev auto-clippers
 
+### [artbyjazi/autoclip](https://github.com/artbyjazi/autoclip)
+
+**The same product as jevcut, already shipped, built the other way.** Local-first, MIT,
+Python + React, ~9.6k LOC backend. yt-dlp ingest -> faster-whisper (+WhisperX diarization)
+-> LLM highlight detection -> MediaPipe speaker-tracked 9:16 reframe -> burned ASS captions
+-> export. Four providers (Anthropic/OpenAI/Gemini/Ollama) behind one Protocol.
+
+Read in full: `pipeline/boundaries.py`, `pipeline/highlights.py`, `providers/base.py`,
+`prompts/highlight_v1.txt`.
+
+**It reached "the model never emits a timestamp" without Jev.** The model returns
+`start_word_index`/`end_word_index`; the prompt says *"They are the only timing signal you
+provide — do not estimate seconds."* The transcript is rendered `[1042]word` per word, so
+"it never has to derive an index, only copy one". `providers/base.py` states the reason
+outright: *"a model that is bad at arithmetic — which they all are — cannot produce a clip
+that starts at the wrong moment."*
+
+> So ID-addressing is **not a Jev advantage** and must not be claimed as one. It follows
+> from every LLM being bad at numbers. What survives is narrower and stronger: autoclip has
+> the model **copy** an index, which can still be wrong — and `base.py` handles that by
+> *clamping* an out-of-range index into the window rather than rejecting it. A Choice over
+> enumerated IDs **cannot emit an invalid option at all.** Constraint by construction vs.
+> constraint by cleanup. That is the defensible difference.
+
+**Boundaries use zero model calls** — three deterministic passes in `boundaries.py`:
+
+1. sentence snap, +/-12 words; start ties resolve *earlier*, end ties resolve *later*
+2. duration clamp into 20-90s, always landing on a sentence end; if nothing fits, the
+   candidate is **dropped** rather than butchered
+3. silence alignment: find the measured silence trough within 0.75s, start 120ms before
+   speech, hold 280ms after the last word, stay 40ms clear of the silence edge because
+   silence detection has hysteresis and the true edge sits slightly inside
+
+This is [RESEARCH.md](../RESEARCH.md) failure modes 2 and 4 ("snapping is good enough",
+"classical methods already solve it") **in production**. The author treats boundary quality
+as settled; the open gate for their v0.1.0 is reframe quality, not boundaries.
+
+**It argues against a constant pad, and it is right.** `boundaries.py`: *"Padding by a
+constant clips breaths and plosives, because the gap before a word varies with how the
+speaker breathes. Cutting inside actual silence is where a human editor would put the
+blade."* This directly changed [009](../issues/009-edl-and-render.md), which specified a
+flat 150-250ms pre-roll.
+
+> Same reasoning changed [003](../issues/003-cut-point-extraction.md), which placed a cut
+> point at the **middle** of the silence. The decisive argument turned out to be
+> measurement, not audio: a midpoint makes a *correct* choice measure as wrong by half the
+> gap, always in the same direction, and worst at the long gaps where clip boundaries
+> actually sit — landing straight on `start_err_p90`, the M2 ship criterion. A cut point is
+> now a **gap**, resolved to `t_start`/`t_end` by the role it plays.
+
+**Convergent evidence on tie-breaks.** Start ties resolve earlier because *"starting
+slightly wide is recoverable while clipping the hook is not"*; end ties resolve later. Three
+independent projects — this, the sponsor repo's `KEEP_CONTENT`, and jevcut's own recorded
+rule — all land on **err wide when uncertain**. Treat that as settled.
+
+**No standalone gate, and a verification that does not exist.** Self-containment is a
+scoring criterion *inside the prompt*, never a check on the output; nothing re-examines the
+cut clip. That whole role is [007](../issues/007-pass-e-standalone-gate.md) and it is
+genuinely absent here. The prompt also asks for a `hook` field — *"quote the actual opening
+words of the clip, verbatim... This is used to verify the clip starts where you think it
+does."* Every use of `hook` in the backend stores it, ships it to the UI and renders it as a
+label. **It is never compared against the transcript.** The check described in the prompt
+was specced and not built.
+
+**The duration prior is where it should lose.** 20-90s hard range; `_clamp_duration` walks a
+short clip's end forward sentence by sentence *until it reaches 20s*. When that fires, the
+end boundary is chosen by the duration floor, not by where the thought ends.
+
+> Specific prediction for [013](../issues/013-baseline-comparison.md): autoclip's boundary
+> error should concentrate on clips near the 20s floor. If jevcut wins *there* and ties
+> elsewhere, the thesis is scoped-but-real — and we will know exactly what it is worth.
+
+**Patterns taken** (all four detailed in the issues they affect):
+
+- **Windows sized and stepped in *time*, converted back to word indices**, so overlap stays
+  constant regardless of speaking pace. 8 min windows / 60s overlap — far larger than the
+  sponsor repo's 80 lines, because the binding constraint is now attention, not tokens.
+- **Dedupe runs twice**: once on raw candidates, again *after* boundary refinement, because
+  refinement moves edges enough to create new overlaps. [008](../issues/008-pass-f-ranking.md)
+  will hit this exact bug. Greedy, highest score wins, IoU 0.4 on word ranges.
+- **One bad window never loses the video** — per-window try/except, log, continue.
+- **Validate -> retry with the actual validation error text** pasted into the repair prompt,
+  plus coercions for the things models emit anyway (scores as 0-1 floats, `null` for strings,
+  JSON wrapped in prose).
+
+> That last cluster is ~100 lines of defence against malformed generation plus a retry
+> round-trip. **jevcut pays none of it** — typed Jev output makes malformed responses
+> structurally impossible. That is a sharper cost-of-generation argument than the token
+> counts in [COST-MODEL.md](COST-MODEL.md), and it is currently unmade.
+
+**Nobody in this category has numbers.** Their README: *"Also unverified: whether the clip
+*picks* are good. That's a judgement call about your material and your model, and no test
+settles it."* The sponsor repo commits no eval results either. jevcut's
+[011](../issues/011-eval-set.md)/[012](../issues/012-metrics-harness.md) harness would be the
+first real measurement in the space — a stronger position than owning a better mechanism.
+
+**Taken:** time-stepped windowing, double dedupe, per-window failure isolation,
+silence-trough alignment over constant padding, the wide-on-uncertainty tie-break (confirmed,
+not new). **Rejected:** hard duration priors that override meaning, clamping invalid indices
+instead of making them unrepresentable. **Available as a baseline:** it installs and runs
+locally with Ollama — see [013](../issues/013-baseline-comparison.md).
+
+### Closed-source
+
 Opus Clip, Vizard, Klap and similar. Not studied in depth — closed pipelines — but their
 user complaints define the target: clips that start mid-sentence, clips that open on a
 pronoun with no referent, clips that end before the punchline. Those three complaints are
