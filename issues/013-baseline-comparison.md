@@ -36,7 +36,7 @@ and boundary logic differ.
 > likely to kill the project, and the two nothing here previously tested.
 >
 > It is shipped and runnable prior art, not a strawman: see
-> [autoclip](../docs/PRIOR-ART.md#artbyjazi-autoclip). Run autoclip end to end **once** as
+> [autoclip](../docs/PRIOR-ART.md#artbyjaziautoclip). Run autoclip end to end **once** as
 > a reality check, but do not use that as the baseline number — different ASR and renderer
 > make it uncontrolled.
 

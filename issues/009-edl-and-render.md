@@ -40,7 +40,7 @@ to rate, and an editable EDL is what makes a human's fix visible as data.
   150–250ms pre-roll (what this issue used to specify) is the wrong fix: the gap before a
   word varies with how the speaker breathes, so one constant clips plosives on a tight entry
   and leaves dead air on a slow one. autoclip states the reasoning and ships the fix — see
-  [PRIOR-ART](../docs/PRIOR-ART.md#artbyjazi-autoclip).
+  [PRIOR-ART](../docs/PRIOR-ART.md#artbyjaziautoclip).
 
   The chosen cut point already carries its own gap (`gap_ms` on `CutPoint`, see
   [003](003-cut-point-extraction.md)), so no separate silence lookup is needed — derive

@@ -230,6 +230,57 @@ not new). **Rejected:** hard duration priors that override meaning, clamping inv
 instead of making them unrepresentable. **Available as a baseline:** it installs and runs
 locally with Ollama — see [013](../issues/013-baseline-comparison.md).
 
+### [modelscope/FunClip](https://github.com/modelscope/FunClip)
+
+Alibaba/ModelScope, ~4.2k LOC, Gradio UI. ASR the video (FunASR/Paraformer, SenseVoice),
+then **the human searches or selects transcript text** and it cuts the video at those
+timestamps. Speaker diarization ("clip everything speaker 2 said") and a later LLM mode
+sit on top. Read `videoclipper.py`, `utils/trans_utils.py`, plus 40 issues.
+
+**The issue tracker is the find here, and it is the first real outside evidence this
+project has.** 40 issues read: ~17 install/dependency/environment, 5 timestamp-mapping
+bugs, 2 output-format, 1 silent failure, 3 feature requests. **Zero complaints that a clip
+was badly chosen, zero that a boundary was semantically wrong.**
+
+> Do not over-read that. FunClip does not *choose* clips — the user does — so it cannot be
+> evidence for [RESEARCH.md](../RESEARCH.md) failure mode 1. What it is evidence about is
+> where a transcript→timestamp system actually breaks, which is jevcut's architecture.
+
+**All three open bugs live in one 20-line function.** `proc()` maps text to time in three
+steps, each an unstated assumption:
+
+1. find the query string in the transcript;
+2. `ti = raw_text[:fi].count(' ')` — turn a character position into a word index by
+   counting spaces;
+3. `timestamp[ti][0] * 16` — index the timestamp array, multiply by 16.
+
+- `*16` is milliseconds → samples at 16 kHz, hardcoded, and appears ~6 times in one
+  function (`*16`, `/16000.0`). Non-16 kHz audio is silently wrong — **issue #214**.
+- Step 2 assumes the ASR emits one space-separated token per timestamp entry. Swap
+  Paraformer for SenseVoice and the format shifts, so the indices no longer line up. No
+  crash, just wrong times — **issue #215**.
+- On zero matches it sets `res_audio = data` and **returns the entire original video**,
+  distinguished only by a message — **issue #198**.
+
+**Why jevcut is structurally immune to all three.** FunClip does fuzzy string → word index
+→ array index → timestamp → samples: four conversions, four assumptions. jevcut does
+**ID → timestamp**, where the ID was minted by the same code that owns the timestamp. No
+string matching, no index arithmetic, and no sample rate in the maths at all — seconds as
+floats, converted once at render ([009](../issues/009-edl-and-render.md) should stay the
+only place a sample rate appears). This is a more concrete argument for "code owns the
+mapping" than "Jev cannot do numbers".
+
+**It also found a real bug in ours.** #198's shape — a degraded result shaped exactly like
+a healthy one — sent me to jevcut's own zero-result path, where `scan()` collected
+per-window failures, logged them, and returned only the anchors. Two anchors from a clean
+run and two from the one window that survived twenty 5xx's were the same value. Fixed in
+`0c37b83`: coverage travels with the anchors and reaches disk
+([005](../issues/005-pass-c-coarse-scan.md)).
+
+**Taken:** never put a sample rate in timestamp arithmetic; a degraded result must not be
+type-identical to a healthy one. **Rejected:** locating clips by matching transcript text,
+which is the whole bug family above.
+
 ### Closed-source
 
 Opus Clip, Vizard, Klap and similar. Not studied in depth — closed pipelines — but their
