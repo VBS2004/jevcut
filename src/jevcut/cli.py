@@ -12,13 +12,15 @@ import logging
 import sys
 from pathlib import Path
 
+from jevcut import boundaries as bounds_mod
 from jevcut import cuts as cuts_mod
 from jevcut.backends import load_env
 from jevcut.client import JevClient
 from jevcut.config import Config
+from jevcut.edl import Clip, render_clip, write_edl
 from jevcut.models import Transcript
 from jevcut.render import render_lines
-from jevcut.scan import scan, windows, write_scan
+from jevcut.scan import read_scan, scan, windows, write_scan
 from jevcut.transcript import ingest, sanity_check
 
 
@@ -127,6 +129,85 @@ def cmd_scan(args: argparse.Namespace) -> int:
     return 0 if result.coverage else 1
 
 
+def _overlap(a: Clip, b: Clip) -> float:
+    inter = max(0.0, min(a.t1, b.t1) - max(a.t0, b.t0))
+    union = max(a.t1, b.t1) - min(a.t0, b.t0)
+    return inter / union if union > 0 else 0.0
+
+
+def cmd_clip(args: argparse.Namespace) -> int:
+    """transcript.json -> edl.json -> mp4s. Boundaries are set in code (see RESEARCH.md)."""
+    load_env()
+    config = _config(args)
+    transcript = Transcript.from_json(args.transcript)
+    found = cuts_mod.extract(transcript, config)
+    print(f"{len(transcript)} sentences, {len(found)} cut points")
+
+    if args.anchors:
+        result = read_scan(args.anchors)
+        print(f"{len(result.anchors)} anchors from {args.anchors}")
+    else:
+        with JevClient(config) as client:
+            result = scan(client, transcript, config)
+            print(f"{len(result.anchors)} anchors, {client.summary()['requests']} requests")
+    if not result.complete:
+        print(
+            f"INCOMPLETE SCAN: {result.windows_failed}/{result.windows_total} windows failed "
+            f"({result.coverage:.0%} covered). Clips below are a floor, not a result."
+        )
+
+    clips: list[Clip] = []
+    for anchor in result.anchors:
+        b = bounds_mod.place(transcript, found, anchor.sentence_id, config)
+        if b is None:
+            print(f"  {anchor.sentence_id}: dropped, no boundary fits the duration band")
+            continue
+        clips.append(
+            Clip(
+                id=f"clip{len(clips) + 1:03d}",
+                anchor_id=anchor.sentence_id,
+                kind=anchor.kind,
+                t0=b.t0,
+                t1=b.t1,
+                render_t0=b.render_t0,
+                render_t1=b.render_t1,
+                start_cut=b.start_cut,
+                end_cut=b.end_cut,
+                text=" ".join(s.text for s in transcript.between(b.t0, b.t1)),
+                scores={"p_moment": anchor.p_moment, "anchor_confidence": anchor.anchor_confidence},
+            )
+        )
+
+    # Boundaries move, so two anchors that were distinct can now cover the same ground.
+    # This is the second dedupe; scan.dedupe already ran on the anchors themselves.
+    kept: list[Clip] = []
+    for c in sorted(clips, key=lambda c: -c.scores.get("p_moment", 0.0)):
+        if not any(_overlap(c, k) > 0.4 for k in kept):
+            kept.append(c)
+    kept.sort(key=lambda c: c.t0)
+    for i, c in enumerate(kept, start=1):
+        c.id, c.rank = f"clip{i:03d}", i
+
+    out_dir = Path(args.out or "clips")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if not args.anchors:
+        # So a re-run can pass --anchors and pay nothing for the scan again.
+        write_scan(result, out_dir / "anchors.json")
+    edl_path = out_dir / "edl.json"
+    write_edl(kept, edl_path, source=args.media or "")
+    print(f"\n{len(kept)} clips -> {edl_path}")
+    for c in kept:
+        print(f"  {c.id}  {c.t0:7.1f}-{c.t1:7.1f}s ({c.duration:4.1f}s) {c.kind:12} {c.text[:58]}")
+
+    if args.media:
+        for c in kept:
+            render_clip(args.media, c, out_dir / f"{c.id}.mp4")
+        print(f"rendered {len(kept)} mp4s into {out_dir}/")
+    else:
+        print("no --media, so nothing rendered; the EDL is enough to re-render later")
+    return 0
+
+
 def cmd_smoke(args: argparse.Namespace) -> int:
     """One live Noul against the API. Confirms key, model pinning and tracing."""
     from typesafe_sdk import Noul, NoulCriteria
@@ -194,6 +275,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("transcript")
     p.add_argument("--out")
     p.set_defaults(func=cmd_scan)
+
+    p = sub.add_parser("clip", help="transcript.json -> edl.json + mp4s")
+    p.add_argument("transcript")
+    p.add_argument("--media", help="source video; without it only the EDL is written")
+    p.add_argument("--anchors", help="reuse an anchors.json instead of scanning again")
+    p.add_argument("--out", help="output directory (default: clips/)")
+    p.set_defaults(func=cmd_clip)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
     p.add_argument("--text", default="And that's exactly why he refused to sign it.")
