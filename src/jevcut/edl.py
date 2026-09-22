@@ -48,13 +48,14 @@ class Clip:
 
 
 #: How much each dimension counts toward the ranking. Placeholders until 014 tunes
-#: them: hook leads because the opening decides whether anything else is seen, and
-#: `worth_clipping` is weighted lightly because it has so far scored 0.85-0.89 on
-#: everything, including clips a human rejected -- a near-constant carries little.
-RANK_WEIGHTS = {"hook": 0.5, "payoff": 0.3, "worth_clipping": 0.2}
+#: them: hook leads because the opening decides whether anything else is seen. The
+#: original third term, `worth_clipping`, was deleted -- it was flat across 38 clips and
+#: was asking the model to aggregate these two, which is code's job. Its 0.2 was
+#: redistributed in proportion, leaving the hook:payoff ratio unchanged.
+RANK_WEIGHTS = {"hook": 0.625, "payoff": 0.375}
 #: Score ranges, for normalising to 0-1 before weighting. A Score is an ordinal level,
 #: so this is a ranking convenience and never a claim that the levels are evenly spaced.
-SCORE_MAX = {"hook": 3.0, "payoff": 2.0, "worth_clipping": 1.0}
+SCORE_MAX = {"hook": 3.0, "payoff": 2.0}
 
 
 def composite(scores: dict) -> float:

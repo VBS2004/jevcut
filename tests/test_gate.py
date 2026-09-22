@@ -19,7 +19,7 @@ class StubBackend:
 
     #: High means good for these; for the rest high means a defect. A stub that
     #: defaults everything to 0.05 would mark every clip "not worth clipping".
-    POSITIVE = ("worth_clipping", "standalone")
+    POSITIVE = ("standalone",)
 
     def __init__(self, nouls=None, scores=None):
         self.nouls = nouls or {}
@@ -63,10 +63,9 @@ def test_the_state_is_the_clip_text_and_nothing_else(tmp_path):
     assert state == {"clip": {"text": "the words inside the cut"}}
 
 
-def test_all_eight_judgments_come_back(tmp_path):
+def test_all_seven_judgments_come_back(tmp_path):
     j = gate.verify(_client(tmp_path), "some clip")
     assert set(j.nouls) == {
-        "worth_clipping",
         "needs_the_room",
         "starts_mid_thought",
         "ends_mid_thought",
@@ -91,15 +90,15 @@ def test_a_clean_clip_ships(tmp_path):
     assert gate.verdict(gate.verify(_client(tmp_path), "x")).action == gate.SHIP
 
 
-def test_a_clip_not_worth_having_is_dropped_and_never_repaired(tmp_path):
-    """No boundary move turns connective tissue into a clip, so worth is decided first
-    and separately -- and a ragged edge on it is beside the point."""
-    j = gate.verify(
-        _client(tmp_path, nouls={"worth_clipping": 0.1, "starts_mid_thought": 0.9}), "x"
-    )
-    v = gate.verdict(j)
-    assert v.action == gate.DROP and not v.repairable
-    assert v.reasons == ["not worth clipping"]
+def test_worth_clipping_is_gone_on_purpose(tmp_path):
+    """Deleted after measuring: flattest of eight questions across 38 clips (0.07
+    normalised, and unbiased because it never gated, so unlike the others its spread was
+    not truncated by its own rejections), never once fired in 116 drops, and two wordings
+    behaved identically. It was asking the model to aggregate hook and payoff, which is
+    what the composite in edl.py does in code."""
+    j = gate.verify(_client(tmp_path), "x")
+    assert "worth_clipping" not in j.nouls
+    assert not hasattr(Config(), "worth_threshold")
 
 
 @pytest.mark.parametrize(

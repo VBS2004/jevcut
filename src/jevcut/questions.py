@@ -60,7 +60,7 @@ def scan_questions(line_ids: list[str]) -> dict:
 
 
 def verify_questions() -> dict:
-    """Pass E. One request per candidate clip, eight questions over the clip text alone.
+    """Pass E. One request per candidate clip, seven questions over the clip text alone.
 
     **The state is the cut text and nothing else** -- no title, no surrounding transcript.
     Given the context, the model resolves the dangling pronoun from it and calls the clip
@@ -69,9 +69,16 @@ def verify_questions() -> dict:
 
     Two kinds of question, and the difference decides what happens next:
 
-    * **Worth** -- `worth_clipping`, `needs_the_room`, `hook`, `payoff`. Irreparable. No
-      boundary move turns connective tissue into a clip, and none brings a show of hands
-      to someone watching later.
+    * **Worth** -- `needs_the_room`, `hook`, `payoff`. Irreparable: no boundary move
+      brings a show of hands to someone watching later.
+
+    There was a `worth_clipping` Noul here and it was deleted. Across 38 clips it had
+    the flattest distribution of any question (0.07 normalised, and unbiased because it
+    never gated, so unlike the others its spread was not truncated by its own
+    rejections), it never once fired in 116 drops, and two separate wordings behaved the
+    same. The reason is structural rather than verbal: "is this worth clipping" is
+    `hook` and `payoff` aggregated, so it asked the model to do the combining that the
+    composite-scoring pattern puts in code -- which then combined it again.
     * **Craft** -- the mid-thought pair, `dangling_reference`, `standalone`. Repairable by
       widening, because each one means "something the viewer needs is outside the cut".
 
@@ -85,22 +92,6 @@ def verify_questions() -> dict:
     """
     return {
         # --- worth: no boundary move fixes a no here ---------------------------------
-        "worth_clipping": Noul(
-            instructions=(
-                "Is there a reason for `clip.text` to exist on its own, away from "
-                "whatever it was taken from?"
-            ),
-            criteria=NoulCriteria(
-                true=(
-                    "It makes a point, recounts something that happened, or says "
-                    "something a listener would want to repeat"
-                ),
-                false=(
-                    "It is the material between those things: arranging what comes next, "
-                    "moving between subjects, or filling time"
-                ),
-            ),
-        ),
         "needs_the_room": Noul(
             instructions=(
                 "Does `clip.text` depend on something happening in the room that someone "

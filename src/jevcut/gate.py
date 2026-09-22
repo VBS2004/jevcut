@@ -91,19 +91,16 @@ class Verdict:
 def verdict(j: Judgment, config: Config | None = None, *, repairs_left: bool = False) -> Verdict:
     """Interim policy. Thresholds are guesses until 014 tunes them on real data.
 
-    **Worth is decided first, and separately.** No boundary move turns connective tissue
-    into a clip, so a clip that is not worth having is dropped and never repaired. Only
-    once it is worth having does how it is cut matter -- and then every craft failure is
-    a repair instruction rather than a rejection, because all of them mean "something the
-    viewer needs is outside the cut", which is a thing widening can fix.
+    **Worth is decided first, and separately.** A clip that cannot be made to work is
+    dropped and never repaired. Only once it can does how it is cut matter -- and then
+    every craft failure is a repair instruction rather than a rejection, because all of
+    them mean "something the viewer needs is outside the cut", which widening can fix.
 
     That ordering was the fix for a real failure: the first version ignored worth entirely
     in the verdict and dropped on craft, so a dull clip with tidy edges would ship while a
     strong moment with a ragged edge was thrown away.
     """
     config = config or Config()
-    if j.nouls.get("worth_clipping", 1.0) < config.worth_threshold:
-        return Verdict(DROP, ["not worth clipping"])
     # Invisible to every other question: the text can resolve perfectly while the thing
     # it resolves into is a show of hands nobody watching later can see.
     #

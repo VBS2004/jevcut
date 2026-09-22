@@ -87,7 +87,6 @@ class Config:
     # away. Repair on the low bar, reject on the high one -- found when a looser reject
     # bar let a clip pass before the repair loop had improved its opening.
     repair_threshold: float = 0.5
-    worth_threshold: float = 0.5  # below this a clip is dropped, never repaired
     # Measured on ten clips from one talk: the audience-vote clip scored 0.85 and
     # everything else 0.38 or below, so this sits in the gap rather than mid-range.
     needs_room_threshold: float = 0.5
