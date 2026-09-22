@@ -175,17 +175,26 @@ def cmd_clip(args: argparse.Namespace) -> int:
                 print(f"  {anchor.sentence_id}: dropped, no boundary fits the duration band")
                 continue
 
+            # Worth is settled first and never repaired; craft failures are repair
+            # instructions, so widen and re-ask until the clip works or the band runs out.
             judgment = gate_mod.verify(client, clip_text(b), config)
             v = gate_mod.verdict(judgment, config)
-            if not v.ok and v.widenable:
-                # One attempt, and only at the start: every failure it can fix is
-                # "something before this is missing".
-                wider = bounds_mod.widen_start(found, b, config)
-                if wider is not None:
-                    b = wider
-                    judgment = gate_mod.verify(client, clip_text(b), config)
-                    v = gate_mod.verdict(judgment, config)
-                    print(f"  {anchor.sentence_id}: widened to {b.duration:.0f}s")
+            for _ in range(config.max_repairs):
+                if not v.repairable:
+                    break
+                wider = bounds_mod.widen(
+                    found,
+                    b,
+                    start=v.action in (gate_mod.WIDEN_START, gate_mod.WIDEN_BOTH),
+                    end=v.action in (gate_mod.WIDEN_END, gate_mod.WIDEN_BOTH),
+                    config=config,
+                )
+                if wider is None:
+                    break  # the band is exhausted; better short than long and dull
+                b = wider
+                judgment = gate_mod.verify(client, clip_text(b), config)
+                v = gate_mod.verdict(judgment, config)
+
             if not v.ok:
                 print(f"  {anchor.sentence_id}: dropped -- {', '.join(v.reasons)}")
                 continue
@@ -210,6 +219,7 @@ def cmd_clip(args: argparse.Namespace) -> int:
                     },
                 )
             )
+            print(f"  {anchor.sentence_id}: kept ({b.duration:.0f}s)")
 
     # Boundaries move, so two anchors that were distinct can now cover the same ground.
     # This is the second dedupe; scan.dedupe already ran on the anchors themselves.

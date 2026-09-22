@@ -17,6 +17,10 @@ class StubBackend:
 
     name = "stub"
 
+    #: High means good for these; for the rest high means a defect. A stub that
+    #: defaults everything to 0.05 would mark every clip "not worth clipping".
+    POSITIVE = ("worth_clipping", "standalone")
+
     def __init__(self, nouls=None, scores=None):
         self.nouls = nouls or {}
         self.scores = scores or {}
@@ -27,7 +31,10 @@ class StubBackend:
         answers = {}
         for name, q in questions.items():
             if q.type == "noul":
-                answers[name] = Answer(type="noul", noul=self.nouls.get(name, 0.05), confidence=0.8)
+                default = 0.95 if name in self.POSITIVE else 0.05
+                answers[name] = Answer(
+                    type="noul", noul=self.nouls.get(name, default), confidence=0.8
+                )
             else:
                 answers[name] = Answer(
                     type="score",
@@ -56,9 +63,10 @@ def test_the_state_is_the_clip_text_and_nothing_else(tmp_path):
     assert state == {"clip": {"text": "the words inside the cut"}}
 
 
-def test_all_six_judgments_come_back(tmp_path):
+def test_all_seven_judgments_come_back(tmp_path):
     j = gate.verify(_client(tmp_path), "some clip")
     assert set(j.nouls) == {
+        "worth_clipping",
         "starts_mid_thought",
         "ends_mid_thought",
         "dangling_reference",
@@ -75,43 +83,56 @@ def test_score_distributions_are_kept_not_just_the_expectation(tmp_path):
     assert j.confidence["standalone"] == 0.8
 
 
-# --- the verdict --------------------------------------------------------------
+# --- the verdict: worth first, then craft -------------------------------------
 
 
-def test_a_clean_clip_passes(tmp_path):
-    j = gate.verify(_client(tmp_path, nouls={"standalone": 0.95}), "x")
-    assert gate.verdict(j).ok
+def test_a_clean_clip_ships(tmp_path):
+    assert gate.verdict(gate.verify(_client(tmp_path), "x")).action == gate.SHIP
+
+
+def test_a_clip_not_worth_having_is_dropped_and_never_repaired(tmp_path):
+    """No boundary move turns connective tissue into a clip, so worth is decided first
+    and separately -- and a ragged edge on it is beside the point."""
+    j = gate.verify(
+        _client(tmp_path, nouls={"worth_clipping": 0.1, "starts_mid_thought": 0.9}), "x"
+    )
+    v = gate.verdict(j)
+    assert v.action == gate.DROP and not v.repairable
+    assert v.reasons == ["not worth clipping"]
 
 
 @pytest.mark.parametrize(
-    "noul,reason",
+    "noul,action,reason",
     [
-        ("starts_mid_thought", "starts mid-thought"),
-        ("dangling_reference", "dangling reference"),
-        ("ends_mid_thought", "ends mid-thought"),
+        ("starts_mid_thought", gate.WIDEN_START, "starts mid-thought"),
+        ("dangling_reference", gate.WIDEN_START, "dangling reference"),
+        ("ends_mid_thought", gate.WIDEN_END, "ends mid-thought"),
     ],
 )
-def test_each_defect_is_named(tmp_path, noul, reason):
-    j = gate.verify(_client(tmp_path, nouls={noul: 0.9, "standalone": 0.9}), "x")
-    v = gate.verdict(j)
-    assert not v.ok and reason in v.reasons
+def test_each_craft_defect_asks_for_the_right_edge(tmp_path, noul, action, reason):
+    """Every craft failure means something the viewer needs is outside the cut, so it is
+    a repair instruction, not a rejection. Which edge depends on which failure."""
+    v = gate.verdict(gate.verify(_client(tmp_path, nouls={noul: 0.9}), "x"))
+    assert v.action == action and reason in v.reasons and v.repairable
 
 
-def test_a_missing_setup_is_widenable_but_a_missing_payoff_is_not(tmp_path):
-    """More setup fixes what came before the clip. Nothing fixes an unfinished ending."""
-    before = gate.verify(
-        _client(tmp_path, nouls={"dangling_reference": 0.9, "standalone": 0.9}), "x"
+def test_defects_at_both_ends_widen_both(tmp_path):
+    j = gate.verify(
+        _client(tmp_path, nouls={"starts_mid_thought": 0.9, "ends_mid_thought": 0.9}), "x"
     )
-    assert gate.verdict(before).widenable
-
-    after = gate.verify(_client(tmp_path, nouls={"ends_mid_thought": 0.9, "standalone": 0.9}), "x")
-    assert not gate.verdict(after).widenable
+    assert gate.verdict(j).action == gate.WIDEN_BOTH
 
 
-def test_a_clip_nobody_could_follow_fails_even_with_no_specific_defect(tmp_path):
-    j = gate.verify(_client(tmp_path, nouls={"standalone": 0.1}), "x")
-    v = gate.verdict(j)
-    assert not v.ok and "not standalone" in v.reasons
+def test_a_payoff_that_never_lands_reaches_forward(tmp_path):
+    """Level 0 is "sets something up and never returns to it" -- the end arriving early,
+    which more clip can fix."""
+    v = gate.verdict(gate.verify(_client(tmp_path, scores={"payoff": 0.0}), "x"))
+    assert v.action == gate.WIDEN_END and "payoff never lands" in v.reasons
+
+
+def test_standalone_alone_does_not_say_which_edge_is_short(tmp_path):
+    v = gate.verdict(gate.verify(_client(tmp_path, nouls={"standalone": 0.1}), "x"))
+    assert v.action == gate.WIDEN_BOTH and "not standalone" in v.reasons
 
 
 # --- widening -----------------------------------------------------------------

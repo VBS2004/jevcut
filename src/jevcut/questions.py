@@ -60,75 +60,120 @@ def scan_questions(line_ids: list[str]) -> dict:
 
 
 def verify_questions() -> dict:
-    """Pass E. One request per candidate clip, six questions over the clip text alone.
+    """Pass E. One request per candidate clip, seven questions over the clip text alone.
 
     **The state is the cut text and nothing else** -- no title, no surrounding transcript.
     Given the context, the model resolves the dangling pronoun from it and calls the clip
     fine; the viewer cannot. Putting the model exactly where the viewer sits is the whole
     mechanism, and it is the one thing to not "improve" by adding helpful context.
 
-    This is where Jev earns its place now that code owns boundaries: no offset, snap or
-    silence detector can tell you a clip opens on a pronoun with no referent. There is
-    nothing to compute -- it has to be read.
+    Two kinds of question, and the difference decides what happens next:
 
-    Four Nouls and two Scores, because the first four name a defect code can act on and
-    the last two feed ranking. Each Noul is absolute, so all four can be low at once.
+    * **Worth** -- `worth_clipping`, `hook`, `payoff`. Irreparable. No boundary move turns
+      connective tissue into a clip.
+    * **Craft** -- the mid-thought pair, `dangling_reference`, `standalone`. Repairable by
+      widening, because each one means "something the viewer needs is outside the cut".
+
+    **Criteria describe situations, never words.** Two earlier versions of these questions
+    listed the openings that counted as broken, then listed the ones that did not. Both
+    were the same mistake: enumerating surface forms for a model that reads meaning. The
+    first told it that starting on a conjunction was a defect, which is true of prose and
+    false of speech, and every excerpt of a real talk failed. Describe what is true of the
+    content and let it judge -- that is what the Score guidance in PRIOR-ART means by
+    levels describing situations.
     """
     return {
-        "starts_mid_thought": Noul(
+        # --- worth: no boundary move fixes a no here ---------------------------------
+        "worth_clipping": Noul(
             instructions=(
-                "Does the first sentence of `clip.text` begin in the middle of a thought -- "
-                "continuing a sentence that started earlier, or answering a question that is "
-                "not in `clip.text`?"
+                "Is there a reason for `clip.text` to exist on its own, away from "
+                "whatever it was taken from?"
             ),
             criteria=NoulCriteria(
-                true="Opens on 'and so', 'but then', 'yeah exactly', or an answer with no question",
-                false="Opens on a complete thought of its own",
+                true=(
+                    "It makes a point, recounts something that happened, or says "
+                    "something a listener would want to repeat"
+                ),
+                false=(
+                    "It is the material between those things: arranging what comes next, "
+                    "moving between subjects, or filling time"
+                ),
+            ),
+        ),
+        # --- craft: a yes here is a boundary problem, not a content problem -----------
+        "starts_mid_thought": Noul(
+            instructions=(
+                "A viewer begins watching at the first word of `clip.text`, having heard "
+                "nothing before it. Does the opening leave them unable to follow what is "
+                "being talked about?"
+            ),
+            criteria=NoulCriteria(
+                true=(
+                    "The opening depends on something the viewer was not given: it "
+                    "finishes a thought that began earlier, or replies to something said "
+                    "before the clip"
+                ),
+                false=(
+                    "The opening carries enough on its own for the viewer to follow it "
+                    "from the first line"
+                ),
             ),
         ),
         "ends_mid_thought": Noul(
-            instructions="Does `clip.text` stop before its last sentence is finished?",
+            instructions="Does `clip.text` stop before the point it was making arrives?",
             criteria=NoulCriteria(
-                true="The final sentence is cut off or leads into something not included",
-                false="The final sentence completes",
+                true=(
+                    "It stops while the speaker is still getting somewhere, leaving the "
+                    "viewer waiting for the rest"
+                ),
+                false=(
+                    "What the clip was building to has arrived by the time it ends, "
+                    "whatever the speaker went on to say afterwards"
+                ),
             ),
         ),
         "dangling_reference": Noul(
             instructions=(
-                "Does `clip.text` refer to a person, place or thing using a word like 'he', "
-                "'she', 'they', 'it', 'this' or 'that' without ever naming what it refers to "
-                "inside `clip.text`?"
+                "Does `clip.text` turn on something the viewer cannot identify from the clip alone?"
             ),
             criteria=NoulCriteria(
-                true="A pronoun or 'that thing' points at something never named in this text",
-                false="Everything referred to is named somewhere in this text",
+                true=(
+                    "The point rests on some person, thing or event that is never "
+                    "identified here, so the viewer cannot tell what is meant"
+                ),
+                false=(
+                    "Whatever the point rests on is identified here or plain from what is "
+                    "said. Something mentioned in passing that the point does not depend "
+                    "on is not a problem"
+                ),
             ),
         ),
         "standalone": Noul(
             instructions=(
-                "Would a viewer who has seen nothing else understand `clip.text` from "
-                "beginning to end?"
+                "Would a viewer who has seen nothing else follow `clip.text` from beginning to end?"
             ),
             criteria=NoulCriteria(
-                true="Self-contained: the subject is named and the point is completed here",
-                false="Requires something said before or after this text",
+                true=("What it is about and where it arrives are both inside the clip"),
+                false="Following it needs something the viewer was never given",
             ),
         ),
+        # --- scores: feed ranking, and a floor on payoff feeds the verdict ------------
         "hook": Score(
             instructions="How well does the opening of `clip.text` hold attention?",
             criteria=[
-                "Opens on logistics, throat-clearing, or an unfinished thought",
-                "Opens on a plain statement of the subject",
-                "Opens on a question, a claim someone would argue with, or a vivid image",
-                "Opens on something a viewer would stop scrolling to hear the rest of",
+                "It is housekeeping, hesitation, or a thought already underway",
+                "It states plainly what is about to be discussed",
+                "It raises a question, makes a claim worth arguing with, or puts an image "
+                "in front of the listener",
+                "It is the kind of opening that stops someone who was about to look away",
             ],
         ),
         "payoff": Score(
             instructions="Does `clip.text` deliver what its opening sets up?",
             criteria=[
-                "Sets something up and never returns to it",
-                "Partly answers it; the rest is left hanging",
-                "The point, outcome or punchline is stated plainly inside the text",
+                "It raises something and never comes back to it",
+                "It comes back to it partly, leaving the rest open",
+                "What it was building to is stated outright before it ends",
             ],
         ),
     }

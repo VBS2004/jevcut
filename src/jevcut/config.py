@@ -64,6 +64,10 @@ class Config:
     # --- gates (007/008) --- PLACEHOLDER until 014
     mid_thought_threshold: float = 0.5
     dangling_ref_threshold: float = 0.5
+    standalone_threshold: float = 0.5
+    worth_threshold: float = 0.5  # below this a clip is dropped, never repaired
+    payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
+    max_repairs: int = 3  # widen attempts before giving up on a clip
     duration_band_s: tuple[float, float] = (25.0, 75.0)
 
     # --- live (016) --- PLACEHOLDER until 014

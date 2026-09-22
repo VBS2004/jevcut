@@ -162,6 +162,53 @@ def align_end(cut: CutPoint) -> float:
     return min(latest, cut.t_end + SILENCE_TAIL_S)
 
 
+def widen(
+    cuts: list[CutPoint],
+    boundary: Boundary,
+    *,
+    start: bool = False,
+    end: bool = False,
+    config: Config | None = None,
+) -> Boundary | None:
+    """Reach out one cut point on the requested edge(s), or ``None`` if it cannot.
+
+    Every craft failure the gate can report means "something the viewer needs is outside
+    the cut", so the answer is more clip, not no clip. Which edge depends on which
+    failure: a start that opens mid-thought needs what came before, an end that stops
+    early needs what came after. Returning ``None`` when the duration band is exhausted
+    is what stops "widen instead of discard" from growing clips until they are long and
+    dull.
+    """
+    config = config or Config()
+    _, high = config.duration_band_s
+    t0, t1 = boundary.t0, boundary.t1
+    start_cut = end_cut = None
+
+    if start:
+        earlier = [c for c in cuts if c.t_start < boundary.t0]
+        if not earlier:
+            return None
+        start_cut = max(earlier, key=lambda c: c.t_start)
+        t0 = start_cut.t_start
+    if end:
+        later = [c for c in cuts if c.t_end > boundary.t1]
+        if not later:
+            return None
+        end_cut = min(later, key=lambda c: c.t_end)
+        t1 = end_cut.t_end
+
+    if t1 - t0 > high:
+        return None
+    return Boundary(
+        t0=t0,
+        t1=t1,
+        render_t0=align_start(start_cut) if start_cut else boundary.render_t0,
+        render_t1=align_end(end_cut) if end_cut else boundary.render_t1,
+        start_cut=start_cut.id if start_cut else boundary.start_cut,
+        end_cut=end_cut.id if end_cut else boundary.end_cut,
+    )
+
+
 def widen_start(
     cuts: list[CutPoint],
     boundary: Boundary,
@@ -174,19 +221,4 @@ def widen_start(
     Returns ``None`` when there is no earlier cut, or when taking it would push the clip
     out of the duration band -- at which point the clip is dropped rather than bloated.
     """
-    config = config or Config()
-    _, high = config.duration_band_s
-    earlier = [c for c in cuts if c.t_start < boundary.t0]
-    if not earlier:
-        return None
-    start = max(earlier, key=lambda c: c.t_start)
-    if boundary.t1 - start.t_start > high:
-        return None
-    return Boundary(
-        t0=start.t_start,
-        t1=boundary.t1,
-        render_t0=align_start(start),
-        render_t1=boundary.render_t1,
-        start_cut=start.id,
-        end_cut=boundary.end_cut,
-    )
+    return widen(cuts, boundary, start=True, config=config)

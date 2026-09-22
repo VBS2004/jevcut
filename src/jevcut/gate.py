@@ -63,37 +63,67 @@ def verify(client: JevClient, text: str, config: Config | None = None) -> Judgme
     return j
 
 
+#: What to do with a clip. Only `drop` is final.
+SHIP, DROP, WIDEN_START, WIDEN_END, WIDEN_BOTH = (
+    "ship",
+    "drop",
+    "widen_start",
+    "widen_end",
+    "widen_both",
+)
+
+
 @dataclass(slots=True)
 class Verdict:
-    ok: bool
-    #: Why it failed, in the order a human would fix them. Empty when `ok`.
+    action: str
+    #: Why, in the order a human would fix them. Empty when shipping.
     reasons: list[str] = field(default_factory=list)
-    #: True when the failures are all "something before this is missing", which widening
-    #: the start can actually fix. A clip that ends mid-thought or has no payoff cannot
-    #: be rescued by more setup.
-    widenable: bool = False
+
+    @property
+    def ok(self) -> bool:
+        return self.action == SHIP
+
+    @property
+    def repairable(self) -> bool:
+        return self.action in (WIDEN_START, WIDEN_END, WIDEN_BOTH)
 
 
 def verdict(j: Judgment, config: Config | None = None) -> Verdict:
     """Interim policy. Thresholds are guesses until 014 tunes them on real data.
 
-    Deliberately strict: a missed clip costs nothing and a bad one costs credibility,
-    which is the under-clip philosophy taken from jev-skip (docs/PRIOR-ART.md).
+    **Worth is decided first, and separately.** No boundary move turns connective tissue
+    into a clip, so a clip that is not worth having is dropped and never repaired. Only
+    once it is worth having does how it is cut matter -- and then every craft failure is
+    a repair instruction rather than a rejection, because all of them mean "something the
+    viewer needs is outside the cut", which is a thing widening can fix.
+
+    That ordering was the fix for a real failure: the first version ignored worth entirely
+    in the verdict and dropped on craft, so a dull clip with tidy edges would ship while a
+    strong moment with a ragged edge was thrown away.
     """
     config = config or Config()
-    reasons = []
-    if j.nouls.get("starts_mid_thought", 0.0) >= config.mid_thought_threshold:
-        reasons.append("starts mid-thought")
-    if j.nouls.get("dangling_reference", 0.0) >= config.dangling_ref_threshold:
-        reasons.append("dangling reference")
-    if j.nouls.get("ends_mid_thought", 0.0) >= config.mid_thought_threshold:
-        reasons.append("ends mid-thought")
-    if j.nouls.get("standalone", 1.0) < 0.5:
-        reasons.append("not standalone")
+    if j.nouls.get("worth_clipping", 1.0) < config.worth_threshold:
+        return Verdict(DROP, ["not worth clipping"])
+    # The lowest payoff level is "sets something up and never returns to it". That is the
+    # end arriving too early, which widening forward can fix -- unlike a missing point.
+    if j.scores.get("payoff", 2.0) < config.payoff_floor:
+        return Verdict(WIDEN_END, ["payoff never lands"])
 
-    fixable = {"starts mid-thought", "dangling reference", "not standalone"}
-    return Verdict(
-        ok=not reasons,
-        reasons=reasons,
-        widenable=bool(reasons) and set(reasons) <= fixable,
-    )
+    before, after = [], []
+    if j.nouls.get("starts_mid_thought", 0.0) >= config.mid_thought_threshold:
+        before.append("starts mid-thought")
+    if j.nouls.get("dangling_reference", 0.0) >= config.dangling_ref_threshold:
+        before.append("dangling reference")
+    if j.nouls.get("ends_mid_thought", 0.0) >= config.mid_thought_threshold:
+        after.append("ends mid-thought")
+
+    if not before and not after:
+        # `standalone` is a summary judgment, so on its own it does not say which edge is
+        # short. Reach in both directions and let the next round narrow it down.
+        if j.nouls.get("standalone", 1.0) < config.standalone_threshold:
+            return Verdict(WIDEN_BOTH, ["not standalone"])
+        return Verdict(SHIP)
+
+    if before and after:
+        return Verdict(WIDEN_BOTH, before + after)
+    return Verdict(WIDEN_START if before else WIDEN_END, before + after)
