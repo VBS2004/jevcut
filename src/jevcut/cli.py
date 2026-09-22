@@ -199,6 +199,33 @@ def cmd_clip(args: argparse.Namespace) -> int:
 
             # Repairs are spent (or none helped); judge on the reject bar.
             v = gate_mod.verdict(judgment, config)
+
+            # Widening only ever adds, so a clip keeps whatever it picked up on the way
+            # to passing. Now try the other direction: trim an edge and keep the smaller
+            # version only while it still passes. End first -- padding accumulates there.
+            if v.ok:
+                # Passing is not the same as being best. A greedy shrink goes to the
+                # smallest version that still passes and throws away quality the pass/fail
+                # does not see -- it cut "That guy, Terrence, is always talking about open
+                # source" down to "That's the culture of this organization", and both
+                # passed. So the scores guard the trim: `hook` protects the opening and
+                # `payoff` protects the ending, and a trim that costs either is refused.
+                guard = {"start": "hook", "end": "payoff"}
+                for edge in ("end", "start"):
+                    for _ in range(config.max_tightens):
+                        smaller = bounds_mod.tighten(
+                            found, b, start=edge == "start", end=edge == "end", config=config
+                        )
+                        if smaller is None:
+                            break
+                        trial = gate_mod.verify(client, clip_text(smaller), config)
+                        if not gate_mod.verdict(trial, config).ok:
+                            break
+                        key = guard[edge]
+                        if trial.scores.get(key, 0.0) < judgment.scores.get(key, 0.0):
+                            break  # shorter, but worse where it matters
+                        b, judgment = smaller, trial
+
             if not v.ok:
                 print(f"  {anchor.sentence_id}: dropped -- {', '.join(v.reasons)}")
                 continue

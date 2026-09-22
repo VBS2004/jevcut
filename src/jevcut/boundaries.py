@@ -230,3 +230,56 @@ def widen_start(
     out of the duration band -- at which point the clip is dropped rather than bloated.
     """
     return widen(cuts, boundary, start=True, config=config)
+
+
+def tighten(
+    cuts: list[CutPoint],
+    boundary: Boundary,
+    *,
+    start: bool = False,
+    end: bool = False,
+    config: Config | None = None,
+) -> Boundary | None:
+    """Pull an edge in by one cut point -- the mirror of :func:`widen`.
+
+    The repair loop can only ever add, so a clip stops growing the moment it passes and
+    keeps whatever it picked up on the way. Nothing in the gate penalises padding:
+    `ends_mid_thought` catches an end arriving too early and there is no question for one
+    arriving too late. So after a clip works, try making it smaller and keep the smaller
+    version only while it still works.
+
+    Returns ``None`` when there is no inner cut or the clip would fall under the duration
+    band -- shorter is better only while the thought survives.
+    """
+    config = config or Config()
+    low, _ = config.duration_band_s
+    t0, t1 = boundary.t0, boundary.t1
+    start_cut = end_cut = None
+
+    def reachable(pool: list[CutPoint]) -> list[CutPoint]:
+        good = [c for c in pool if CUT_PREFERENCE.get(c.kind, 0) >= CUT_PREFERENCE["sentence_end"]]
+        return good or pool
+
+    if start:
+        inner = reachable([c for c in cuts if boundary.t0 < c.t_start < boundary.t1])
+        if not inner:
+            return None
+        start_cut = min(inner, key=lambda c: c.t_start)
+        t0 = start_cut.t_start
+    if end:
+        inner = reachable([c for c in cuts if boundary.t0 < c.t_end < boundary.t1])
+        if not inner:
+            return None
+        end_cut = max(inner, key=lambda c: c.t_end)
+        t1 = end_cut.t_end
+
+    if t1 - t0 < low:
+        return None
+    return Boundary(
+        t0=t0,
+        t1=t1,
+        render_t0=align_start(start_cut) if start_cut else boundary.render_t0,
+        render_t1=align_end(end_cut) if end_cut else boundary.render_t1,
+        start_cut=start_cut.id if start_cut else boundary.start_cut,
+        end_cut=end_cut.id if end_cut else boundary.end_cut,
+    )

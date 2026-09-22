@@ -126,3 +126,30 @@ def test_widening_steps_to_a_real_boundary_not_just_the_nearest_cut():
     wider = boundaries.widen(cuts, b, start=True, config=config)
     assert wider is not None
     assert by_id[wider.start_cut].kind != "pause", "widened onto a mid-sentence pause"
+
+
+def test_tightening_pulls_an_edge_in_and_respects_the_floor():
+    """Widening only ever adds, so a clip keeps whatever it collected on the way to
+    passing. Tightening is how that padding comes back off."""
+    config = Config()
+    t = _transcript()
+    cuts = cuts_mod.extract(t, config)
+    b = boundaries.place(t, cuts, t.sentences[60].id, config)
+
+    smaller = boundaries.tighten(cuts, b, end=True, config=config)
+    assert smaller is not None
+    assert smaller.t1 < b.t1 and smaller.t0 == b.t0
+    assert smaller.duration >= config.duration_band_s[0], "never trim below the band"
+
+    floor = Config(duration_band_s=(b.duration - 0.1, config.duration_band_s[1]))
+    assert boundaries.tighten(cuts, b, end=True, config=floor) is None
+
+
+def test_tightening_also_lands_on_a_real_boundary():
+    config = Config()
+    t = _transcript()
+    cuts = cuts_mod.extract(t, config)
+    b = boundaries.place(t, cuts, t.sentences[60].id, config)
+    by_id = {c.id: c for c in cuts}
+    smaller = boundaries.tighten(cuts, b, end=True, config=config)
+    assert by_id[smaller.end_cut].kind != "pause"
