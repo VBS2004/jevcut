@@ -3,7 +3,8 @@
 import pytest
 
 from conftest import speech
-from jevcut import boundaries, cuts as cuts_mod
+from jevcut import boundaries
+from jevcut import cuts as cuts_mod
 from jevcut.config import Config
 from jevcut.models import CutPoint, Transcript
 from jevcut.transcript import segment_words
