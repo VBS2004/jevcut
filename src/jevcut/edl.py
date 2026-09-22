@@ -47,6 +47,29 @@ class Clip:
         return asdict(self)
 
 
+#: How much each dimension counts toward the ranking. Placeholders until 014 tunes
+#: them: hook leads because the opening decides whether anything else is seen, and
+#: `worth_clipping` is weighted lightly because it has so far scored 0.85-0.89 on
+#: everything, including clips a human rejected -- a near-constant carries little.
+RANK_WEIGHTS = {"hook": 0.5, "payoff": 0.3, "worth_clipping": 0.2}
+#: Score ranges, for normalising to 0-1 before weighting. A Score is an ordinal level,
+#: so this is a ranking convenience and never a claim that the levels are evenly spaced.
+SCORE_MAX = {"hook": 3.0, "payoff": 2.0, "worth_clipping": 1.0}
+
+
+def composite(scores: dict) -> float:
+    """One number for ordering clips, from judgments made independently.
+
+    Code owns the weights, following the composite-scoring pattern: the model scores
+    each dimension on its own and never sees how they are combined, so reweighting
+    costs nothing and invalidates no stored judgment.
+    """
+    return sum(
+        weight * min(scores.get(name, 0.0) / SCORE_MAX[name], 1.0)
+        for name, weight in RANK_WEIGHTS.items()
+    )
+
+
 def write_edl(clips: list[Clip], path: str | Path, *, source: str = "") -> None:
     Path(path).write_text(
         json.dumps(

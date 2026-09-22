@@ -18,7 +18,7 @@ from jevcut import gate as gate_mod
 from jevcut.backends import load_env
 from jevcut.client import JevClient
 from jevcut.config import Config
-from jevcut.edl import Clip, render_clip, write_edl
+from jevcut.edl import Clip, composite, render_clip, write_edl
 from jevcut.models import Transcript
 from jevcut.render import render_lines
 from jevcut.scan import read_scan, scan, windows, write_scan
@@ -258,9 +258,12 @@ def cmd_clip(args: argparse.Namespace) -> int:
     for c in sorted(clips, key=lambda c: -c.scores.get("p_moment", 0.0)):
         if not any(_overlap(c, k) > 0.4 for k in kept):
             kept.append(c)
-    kept.sort(key=lambda c: c.t0)
+    # Ranked best-first, not in time order: the point of a ranking is that the top of
+    # the list is where a human should start watching.
+    kept.sort(key=lambda c: -composite(c.scores))
     for i, c in enumerate(kept, start=1):
         c.id, c.rank = f"clip{i:03d}", i
+        c.scores["composite"] = round(composite(c.scores), 3)
 
     out_dir = Path(args.out or "clips")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -271,7 +274,11 @@ def cmd_clip(args: argparse.Namespace) -> int:
     write_edl(kept, edl_path, source=args.media or "")
     print(f"\n{len(kept)} clips -> {edl_path}")
     for c in kept:
-        print(f"  {c.id}  {c.t0:7.1f}-{c.t1:7.1f}s ({c.duration:4.1f}s) {c.kind:12} {c.text[:58]}")
+        sc = c.scores
+        print(
+            f"  {c.id}  {sc['composite']:.2f}  {c.t0:7.1f}-{c.t1:7.1f}s ({c.duration:4.1f}s) "
+            f"hook {sc.get('hook', 0):.1f} payoff {sc.get('payoff', 0):.1f}  {c.text[:44]}"
+        )
 
     if args.media:
         for c in kept:
