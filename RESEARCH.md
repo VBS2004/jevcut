@@ -1,6 +1,21 @@
 # Research phase
 
-**Status: active. Building is paused at issue 006.**
+**Status: concluded 2026-09-22. Building resumes, with the design changed.**
+
+The thesis was not killed and was not confirmed — it was **outgrown**. Five experiments
+measured boundary placement and arithmetic stayed competitive every time; the sixth showed
+why the proxies could never have decided it. Meanwhile the questions no constant can answer
+even in principle went untested the whole time.
+
+**The decision:** code owns boundaries, Jev owns judgment. Sentence snap plus
+silence alignment sets `t0`/`t1` with no model call. Jev is spent on *is this worth
+clipping, does it stand alone, does the payoff land* — where there is no offset, snap or
+rule that competes, because arithmetic has nothing to work from.
+
+This is the outcome this document pre-registered under failure mode 4: *"the honest move is
+to use it for boundaries and reserve Jev for the judgments that genuinely need semantics.
+That is a better product than the one currently designed, not a defeat."* It went that way.
+See the decision log in [ROADMAP.md](ROADMAP.md).
 
 Issues 001–003 and 005 are built and live-verified (PR #1). The pause is deliberate:
 the design in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) was derived from skimming

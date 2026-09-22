@@ -41,7 +41,9 @@ redesign rather than building M3 on a false premise.
 
 ### M1 — VOD pipeline
 - [005 — Pass C: coarse scan for anchors](issues/005-pass-c-coarse-scan.md)
-- [006 — Pass D: boundary refinement](issues/006-pass-d-boundary-refinement.md)
+- [006 — Pass D: boundary refinement](issues/006-pass-d-boundary-refinement.md) — **off the
+  critical path.** Boundaries are set in code now; revisit only if the gate shows the code
+  boundaries are what is wrong with the clips
 - [007 — Pass E: standalone gate](issues/007-pass-e-standalone-gate.md)
 - [008 — Pass F: ranking, gates and overlap resolution](issues/008-pass-f-ranking.md)
 - [009 — EDL output and ffmpeg render](issues/009-edl-and-render.md)
@@ -85,3 +87,4 @@ Things that would change the plan, and what we'd do:
 | `jev-latest` moves mid-project | Pin the old version ID, re-run 012 on both, migrate deliberately |
 | Pass C recall is low and the misses are non-verbal (012) | **Not a threshold problem.** Don't loosen `contains_moment` — that row above applies to verbal misses only. Event clips need [021](issues/021-event-clips.md) |
 | Event clips turn out to need no Choice (mechanical boundaries) | Thesis is scoped to verbal content, not general. Say so; it's a finding, not a defeat |
+| **RESOLVED 2026-09-22 — arithmetic stayed competitive at boundaries across 5 experiments** | **Design changed: code owns boundaries (snap + silence align, no model call), Jev owns judgment (worth / standalone / payoff). 006 leaves the critical path; 007 joins it.** See [RESEARCH.md](RESEARCH.md) |

@@ -35,19 +35,29 @@ problem**, and boundaries are where existing Jev-based tools are weakest too:
 
 ## What jevcut does differently
 
-1. **Boundaries are a `Choice` over enumerated cut points.** Code finds every plausible
-   cut (sentence end, speech pause ≥350ms, shot change) and labels them `C01…Cnn`. Jev
-   picks which one is the start and which is the stop. Jev never emits a timestamp — the
-   jaggedness docs are explicit that it can't do numbers, and that bounded extraction
-   should be a Choice over options. See [docs/QUESTIONS.md](docs/QUESTIONS.md).
+1. **Boundaries are set in code, not by a model.** Code enumerates every plausible cut
+   (sentence end, speech pause ≥350ms, speaker change), snaps the clip to a sentence
+   boundary and aligns the edges into the measured silence — no request, no latency, no
+   cost. *This started as the opposite claim.* Six experiments later, a tuned constant
+   offset kept matching or beating a `Choice` over cut points on every boundary task we
+   could measure, so the claim changed to match the evidence. The reasoning is in
+   [RESEARCH.md](RESEARCH.md), and the experiments are committed in
+   [`eval/experiments/`](eval/experiments/) for anyone who wants to disagree with them.
+
+   **Jev is spent where arithmetic cannot compete even in principle:** whether a moment is
+   worth clipping, whether the clip stands alone, whether the payoff lands inside the cut.
+   No offset or snapping rule answers those — there is nothing for it to compute on.
 
 2. **A cascade, not dense scoring.** A cheap windowed pass finds candidate anchors; only
    survivors get the expensive boundary + verification passes. Est. ~8× fewer tokens and
    ~20× fewer requests than scoring every sentence. See [docs/COST-MODEL.md](docs/COST-MODEL.md).
 
-3. **An explicit standalone gate.** Dedicated Nouls for the failure modes that actually
-   kill clips: starts mid-thought, dangling pronoun, payoff never lands. A clip that fails
-   the gate is widened or dropped — never shipped. Under-clip on purpose.
+3. **An explicit standalone gate — now the main event.** Dedicated Nouls for the failure
+   modes that actually kill clips: starts mid-thought, dangling pronoun, payoff never
+   lands. A clip that fails the gate is widened or dropped — never shipped. Under-clip on
+   purpose. **No open-source clipper we read has any output check at all** — autoclip asks
+   its model for self-containment as a scoring criterion and never verifies the clip it
+   cut. See [docs/PRIOR-ART.md](docs/PRIOR-ART.md).
 
 4. **Live with a lookback ring buffer.** Live detection is always *late*, so the start is
    never "now". On trigger, one retro `Choice` over the buffered cut points recovers the
