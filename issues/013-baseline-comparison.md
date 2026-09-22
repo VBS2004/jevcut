@@ -68,6 +68,12 @@ request counts, per genre.
 - If jevcut wins on selection but loses on boundaries, the thesis was wrong. Don't
   rationalize it — see the decision log in [ROADMAP.md](../ROADMAP.md) and try
   sentence-pair boundary Nouls instead of a Choice over cut IDs.
+- **Report the variance of the target relative to the anchor, next to every boundary
+  result.** If the true boundary sits at a near-constant distance from the anchor, a swept
+  constant is near-optimal *by construction* and the comparison cannot discriminate between
+  any two methods — it measures the sampling, not the systems. Two proxy experiments were
+  wasted on exactly this (stdev 9.5s on a 27s median; see [RESEARCH.md](../RESEARCH.md)).
+  A low spread invalidates the run; say so rather than reporting a winner.
 - Give the baselines their best shot. A strawman baseline produces a win that evaporates
   the moment someone else runs the comparison.
 - Baseline 1 costs ~10× more than jevcut per run. Budget for it, run it once, cache it.

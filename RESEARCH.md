@@ -191,6 +191,39 @@ better with 61 humans. It says **the margin is ~1 point and has to be fought for
 that any Pass D win must be demonstrated against a *tuned* constant rather than a strawman.
 [013](issues/013-baseline-comparison.md) now carries that baseline.
 
+### Repeated on YouTube chapters, and why neither proxy can settle it
+
+The AMI result invited the obvious objection: a constant offset cannot generalise across
+videos, and AMI is 139 meetings of one format. So it was repeated on **creator-authored
+YouTube chapter markers** — heterogeneous single-speaker content, 5 videos with punctuated
+manual captions, 41 boundaries.
+
+**The objection is correct about constants.** Per-video best K ran 15–40s with no two
+videos agreeing, and the penalty for using one global K was **+2.6s (79% worse than a
+per-video oracle)**, against +1.5s (37%) on AMI. A fixed constant really does degrade as
+content gets less uniform.
+
+**And Jev still lost**: 11.3s median against 6.5s for one global K, with the same coverage
+filter applied (32 cases). Worse than on AMI, not better.
+
+**Then the number that explains both results.** The anchor-to-boundary distance across
+those cases: median 27.0s, IQR 21.6–36.2s, **stdev 9.5s**. A perfect constant leaves 7.1s
+median error — so the target sits at a nearly fixed distance from the anchor, and a swept
+constant is largely recovering the experiment's own sampling distribution.
+
+> **Neither experiment can settle the thesis, in either direction.** Topic and chapter
+> boundaries are roughly evenly spaced, so "how far into a segment is a random point" has a
+> stable answer and arithmetic estimates it well. A *clip's* start is not like that — the
+> setup for one moment begins 3s back and for another 90s back — and that variance is
+> precisely what a Choice could exploit and a constant cannot. The proxies do not contain
+> it.
+
+So this is not evidence that Jev works, and it is only weak evidence that it does not. What
+would discriminate is a target whose distance from the anchor genuinely varies: real clip
+starts, which is [011](issues/011-eval-set.md). Until then the thesis is untested, not
+failing — and the [013](issues/013-baseline-comparison.md) baseline stands regardless,
+because a Pass D that cannot beat arithmetic on *any* task is not worth two requests.
+
 ## Open, and deliberately not chased
 
 **Does candidate coverage hold on a long single-speaker talk?** AMI answers the
