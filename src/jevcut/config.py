@@ -28,6 +28,18 @@ class Config:
     # valid on the next. The `model` the response reports is logged per call.
     model_id: str | None = None
     timeout_s: float = 120.0
+
+    # --- response cache (004) ---
+    # `live` calls on a miss and stores; `replay` fails loudly on one; `refresh`
+    # overwrites; `off` disables. Replay is what makes a config comparison mean
+    # anything: the repair loop branches on thresholds, so ordinary answer variance
+    # sends clips down different paths and two identical runs disagree.
+    # Off by default: a library that silently writes a disk cache surprises its caller,
+    # and in tests it is worse than surprising -- a stub's answer gets stored and served
+    # to the next test that happens to ask the same thing, which looks like a logic bug
+    # anywhere but here. The CLI opts in.
+    cache_mode: str = "off"
+    cache_dir: str = "runs/cache"
     max_retries: int = 5
     # Optional, OpenRouter leaderboards only.
     openrouter_referer: str | None = None

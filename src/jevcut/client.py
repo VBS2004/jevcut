@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any
 
 from jevcut.backends import Backend, Response, make_backend, question_payload
+from jevcut.cache import ResponseCache, as_cached, key_for
 from jevcut.config import (
     CONTEXT_STATE_PLUS_QUESTION_TOKENS,
     CONTEXT_TOTAL_TOKENS,
@@ -88,11 +89,14 @@ class JevClient:
     usage: Usage = field(default_factory=Usage)
     backend: Backend | None = None
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
+    cache: ResponseCache | None = None
 
     def __post_init__(self) -> None:
         self.run_dir = Path(self.run_dir or Path("runs") / self.run_id)
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.config.to_json(self.run_dir / "config.json")
+        if self.cache is None:
+            self.cache = ResponseCache(self.config.cache_dir, self.config.cache_mode)
 
     # -- lifecycle -------------------------------------------------------------
 
@@ -168,6 +172,27 @@ class JevClient:
         meta: dict | None = None,
     ) -> Any:
         estimate = self.check_budget(state, questions)
+
+        # Before the budget slot is claimed: a hit spends nothing, so charging for one
+        # would make the guard and the cost report describe a run that did not happen.
+        cache_key = None
+        if self.cache is not None and self.cache.enabled:
+            cache_key = key_for(self.config.model, state, questions)
+            hit = self.cache.get(cache_key)
+            if hit is not None:
+                cached = as_cached(hit)
+                self._trace(
+                    pass_name=pass_name,
+                    state=state,
+                    questions=questions,
+                    response=cached,
+                    latency_s=0.0,
+                    estimate={**estimate, "total": 0},
+                    error=None,
+                    meta={**(meta or {}), "cache": "hit"},
+                )
+                return cached
+
         backend = self._ensure_backend()
         self._reserve(estimate["total"])
 
@@ -176,6 +201,8 @@ class JevClient:
         response: Response | None = None
         try:
             response = backend.system_one(state, questions, self.config.model)
+            if cache_key is not None:
+                self.cache.put(cache_key, response, pass_name=pass_name)
             return response
         except Exception as exc:
             error = f"{type(exc).__name__}: {exc}"

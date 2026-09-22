@@ -147,6 +147,7 @@ def cmd_clip(args: argparse.Namespace) -> int:
     """transcript.json -> edl.json -> mp4s. Boundaries are set in code (see RESEARCH.md)."""
     load_env()
     config = _config(args)
+    config.cache_mode = args.cache
     transcript = Transcript.from_json(args.transcript)
     found = cuts_mod.extract(transcript, config)
     print(f"{len(transcript)} sentences, {len(found)} cut points")
@@ -369,6 +370,13 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_scan)
 
     p = sub.add_parser("clip", help="transcript.json -> edl.json + mp4s")
+    p.add_argument(
+        "--cache",
+        default="live",
+        choices=["live", "replay", "refresh", "off"],
+        help="live: call on a miss and store. replay: fail on a miss, so comparing two "
+        "configs measures the change rather than answer variance. refresh: overwrite.",
+    )
     p.add_argument("transcript")
     p.add_argument("--media", help="source video; without it only the EDL is written")
     p.add_argument("--anchors", help="reuse an anchors.json instead of scanning again")
