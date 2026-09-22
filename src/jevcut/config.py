@@ -76,6 +76,9 @@ class Config:
     # bar let a clip pass before the repair loop had improved its opening.
     repair_threshold: float = 0.5
     worth_threshold: float = 0.5  # below this a clip is dropped, never repaired
+    # Measured on ten clips from one talk: the audience-vote clip scored 0.85 and
+    # everything else 0.38 or below, so this sits in the gap rather than mid-range.
+    needs_room_threshold: float = 0.5
     payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
     max_repairs: int = 3  # widen attempts before giving up on a clip
     max_tightens: int = 3  # trim attempts once a clip works, to undo padding

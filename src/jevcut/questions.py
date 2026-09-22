@@ -60,7 +60,7 @@ def scan_questions(line_ids: list[str]) -> dict:
 
 
 def verify_questions() -> dict:
-    """Pass E. One request per candidate clip, seven questions over the clip text alone.
+    """Pass E. One request per candidate clip, eight questions over the clip text alone.
 
     **The state is the cut text and nothing else** -- no title, no surrounding transcript.
     Given the context, the model resolves the dangling pronoun from it and calls the clip
@@ -69,8 +69,9 @@ def verify_questions() -> dict:
 
     Two kinds of question, and the difference decides what happens next:
 
-    * **Worth** -- `worth_clipping`, `hook`, `payoff`. Irreparable. No boundary move turns
-      connective tissue into a clip.
+    * **Worth** -- `worth_clipping`, `needs_the_room`, `hook`, `payoff`. Irreparable. No
+      boundary move turns connective tissue into a clip, and none brings a show of hands
+      to someone watching later.
     * **Craft** -- the mid-thought pair, `dangling_reference`, `standalone`. Repairable by
       widening, because each one means "something the viewer needs is outside the cut".
 
@@ -97,6 +98,23 @@ def verify_questions() -> dict:
                 false=(
                     "It is the material between those things: arranging what comes next, "
                     "moving between subjects, or filling time"
+                ),
+            ),
+        ),
+        "needs_the_room": Noul(
+            instructions=(
+                "Does `clip.text` depend on something happening in the room that someone "
+                "watching later cannot see or take part in?"
+            ),
+            criteria=NoulCriteria(
+                true=(
+                    "It turns on a live exchange -- a show of hands, an answer called "
+                    "back, a reaction the speaker replies to -- so a viewer elsewhere "
+                    "gets the setup and not the thing it was leading to"
+                ),
+                false=(
+                    "Whatever it depends on is in what is said, so a viewer elsewhere "
+                    "gets the whole of it"
                 ),
             ),
         ),

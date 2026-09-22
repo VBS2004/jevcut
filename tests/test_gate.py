@@ -63,10 +63,11 @@ def test_the_state_is_the_clip_text_and_nothing_else(tmp_path):
     assert state == {"clip": {"text": "the words inside the cut"}}
 
 
-def test_all_seven_judgments_come_back(tmp_path):
+def test_all_eight_judgments_come_back(tmp_path):
     j = gate.verify(_client(tmp_path), "some clip")
     assert set(j.nouls) == {
         "worth_clipping",
+        "needs_the_room",
         "starts_mid_thought",
         "ends_mid_thought",
         "dangling_reference",
@@ -198,3 +199,22 @@ def test_a_middling_score_widens_while_it_can_and_ships_once_it_cannot(tmp_path)
 def test_a_bad_score_is_still_rejected_once_repairs_are_spent(tmp_path):
     j = gate.verify(_client(tmp_path, nouls={"starts_mid_thought": 0.9}), "x")
     assert gate.verdict(j, Config()).action == gate.WIDEN_START
+
+
+def test_a_clip_whose_payoff_happens_in_the_room_is_dropped(tmp_path):
+    """Invisible to every other question: the text resolves perfectly, and what it
+    resolves into is a show of hands nobody watching later can see. Widening cannot
+    bring the room along, so this is a worth failure, not a craft one."""
+    j = gate.verify(_client(tmp_path, nouls={"needs_the_room": 0.85}), "x")
+    v = gate.verdict(j)
+    assert v.action == gate.DROP and not v.repairable
+    assert "payoff happens in the room" in v.reasons
+
+
+def test_the_room_check_waits_for_the_final_cut(tmp_path):
+    """The room-dependent part is usually at an edge, so a clip can read high at
+    placement and low once trimmed. Applied mid-repair this drops clips for material
+    that was about to be removed -- it did exactly that to two good ones."""
+    j = gate.verify(_client(tmp_path, nouls={"needs_the_room": 0.85}), "x")
+    assert gate.verdict(j, repairs_left=True).action != gate.DROP
+    assert gate.verdict(j).action == gate.DROP

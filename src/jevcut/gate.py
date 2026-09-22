@@ -104,6 +104,16 @@ def verdict(j: Judgment, config: Config | None = None, *, repairs_left: bool = F
     config = config or Config()
     if j.nouls.get("worth_clipping", 1.0) < config.worth_threshold:
         return Verdict(DROP, ["not worth clipping"])
+    # Invisible to every other question: the text can resolve perfectly while the thing
+    # it resolves into is a show of hands nobody watching later can see.
+    #
+    # Judged only on the final cut, never mid-repair. The room-dependent part is usually
+    # at an edge, so a clip can read 0.60 at placement and 0.38 once trimmed -- and this
+    # returns DROP, which is irreparable and fires immediately. Applied during the loop it
+    # kills clips for material that was about to be removed, which is what it did to two
+    # good ones the first time it was wired in.
+    if not repairs_left and j.nouls.get("needs_the_room", 0.0) >= config.needs_room_threshold:
+        return Verdict(DROP, ["payoff happens in the room"])
 
     # While widening is still possible, judge on the low bar: a middling score means
     # something the viewer needs is probably outside the cut, which is worth one more
