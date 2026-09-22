@@ -88,7 +88,7 @@ class Verdict:
         return self.action in (WIDEN_START, WIDEN_END, WIDEN_BOTH)
 
 
-def verdict(j: Judgment, config: Config | None = None) -> Verdict:
+def verdict(j: Judgment, config: Config | None = None, *, repairs_left: bool = False) -> Verdict:
     """Interim policy. Thresholds are guesses until 014 tunes them on real data.
 
     **Worth is decided first, and separately.** No boundary move turns connective tissue
@@ -104,23 +104,36 @@ def verdict(j: Judgment, config: Config | None = None) -> Verdict:
     config = config or Config()
     if j.nouls.get("worth_clipping", 1.0) < config.worth_threshold:
         return Verdict(DROP, ["not worth clipping"])
+
+    # While widening is still possible, judge on the low bar: a middling score means
+    # something the viewer needs is probably outside the cut, which is worth one more
+    # reach. Once repairs are spent, judge on the high bar, because the same middling
+    # score is not grounds for discarding the clip.
+    bar = min if repairs_left else max
+    mid = bar(config.mid_thought_threshold, config.repair_threshold)
+    dangle = bar(config.dangling_ref_threshold, config.repair_threshold)
+    alone = (
+        max(config.standalone_threshold, config.repair_threshold)
+        if repairs_left
+        else config.standalone_threshold
+    )
     # The lowest payoff level is "sets something up and never returns to it". That is the
     # end arriving too early, which widening forward can fix -- unlike a missing point.
     if j.scores.get("payoff", 2.0) < config.payoff_floor:
         return Verdict(WIDEN_END, ["payoff never lands"])
 
     before, after = [], []
-    if j.nouls.get("starts_mid_thought", 0.0) >= config.mid_thought_threshold:
+    if j.nouls.get("starts_mid_thought", 0.0) >= mid:
         before.append("starts mid-thought")
-    if j.nouls.get("dangling_reference", 0.0) >= config.dangling_ref_threshold:
+    if j.nouls.get("dangling_reference", 0.0) >= dangle:
         before.append("dangling reference")
-    if j.nouls.get("ends_mid_thought", 0.0) >= config.mid_thought_threshold:
+    if j.nouls.get("ends_mid_thought", 0.0) >= mid:
         after.append("ends mid-thought")
 
     if not before and not after:
         # `standalone` is a summary judgment, so on its own it does not say which edge is
         # short. Reach in both directions and let the next round narrow it down.
-        if j.nouls.get("standalone", 1.0) < config.standalone_threshold:
+        if j.nouls.get("standalone", 1.0) < alone:
             return Verdict(WIDEN_BOTH, ["not standalone"])
         return Verdict(SHIP)
 

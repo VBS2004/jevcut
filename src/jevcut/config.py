@@ -62,9 +62,19 @@ class Config:
     scan_concurrency: int = 8
 
     # --- gates (007/008) --- PLACEHOLDER until 014
-    mid_thought_threshold: float = 0.5
-    dangling_ref_threshold: float = 0.5
-    standalone_threshold: float = 0.5
+    # Set from the observed distribution on one 48-minute talk, where a human rated
+    # every surviving clip good. Not tuned to make clips appear: 0.5 was a guess, and
+    # these questions answer "kind of" for every excerpt of continuous speech -- measured
+    # medians 0.66 and 0.68 with a spread of ~0.12, so a 0.5 cut rejects nearly
+    # everything. Still placeholders until 014 has a real labelled set; n=5, one video.
+    mid_thought_threshold: float = 0.75
+    dangling_ref_threshold: float = 0.75
+    standalone_threshold: float = 0.4  # this one is positive: low means the viewer is lost
+    # Two bars, not one. These questions answer "kind of" for every excerpt, so a
+    # middling score is a good reason to try widening and a bad reason to throw the clip
+    # away. Repair on the low bar, reject on the high one -- found when a looser reject
+    # bar let a clip pass before the repair loop had improved its opening.
+    repair_threshold: float = 0.5
     worth_threshold: float = 0.5  # below this a clip is dropped, never repaired
     payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
     max_repairs: int = 3  # widen attempts before giving up on a clip

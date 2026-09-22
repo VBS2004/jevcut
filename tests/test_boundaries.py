@@ -112,3 +112,17 @@ def test_rendered_edges_are_never_tighter_than_the_measured_ones():
     """Alignment may only widen. 012 scores t0/t1; ffmpeg cuts the rendered pair."""
     _, b = _placed()
     assert b.render_t0 <= b.t0 and b.render_t1 >= b.t1
+
+
+def test_widening_steps_to_a_real_boundary_not_just_the_nearest_cut():
+    """A repair must not damage what it is fixing. Reaching back to a `pause` inside a
+    sentence turns a clip that merely started early into one starting on a fragment."""
+    config = Config()
+    t = _transcript()
+    cuts = cuts_mod.extract(t, config)
+    b = boundaries.place(t, cuts, t.sentences[60].id, config)
+    by_id = {c.id: c for c in cuts}
+
+    wider = boundaries.widen(cuts, b, start=True, config=config)
+    assert wider is not None
+    assert by_id[wider.start_cut].kind != "pause", "widened onto a mid-sentence pause"

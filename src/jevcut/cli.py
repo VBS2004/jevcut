@@ -178,8 +178,8 @@ def cmd_clip(args: argparse.Namespace) -> int:
             # Worth is settled first and never repaired; craft failures are repair
             # instructions, so widen and re-ask until the clip works or the band runs out.
             judgment = gate_mod.verify(client, clip_text(b), config)
-            v = gate_mod.verdict(judgment, config)
-            for _ in range(config.max_repairs):
+            v = gate_mod.verdict(judgment, config, repairs_left=True)
+            for attempt in range(config.max_repairs):
                 if not v.repairable:
                     break
                 wider = bounds_mod.widen(
@@ -193,8 +193,12 @@ def cmd_clip(args: argparse.Namespace) -> int:
                     break  # the band is exhausted; better short than long and dull
                 b = wider
                 judgment = gate_mod.verify(client, clip_text(b), config)
-                v = gate_mod.verdict(judgment, config)
+                v = gate_mod.verdict(
+                    judgment, config, repairs_left=attempt + 1 < config.max_repairs
+                )
 
+            # Repairs are spent (or none helped); judge on the reject bar.
+            v = gate_mod.verdict(judgment, config)
             if not v.ok:
                 print(f"  {anchor.sentence_id}: dropped -- {', '.join(v.reasons)}")
                 continue

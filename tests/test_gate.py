@@ -179,3 +179,22 @@ def test_widening_at_the_start_of_the_video_has_nowhere_to_go():
         end_cut=b.end_cut,
     )
     assert boundaries.widen_start(cuts, first, config) is None
+
+
+def test_a_middling_score_widens_while_it_can_and_ships_once_it_cannot(tmp_path):
+    """Two bars, not one. These questions answer "kind of" for every excerpt, so a
+    middling score is a good reason to reach further and a bad reason to discard.
+
+    Found when a looser reject bar let a clip through before the repair loop had
+    improved its opening -- the widening was doing real work, not just unblocking.
+    """
+    j = gate.verify(_client(tmp_path, nouls={"starts_mid_thought": 0.6}), "x")
+    cfg = Config()  # repair 0.5, reject 0.75; 0.6 sits between them
+
+    assert gate.verdict(j, cfg, repairs_left=True).action == gate.WIDEN_START
+    assert gate.verdict(j, cfg).action == gate.SHIP
+
+
+def test_a_bad_score_is_still_rejected_once_repairs_are_spent(tmp_path):
+    j = gate.verify(_client(tmp_path, nouls={"starts_mid_thought": 0.9}), "x")
+    assert gate.verdict(j, Config()).action == gate.WIDEN_START

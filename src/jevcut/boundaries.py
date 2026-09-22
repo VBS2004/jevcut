@@ -184,14 +184,22 @@ def widen(
     t0, t1 = boundary.t0, boundary.t1
     start_cut = end_cut = None
 
+    # Step to the nearest cut *that makes a good boundary*, not merely the nearest one.
+    # `_snap` already prefers kinds this way; widening did not, so reaching back one step
+    # could land on a `pause` inside a sentence and turn a clip that merely started early
+    # into one that starts on a fragment -- a repair that damages what it was fixing.
+    def reachable(pool: list[CutPoint]) -> list[CutPoint]:
+        good = [c for c in pool if CUT_PREFERENCE.get(c.kind, 0) >= CUT_PREFERENCE["sentence_end"]]
+        return good or pool
+
     if start:
-        earlier = [c for c in cuts if c.t_start < boundary.t0]
+        earlier = reachable([c for c in cuts if c.t_start < boundary.t0])
         if not earlier:
             return None
         start_cut = max(earlier, key=lambda c: c.t_start)
         t0 = start_cut.t_start
     if end:
-        later = [c for c in cuts if c.t_end > boundary.t1]
+        later = reachable([c for c in cuts if c.t_end > boundary.t1])
         if not later:
             return None
         end_cut = min(later, key=lambda c: c.t_end)
