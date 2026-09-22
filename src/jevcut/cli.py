@@ -31,7 +31,13 @@ def _config(args: argparse.Namespace) -> Config:
 
 def cmd_transcribe(args: argparse.Namespace) -> int:
     config = _config(args)
-    transcript = ingest(args.input, config, from_json=args.from_json, reference=args.reference)
+    transcript = ingest(
+        args.input,
+        config,
+        from_json=args.from_json,
+        reference=args.reference,
+        model_size=args.model,
+    )
     out = Path(args.out or "transcript.json")
     transcript.to_json(out)
 
@@ -281,6 +287,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("input")
     p.add_argument("--from-json", help="use a pre-computed word list instead of ASR")
     p.add_argument("--reference", help="platform transcript to align wording to")
+    p.add_argument(
+        "--model",
+        default="base",
+        help="whisper size: base is fast and error-prone, small/medium are better on "
+        "noisy stream audio. Cached per size, so changing it re-transcribes.",
+    )
     p.add_argument("--out")
     p.add_argument("--preview", type=int, default=0, help="print the first N rendered lines")
     p.set_defaults(func=cmd_transcribe)

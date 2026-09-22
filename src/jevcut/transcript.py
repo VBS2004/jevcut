@@ -222,9 +222,14 @@ def ingest(
     *,
     from_json: str | Path | None = None,
     reference: str | Path | None = None,
+    model_size: str = "base",
 ) -> Transcript:
     config = config or Config()
-    words = from_word_json(from_json) if from_json else transcribe_media(source, config)
+    words = (
+        from_word_json(from_json)
+        if from_json
+        else transcribe_media(source, config, model_size=model_size)
+    )
     if reference:
         words = align_to_reference(words, Path(reference).read_text())
     sentences = segment_words(words, config)
