@@ -4,6 +4,13 @@ The core of the project. Everything else is plumbing.
 
 > The `L042` and `«C07»` notation is defined in [CONCEPTS.md](CONCEPTS.md).
 
+> **The lessons here that are not about clipping have been lifted into a reusable skill**,
+> `~/.claude/skills/jev-questions/`: criteria that describe situations rather than words,
+> the spread test for whether a question discriminates at all, when to reach for a Noul
+> over a Choice, keeping judgment separate from policy, and the failure patterns that look
+> like model errors and are not. Written from what this project measured, including the
+> mistakes. Update it when this file learns something general.
+
 Rules these obey, from [how to build with System One](https://docs.typesafe.ai/concepts/how-to-build-with-system-one.md)
 and the [jaggedness page](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md):
 
