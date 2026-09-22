@@ -147,3 +147,35 @@ def test_stats_reports_density(long_talk):
     s = cuts_mod.stats(found, t.duration)
     assert s["count"] == len(found)
     assert s["median_spacing_s"] > 0
+
+
+def test_a_break_without_punctuation_is_a_pause_not_a_sentence_end():
+    """Found running a real talk: ASR splits a long sentence mid-clause on a breath, and
+    calling that a sentence end manufactures a boundary that reads as a fragment."""
+    words = speech("If we had stayed fully open source and self sovereign", 0.0) + speech(
+        "maybe more people would have died.", 12.0
+    )
+    t = _transcript(words)
+    assert len(t.sentences) == 2
+    assert not t.sentences[0].text.rstrip().endswith((".", "!", "?"))
+
+    between = [
+        c
+        for c in cuts_mod.extract(t)
+        if t.sentences[0].t1 <= c.t <= t.sentences[1].t0 and c.kind != "edge"
+    ]
+    assert between, "the silence is still offered as a candidate"
+    assert all(c.kind == "pause" for c in between), "but never as a sentence end"
+
+
+def test_a_real_sentence_end_still_gets_its_kind():
+    words = speech("The reactor went offline completely.", 0.0) + speech(
+        "Nobody noticed for six hours.", 12.0
+    )
+    t = _transcript(words)
+    between = [
+        c
+        for c in cuts_mod.extract(t)
+        if t.sentences[0].t1 <= c.t <= t.sentences[1].t0 and c.kind != "edge"
+    ]
+    assert any(c.kind == "sentence_end" for c in between)

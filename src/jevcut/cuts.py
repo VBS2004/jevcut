@@ -24,6 +24,10 @@ from jevcut.render import cut_id, render_markers
 # start of the first sentence or the end of the last.
 CUT_THIN_WEIGHT = {"edge": 5, "speaker_change": 4, "sentence_end": 3, "shot": 2, "pause": 1}
 
+#: What the ASR writes when it believes a sentence finished. Without one of these,
+#: the break is the model running out of breath, not out of thought.
+TERMINAL_PUNCTUATION = (".", "!", "?")
+
 
 def extract(
     transcript: Transcript,
@@ -51,11 +55,18 @@ def extract(
             # Sit in the middle of the silence: a clip that opens on a breath sounds wrong
             # even when the boundary is semantically correct.
             t = s.t1 + gap / 2
-            kind = (
-                "speaker_change"
-                if (s.speaker and nxt.speaker and s.speaker != nxt.speaker)
-                else "sentence_end"
-            )
+            # A gap between two "sentences" is only a sentence end if one actually
+            # ended. ASR splits a long sentence mid-clause on a breath -- "If we had
+            # stayed 100% open source, self-sovereign," / "maybe more people would have
+            # died." -- and calling that a sentence_end manufactures a boundary that
+            # reads as a fragment. It is still a real silence, so it stays as a `pause`,
+            # which CUT_PREFERENCE already ranks below a true sentence end.
+            if s.speaker and nxt.speaker and s.speaker != nxt.speaker:
+                kind = "speaker_change"
+            elif s.text.rstrip().endswith(TERMINAL_PUNCTUATION):
+                kind = "sentence_end"
+            else:
+                kind = "pause"
             raw.append(CutPoint(id="", t=t, kind=kind, gap_ms=gap * 1000))
 
         for a, b in zip(s.words, s.words[1:]):

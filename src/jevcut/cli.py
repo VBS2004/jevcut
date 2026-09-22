@@ -37,6 +37,7 @@ def cmd_transcribe(args: argparse.Namespace) -> int:
         from_json=args.from_json,
         reference=args.reference,
         model_size=args.model,
+        language=args.language,
     )
     out = Path(args.out or "transcript.json")
     transcript.to_json(out)
@@ -287,6 +288,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("input")
     p.add_argument("--from-json", help="use a pre-computed word list instead of ASR")
     p.add_argument("--reference", help="platform transcript to align wording to")
+    p.add_argument(
+        "--language",
+        help="ISO code, e.g. en. Pin it: auto-detection samples the opening only, and a "
+        "talk that starts on applause can be transcribed as the wrong language throughout.",
+    )
     p.add_argument(
         "--model",
         default="base",

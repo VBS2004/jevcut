@@ -153,8 +153,66 @@ def from_word_json(path: str | Path) -> list[Word]:
     ]
 
 
+#: Segments faster-whisper samples before deciding what language it is hearing. Its
+#: default is 1 -- about 30 seconds -- so a talk that opens on applause, music or a
+#: greeting in another language gets the whole hour transcribed as that language, which
+#: is a silent failure: fluent, confident, and wrong from the first word.
+LANGUAGE_DETECTION_SEGMENTS = 6
+
+
+def _decode(
+    WhisperModel, media: str, model_size: str, config: Config, language: str | None = None
+) -> list:
+    """Decode on the GPU if it actually works, else on the CPU, and say which.
+
+    `device="auto"` asks CTranslate2 whether a CUDA device *exists*, not whether its
+    libraries load. pip puts the CUDA runtime where the OS loader does not look, so a
+    machine with a working GPU constructs the model happily and then raises
+    `Library libcublas.so.12 is not found` at the first encode -- after the model has
+    downloaded and the caller has waited. The constructor is the wrong place to catch
+    that, so the decode itself is retried.
+
+    Segments are materialised inside the try: faster-whisper returns a generator, so a
+    device failure surfaces during iteration, not at the call.
+    """
+    for device in ("auto", "cpu"):
+        try:
+            model = WhisperModel(model_size, device=device, compute_type="int8")
+            segments, info = model.transcribe(
+                media,
+                language=language,
+                language_detection_segments=LANGUAGE_DETECTION_SEGMENTS,
+                word_timestamps=True,
+                beam_size=1,
+                temperature=0.0,
+                condition_on_previous_text=False,
+                vad_filter=True,
+            )
+            if language is None:
+                log.info(
+                    "detected language %s (p=%.2f) from %d segments; pass --language to pin it",
+                    getattr(info, "language", "?"),
+                    getattr(info, "language_probability", 0.0),
+                    LANGUAGE_DETECTION_SEGMENTS,
+                )
+            return list(segments)
+        except Exception as exc:
+            if device == "cpu":
+                raise
+            log.warning(
+                "GPU transcription failed (%s); falling back to CPU, which is slower. "
+                "Install the CUDA runtime libraries to use the GPU.",
+                str(exc).strip().splitlines()[-1][:120],
+            )
+    raise AssertionError("unreachable")
+
+
 def transcribe_media(
-    media: str | Path, config: Config | None = None, *, model_size: str = "base"
+    media: str | Path,
+    config: Config | None = None,
+    *,
+    model_size: str = "base",
+    language: str | None = None,
 ) -> list[Word]:
     """Whisper with word timestamps. Cached, so a re-run is byte-identical and free.
 
@@ -182,15 +240,7 @@ def transcribe_media(
             "or supply a word list with --from-json."
         ) from exc
 
-    model = WhisperModel(model_size, device="auto", compute_type="int8")
-    segments, _info = model.transcribe(
-        str(media),
-        word_timestamps=True,
-        beam_size=1,
-        temperature=0.0,
-        condition_on_previous_text=False,
-        vad_filter=True,
-    )
+    segments = _decode(WhisperModel, str(media), model_size, config, language)
 
     words: list[Word] = []
     for seg in segments:
@@ -223,12 +273,13 @@ def ingest(
     from_json: str | Path | None = None,
     reference: str | Path | None = None,
     model_size: str = "base",
+    language: str | None = None,
 ) -> Transcript:
     config = config or Config()
     words = (
         from_word_json(from_json)
         if from_json
-        else transcribe_media(source, config, model_size=model_size)
+        else transcribe_media(source, config, model_size=model_size, language=language)
     )
     if reference:
         words = align_to_reference(words, Path(reference).read_text())
