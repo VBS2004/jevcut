@@ -160,3 +160,33 @@ def align_end(cut: CutPoint) -> float:
         return cut.t_end + FALLBACK_TAIL_S
     latest = max(cut.t_start - SILENCE_MARGIN_S, cut.t_end)
     return min(latest, cut.t_end + SILENCE_TAIL_S)
+
+
+def widen_start(
+    cuts: list[CutPoint],
+    boundary: Boundary,
+    config: Config | None = None,
+) -> Boundary | None:
+    """Move the start back one cut point, for a clip the gate says needs more setup.
+
+    Only the start moves. "Starts mid-thought", "dangling reference" and "not standalone"
+    are all *something before this is missing*, and nothing after the clip fixes them.
+    Returns ``None`` when there is no earlier cut, or when taking it would push the clip
+    out of the duration band -- at which point the clip is dropped rather than bloated.
+    """
+    config = config or Config()
+    _, high = config.duration_band_s
+    earlier = [c for c in cuts if c.t_start < boundary.t0]
+    if not earlier:
+        return None
+    start = max(earlier, key=lambda c: c.t_start)
+    if boundary.t1 - start.t_start > high:
+        return None
+    return Boundary(
+        t0=start.t_start,
+        t1=boundary.t1,
+        render_t0=align_start(start),
+        render_t1=boundary.render_t1,
+        start_cut=start.id,
+        end_cut=boundary.end_cut,
+    )

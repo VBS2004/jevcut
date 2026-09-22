@@ -14,6 +14,7 @@ from pathlib import Path
 
 from jevcut import boundaries as bounds_mod
 from jevcut import cuts as cuts_mod
+from jevcut import gate as gate_mod
 from jevcut.backends import load_env
 from jevcut.client import JevClient
 from jevcut.config import Config
@@ -156,27 +157,52 @@ def cmd_clip(args: argparse.Namespace) -> int:
             f"({result.coverage:.0%} covered). Clips below are a floor, not a result."
         )
 
+    def clip_text(b) -> str:
+        return " ".join(sent.text for sent in transcript.between(b.t0, b.t1))
+
     clips: list[Clip] = []
-    for anchor in result.anchors:
-        b = bounds_mod.place(transcript, found, anchor.sentence_id, config)
-        if b is None:
-            print(f"  {anchor.sentence_id}: dropped, no boundary fits the duration band")
-            continue
-        clips.append(
-            Clip(
-                id=f"clip{len(clips) + 1:03d}",
-                anchor_id=anchor.sentence_id,
-                kind=anchor.kind,
-                t0=b.t0,
-                t1=b.t1,
-                render_t0=b.render_t0,
-                render_t1=b.render_t1,
-                start_cut=b.start_cut,
-                end_cut=b.end_cut,
-                text=" ".join(s.text for s in transcript.between(b.t0, b.t1)),
-                scores={"p_moment": anchor.p_moment, "anchor_confidence": anchor.anchor_confidence},
+    with JevClient(config) as client:
+        for anchor in result.anchors:
+            b = bounds_mod.place(transcript, found, anchor.sentence_id, config)
+            if b is None:
+                print(f"  {anchor.sentence_id}: dropped, no boundary fits the duration band")
+                continue
+
+            judgment = gate_mod.verify(client, clip_text(b), config)
+            v = gate_mod.verdict(judgment, config)
+            if not v.ok and v.widenable:
+                # One attempt, and only at the start: every failure it can fix is
+                # "something before this is missing".
+                wider = bounds_mod.widen_start(found, b, config)
+                if wider is not None:
+                    b = wider
+                    judgment = gate_mod.verify(client, clip_text(b), config)
+                    v = gate_mod.verdict(judgment, config)
+                    print(f"  {anchor.sentence_id}: widened to {b.duration:.0f}s")
+            if not v.ok:
+                print(f"  {anchor.sentence_id}: dropped -- {', '.join(v.reasons)}")
+                continue
+
+            clips.append(
+                Clip(
+                    id=f"clip{len(clips) + 1:03d}",
+                    anchor_id=anchor.sentence_id,
+                    kind=anchor.kind,
+                    t0=b.t0,
+                    t1=b.t1,
+                    render_t0=b.render_t0,
+                    render_t1=b.render_t1,
+                    start_cut=b.start_cut,
+                    end_cut=b.end_cut,
+                    text=clip_text(b),
+                    scores={
+                        "p_moment": anchor.p_moment,
+                        "anchor_confidence": anchor.anchor_confidence,
+                        **judgment.nouls,
+                        **judgment.scores,
+                    },
+                )
             )
-        )
 
     # Boundaries move, so two anchors that were distinct can now cover the same ground.
     # This is the second dedupe; scan.dedupe already ran on the anchors themselves.
