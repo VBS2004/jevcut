@@ -22,6 +22,7 @@ from jevcut.edl import Clip, composite, render_clip, write_edl
 from jevcut.models import Transcript
 from jevcut.render import render_lines
 from jevcut.scan import read_scan, scan, windows, write_scan
+from jevcut.sheet import write_sheet
 from jevcut.transcript import ingest, sanity_check
 
 
@@ -287,6 +288,8 @@ def cmd_clip(args: argparse.Namespace) -> int:
         print(f"rendered {len(kept)} mp4s into {out_dir}/")
     else:
         print("no --media, so nothing rendered; the EDL is enough to re-render later")
+    sheet = write_sheet(kept, out_dir / "index.html", source=args.media or "")
+    print(f"contact sheet -> {sheet}")
     return 0
 
 

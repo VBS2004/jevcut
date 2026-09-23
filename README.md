@@ -100,7 +100,8 @@ uv run pytest                # no API key needed
 uv run ruff check .          # lint; the known findings are listed below
 uv run python scripts/check_docs.py   # do the docs still describe the code?
 
-# a real video, end to end -> ranked mp4s plus an editable edl.json, all in clips/
+# a real video, end to end -> ranked mp4s, an editable edl.json and index.html (a page
+# to watch them on, best first, with the scores that ranked them), all in clips/
 # a second run reuses clips/transcript.json, so ASR runs once; Jev answers are cached
 uv run jevcut run talk.mp4 --language en --out clips/
 
