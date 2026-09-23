@@ -1,7 +1,7 @@
 """Command line entry points:
 
-transcribe, cuts, region, scan, clip and smoke. The one-command run (020), live
-(015-017) and eval (012) commands are not built yet.
+run (transcribe + clip in one), and the stages one at a time: transcribe, cuts, region,
+scan, clip, smoke. The live (015-017) and eval (012) commands are not built yet.
 """
 
 from __future__ import annotations
@@ -85,7 +85,7 @@ def cmd_cuts(args: argparse.Namespace) -> int:
 
 
 def cmd_region(args: argparse.Namespace) -> int:
-    """Print the exact Pass D state for one anchor. Useful for eyeballing wording."""
+    """Print the transcript around one anchor with every cut point it could use."""
     config = _config(args)
     transcript = Transcript.from_json(args.transcript)
     found = (
@@ -290,6 +290,45 @@ def cmd_clip(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_run(args: argparse.Namespace) -> int:
+    """media -> clips in one command: transcribe, then clip, all into one directory."""
+    out_dir = Path(args.out or "clips")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    transcript = out_dir / "transcript.json"
+
+    # ASR is the slow step and the transcript does not depend on anything downstream, so
+    # an existing one is reused. Jev answers are not: those come from --cache, which keys
+    # on the exact questions, so a changed question is asked again rather than replayed.
+    if transcript.exists() and not args.retranscribe:
+        print(f"reusing {transcript} (--retranscribe to run ASR again)")
+    else:
+        status = cmd_transcribe(
+            argparse.Namespace(
+                config=args.config,
+                input=args.input,
+                from_json=None,
+                reference=None,
+                model=args.model,
+                language=args.language,
+                out=str(transcript),
+                preview=0,
+            )
+        )
+        if status:
+            return status
+
+    return cmd_clip(
+        argparse.Namespace(
+            config=args.config,
+            cache=args.cache,
+            transcript=str(transcript),
+            media=args.input,
+            anchors=None,
+            out=str(out_dir),
+        )
+    )
+
+
 def cmd_smoke(args: argparse.Namespace) -> int:
     """One live Noul against the API. Confirms key, model pinning and tracing."""
     from typesafe_sdk import Noul, NoulCriteria
@@ -384,6 +423,22 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--anchors", help="reuse an anchors.json instead of scanning again")
     p.add_argument("--out", help="output directory (default: clips/)")
     p.set_defaults(func=cmd_clip)
+
+    p = sub.add_parser("run", help="media -> ranked mp4s in one command (transcribe + clip)")
+    p.add_argument("input")
+    p.add_argument("--out", help="output directory (default: clips/)")
+    p.add_argument("--language", help="ISO code, e.g. en; see transcribe --help")
+    p.add_argument("--model", default="small", help="whisper size; see transcribe --help")
+    p.add_argument(
+        "--retranscribe", action="store_true", help="run ASR even if the transcript exists"
+    )
+    p.add_argument(
+        "--cache",
+        default="live",
+        choices=["live", "replay", "refresh", "off"],
+        help="as for clip",
+    )
+    p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
     p.add_argument("--text", default="And that's exactly why he refused to sign it.")

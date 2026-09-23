@@ -7,8 +7,8 @@ decides exactly where each clip should **start** and **stop** — using
 [Jev](https://docs.typesafe.ai/models.md), TypeSafe's System One model, as a judge over
 transcript text, with all arithmetic, timing and rendering in code.
 
-Status: **research MVP — runs end to end on real video.** `jevcut transcribe` then
-`jevcut clip` turns a talk into ranked, rendered clips: cut points (003), Pass C anchors
+Status: **research MVP — runs end to end on real video.** `jevcut run talk.mp4` turns a
+talk into ranked, rendered clips: cut points (003), Pass C anchors
 (005), boundaries set in code, the clip gate with widen/tighten repair (007), composite
 ranking (008), EDL and ffmpeg render (009), and a response cache for reproducible runs
 (004). Validated on two FOSDEM videos, a solo talk and a panel; a human rated the solo
@@ -100,7 +100,11 @@ uv run pytest                # no API key needed
 uv run ruff check .          # lint; the known findings are listed below
 uv run python scripts/check_docs.py   # do the docs still describe the code?
 
-# a real video, end to end -> ranked mp4s plus an editable edl.json
+# a real video, end to end -> ranked mp4s plus an editable edl.json, all in clips/
+# a second run reuses clips/transcript.json, so ASR runs once; Jev answers are cached
+uv run jevcut run talk.mp4 --language en --out clips/
+
+# the same in two steps
 uv run jevcut transcribe talk.mp4 --model small --language en --out t.json
 uv run jevcut clip t.json --media talk.mp4 --out clips/
 
@@ -114,8 +118,8 @@ uv run jevcut scan t.json          # Pass C — costs real requests
 uv run jevcut smoke                # one live Noul, traced
 ```
 
-`eval/fixtures/interview.words.json` is a synthetic word list, so everything above runs
-with no ASR model and no API key.
+`eval/fixtures/interview.words.json` is a synthetic word list, so from there on no ASR
+model is needed, and `cuts` and `region` need no API key either.
 
 **Lint.** The tree is formatted and `ruff check` reports three findings, all left on
 purpose: one long line in `cli.py` that is a Noul criterion string — splitting it risks
