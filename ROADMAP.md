@@ -1,7 +1,10 @@
 # Roadmap
 
-> **Paused before issue 006** pending the research phase in [RESEARCH.md](RESEARCH.md).
-> The thesis below was never validated against real repos or real data.
+> **Research phase concluded 2026-09-22; the design changed.** Code now sets boundaries and
+> Jev judges clips, so 006 (Pass D) left the critical path and 007 joined it — see the
+> decision log below and [RESEARCH.md](RESEARCH.md). M1 runs end to end as `jevcut clip`;
+> the one-command `jevcut run` is not built yet (020). The thesis paragraph below is the
+> original plan, kept as written.
 
 20 issues, 5 milestones. Ordered so that **the thing most likely to kill the project gets
 tested earliest**: if Pass D can't pick boundaries better than "peak sentence ± 15s", the
@@ -12,7 +15,7 @@ whole thesis is wrong, and M2 is where that becomes undeniable.
 | # | Milestone | Issues | Exit criterion |
 | --- | --- | --- | --- |
 | M0 | Foundations | 001–004 | A transcript with cut points goes in, a cached Jev response comes back |
-| M1 | VOD pipeline | 005–010 | `jevcut run video.mp4` produces rendered clips end to end |
+| M1 | VOD pipeline | 005–010 | Rendered clips end to end — **met by `jevcut transcribe` + `jevcut clip`**; single-command `run` is 020 |
 | M2 | **Measure** | 011–014 | jevcut beats all 3 baselines on boundary + standalone metrics |
 | M3 | Live | 015–017, 019 | Live stream produces a clip within 10s, retro-start recovers >80% of lag |
 | M4 | Product | 018, 020 | Budget guard, presets, CLI anyone can run |

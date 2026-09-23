@@ -6,6 +6,7 @@
 | **Depends on** | 007 |
 | **Blocks** | 009 |
 | **Size** | M |
+| **Status** | **Partly built** — composite ranking and overlap dedupe in `src/jevcut/edl.py` / `src/jevcut/cli.py`; weights are placeholders for 014. |
 
 ## Why
 

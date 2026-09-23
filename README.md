@@ -7,11 +7,14 @@ decides exactly where each clip should **start** and **stop** — using
 [Jev](https://docs.typesafe.ai/models.md), TypeSafe's System One model, as a judge over
 transcript text, with all arithmetic, timing and rendering in code.
 
-Status: **paused for research** — see [RESEARCH.md](RESEARCH.md).
-M0 done, Pass C live (issues 001–003, 005) — ingest, cut-point extraction and the Jev client
-wrapper are implemented and tested, and the coarse scan (005) finds anchors against
-the live API. Boundary refinement (006) is next.
-See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
+Status: **research MVP — runs end to end on real video.** `jevcut transcribe` then
+`jevcut clip` turns a talk into ranked, rendered clips: cut points (003), Pass C anchors
+(005), boundaries set in code, the clip gate with widen/tighten repair (007), composite
+ranking (008), EDL and ffmpeg render (009), and a response cache for reproducible runs
+(004). Validated on two FOSDEM videos, a solo talk and a panel; a human rated the solo
+talk's output. Thresholds are measured on those two videos only and are not calibrated —
+that is 014. The research phase that changed the design is in [RESEARCH.md](RESEARCH.md);
+see [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
 
 **Scope: v1 clips verbal content** — podcasts, interviews, talks, panels, streams where
 people talk. The judge is Jev over transcript text, so a moment carrying no words (a crash,
@@ -91,17 +94,22 @@ eval/       labeled clips + metric harness (empty)
 
 ```bash
 uv sync --extra dev          # add --extra asr for Whisper, --extra shots for scene detection
-uv run pytest                # 101 tests, no API key needed
-uv run ruff check .          # lint; see below for the 3 known findings
-uv run ruff format .         # formatting; the tree is already formatted
+uv run pytest                # no API key needed
+uv run ruff check .          # lint; the known findings are listed below
+uv run python scripts/check_docs.py   # do the docs still describe the code?
 
-# ingest -> cut points -> the exact state Pass D will send
-uv run jevcut transcribe video.mp4 --from-json eval/fixtures/interview.words.json --out t.json
+# a real video, end to end -> ranked mp4s plus an editable edl.json
+uv run jevcut transcribe talk.mp4 --model small --language en --out t.json
+uv run jevcut clip t.json --media talk.mp4 --out clips/
+
+# without ASR, from the synthetic fixture
+uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out t.json
+
+# the stages one at a time
 uv run jevcut cuts t.json --out c.json
-uv run jevcut region t.json L009
+uv run jevcut region t.json L009   # the transcript around one anchor, with cut points marked
 uv run jevcut scan t.json          # Pass C — costs real requests
-
-uv run jevcut smoke                         # one live Noul, traced
+uv run jevcut smoke                # one live Noul, traced
 ```
 
 `eval/fixtures/interview.words.json` is a synthetic word list, so everything above runs

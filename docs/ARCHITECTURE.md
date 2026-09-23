@@ -13,10 +13,12 @@ input — so the model never touches media.
 
 | Concern | Owner |
 | --- | --- |
-| ASR, word timestamps, diarization | code (Whisper / Deepgram) |
+| ASR, word timestamps | code (faster-whisper) |
+| Diarization | **not built** — measured as unnecessary for v1 (see [RESEARCH.md](../RESEARCH.md)) |
 | Shot changes, silence gaps, loudness | code (ffmpeg / PySceneDetect) |
 | Enumerating candidate cut points | code |
-| "Is this a moment?" / "which cut point?" / "does it stand alone?" | **Jev** |
+| Choosing the start and stop cut points | **code** — changed 2026-09-22; was Jev (Pass D) |
+| "Is this a moment?" / "does it stand alone?" / "does it land?" | **Jev** |
 | Durations, overlap resolution, ranking weights, thresholds | code |
 | Rendering, captions, aspect crop | code (ffmpeg) |
 
@@ -60,41 +62,57 @@ Iterate with the winning anchor's neighbourhood removed, up to **3 anchors per w
 stopping when `contains_moment` drops below threshold. (Removal-and-repeat is the
 sponsor-detection loop.)
 
-### D. Refine — pick the cut points *(Jev, 1 request per anchor)*
+### D. Boundaries — *code only* (was: Jev, 1 request per anchor)
 
-State: anchor ±90s of transcript, with **every candidate cut point inlined** as
-`«C07»` markers between sentences. One request, four parallel questions:
-`start_cut`, `end_cut`, `needs_more_setup`, `cold_open_ok`. Specs in
-[QUESTIONS.md](QUESTIONS.md).
+**Changed 2026-09-22.** Pass D was going to be a Choice over the enumerated cut points.
+Across six experiments a tuned constant offset matched or beat that Choice on every
+boundary task we could measure, so boundaries moved into code and Jev moved to judging
+clips instead. Issue 006 is off the critical path; the reasoning is in
+[RESEARCH.md](../RESEARCH.md).
 
-Two Choices over ~30–50 cut IDs each. Well inside the 255-option Choice limit; a 90s
-window will never approach it.
+`boundaries.place()`: put the anchor about a third of the way into the clip, snap each
+edge to a cut point (preferring kinds that make good boundaries — a `pause` can fall
+mid-sentence, so it ranks last), clamp into the duration band by moving the end first,
+and align the rendered edges into the surrounding silence. No request.
 
-### E. Verify — the standalone gate *(Jev, 1 request per candidate clip)*
+### E. Verify — the clip gate *(Jev, 1+ requests per candidate clip)*
 
-A **second request is required** here, not optional: the state is the exact clip text,
-which doesn't exist until D answers. That is the documented reason to split a request —
-an earlier answer constructs new state.
+The state is the exact clip text and nothing else — no title, no surrounding
+transcript — because that is the condition the viewer will be in.
 
-Six questions, all against the cut text alone, with zero surrounding context — because
-that is exactly the condition the viewer will be in. `dangling_reference`,
-`starts_mid_thought`, `ends_mid_thought`, `standalone`, `hook` (Score), `payoff` (Score).
+Seven questions in one request. Exact wording lives in `src/jevcut/questions.py`; the
+rationale is in [QUESTIONS.md](QUESTIONS.md#pass-e--the-clip-gate).
+
+| question | type | role |
+| --- | --- | --- |
+| `needs_the_room` | Noul | **drop** — the point depends on the live audience, not the speakers. Judged only on the final cut |
+| `starts_mid_thought`, `dangling_reference` | Noul | **repair** — widen the start |
+| `ends_mid_thought` | Noul | **repair** — widen the end |
+| `standalone` | Noul | **repair** — widen both, when nothing more specific failed |
+| `hook` | Score | ranking; guards start-side trims |
+| `payoff` | Score | ranking; guards end-side trims; bottom level ⇒ widen the end |
+
+It runs as a loop, not a single pass: widen on a low bar (0.5) for up to three
+attempts, then judge on a high bar (0.75); a clip that passes is then **tightened** one
+cut point at a time, keeping each trim only if it still passes and neither `hook` nor
+`payoff` drops. All thresholds are measured on two videos only — placeholders for 014.
+
+A `worth_clipping` question was deleted 2026-09-23: flattest of eight questions across 38
+clips and never once fired, because it asked the model to combine `hook` and `payoff`,
+which the ranking already does in code.
 
 ### F. Rank and resolve — *code only*
 
-Policy lives here so it can change without re-running inference (evidence and question
-meanings are unchanged, so the judgments are reusable):
+- **Ranking:** composite `0.625·hook + 0.375·payoff`, each normalised to 0–1, best first.
+- **Overlap resolution:** after boundaries are placed, clips sharing >40% of their span
+  (IoU) keep the higher composite. Overlap between clips that each stand alone is fine.
+- **Duration:** the band is enforced by `place()` and by the widen/tighten loop, never
+  by re-asking the model.
 
-- **Hard gates** (any failure ⇒ widen once, then drop): `starts_mid_thought > 0.5`,
-  `dangling_reference > 0.5`, `payoff` score in the bottom level.
-- **Weighted score** for ranking: `hook`, `payoff`, `p_moment`, anchor Choice confidence.
-- **Overlap resolution:** clips sharing >40% of their span — keep the higher composite.
-- **Duration policy:** target band per preset, enforced in code. If `end_cut − start_cut`
-  falls outside the band, re-ask D with the band stated in the instructions rather than
-  trimming blindly.
-
-"Widen once" = re-run D with the start constrained to earlier cut points. Never trim to
-fit a duration target; a clip that doesn't fit the band is a clip that was cut wrong.
+The original plan said never trim to fit; the loop now does trim, because a human judged
+a 65s clip ten seconds too long. The guard is what makes that safe: an unguarded trim
+cut *"That guy, Terrence, is always talking about open source"* down to *"That's the
+culture of this organization"* — both passed the gate, only one was a clip.
 
 ## Live mode
 

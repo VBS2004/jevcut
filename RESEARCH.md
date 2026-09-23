@@ -259,6 +259,25 @@ and [011](issues/011-eval-set.md)'s real labels answer the genre question better
 proxy corpus in the wrong language. [003](issues/003-cut-point-extraction.md) carries the
 per-genre criterion.
 
+**Diarization — not needed for v1 (decided 2026-09-23).** Nothing in the real pipeline
+labels speakers: `transcribe_media()` never sets `Word.speaker`, so `speaker_change` cut
+points only exist when a word list with speaker tags is supplied by hand (`--from-json`).
+Found by the second-video check on a FOSDEM panel. Not built, because:
+
+- **It adds no coverage.** With speaker labels stripped from 968 AMI topic boundaries,
+  coverage within 2s was 96%, against 95% with them. A turn change nearly always falls on
+  a sentence end, so the cut point exists either way; `speaker_change` only renames it.
+- **The one multi-speaker failure we hit didn't need it.** `needs_the_room` over-fired on
+  panel cross-talk and was fixed by asking the model to tell speakers from audience in the
+  question itself (false flags 23 of 92 → 1), with no speaker tags.
+- **It is expensive here.** WhisperX / pyannote means a gated HuggingFace model, a heavy
+  dependency, and more GPU memory on a 4GB card that already falls back to CPU.
+
+Revisit if clips from interviews start opening on the wrong person's turn, if captions
+need speaker names, or if per-speaker selection ("only the guest's answers") becomes a
+feature. The existing `speaker_change` code stays: idle on transcribed media, working when
+tags are supplied.
+
 ## What would let building resume
 
 Either:

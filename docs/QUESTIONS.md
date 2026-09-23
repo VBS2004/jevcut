@@ -78,11 +78,13 @@ SCAN_QUESTIONS = {
 Line option descriptions are `None` because the state already carries each line's text —
 straight from the semantic-find cookbook.
 
-`kind` selects the boundary instruction used in Pass D. That's the point of asking it.
+`kind` was asked to select Pass D's boundary instruction. With Pass D off the critical path, nothing decides on it any more: it is stored on each anchor and clip (`Clip.kind`, written to the EDL) as a label. It costs one Choice per scan window; keep it if presets (020) use it, drop it if 014 finds no use.
 
 ---
 
 ## Pass D — boundary refinement
+
+> **Off the critical path since 2026-09-22.** Boundaries are set in code now (`boundaries.py`); a tuned constant matched or beat this Choice on every boundary task measured. Kept as the spec for 006 in case the gate ever shows the code boundaries are what is wrong with the clips. See [RESEARCH.md](../RESEARCH.md).
 
 State: anchor ±90s, cut points inlined as `«C07»` between sentences.
 
@@ -150,7 +152,7 @@ and re-ask** instead of silently accepting a truncated clip.
 
 ---
 
-## Pass E — standalone gate
+## Pass E — the clip gate
 
 State: **the cut clip text and nothing else.** No title, no surrounding transcript. The
 model should be in the same position as the viewer.
@@ -159,74 +161,38 @@ model should be in the same position as the viewer.
 {"clip": {"text": "…the exact words inside the cut…"}}
 ```
 
-```python
-VERIFY_QUESTIONS = {
-    "starts_mid_thought": Noul(
-        instructions=(
-            "Does the first sentence of `clip.text` begin in the middle of a thought — "
-            "continuing a sentence that started earlier, or answering a question that is "
-            "not in `clip.text`?"
-        ),
-        criteria=NoulCriteria(
-            true="Opens on 'and so', 'but then', 'yeah exactly', or an answer with no question",
-            false="Opens on a complete thought of its own",
-        ),
-    ),
-    "ends_mid_thought": Noul(
-        instructions="Does `clip.text` stop before its last sentence is finished?",
-        criteria=NoulCriteria(
-            true="The final sentence is cut off or leads into something not included",
-            false="The final sentence completes",
-        ),
-    ),
-    "dangling_reference": Noul(
-        instructions=(
-            "Does `clip.text` refer to a person, place or thing using a word like 'he', "
-            "'she', 'they', 'it', 'this' or 'that' without ever naming what it refers to "
-            "inside `clip.text`?"
-        ),
-        criteria=NoulCriteria(
-            true="A pronoun or 'that thing' points at something never named in this text",
-            false="Everything referred to is named somewhere in this text",
-        ),
-    ),
-    "standalone": Noul(
-        instructions=(
-            "Would a viewer who has seen nothing else understand `clip.text` from "
-            "beginning to end?"
-        ),
-        criteria=NoulCriteria(
-            true="Self-contained: the subject is named and the point is completed here",
-            false="Requires something said before or after this text",
-        ),
-    ),
-    "hook": Score(
-        instructions="How well does the opening of `clip.text` hold attention?",
-        criteria=[
-            "Opens on logistics, throat-clearing, or an unfinished thought",
-            "Opens on a plain statement of the subject",
-            "Opens on a question, a claim someone would argue with, or a vivid image",
-            "Opens on something a viewer would stop scrolling to hear the rest of",
-        ],
-    ),
-    "payoff": Score(
-        instructions="Does `clip.text` deliver what its opening sets up?",
-        criteria=[
-            "Sets something up and never returns to it",
-            "Partly answers it; the rest is left hanging",
-            "The point, outcome or punchline is stated plainly inside the text",
-        ],
-    ),
-}
-```
+**The exact wording lives in `src/jevcut/questions.py` → `verify_questions()`, and only
+there.** This section used to carry a full copy, the copy drifted, and for two days it
+showed a version that rejected every clip of real speech. What belongs here is what each
+question is for and why it is worded the way it is.
 
-`standalone` overlaps the three specific Nouls on purpose. The specific ones are the
-**gates** (they name a defect code can act on: widen the start, extend the end, drop). The
-broad one is a **signal** for ranking. Don't collapse them: each Noul is absolute, and all
-four can be low at once. That's the documented difference between one Choice over options
-and one Noul per option.
+| question | type | asks | on failure |
+| --- | --- | --- | --- |
+| `needs_the_room` | Noul | does the point depend on the live **audience** rather than on what the speakers say | drop (final cut only) |
+| `starts_mid_thought` | Noul | does the opening depend on something the viewer was not given | widen start |
+| `dangling_reference` | Noul | does it turn on something the viewer cannot identify from the clip alone | widen start |
+| `ends_mid_thought` | Noul | does it stop before the point it was making arrives | widen end |
+| `standalone` | Noul | would a viewer who has seen nothing else follow it | widen both |
+| `hook` | Score 0–3 | how well the opening holds attention | ranking; guards trims |
+| `payoff` | Score 0–2 | does it deliver what the opening sets up | ranking; bottom level widens end |
 
----
+### What changed, and why
+
+- **Criteria describe situations, not words.** The first version said a clip starting
+  mid-thought "opens on 'and so', 'but then', 'yeah exactly'". People speak in
+  connectives, so against a real talk it fired on nearly every excerpt. Listing the
+  connectives that were *fine* instead was the same mistake inverted.
+- **`worth_clipping` deleted (2026-09-23).** Flattest question across 38 clips (0.07
+  normalised), never fired, same result from two wordings. It asked the model to combine
+  `hook` and `payoff`, which the ranking already does in code.
+- **`needs_the_room` added, then reworded (2026-09-22/23).** Added after a human rejected
+  a clip whose payoff was a show of hands. Its first criteria listed "an answer called
+  back, a reaction the speaker replies to" — every reply in a panel — and on a panel video
+  it flagged half the anchors. Asking outright whether the point depends on the speakers
+  or on an audience cut false flags from 23 of 92 to 1.
+- **Measure before wiring in.** Every change above was spread-tested on real clip texts
+  first; two rewrites that sounded better (`hook`, `worth_clipping`) measured worse and
+  were not shipped. The method is in the `jev-questions` skill.
 
 ## Pass L — live tick
 

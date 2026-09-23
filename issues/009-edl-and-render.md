@@ -6,6 +6,7 @@
 | **Depends on** | 008 |
 | **Blocks** | 011 |
 | **Size** | M |
+| **Status** | **Built** — `src/jevcut/edl.py`, `src/jevcut/boundaries.py`, `tests/test_edl.py`. Runs as `jevcut clip`; the single-command `jevcut run` below is not built (020). |
 
 ## Why
 

@@ -22,7 +22,7 @@ The model never sees a number. Code never guesses a boundary.
 | ID | What it is | Who picks it |
 | --- | --- | --- |
 | `L018` | a **sentence** — one addressable line of transcript | Pass C picks one as the *anchor*: the quotable line |
-| `C03` | a **cut point** — one candidate place to cut | Pass D picks one as the start and one as the stop |
+| `C03` | a **cut point** — one candidate place to cut | **code** picks the start and stop (`boundaries.py`: snap, clamp, silence-align), then the gate widens or tightens by whole cut points. Pass D was going to choose them; arithmetic kept winning that job, see [RESEARCH.md](../RESEARCH.md) |
 | — | a **region** — the slice of transcript sent in one request | built by code around an anchor |
 
 Sentence IDs come from the

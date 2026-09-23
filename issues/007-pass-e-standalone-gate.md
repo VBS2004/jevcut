@@ -6,6 +6,7 @@
 | **Depends on** | 006 |
 | **Blocks** | 008 |
 | **Size** | M |
+| **Status** | **Built, reshaped** — `src/jevcut/gate.py`, `src/jevcut/questions.py`, `tests/test_gate.py`. Seven questions, repair loop with widen/tighten; differs from the spec below in the ways recorded in docs/QUESTIONS.md. |
 
 ## Why
 

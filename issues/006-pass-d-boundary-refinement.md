@@ -6,6 +6,7 @@
 | **Depends on** | 003, 005 |
 | **Blocks** | 007 |
 | **Size** | L |
+| **Status** | **Off the critical path** (2026-09-22) — boundaries are set in code (`src/jevcut/boundaries.py`); see RESEARCH.md. Kept as a spec. |
 
 ## Why
 
