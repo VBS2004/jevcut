@@ -57,3 +57,28 @@ def test_run_stops_when_transcription_fails(tmp_path, monkeypatch):
 
     assert cli.main(["run", "talk.mp4", "--out", str(tmp_path)]) == 3
     assert "clip" not in calls
+
+
+def test_render_options_default_off_so_output_is_unchanged(tmp_path, monkeypatch):
+    calls = _record(monkeypatch)
+
+    assert cli.main(["clip", "t.json"]) == 0
+    assert (calls["clip"].vertical, calls["clip"].captions) == (False, False)
+    assert cli.main(["run", "talk.mp4", "--out", str(tmp_path)]) == 0
+    assert (calls["clip"].vertical, calls["clip"].captions) == (False, False)
+
+
+def test_clip_takes_the_render_options(monkeypatch):
+    calls = _record(monkeypatch)
+
+    assert cli.main(["clip", "t.json", "--media", "talk.mp4", "--vertical", "--captions"]) == 0
+    assert (calls["clip"].vertical, calls["clip"].captions) == (True, True)
+
+
+def test_run_passes_the_render_options_through_to_clip(tmp_path, monkeypatch):
+    calls = _record(monkeypatch)
+
+    assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--vertical"]) == 0
+    assert (calls["clip"].vertical, calls["clip"].captions) == (True, False)
+    assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--captions"]) == 0
+    assert (calls["clip"].vertical, calls["clip"].captions) == (False, True)

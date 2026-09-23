@@ -104,6 +104,9 @@ uv run python scripts/check_docs.py   # do the docs still describe the code?
 # to watch them on, best first, with the scores that ranked them), all in clips/
 # a second run reuses clips/transcript.json, so ASR runs once; Jev answers are cached
 uv run jevcut run talk.mp4 --language en --out clips/
+# optional, on run or clip: --vertical centre-crops to 9:16 at 1080x1920 (no face
+# tracking yet), --captions burns in word-level captions from the transcript
+uv run jevcut run talk.mp4 --language en --out clips/ --vertical --captions
 
 # the same in two steps
 uv run jevcut transcribe talk.mp4 --model small --language en --out t.json

@@ -284,7 +284,13 @@ def cmd_clip(args: argparse.Namespace) -> int:
 
     if args.media:
         for c in kept:
-            render_clip(args.media, c, out_dir / f"{c.id}.mp4")
+            render_clip(
+                args.media,
+                c,
+                out_dir / f"{c.id}.mp4",
+                vertical=args.vertical,
+                captions=transcript if args.captions else None,
+            )
         print(f"rendered {len(kept)} mp4s into {out_dir}/")
     else:
         print("no --media, so nothing rendered; the EDL is enough to re-render later")
@@ -328,6 +334,8 @@ def cmd_run(args: argparse.Namespace) -> int:
             media=args.input,
             anchors=None,
             out=str(out_dir),
+            vertical=args.vertical,
+            captions=args.captions,
         )
     )
 
@@ -365,6 +373,21 @@ def cmd_smoke(args: argparse.Namespace) -> int:
             f"${summary['cost_usd']:.6f}"
         )
     return 0
+
+
+def _render_flags(p: argparse.ArgumentParser) -> None:
+    """Render options shared by clip and run. Both off by default, so a plain run renders
+    the source frame as it is."""
+    p.add_argument(
+        "--vertical",
+        action="store_true",
+        help="centre-crop to 9:16 at 1080x1920 (no face tracking yet)",
+    )
+    p.add_argument(
+        "--captions",
+        action="store_true",
+        help="burn in word-level captions from the transcript's word timings",
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -425,6 +448,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--media", help="source video; without it only the EDL is written")
     p.add_argument("--anchors", help="reuse an anchors.json instead of scanning again")
     p.add_argument("--out", help="output directory (default: clips/)")
+    _render_flags(p)
     p.set_defaults(func=cmd_clip)
 
     p = sub.add_parser("run", help="media -> ranked mp4s in one command (transcribe + clip)")
@@ -441,6 +465,7 @@ def main(argv: list[str] | None = None) -> int:
         choices=["live", "replay", "refresh", "off"],
         help="as for clip",
     )
+    _render_flags(p)
     p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
