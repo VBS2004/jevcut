@@ -26,6 +26,11 @@ gate's threshold *is* the cost model.
 - **Repeat with removal:** after an anchor wins, drop its ±20s neighbourhood from the
   window and re-ask, up to 3 anchors per window, stopping when `contains_moment` falls
   below threshold. (The sponsor-detection loop.)
+- **Changed 2026-09-23:** the winner is the strongest ±20s *stretch* of the anchor vote,
+  not the single top line, and `none_of_these` must outweigh that stretch to stop the
+  window; the last window is end-aligned at full size. Both from a real talk where the
+  scan elected three playground-demo lines and missed the hot take — see
+  `strongest_stretch` in `scan.py`.
 - Emit `anchors.json`: `{sentence_id, window_id, kind, p_moment, anchor_confidence}`.
 
 ## Acceptance criteria

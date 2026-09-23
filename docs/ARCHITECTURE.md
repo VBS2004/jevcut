@@ -67,9 +67,16 @@ Each request asks all three questions in parallel against the same state:
   route Pass D's boundary rules; with boundaries in code nothing decides on it, so it is
   stored on the clip as a label. Keep it if presets (020) use it, drop it if 014 doesn't.
 
-Iterate with the winning anchor's neighbourhood removed, up to **3 anchors per window**,
-stopping when `contains_moment` drops below threshold. (Removal-and-repeat is the
-sponsor-detection loop.)
+**Code reads the anchor vote by stretch, not by line.** A moment is several lines, so
+its vote splits across them; code adds the probabilities up over ±20s around each line,
+the strongest stretch wins, and the anchor is Jev's top line inside it. `none_of_these`
+has to beat that whole stretch to end the window. (Added 2026-09-23: on a real talk the
+best hot take had 31% over four lines and lost to a single demo line on 18%.)
+
+Iterate with the winning stretch removed, up to **3 anchors per window**, stopping when
+`contains_moment` drops below threshold or `none_of_these` outweighs every stretch.
+(Removal-and-repeat is the sponsor-detection loop.) The last window ends on the last
+sentence at full size, so its winner competed against as many lines as any other.
 
 ### D. Boundaries — *code only* (was: Jev, 1 request per anchor)
 

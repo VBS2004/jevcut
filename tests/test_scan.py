@@ -43,6 +43,12 @@ class ScriptedBackend:
         self.calls.append((state, questions))
         p_moment, choice = self.script.pop(0) if self.script else (0.0, NO_ANCHOR)
         options = list(questions["anchor"].criteria)
+        if isinstance(choice, dict):
+            # A whole distribution, as Jev returned it; the pick is its top option.
+            probabilities = {o: choice.get(o, 0.0) for o in options}
+            choice = max(probabilities, key=probabilities.get)
+        else:
+            probabilities = {o: (0.6 if o == choice else 0.4 / len(options)) for o in options}
         return Response(
             model="typesafe/jev-1.13",
             answers={
@@ -51,9 +57,7 @@ class ScriptedBackend:
                     type="choice",
                     choice=choice,
                     confidence=0.7,
-                    probabilities={
-                        o: (0.6 if o == choice else 0.4 / len(options)) for o in options
-                    },
+                    probabilities=probabilities,
                 ),
                 "kind": Answer(type="choice", choice="story", confidence=0.8),
             },
@@ -187,6 +191,66 @@ def test_carries_the_anchor_distribution_through(tmp_path):
     assert anchor.anchor_probability == 0.6
     assert anchor.kind == "story"
     assert anchor.t0 == t.sentences[3].t0
+
+
+# --- split votes: a moment is several lines ----------------------------------
+
+
+def _split_vote(t: Transcript, none: float = 0.12) -> dict[str, float]:
+    """The shape of a real window (CoderOne, 2026-09-23): the hot take's vote spread over
+    four neighbouring lines, a playground-demo line far away on the single highest share."""
+    ids = [s.id for s in t.sentences]
+    votes = {ids[10]: 0.14, ids[12]: 0.10, ids[13]: 0.06, ids[15]: 0.06, ids[70]: 0.18}
+    return {**votes, NO_ANCHOR: none}
+
+
+def test_a_moment_told_over_several_lines_beats_one_louder_line(tmp_path):
+    t = _transcript(80, word_s=0.4)  # ~4s a sentence, so lines 10-15 sit within 20s
+    client = _client(tmp_path, [(0.91, _split_vote(t)), (0.1, NO_ANCHOR)])
+    anchors = scan_window(client, Window(id=0, sentences=t.sentences), Config())
+    assert anchors[0].sentence_id == t.sentences[10].id  # the stretch's own top line
+    assert anchors[0].stretch_probability == pytest.approx(0.36)
+    assert anchors[0].anchor_probability == 0.14
+
+
+def test_none_of_these_must_beat_the_whole_stretch_not_one_line(tmp_path):
+    # 18% "none" beat every single line of the moment, and used to end the window.
+    t = _transcript(80, word_s=0.4)
+    client = _client(tmp_path, [(0.91, _split_vote(t, none=0.18)), (0.1, NO_ANCHOR)])
+    anchors = scan_window(client, Window(id=0, sentences=t.sentences), Config())
+    assert [a.sentence_id for a in anchors] == [t.sentences[10].id]
+
+
+def test_none_of_these_still_wins_when_it_outweighs_every_stretch(tmp_path):
+    t = _transcript(80, word_s=0.4)
+    client = _client(tmp_path, [(0.91, _split_vote(t, none=0.40))])
+    assert scan_window(client, Window(id=0, sentences=t.sentences), Config()) == []
+
+
+def test_every_line_that_voted_for_a_moment_leaves_with_it(tmp_path):
+    t = _transcript(80, word_s=0.4)
+    client = _client(tmp_path, [(0.91, _split_vote(t)), (0.1, NO_ANCHOR)])
+    scan_window(client, Window(id=0, sentences=t.sentences), Config())
+    offered = set(client.backend.calls[1][1]["anchor"].criteria)
+    assert not {t.sentences[i].id for i in (10, 12, 13, 15)} & offered
+    assert t.sentences[70].id in offered  # the other moment is still in the running
+
+
+def test_without_a_distribution_the_pick_stands(tmp_path):
+    t = _transcript(20)
+    window = Window(id=0, sentences=t.sentences)
+    client = _client(tmp_path, [])
+    client.backend.system_one = lambda state, questions, model: Response(
+        model="typesafe/jev-1.13",
+        answers={
+            "contains_moment": Answer(type="noul", noul=0.9),
+            "anchor": Answer(type="choice", choice=t.sentences[4].id, confidence=0.5),
+            "kind": Answer(type="choice", choice="story", confidence=0.8),
+        },
+        input_tokens=100,
+    )
+    anchors = scan_window(client, window, Config(max_anchors_per_window=1))
+    assert [a.sentence_id for a in anchors] == [t.sentences[4].id]
 
 
 # --- dedupe -------------------------------------------------------------------

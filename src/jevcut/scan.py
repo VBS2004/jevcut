@@ -42,6 +42,9 @@ class Anchor:
     p_moment: float
     anchor_confidence: float
     anchor_probability: float
+    #: The vote summed over the stretch around the anchor -- what actually won it the
+    #: round. Defaulted so anchors.json written before it existed still reads back.
+    stretch_probability: float = 0.0
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -191,11 +194,7 @@ def scan_window(client: JevClient, window: Window, config: Config | None = None)
             break
 
         choice = answers["anchor"].choice
-        if choice == NO_ANCHOR or choice is None:
-            break
-
-        sentence = next((s for s in remaining if s.id == choice), None)
-        if sentence is None:
+        if choice not in {s.id for s in remaining} | {NO_ANCHOR, None}:
             # Jev returned an option we never offered. Issue 010's triage exists to tell
             # this apart from an ordinary miss, which it cannot do if we stay quiet.
             log.warning(
@@ -208,6 +207,21 @@ def scan_window(client: JevClient, window: Window, config: Config | None = None)
             break
 
         probabilities = answers["anchor"].probabilities or {}
+        stretch = strongest_stretch(remaining, probabilities, config.anchor_removal_s)
+        if stretch is None:
+            # Only a pick came back, no distribution to add up: take the pick as it is.
+            if choice in (NO_ANCHOR, None):
+                break
+            sentence = next(s for s in remaining if s.id == choice)
+            members, mass = [sentence], probabilities.get(choice, 0.0)
+        else:
+            sentence, members, mass = stretch
+            # "None of these" has to beat the whole stretch, not its best single line: a
+            # moment told over several lines splits its vote, and one line of it losing
+            # to 18% is not the window saying there is nothing here.
+            if probabilities.get(NO_ANCHOR, 0.0) >= mass:
+                break
+
         anchors.append(
             Anchor(
                 sentence_id=sentence.id,
@@ -217,13 +231,15 @@ def scan_window(client: JevClient, window: Window, config: Config | None = None)
                 t1=sentence.t1,
                 p_moment=p_moment,
                 anchor_confidence=answers["anchor"].confidence or 0.0,
-                anchor_probability=probabilities.get(choice, 0.0),
+                anchor_probability=probabilities.get(sentence.id, 0.0),
+                stretch_probability=round(mass, 4),
             )
         )
 
-        # Remove the winner's neighbourhood before re-asking, so round two finds a
-        # different moment rather than re-electing the same one.
-        excluded |= {
+        # Remove the moment before re-asking, so round two finds a different one rather
+        # than re-electing this one: the anchor's neighbourhood, and every line whose
+        # vote was counted towards it.
+        excluded |= {s.id for s in members} | {
             s.id
             for s in window.sentences
             if s.t1 >= sentence.t0 - config.anchor_removal_s
@@ -231,6 +247,35 @@ def scan_window(client: JevClient, window: Window, config: Config | None = None)
         }
 
     return anchors
+
+
+def strongest_stretch(
+    sentences: list[Sentence], probabilities: dict[str, float], radius_s: float
+) -> tuple[Sentence, list[Sentence], float] | None:
+    """The clip-sized stretch Jev's anchor vote favours most, and the line in it Jev
+    favoured most: ``(anchor, stretch, stretch_probability)``, or None with no votes.
+
+    ``anchor`` is a Choice over single lines, but a moment is several lines, and the vote
+    splits across them. On a real talk the best hot take got 14% + 10% + 6% + 6% over
+    four lines and lost to a demo line on 18% -- the whole moment had 31%, and the
+    lines were right next to each other. Adding the vote up over ``radius_s`` either
+    side of each line is arithmetic on what Jev already said, so code does it; which
+    line is the quotable one is still Jev's pick, made inside the winning stretch.
+    """
+    voted = [s for s in sentences if probabilities.get(s.id, 0.0) > 0.0]
+    if not voted:
+        return None
+
+    def around(centre: Sentence) -> list[Sentence]:
+        return [s for s in voted if s.t1 >= centre.t0 - radius_s and s.t0 <= centre.t1 + radius_s]
+
+    def weight(centre: Sentence) -> tuple[float, float]:
+        return sum(probabilities[s.id] for s in around(centre)), probabilities[centre.id]
+
+    centre = max(voted, key=weight)
+    stretch = around(centre)
+    anchor = max(stretch, key=lambda s: probabilities[s.id])
+    return anchor, stretch, sum(probabilities[s.id] for s in stretch)
 
 
 def dedupe(anchors: list[Anchor], config: Config | None = None) -> list[Anchor]:

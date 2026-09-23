@@ -78,6 +78,11 @@ SCAN_QUESTIONS = {
 Line option descriptions are `None` because the state already carries each line's text —
 straight from the semantic-find cookbook.
 
+The answer is read by stretch, not by line: code sums the vote over ±20s around each line
+and takes Jev's top line inside the strongest stretch (see ARCHITECTURE §C). The wording
+is unchanged — Jev still names the quotable line; code only stops a moment told over
+several lines from losing to one louder line because its vote was split.
+
 `kind` was asked to select Pass D's boundary instruction. With Pass D off the critical path, nothing decides on it any more: it is stored on each anchor and clip (`Clip.kind`, written to the EDL) as a label. It costs one Choice per scan window; keep it if presets (020) use it, drop it if 014 finds no use.
 
 ---
