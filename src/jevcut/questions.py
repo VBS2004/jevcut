@@ -1,7 +1,11 @@
 """Question builders, one function per pass.
 
-These are the specs in docs/QUESTIONS.md, in code. Keep the two in sync: the wording is
-the thing being tuned, and issue 014 A/B-tests these exact strings.
+**This file is the only source of the exact wording.** docs/QUESTIONS.md explains what
+each question is for and why it is worded as it is, but does not copy the strings: it
+used to, the copy drifted, and for two days it showed a gate that rejected every clip.
+The wording is the thing being tuned, and issue 014 A/B-tests these exact strings.
+`scripts/check_docs.py` fails if a question named here is missing from the docs, or the
+docs name one that no longer exists.
 """
 
 from __future__ import annotations
