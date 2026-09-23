@@ -95,7 +95,8 @@ eval/       a synthetic fixture and the research experiments; no labeled set yet
 ## Running it
 
 ```bash
-uv sync --extra dev          # add --extra asr for Whisper, --extra shots for scene detection
+uv sync --extra dev          # add --extra asr for Whisper (brings the CUDA runtime, so an
+                             # NVIDIA GPU is used), --extra shots for scene detection
 uv run pytest                # no API key needed
 uv run ruff check .          # lint; the known findings are listed below
 uv run python scripts/check_docs.py   # do the docs still describe the code?

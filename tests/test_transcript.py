@@ -65,3 +65,14 @@ def test_sanity_check_flags_bad_density():
     sentences = segment_words(speech("one. two. three. four.", 0.0))
     t = Transcript(sentences=sentences, duration=3600.0)
     assert any("sanity band" in p for p in sanity_check(t))
+
+
+def test_no_cuda_wheels_is_not_an_error(monkeypatch):
+    """Without the nvidia-* wheels (CPU-only installs, macOS) the loader is a no-op and
+    decoding falls back to CPU as before."""
+    import sys
+
+    from jevcut import transcript
+
+    monkeypatch.setitem(sys.modules, "nvidia", None)  # makes `import nvidia` raise
+    assert transcript._load_cuda_wheels() == 0

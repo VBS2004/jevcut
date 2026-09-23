@@ -9,7 +9,13 @@ dependencies = [
 
 [project.optional-dependencies]
 # Heavy, optional: ingest works from pre-computed word timings without these.
-asr = ["faster-whisper>=1.0"]
+asr = [
+    "faster-whisper>=1.0",
+    # The CUDA 12 runtime CTranslate2 loads at the first encode. Without these a working
+    # GPU still falls back to CPU (see transcript._decode). Wheels, not a system install.
+    "nvidia-cublas-cu12; sys_platform == 'linux'",
+    "nvidia-cudnn-cu12>=9,<10; sys_platform == 'linux'",
+]
 shots = ["scenedetect>=0.6"]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 

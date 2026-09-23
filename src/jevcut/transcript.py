@@ -15,6 +15,7 @@ Sources, in order of preference:
 
 from __future__ import annotations
 
+import ctypes
 import difflib
 import json
 import logging
@@ -160,6 +161,47 @@ def from_word_json(path: str | Path) -> list[Word]:
 LANGUAGE_DETECTION_SEGMENTS = 6
 
 
+#: The CUDA runtime libraries CTranslate2 opens by name at the first encode, as shipped in
+#: NVIDIA's pip wheels (the `asr` extra): nvidia/cublas/lib, nvidia/cudnn/lib.
+CUDA_WHEEL_LIBS = ("libcublasLt.so.*", "libcublas.so.*", "libcudnn*.so.*")
+
+
+def _load_cuda_wheels() -> int:
+    """Load the pip-installed CUDA runtime into this process; return how many loaded.
+
+    The wheels put the libraries under site-packages, where the OS loader never looks,
+    so CTranslate2's ``dlopen("libcublas.so.12")`` fails on a machine whose GPU works.
+    A library already loaded with ``RTLD_GLOBAL`` satisfies a later dlopen of the same
+    soname, so loading them here, by full path, is the whole fix -- no LD_LIBRARY_PATH
+    wrapper around the CLI. They depend on one another, so load in passes until a pass
+    makes no progress rather than hard-coding an order that moves between releases.
+    """
+    try:
+        import nvidia  # namespace package from the nvidia-* wheels
+    except ImportError:
+        return 0
+    pending = [
+        lib
+        for root in getattr(nvidia, "__path__", [])
+        for pattern in CUDA_WHEEL_LIBS
+        for lib in sorted(Path(root).glob(f"*/lib/{pattern}"))
+    ]
+    loaded = 0
+    while pending:
+        failed = []
+        for lib in pending:
+            try:
+                ctypes.CDLL(str(lib), mode=ctypes.RTLD_GLOBAL)
+                loaded += 1
+            except OSError:
+                failed.append(lib)
+        if len(failed) == len(pending):
+            log.debug("could not load CUDA wheel libraries: %s", [p.name for p in failed])
+            break
+        pending = failed
+    return loaded
+
+
 def _decode(
     WhisperModel, media: str, model_size: str, config: Config, language: str | None = None
 ) -> list:
@@ -175,6 +217,7 @@ def _decode(
     Segments are materialised inside the try: faster-whisper returns a generator, so a
     device failure surfaces during iteration, not at the call.
     """
+    _load_cuda_wheels()
     for device in ("auto", "cpu"):
         try:
             model = WhisperModel(model_size, device=device, compute_type="int8")
@@ -201,7 +244,7 @@ def _decode(
                 raise
             log.warning(
                 "GPU transcription failed (%s); falling back to CPU, which is slower. "
-                "Install the CUDA runtime libraries to use the GPU.",
+                "`uv sync --extra asr` installs the CUDA runtime the GPU needs.",
                 str(exc).strip().splitlines()[-1][:120],
             )
     raise AssertionError("unreachable")
