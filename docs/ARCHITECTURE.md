@@ -196,7 +196,8 @@ visible in the logs rather than inferred from drifting metrics.
 ## Non-goals
 
 - No generated titles, captions or descriptions. Jev doesn't generate; use another model
-  downstream if you want them.
+  downstream if you want them. (The optional burned-in captions are the transcript's own
+  words at their own timings, not generated text.)
 - No visual judgment in v1 (no "is the speaker on camera"). Shot cuts are used only as
   candidate boundaries.
 - No cross-video memory and no speaker identity. v1 has no diarization at all, so

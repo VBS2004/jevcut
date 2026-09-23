@@ -6,7 +6,7 @@
 | **Depends on** | 008 |
 | **Blocks** | 011 |
 | **Size** | M |
-| **Status** | **Built** — `src/jevcut/edl.py`, `src/jevcut/boundaries.py`, `src/jevcut/sheet.py`, `tests/test_edl.py`, `tests/test_cli.py`, `tests/test_sheet.py`. Runs as `jevcut run`, or `jevcut clip` on an existing transcript; every run writes `index.html` beside the clips. The 9:16 crop is a centre crop to 1080x1920; following the speaker's face is a separate, later job. Not built: burned captions below. |
+| **Status** | **Built** — `src/jevcut/edl.py`, `src/jevcut/boundaries.py`, `src/jevcut/captions.py`, `src/jevcut/sheet.py`, `tests/test_edl.py`, `tests/test_captions.py`, `tests/test_cli.py`, `tests/test_sheet.py`. Runs as `jevcut run`, or `jevcut clip` on an existing transcript; every run writes `index.html` beside the clips. The 9:16 crop is a centre crop to 1080x1920; following the speaker's face is a separate, later job. Captions are burned from the word timings as an ASS file, a few words a line with the spoken word highlighted. |
 
 ## Why
 

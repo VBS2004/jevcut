@@ -15,8 +15,12 @@ from __future__ import annotations
 
 import json
 import subprocess
+import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+
+from jevcut.captions import clip_words, escape_filter_path, to_ass
+from jevcut.models import Transcript
 
 #: Fast-seek to this far before the clip, then seek the remainder accurately. Input
 #: seeking alone lands on a keyframe, which for a system claiming boundary precision is
@@ -96,13 +100,17 @@ VERTICAL_SIZE = (1080, 1920)
 VERTICAL_CROP = r"crop=w=trunc(min(iw\,ih*9/16)/2)*2:h=trunc(min(ih\,iw*16/9)/2)*2"
 
 
-def video_filter(*, vertical: bool = False) -> str | None:
+def video_filter(*, vertical: bool = False, ass: str | Path | None = None) -> str | None:
     """The -vf chain for a render, or None when the frame goes through untouched."""
     steps: list[str] = []
     if vertical:
         width, height = VERTICAL_SIZE
         # setsar=1 so players show the 1080x1920 it is, whatever the source's pixel shape.
         steps += [VERTICAL_CROP, f"scale={width}:{height}", "setsar=1"]
+    if ass is not None:
+        # Last, so the captions are drawn on the final frame at its own resolution
+        # rather than cropped or scaled with the picture.
+        steps.append(f"ass=filename={escape_filter_path(str(ass))}")
     return ",".join(steps) or None
 
 
@@ -149,12 +157,19 @@ def render_command(
     ]
 
 
-def render_clip(source: str | Path, clip: Clip, out: str | Path, *, vertical: bool = False) -> Path:
+def render_clip(
+    source: str | Path,
+    clip: Clip,
+    out: str | Path,
+    *,
+    vertical: bool = False,
+    captions: Transcript | None = None,
+) -> Path:
     """Cut one clip with ffmpeg, accurately.
 
     Re-encodes: stream copy would snap the start to the nearest keyframe, which can be
     seconds away and would silently undo the boundary work. ``vertical`` centre-crops to
-    9:16 at 1080x1920.
+    9:16 at 1080x1920; ``captions`` burns in word-level captions from that transcript.
     """
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -172,15 +187,23 @@ def render_clip(source: str | Path, clip: Clip, out: str | Path, *, vertical: bo
             f"it may start at or past the end of {source}"
         )
 
-    cmd = render_command(
-        source,
-        out,
-        render_t0=clip.render_t0,
-        pre=pre,
-        duration=duration,
-        vf=video_filter(vertical=vertical),
-    )
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    with tempfile.TemporaryDirectory(prefix="jevcut-") as tmp:
+        ass = None
+        if captions is not None:
+            # Styled for the frame the captions land on, which is the output, not the source.
+            width, height = VERTICAL_SIZE if vertical else probe_size(source)
+            ass = Path(tmp) / f"{clip.id}.ass"
+            words = clip_words(captions, clip.render_t0, end)
+            ass.write_text(to_ass(words, width, height, shift=pre), encoding="utf-8")
+        cmd = render_command(
+            source,
+            out,
+            render_t0=clip.render_t0,
+            pre=pre,
+            duration=duration,
+            vf=video_filter(vertical=vertical, ass=ass),
+        )
+        result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"ffmpeg failed on {clip.id}: {result.stderr.strip()[:400]}")
     return out

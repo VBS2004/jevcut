@@ -2,11 +2,13 @@
 
 import json
 import subprocess
+import tempfile
 
 import pytest
 
 from jevcut.edl import (
     VERTICAL_CROP,
+    VERTICAL_SIZE,
     Clip,
     have_ffmpeg,
     probe_duration,
@@ -17,6 +19,7 @@ from jevcut.edl import (
     video_filter,
     write_edl,
 )
+from jevcut.models import Sentence, Transcript, Word
 
 needs_ffmpeg = pytest.mark.skipif(not have_ffmpeg(), reason="ffmpeg/ffprobe not on PATH")
 
@@ -134,6 +137,17 @@ def test_vertical_crops_then_scales_to_1080x1920():
     assert cmd[-1] == "out.mp4"
 
 
+def test_captions_are_burned_last_so_they_are_not_cropped():
+    vf = video_filter(vertical=True, ass="/tmp/x/clip001.ass")
+    assert vf == f"{VERTICAL_CROP},scale=1080:1920,setsar=1,ass=filename=/tmp/x/clip001.ass"
+    assert video_filter(ass="/tmp/x/clip001.ass") == "ass=filename=/tmp/x/clip001.ass"
+
+
+def test_the_ass_path_is_escaped_inside_the_filter():
+    vf = video_filter(ass="/tmp/a:b,c/clip001.ass")
+    assert vf == "ass=filename=/tmp/a\\\\:b\\,c/clip001.ass"
+
+
 def test_the_crop_commas_are_escaped_for_the_filtergraph():
     """An unescaped comma inside min() would split the chain into two broken filters."""
     body = VERTICAL_CROP.replace("\\,", "")
@@ -187,3 +201,31 @@ def test_a_vertical_render_is_1080x1920_and_keeps_its_length(media, tmp_path):
     out = render_clip(media, clip, tmp_path / "v.mp4", vertical=True)
     assert probe_size(out) == (1080, 1920)
     assert abs(probe_duration(out) - (clip.render_t1 - clip.render_t0)) <= 0.1
+
+
+def _spoken(t0: float, n: int) -> Transcript:
+    words = [Word(f"word{i}", t0 + i * 0.4, t0 + i * 0.4 + 0.3, "A") for i in range(n)]
+    return Transcript(
+        sentences=[Sentence("L000", " ".join(w.text for w in words), t0, words[-1].t1, words)]
+    )
+
+
+@needs_ffmpeg
+def test_a_captioned_render_keeps_its_length(media, tmp_path):
+    clip = _clip(t0=8.0, t1=20.0, render_t0=7.9, render_t1=20.3)
+    out = render_clip(media, clip, tmp_path / "c.mp4", captions=_spoken(8.0, 20))
+    assert abs(probe_duration(out) - (clip.render_t1 - clip.render_t0)) <= 0.1
+
+
+@needs_ffmpeg
+def test_captions_render_through_a_directory_with_filtergraph_characters(
+    media, tmp_path, monkeypatch
+):
+    """The ASS file lives in a temp dir, and TMPDIR can be anything. A path the escaping
+    got wrong makes ffmpeg fail to parse the graph or fail to open the file."""
+    awkward = tmp_path / "we ird:d'ir,[x];y"
+    awkward.mkdir()
+    monkeypatch.setattr(tempfile, "tempdir", str(awkward))
+    clip = _clip(t0=8.0, t1=12.0, render_t0=7.9, render_t1=12.3)
+    out = render_clip(media, clip, tmp_path / "c.mp4", vertical=True, captions=_spoken(8.0, 8))
+    assert probe_size(out) == VERTICAL_SIZE
