@@ -1,7 +1,7 @@
 """Issue 005 -- Pass C: the coarse scan for anchors.
 
-The cheap half of the cascade. One request per 80-sentence window finds the lines worth
-spending real money on; everything downstream costs two more requests per survivor, so
+The cheap half of the cascade. Up to three requests per 80-sentence window find the lines
+worth spending real money on; everything downstream costs gate requests per survivor, so
 this gate's threshold *is* the cost model.
 """
 
@@ -128,6 +128,14 @@ def windows(transcript: Transcript, config: Config | None = None) -> list[Window
             s for s in tail.sentences if s.id not in {x.id for x in out[-1].sentences}
         ]
         out[-1] = Window(id=out[-1].id, sentences=merged)
+    # A tail worth keeping is still a partial window, and a partial window is a biased
+    # one: Jev picks the best line *among those offered*, so 26 lines of one playground
+    # demo elect a demo line because nothing else is on the table. That tail produced
+    # two of six anchors on a real talk while the talk's best hot take, one window
+    # earlier, went unfound. Ending the last window on the last sentence gives it the
+    # same span as every other, so its winner beat real competition. Same request count.
+    elif len(out) > 1 and len(out[-1].sentences) < size:
+        out[-1] = Window(id=out[-1].id, sentences=sentences[-size:])
     return out
 
 

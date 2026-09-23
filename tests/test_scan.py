@@ -323,11 +323,21 @@ def test_a_short_tail_window_is_folded_into_the_previous_one():
     assert len(found[0].sentences) == 85
 
 
-def test_a_substantial_tail_window_is_kept():
+def test_a_substantial_tail_window_is_kept_at_full_size():
+    """Kept, and ending on the last sentence with a full window's span: a partial window
+    offers fewer lines, so its winner never had to beat the rest of the talk."""
     t = _transcript(120)
     found = windows(t, Config(min_tail_window=20))
     assert len(found) == 2
-    assert len(found[1].sentences) >= 20
+    assert len(found[1].sentences) == 80
+    assert found[1].sentences[-1].id == t.sentences[-1].id
+
+
+def test_a_transcript_shorter_than_a_window_is_one_window_as_it_is():
+    # Short videos are normal; nothing pads or refuses them.
+    t = _transcript(27)
+    found = windows(t, Config())
+    assert [len(w.sentences) for w in found] == [27]
 
 
 def test_tail_merging_never_drops_or_duplicates_a_sentence():
