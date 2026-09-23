@@ -1,0 +1,279 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=jgGyX7MPPVg",
+    "title": "Anthropic Actually Fixed Opus",
+    "channel": "Theo - t3.gg",
+    "genre": "long opinion commentary (partly screen-shared)",
+    "duration_s": 2413.6,
+    "sha256_prefix": "ec05e315bcc6f1f2",
+    "local_path": "eval/media/theo-opus.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "opus-line-let-die",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.3
+      ],
+      "end": 67.1,
+      "end_range": [
+        60.2,
+        67.1
+      ],
+      "why": "Cold open: Opus 4.5 changed AI coding, Opus 5 was slop and 'more a liability', Anthropic let the Opus line die. The natural arc runs on to 'is this model blowing me away? Absolutely' at 113.3 (over band); ending at 60-67 on the Opus 5 verdict is the tight cut that stands alone.",
+      "over_band": false
+    },
+    {
+      "id": "zdr-makes-opus-default",
+      "start": 619.0,
+      "start_range": [
+        619.0,
+        620.3
+      ],
+      "end": 659.3,
+      "end_range": [
+        659.3,
+        662.0
+      ],
+      "why": "The data retention point: Fable has no zero-data-retention, so big companies can't enable it; Opus can, so it will instantly be the most popular coding model. Self-contained insight, no screen needed.",
+      "over_band": false
+    },
+    {
+      "id": "anthropic-loosening-leash",
+      "start": 662.6,
+      "start_range": [
+        662.6,
+        663.0
+      ],
+      "end": 714.1,
+      "end_range": [
+        714.1,
+        733.9
+      ],
+      "why": "Reads the one-line employee tweet ('way better than Opus 5, sorry about that model') aloud, then the real take: Anthropic is loosening its tight leash on what employees can post. The tweet is fully spoken so it survives without the screen. Ends either on 'I hope they maintain this' or after the fanboy aside at 733.9.",
+      "over_band": false
+    },
+    {
+      "id": "cheaper-not-efficient",
+      "start": 836.8,
+      "start_range": [
+        836.5,
+        837.0
+      ],
+      "end": 869.8,
+      "end_range": [
+        869.8,
+        870.3
+      ],
+      "why": "'The price changes are real, but it's not because it's more efficient': 120k tokens per task vs Astra's 27k, and 2x faster doesn't matter if you need 4x the tokens. Numbers are spoken and serve a single clear claim, unlike the chart-reading around it.",
+      "over_band": false
+    },
+    {
+      "id": "six-hour-markdown-plan",
+      "start": 1047.8,
+      "start_range": [
+        1047.8,
+        1048.5
+      ],
+      "end": 1077.7,
+      "end_range": [
+        1073.7,
+        1077.7
+      ],
+      "why": "Disdain for max effort: it loops forever, and his own max thread ran 6h30m writing a markdown plan and only got halfway. Starts mid Whisper-sentence at 'I think this release is really emphasizing my disdain'.",
+      "over_band": false
+    },
+    {
+      "id": "dont-use-max",
+      "start": 1081.5,
+      "start_range": [
+        1081.5,
+        1082.0
+      ],
+      "end": 1150.3,
+      "end_range": [
+        1146.1,
+        1150.3
+      ],
+      "why": "Skatebench evidence: x-high ~330 reasoning tokens per question, max ~5,000, a 10x cost for a 1% bump, 'for no good fucking reason. Don't use max.' Strongest hot take in the video; runs ~69s.",
+      "over_band": false
+    },
+    {
+      "id": "one-percent-of-weekly",
+      "start": 1198.3,
+      "start_range": [
+        1198.3,
+        1233.4
+      ],
+      "end": 1264.7,
+      "end_range": [
+        1260.8,
+        1264.7
+      ],
+      "why": "A day of real work (it found his repo, made a worktree, filed and merged a PR) cost 1% of his weekly limit, so it beats the Codex sub on value for $200. Range is wide on purpose: starting at 1233.4 ('I can't believe I'm saying this') gives the tight hot take; 1198.3 adds the story. 1198.3 has a small 'the visualizer I showed earlier' back-reference.",
+      "over_band": false
+    },
+    {
+      "id": "grok-code-review-theory",
+      "start": 1283.9,
+      "start_range": [
+        1277.3,
+        1283.9
+      ],
+      "end": 1330.4,
+      "end_range": [
+        1325.3,
+        1354.4
+      ],
+      "why": "His codebase-review bench: Grok 4.7 punches far above its weight, and his theory is Cursor's Bugbot code-review data; Opus and Fable are weaker at this. End can run to 1354.4 to add 'might not be as strong as OpenAI's frontier' (just over band from the earliest start).",
+      "over_band": false
+    },
+    {
+      "id": "context-window-paranoia",
+      "start": 1998.5,
+      "start_range": [
+        1998.5,
+        2008.6
+      ],
+      "end": 2045.6,
+      "end_range": [
+        2043.5,
+        2055.4
+      ],
+      "why": "The model's quirk: paranoia about its context window, because models were once trained on tasks that fit in context; OpenAI trained it out, Anthropic less so. Clear, self-contained explanation. Start at 'this model is not without its quirks' or at 'One of the most frustrating ones'.",
+      "over_band": false
+    },
+    {
+      "id": "smaller-and-dumber",
+      "start": 2256.6,
+      "start_range": [
+        2256.6,
+        2257.3
+      ],
+      "end": 2295.9,
+      "end_range": [
+        2287.3,
+        2295.9
+      ],
+      "why": "The counterweight: don't throw out Fable, 'this model is smaller, it is dumber', and longer jobs make its failures more likely (stuck on repairs, thinking its context is about to die). Whisper garbles the opening ('I'm not sure we aren't getting too excited', probably 'make sure').",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 118.6,
+      "end": 200.0,
+      "why": "WorkOS sponsor read. Opens on a relatable story (Codex computer-use failing to sign in) and has a punchy 'Okta is hell' line, but it is an ad."
+    },
+    {
+      "start": 365.0,
+      "end": 454.8,
+      "why": "Benchmark chart walk-through: 'slaughtering', medium beats Fable max, $2.94 vs $20. Emphatic and full of numbers, but it is reading bars off a chart on screen."
+    },
+    {
+      "start": 541.7,
+      "end": 594.3,
+      "why": "Opus 5 vs 5.5 writing example read off the announcement ('That is absolute nonsense', 'three mdashes'). Funny, but the point only lands if you can see the two responses."
+    },
+    {
+      "start": 1404.4,
+      "end": 1479.7,
+      "why": "Parallel sponsor read, with a live 'watch how fast' race against OpenAI's search that is only visible on screen."
+    },
+    {
+      "start": 1893.7,
+      "end": 1995.7,
+      "why": "Fish Slop 3D demo reactions ('what the fuck', 'how is it this good', the stingray). Peak energy in the video, but it is all reaction to gameplay on screen."
+    },
+    {
+      "start": 2055.4,
+      "end": 2134.6,
+      "why": "Reading Claude Code's '10% from auto-compact, if it crashed work would be lost' message and ranting at it. Emphatic, but it quotes a screenshot and depends on the context-paranoia setup just before."
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "cold-open-full",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.3
+      ],
+      "end": 113.3,
+      "end_range": [
+        113.3,
+        113.6
+      ],
+      "why": "The full cold-open arc: Opus 4.5 history, Opus 5 as a liability, the surprise that this is 5.5, 'is this model blowing me away? Absolutely.' Complete and punchy, but 113s, so over band. The tight cut is the 'opus-line-let-die' clip.",
+      "over_band": true
+    },
+    {
+      "id": "frontend-taste",
+      "start": 1480.0,
+      "start_range": [
+        1480.0,
+        1482.2
+      ],
+      "end": 1511.4,
+      "end_range": [
+        1511.4,
+        1532.7
+      ],
+      "why": "Front end: good design instincts that don't show, Fable 5.1 had much better taste, the demos are 'a little sloppy'. It can run on to the 'half tailwind templates, half pastel with big shadows' riff at 1532.7. Some of it points at demos on screen.",
+      "over_band": false
+    },
+    {
+      "id": "fable-for-frontend",
+      "start": 1549.3,
+      "start_range": [
+        1549.3,
+        1549.3
+      ],
+      "end": 1576.9,
+      "end_range": [
+        1571.0,
+        1576.9
+      ],
+      "why": "Verdict: Opus is the right default for most work, but still reach for Fable on front end, marketing pages and design overhauls. Short (about 28s) and mildly advice-y.",
+      "over_band": false
+    },
+    {
+      "id": "value-laps-around-openai",
+      "start": 2297.6,
+      "start_range": [
+        2297.6,
+        2297.9
+      ],
+      "end": 2325.2,
+      "end_range": [
+        2325.2,
+        2327.7
+      ],
+      "why": "'Unbelievable how much more usage you get'; Anthropic put out real value, and a $200 Claude sub is 'running laps around our friends at OpenAI'. Overlaps in theme with 'one-percent-of-weekly'. Skips the 'That all said' opener.",
+      "over_band": false
+    },
+    {
+      "id": "pretraining-kings",
+      "start": 2337.4,
+      "start_range": [
+        2337.4,
+        2347.4
+      ],
+      "end": 2363.3,
+      "end_range": [
+        2359.1,
+        2363.3
+      ],
+      "why": "'Anthropic are the pre-training kings and OpenAI is the post-training kings', but Anthropic caught up on post-training here. Quotable, but thin: under 25s from the later start, and the earlier start is GPT-6 Sol filler.",
+      "over_band": false
+    }
+  ]
+}
