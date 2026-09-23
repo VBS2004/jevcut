@@ -12,9 +12,8 @@ import logging
 import sys
 from pathlib import Path
 
-from jevcut import boundaries as bounds_mod
 from jevcut import cuts as cuts_mod
-from jevcut import gate as gate_mod
+from jevcut import search as search_mod
 from jevcut.backends import load_env
 from jevcut.client import JevClient
 from jevcut.config import Config
@@ -170,67 +169,19 @@ def cmd_clip(args: argparse.Namespace) -> int:
         return " ".join(sent.text for sent in transcript.between(b.t0, b.t1))
 
     clips: list[Clip] = []
+    requests = failed = 0
     with JevClient(config) as client:
         for anchor in result.anchors:
-            b = bounds_mod.place(transcript, found, anchor.sentence_id, config)
-            if b is None:
-                print(f"  {anchor.sentence_id}: dropped, no boundary fits the duration band")
+            # Code lists the openings and endings at real sentence boundaries; Jev judges
+            # each as a clip; code keeps the best. See search.py for why this replaced
+            # placing the clip by rule and repairing it by widening.
+            found_clip = search_mod.search(client, transcript, found, anchor.sentence_id, config)
+            requests += found_clip.requests
+            failed += found_clip.failed
+            if not found_clip.ok:
+                print(f"  {anchor.sentence_id}: dropped -- {', '.join(found_clip.verdict.reasons)}")
                 continue
-
-            # Worth is settled first and never repaired; craft failures are repair
-            # instructions, so widen and re-ask until the clip works or the band runs out.
-            judgment = gate_mod.verify(client, clip_text(b), config)
-            v = gate_mod.verdict(judgment, config, repairs_left=True)
-            for attempt in range(config.max_repairs):
-                if not v.repairable:
-                    break
-                wider = bounds_mod.widen(
-                    found,
-                    b,
-                    start=v.action in (gate_mod.WIDEN_START, gate_mod.WIDEN_BOTH),
-                    end=v.action in (gate_mod.WIDEN_END, gate_mod.WIDEN_BOTH),
-                    config=config,
-                )
-                if wider is None:
-                    break  # the band is exhausted; better short than long and dull
-                b = wider
-                judgment = gate_mod.verify(client, clip_text(b), config)
-                v = gate_mod.verdict(
-                    judgment, config, repairs_left=attempt + 1 < config.max_repairs
-                )
-
-            # Repairs are spent (or none helped); judge on the reject bar.
-            v = gate_mod.verdict(judgment, config)
-
-            # Widening only ever adds, so a clip keeps whatever it picked up on the way
-            # to passing. Now try the other direction: trim an edge and keep the smaller
-            # version only while it still passes. End first -- padding accumulates there.
-            if v.ok:
-                # Passing is not the same as being best. A greedy shrink goes to the
-                # smallest version that still passes and throws away quality the pass/fail
-                # does not see -- it cut "That guy, Terrence, is always talking about open
-                # source" down to "That's the culture of this organization", and both
-                # passed. So the scores guard the trim: `hook` protects the opening and
-                # `payoff` protects the ending, and a trim that costs either is refused.
-                guard = {"start": "hook", "end": "payoff"}
-                for edge in ("end", "start"):
-                    for _ in range(config.max_tightens):
-                        smaller = bounds_mod.tighten(
-                            found, b, start=edge == "start", end=edge == "end", config=config
-                        )
-                        if smaller is None:
-                            break
-                        trial = gate_mod.verify(client, clip_text(smaller), config)
-                        if not gate_mod.verdict(trial, config).ok:
-                            break
-                        key = guard[edge]
-                        if trial.scores.get(key, 0.0) < judgment.scores.get(key, 0.0):
-                            break  # shorter, but worse where it matters
-                        b, judgment = smaller, trial
-
-            if not v.ok:
-                print(f"  {anchor.sentence_id}: dropped -- {', '.join(v.reasons)}")
-                continue
+            b, judgment = found_clip.boundary, found_clip.judgment
 
             clips.append(
                 Clip(
@@ -253,6 +204,8 @@ def cmd_clip(args: argparse.Namespace) -> int:
                 )
             )
             print(f"  {anchor.sentence_id}: kept ({b.duration:.0f}s)")
+
+    print(f"gate: {requests} requests" + (f", {failed} failed and skipped" if failed else ""))
 
     # Boundaries move, so two anchors that were distinct can now cover the same ground.
     # This is the second dedupe; scan.dedupe already ran on the anchors themselves.
