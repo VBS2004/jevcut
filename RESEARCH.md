@@ -313,6 +313,30 @@ Caveats: one labeler per video, no human review yet, so no noise floor; the gate
 on three videos (HTTP 529) and they were rerun from cache, so the numbers are complete but
 the gate needs to survive a failed request.
 
+### Boundary search against that baseline (2026-09-24)
+
+`11f5ebc` replaced placement + widen/tighten with a search (search.py): code lists every
+opening at a real sentence boundary, Jev judges each; then every ending from the chosen
+opening, judged as the finished clip. Same labels, same scorer:
+
+| | predicted | hit | also_ok | precision | recall | chance | in-range | on a negative |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | 59 | 15 | 6 | 0.36 | 0.23 | 0.14 | 0.13 | 0.08 |
+| search | 98 | 27 | 12 | 0.40 | 0.41 | 0.19 | 0.11 | 0.12 |
+
+- **Selection improved, boundaries did not.** Recall's lift over chance went 0.09 → 0.22
+  (panel 0.33 → 0.75, the screen tutorial 0 → 0.60, commentary 0.10 → 0.40) with precision
+  held. But only 3 of 27 matches have both edges in range, the thing the search was built
+  to fix; 8 of 27 starts and 13 of 27 ends are in range, with errors symmetric (7 early,
+  7 late at the start; median 0s) -- noise, not bias.
+- **More shipped clips sit on hard negatives** (12 of 98 vs 5 of 59): keeping more clips
+  keeps more of the tempting-but-wrong ones.
+- **Kept**, because it wins on finding moments and ties on edges. Whether 8 of 27 starts
+  is poor or is what "where does this thought start" allows cannot be known without a
+  second labeler: the noise floor (issue 011) is now the blocking measurement.
+- Cost: ~2,000 gate requests for 8 videos (≈4.5 hours of media) vs a few hundred; the
+  debate lost 80 requests to provider overload and was scored on what survived.
+
 ## What would let building resume
 
 Either:
