@@ -92,20 +92,28 @@ def verify_questions() -> dict:
     """
     return {
         # --- worth: no boundary move fixes a no here ---------------------------------
+        # Asks the model to tell speakers from audience instead of listing examples of
+        # "live exchange". The first wording listed "an answer called back, a reaction the
+        # speaker replies to", which is every reply in a panel: it flagged 23 of 92
+        # ordinary clips across a solo talk and a panel. Stating the distinction outright
+        # dropped that to 1 of 92 -- the model can make it; it only had to be asked.
         "needs_the_room": Noul(
             instructions=(
-                "Does `clip.text` depend on something happening in the room that someone "
-                "watching later cannot see or take part in?"
+                "`clip.text` has one speaker or several speakers talking with each other, "
+                "and there may also be an audience listening who are not speakers. Does the "
+                "point of the clip depend on that audience rather than on what the speakers "
+                "say?"
             ),
             criteria=NoulCriteria(
                 true=(
-                    "It turns on a live exchange -- a show of hands, an answer called "
-                    "back, a reaction the speaker replies to -- so a viewer elsewhere "
-                    "gets the setup and not the thing it was leading to"
+                    "The point turns on the audience: a speaker asks them to respond, and "
+                    "what they did is what the clip builds to. Someone watching later was "
+                    "never part of that audience, so the point does not reach them"
                 ),
                 false=(
-                    "Whatever it depends on is in what is said, so a viewer elsewhere "
-                    "gets the whole of it"
+                    "The point is carried by what the speakers say. Speakers replying to one "
+                    "another is still speech a later viewer can follow in full, however much "
+                    "they interrupt or answer each other"
                 ),
             ),
         ),

@@ -87,8 +87,12 @@ class Config:
     # away. Repair on the low bar, reject on the high one -- found when a looser reject
     # bar let a clip pass before the repair loop had improved its opening.
     repair_threshold: float = 0.5
-    # Measured on ten clips from one talk: the audience-vote clip scored 0.85 and
-    # everything else 0.38 or below, so this sits in the gap rather than mid-range.
+    # A plain midpoint, deliberately not fitted to the four audience votes seen so far.
+    # Measured on 96 clips from a solo talk and a panel: the two pure votes score 0.54 and
+    # 0.67 and are caught; two votes that move on to a spoken lesson score 0.45-0.49 and
+    # ship, which reads as right because their point reaches a later viewer; one of 92
+    # other clips is flagged (0.52), a moderator question that ends before anyone
+    # answers. Evidence is thin -- four positives, two videos.
     needs_room_threshold: float = 0.5
     payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
     max_repairs: int = 3  # widen attempts before giving up on a clip
