@@ -23,3 +23,6 @@ venv/
 .env
 .env.*
 !.env.example
+
+# agent worktrees (Claude Code) — separate checkouts, not part of this tree
+.claude/worktrees/
