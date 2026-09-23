@@ -8,7 +8,11 @@ What a number means:
 
 - A predicted clip *matches* a labeled clip when their spans overlap by more than half
   (IoU > 0.5), one to one, best overlaps first.
-- ``precision``: matched predictions / predictions. ``recall``: matched labels / labels.
+- ``precision``: predictions matching a labeled clip *or an ``also_ok`` one* /
+  predictions. ``recall``: matched labels / labels. ``also_ok`` holds clips an editor
+  would accept but not insist on: a labeler cannot list every good stretch of a dense
+  hour without padding the required set, and without this list every unlisted good pick
+  would count as a false positive.
   Kept apart on purpose: a system that ships fewer, better clips loses recall and is the
   one we want, which a single blended score would hide.
 - ``in_range``: a match whose start and end both fall inside the labeler's acceptable
@@ -92,6 +96,8 @@ class VideoScore:
     predicted: int
     labeled: int
     matched: int
+    #: Predictions that missed every required clip but match an ``also_ok`` one.
+    acceptable: int
     in_range: int
     on_negative: int
     chance_recall: float
@@ -102,7 +108,7 @@ class VideoScore:
 
     @property
     def precision(self) -> float:
-        return self.matched / self.predicted if self.predicted else 0.0
+        return (self.matched + self.acceptable) / self.predicted if self.predicted else 0.0
 
     @property
     def recall(self) -> float:
@@ -135,12 +141,15 @@ def score_video(label: dict, edl_path: str | Path) -> VideoScore:
         )
     )
     matched_labels = {j for _, j in pairs}
+    rest = [p for i, p in enumerate(predicted) if i not in {i for i, _ in pairs}]
+    acceptable = len(match(rest, [(a["start"], a["end"]) for a in label.get("also_ok", [])]))
     return VideoScore(
         video=label["video"]["url"],
         genre=label["video"].get("genre", "unknown"),
         predicted=len(predicted),
         labeled=len(labeled),
         matched=len(pairs),
+        acceptable=acceptable,
         in_range=in_range,
         on_negative=on_negative,
         chance_recall=chance_recall(
@@ -181,6 +190,7 @@ def summary(scores: list[VideoScore]) -> dict:
     pred = sum(s.predicted for s in scores)
     lab = sum(s.labeled for s in scores)
     matched = sum(s.matched for s in scores)
+    acceptable = sum(s.acceptable for s in scores)
     starts = [e for s in scores for e in s.start_errors]
     ends = [e for s in scores for e in s.end_errors]
     return {
@@ -188,7 +198,8 @@ def summary(scores: list[VideoScore]) -> dict:
         "predicted": pred,
         "labeled": lab,
         "matched": matched,
-        "precision": matched / pred if pred else 0.0,
+        "acceptable": acceptable,
+        "precision": (matched + acceptable) / pred if pred else 0.0,
         "recall": matched / lab if lab else 0.0,
         "chance_recall": (sum(s.chance_recall * s.labeled for s in scores) / lab if lab else 0.0),
         "in_range_rate": sum(s.in_range for s in scores) / matched if matched else 0.0,

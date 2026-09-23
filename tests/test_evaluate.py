@@ -73,6 +73,19 @@ def test_a_video_scores_hits_misses_ranges_and_negatives(tmp_path):
     assert s.missed == []
 
 
+def test_an_also_ok_pick_is_not_a_false_positive_nor_a_hit(tmp_path):
+    label = _label()
+    label["also_ok"] = [
+        {"id": "c", "start": 200, "start_range": [200, 200], "end": 260, "end_range": [260, 260]}
+    ]
+    edl = tmp_path / "edl.json"
+    write_edl([_clip(101, 151, 1), _clip(202, 258, 2)], edl)
+    s = score_video(label, edl)
+    assert (s.matched, s.acceptable) == (1, 1)
+    assert s.precision == 1.0
+    assert s.recall == 0.5  # recall counts required clips only
+
+
 def test_a_miss_is_named(tmp_path):
     edl = tmp_path / "edl.json"
     write_edl([_clip(101, 151)], edl)

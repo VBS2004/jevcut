@@ -358,13 +358,14 @@ def cmd_eval(args: argparse.Namespace) -> int:
     def row(name: str, s: dict) -> str:
         err = s["start_err_median"]
         return (
-            f"{name[:34]:34} {s['predicted']:>4} {s['labeled']:>4} {s['matched']:>4}  "
+            f"{name[:34]:34} {s['predicted']:>4} {s['labeled']:>4} "
+            f"{s['matched']:>4} {s['acceptable']:>3}  "
             f"P {s['precision']:.2f}  R {s['recall']:.2f} (chance {s['chance_recall']:.2f})  "
             f"in-range {s['in_range_rate']:.2f}  on-negative {s['negative_rate']:.2f}  "
             f"start-err {'-' if err is None else f'{err:.1f}s'}"
         )
 
-    print(f"{'':34} pred  lab  hit")
+    print(f"{'':34} pred  lab  hit  ok")
     for s in scores:
         print(row(s.video.rsplit("=", 1)[-1] + " " + s.genre, evaluate.summary([s])))
         if s.missed:
