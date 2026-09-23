@@ -84,10 +84,12 @@ and batch backfill viable. Cost savings are a side effect; say so in that order.
 ## Layout
 
 ```
-docs/       design: architecture, question specs, cost model, eval plan, prior art
+docs/       design: concepts, architecture, question specs, cost model, eval plan, prior art
 issues/     the work, one file per task, numbered and dependency-ordered
-src/        implementation (empty)
-eval/       labeled clips + metric harness (empty)
+src/        the pipeline: transcript, cut points, scan, boundaries, gate, ranking, render
+tests/      unit tests; no API key, model or media needed
+scripts/    check_docs.py — do the docs still describe the code?
+eval/       a synthetic fixture and the research experiments; no labeled set yet (011)
 ```
 
 ## Running it

@@ -28,9 +28,13 @@ input — so the model never touches media.
 Word      { text, t0, t1, speaker }
 Sentence  { id: "L042", text, t0, t1, speaker, words[] }
 CutPoint  { id: "C07", t, kind: sentence_end|pause|shot|speaker_change, gap_ms }
-Anchor    { sentence_id, window_id, kind, p_moment }
-Clip      { start_cut, end_cut, t0, t1, anchor, scores{}, gates{}, verdict }
+Anchor    { sentence_id, window_id, kind, p_moment, anchor_confidence, anchor_probability }
+Clip      { id, anchor_id, kind, t0, t1, render_t0, render_t1, start_cut, end_cut, text, scores{}, rank }
 ```
+
+`Word.speaker` exists but ASR never fills it — there is no diarization in v1 (see
+[RESEARCH.md](../RESEARCH.md)). `t0/t1` are the snapped cut points; `render_t0/render_t1`
+are those edges aligned into the surrounding silence, which is what ffmpeg cuts.
 
 Sentence IDs are the model's handle on the transcript — the
 [line-by-line search cookbook](https://docs.typesafe.ai/cookbooks/semantic_find.md)
@@ -40,23 +44,28 @@ a timestamp in code. Cut point IDs work the same way for boundaries.
 ## VOD pipeline
 
 ```
- media ──▶ [A] transcribe ──▶ [B] cut points ──▶ [C] coarse scan ──▶ [D] refine ──▶ [E] verify ──▶ [F] rank ──▶ [G] render
-            code                code              JEV (cheap)        JEV           JEV            code        code
+ media ──▶ [A] transcribe ──▶ [B] cut points ──▶ [C] coarse scan ──▶ [D] boundaries ──▶ [E] verify ──▶ [F] rank ──▶ [G] render
+            code                code              JEV (cheap)        code               JEV            code        code
+                                                                          ▲                 │
+                                                                          └─ widen/tighten ─┘
 ```
 
-### C. Coarse scan — find anchors *(Jev, 1 request per window)*
+[D] and [E] loop: the gate's verdict moves an edge by whole cut points and the clip is
+verified again.
+
+### C. Coarse scan — find anchors *(Jev, up to 3 requests per window)*
 
 Transcript split into **80-sentence windows** (the sponsor-detection window size; keeps
 state small, which matters because accuracy falls as state fills with irrelevant detail).
-One request per window, all questions in parallel against the same state:
+Each request asks all three questions in parallel against the same state:
 
 - `contains_moment` — Noul gate.
 - `anchor` — Choice over the window's line IDs **plus `none_of_these`**. Choice
   probabilities sum to 1, so something always wins; the explicit no-match option and the
   Noul gate are what stop a flat window from producing a fake anchor.
-- `kind` — Choice: `story | hot_take | explanation | joke | demo | none`. This routes
-  Pass D: a joke needs a tight setup→punchline cut, an explanation needs the premise, a
-  hot take needs the question that provoked it. Same pipeline, different boundary rules.
+- `kind` — Choice: `story | hot_take | explanation | joke | demo | none`. It was going to
+  route Pass D's boundary rules; with boundaries in code nothing decides on it, so it is
+  stored on the clip as a label. Keep it if presets (020) use it, drop it if 014 doesn't.
 
 Iterate with the winning anchor's neighbourhood removed, up to **3 anchors per window**,
 stopping when `contains_moment` drops below threshold. (Removal-and-repeat is the
@@ -122,8 +131,13 @@ is about buying the boundary quality back.
 
 ```
  stream ──▶ streaming ASR ──▶ ring buffer (90s) ──▶ tick every 4s ──▶ trigger ──▶ retro-start ──▶ record ──▶ (optional) VOD tighten
-                              code                  JEV Noul          code FSM     JEV Choice      code        Pass D+E
+                              code                  JEV Noul          code FSM     JEV Choice      code        [D]+[E] loop
 ```
+
+**Not built, and planned before the VOD finding.** On VOD, code beat a Choice over cut
+points at placing boundaries, so 017 should try a code retro-start (step back a fixed
+lead and snap) before the Choice below. Live may still differ — detection lag is not a
+constant — so measure it rather than assume either way.
 
 - **Ring buffer, 90s.** Sentences + cut points kept in memory continuously.
 - **Tick: every 4s, one Noul** — "over the last 60s, is the speaker inside a moment right
@@ -137,19 +151,23 @@ is about buying the boundary quality back.
   this exact problem — its audio mode eats the first seconds of the read. The ring buffer
   is the fix.
 - **Tail.** On exit, one `end_cut` Choice over cut points since the trigger.
-- **Tighten (optional).** Once the segment is recorded it's a VOD: re-run D+E on it for a
+- **Tighten (optional).** Once the segment is recorded it's a VOD: run the [D]+[E] loop on it for a
   frame-tight cut. Live gives you a clip in ~5s with a soft tail; the tighten pass gives
   you the good cut a minute later. Ship both.
 
 ## Request budget
 
-| | requests / hour of video | why |
+| | requests | why |
 | --- | --- | --- |
-| Pass C | ~8 | one per 80-sentence window |
-| Pass D | ~12 | one per surviving anchor |
-| Pass E | ~12 | one per candidate clip |
-| **VOD total** | **~32** | vs ~600 for per-sentence dense scoring |
-| Live | ~900/hr | one tick per 4s, plus ~2 per triggered clip |
+| Pass C | up to 3 per 80-sentence window (asked again after each anchor); windows overlap by 60s | measured 15 and 18 per video |
+| Boundaries | 0 | code |
+| Pass E | 1–7 per candidate clip | one verify, up to 3 widens, up to 3 tightens; measured 35–73 per video |
+| **VOD total** | **~50–90 per video** | vs ~600/hour for per-sentence dense scoring |
+| Live | ~900/hr | one tick per 4s, plus ~2 per triggered clip (planned, not measured) |
+
+Measured on the two test videos (~335 and ~430 sentences, 5 and 6 windows). Their durations were not
+recorded, so there is no per-hour VOD figure yet; 018 adds it. The planned ~32/hour
+assumed one gate request per clip — the widen/tighten loop is most of the difference.
 
 Against a 1,200 req/min limit, VOD backfill is free and live costs 15 req/min per stream —
 so roughly 70 concurrent streams before the account limit binds. That, not the token bill,
@@ -181,4 +199,5 @@ visible in the logs rather than inferred from drifting metrics.
   downstream if you want them.
 - No visual judgment in v1 (no "is the speaker on camera"). Shot cuts are used only as
   candidate boundaries.
-- No cross-video memory or speaker identity beyond diarization labels.
+- No cross-video memory and no speaker identity. v1 has no diarization at all, so
+  transcripts carry no speaker labels.

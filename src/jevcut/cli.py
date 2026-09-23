@@ -1,7 +1,7 @@
-"""Command line entry points for the M0 subset.
+"""Command line entry points:
 
-Available now: transcribe (002), cuts (003), region (003), smoke (001).
-The run/live/eval commands arrive with M1-M3.
+transcribe, cuts, region, scan, clip and smoke. The one-command run (020), live
+(015-017) and eval (012) commands are not built yet.
 """
 
 from __future__ import annotations
@@ -358,7 +358,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out")
     p.set_defaults(func=cmd_cuts)
 
-    p = sub.add_parser("region", help="print the Pass D state for one anchor (003)")
+    p = sub.add_parser(
+        "region", help="print the transcript around one anchor, cut points marked (003)"
+    )
     p.add_argument("transcript")
     p.add_argument("anchor", help="sentence id, e.g. L042")
     p.add_argument("--cuts")

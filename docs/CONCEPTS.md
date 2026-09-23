@@ -10,12 +10,18 @@ trained to generate text, and it reads numbers as text rather than as quantities
 cannot do arithmetic or compare times.
 
 So "where should this clip start?" is an unanswerable question. But **"which of these
-options is the start?"** is answerable, and that is the whole design:
+options is the start?"** is answerable, and that was the original design:
 
 > Code enumerates every plausible boundary and labels it. Jev picks a label.
 > Code maps the label back to a timestamp.
 
-The model never sees a number. Code never guesses a boundary.
+That still holds for the anchor: Jev picks the `L018` a moment is about. For boundaries
+it went one step further. Once the options are enumerated, code picks among them as well
+as Jev did, so code does it ([RESEARCH.md](../RESEARCH.md)), and Jev's job is judging the
+text that ends up inside the clip.
+
+The model never sees a number. Code never invents a boundary — it only picks from the
+enumerated ones.
 
 ## The three IDs
 
@@ -68,7 +74,7 @@ all, merges ones that coincide, and thins them to roughly one every 2–4 second
 They are written into the transcript as `«C03»` markers at their real positions —
 including mid-sentence, when the pause is mid-sentence.
 
-**This is what Jev sees:**
+**This is how `jevcut region` prints them:**
 
 ```
 «C00»
@@ -87,7 +93,7 @@ L018| That is what took down checkout for ninety minutes.
 L019| How did you find it?
 ```
 
-**This is what code keeps, and never sends:**
+**This is what code keeps:**
 
 ```
 C00 ->  55.05s  (speaker_change)
@@ -98,19 +104,22 @@ C04 ->  69.70s  (sentence_end)
 C05 ->  74.30s  (speaker_change)
 ```
 
-Pass D asks *"which `«C..»` mark is the latest one that still includes everything the
-viewer needs?"* Jev answers `C03`. Code looks up 67.25s and hands it to ffmpeg.
+Code picks a mark for each edge of the clip — say `C03` — looks up 67.25s, moves the edge
+into the silence around it, and hands that to ffmpeg. Jev never sees these marks: it judges
+the clip text that falls between them. (Pass D was going to have Jev pick the mark;
+arithmetic kept winning that job — see [RESEARCH.md](../RESEARCH.md).)
 
 ### Why the marker list is the most important output in the project
 
 Look at the example again: **there is no marker between `L013` and `L014`.** So no clip
-can ever start on "And we had no backoff on the client side." Not because Jev would
-refuse — because it was never offered the choice.
+can ever start on "And we had no backoff on the client side." Not because anything judged
+it a bad start — because it is not on the list. Placing, widening and tightening all move
+between marks, never between them.
 
-> The model cannot choose a value that was omitted.
+> Nothing can choose a boundary that was omitted.
 
-A missing marker is a boundary that does not exist. And in the traces it looks *identical*
-to the model choosing badly. That is why issue 003's acceptance criterion is a recall
+A missing marker is a boundary that does not exist. And in the output it looks *identical*
+to a bad boundary choice. That is why issue 003's acceptance criterion is a recall
 check — "is there a candidate within 1 second of every boundary a human picked?" — and
 why [issue 010](../issues/010-trace-logging.md) classifies `missing_candidate` before
 anything is called a model error.
@@ -123,33 +132,24 @@ uv run jevcut region t.json L018 --cuts c.json
 
 ## Regions
 
-You never send the whole transcript. Accuracy falls as the state fills with irrelevant
-material, and there is a 32k-token cap on state plus the longest question anyway.
+A **region** is an anchor ± `region_pad_s` (90 seconds by default), rendered with its cut
+markers **renumbered locally from `C00`** — the example above is one. It was built as the
+state for a Pass D request, with two escape options (`before_this_region`,
+`after_this_region`) for a moment that runs past its edges.
 
-So once Pass C names an anchor, code builds a **region**: that anchor ± `region_pad_s`
-(90 seconds by default), with the cut markers inside it **renumbered locally from `C00`**.
-That region is the entire state for one Pass D request.
-
-Local numbering is deliberate. `C00` always means "the first option in this region",
-whether the anchor sits at minute 2 or minute 200 — so the option list stays short and
-the question is identical everywhere. The mapping back to real timestamps lives in
-`Region.cuts_by_id`, in code.
-
-A region carries two escape options, `before_this_region` and `after_this_region`. When
-one wins, it means the setup starts earlier (or the moment runs later) than anything
-offered — so code widens the region and asks again, instead of accepting a clip it knows
-is truncated.
+Nothing in the clip pipeline builds one now: boundaries are code, and the gate's state is
+the clip text alone. `jevcut region` still prints one, and it is the quickest way to see
+which cut points exist around an anchor — and so which boundaries a clip *could* have.
 
 ## Anchors
 
 An **anchor** is the single line a viewer would quote — the sentence a moment is actually
-*about*. Pass C finds them cheaply across the whole video; Pass D then spends real money
-only around each one.
+*about*. Pass C finds them cheaply across the whole video; code places a clip around each
+one, and only those clips go to the gate.
 
 An anchor is not a boundary. It is a pointer at where a moment lives, which is a much
 easier judgment than where it begins and ends, and it is why the cascade is cheap: finding
-anchors costs one request per 80 sentences, and only the survivors get the expensive
-boundary work.
+anchors costs a few requests per 80 sentences, and only the survivors get the gate.
 
 ## Putting it together
 
@@ -160,14 +160,17 @@ cut points   «C00» ... «C03» ... «C07» ...           (003)
                               │
 Pass C       anchor = L018, kind = story             (005)
                               │
-region       L018 ± 90s, cuts renumbered C00..Cnn    (003)
+boundaries   start = C03, end = C09 — code           boundaries.py
                               │
-Pass D       start_cut = C03, end_cut = C09          (006)
+Pass E       ship, widen, tighten or drop            (007)
+                              │  ▲ widen/tighten moves an edge one mark, then asks again
+                              ▼
+Pass F       rank by hook and payoff                 (008)
                               │
-code         C03 -> 67.25s, C09 -> 96.40s            → ffmpeg
+code         C03 -> 67.25s, C09 -> 96.40s            → ffmpeg (009)
 ```
 
-Terms used elsewhere in the docs: **Pass C** is the coarse scan, **Pass D** boundary
-refinement, **Pass E** the standalone gate, **Pass F** ranking. They are described in
+Terms used elsewhere in the docs: **Pass C** is the coarse scan, **Pass D** the boundary
+Choice that code replaced (006, off the critical path), **Pass E** the clip gate, **Pass F** ranking. They are described in
 [ARCHITECTURE.md](ARCHITECTURE.md) and specified question-by-question in
 [QUESTIONS.md](QUESTIONS.md).

@@ -54,7 +54,7 @@ class Config:
     pause_cut_s: float = 0.35  # silence that becomes a candidate cut
     merge_window_s: float = 0.2  # candidates closer than this collapse into one
     min_cut_spacing_s: float = 2.0  # thinning target: one candidate every 2-4s
-    region_pad_s: float = 90.0  # anchor +/- this much becomes a Pass D region
+    region_pad_s: float = 90.0  # anchor +/- this much is what `jevcut region` prints
 
     # --- scan (005) --- PLACEHOLDER until 014
     window_sentences: int = 80
