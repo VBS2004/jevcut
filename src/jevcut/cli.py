@@ -340,6 +340,59 @@ def cmd_run(args: argparse.Namespace) -> int:
     )
 
 
+def cmd_eval(args: argparse.Namespace) -> int:
+    """Score each labeled video's run against its labels (012). No API calls."""
+    import csv
+    import subprocess
+    import time
+
+    from jevcut import evaluate
+
+    scores, skipped = evaluate.score_set(args.labels, suffix=args.suffix)
+    for line in skipped:
+        print(f"  skip {line}")
+    if not scores:
+        print("nothing to score: run `jevcut run` on the labeled videos first")
+        return 1
+
+    def row(name: str, s: dict) -> str:
+        err = s["start_err_median"]
+        return (
+            f"{name[:34]:34} {s['predicted']:>4} {s['labeled']:>4} {s['matched']:>4}  "
+            f"P {s['precision']:.2f}  R {s['recall']:.2f} (chance {s['chance_recall']:.2f})  "
+            f"in-range {s['in_range_rate']:.2f}  on-negative {s['negative_rate']:.2f}  "
+            f"start-err {'-' if err is None else f'{err:.1f}s'}"
+        )
+
+    print(f"{'':34} pred  lab  hit")
+    for s in scores:
+        print(row(s.video.rsplit("=", 1)[-1] + " " + s.genre, evaluate.summary([s])))
+        if s.missed:
+            print(f"{'':36}missed: {', '.join(s.missed)}")
+    print()
+    for genre in sorted({s.genre for s in scores}):
+        print(row(genre, evaluate.summary([s for s in scores if s.genre == genre])))
+    total = evaluate.summary(scores)
+    print(row("ALL", total))
+
+    # One row per scoring run, so a change is compared against the last one by number.
+    sha = subprocess.run(
+        ["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True
+    ).stdout.strip()
+    out = Path("eval/results/results.csv")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    new = not out.exists()
+    with out.open("a", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["time", "git", "note", *total])
+        if new:
+            w.writeheader()
+        w.writerow(
+            {"time": time.strftime("%Y-%m-%d %H:%M"), "git": sha, "note": args.note, **total}
+        )
+    print(f"\nappended to {out}")
+    return 0
+
+
 def cmd_smoke(args: argparse.Namespace) -> int:
     """One live Noul against the API. Confirms key, model pinning and tracing."""
     from typesafe_sdk import Noul, NoulCriteria
@@ -467,6 +520,14 @@ def main(argv: list[str] | None = None) -> int:
     )
     _render_flags(p)
     p.set_defaults(func=cmd_run)
+
+    p = sub.add_parser("eval", help="score runs against eval/labels (012); no API calls")
+    p.add_argument("labels", nargs="?", default="eval/labels")
+    p.add_argument(
+        "--suffix", default="-clips", help="run dir is <media stem><suffix> (default -clips)"
+    )
+    p.add_argument("--note", default="", help="what changed, recorded in results.csv")
+    p.set_defaults(func=cmd_eval)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
     p.add_argument("--text", default="And that's exactly why he refused to sign it.")

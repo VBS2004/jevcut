@@ -116,6 +116,9 @@ uv run jevcut clip t.json --media talk.mp4 --out clips/
 # without ASR, from the synthetic fixture
 uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out t.json
 
+# score every labeled video's run against its labels (eval/labels, issue 011); no API calls
+uv run jevcut eval --note "what changed"
+
 # the stages one at a time
 uv run jevcut cuts t.json --out c.json
 uv run jevcut region t.json L009   # the transcript around one anchor, with cut points marked

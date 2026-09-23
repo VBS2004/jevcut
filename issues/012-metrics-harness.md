@@ -6,6 +6,7 @@
 | **Depends on** | 010, 011 |
 | **Blocks** | 013, 014 |
 | **Size** | M |
+| **Status** | **Partly built** — `src/jevcut/evaluate.py`, `tests/test_evaluate.py`, `jevcut eval`. IoU>0.5 one-to-one matching, precision, recall with the chance baseline at the same density, in-range rate, hard-negative rate, start/end error, per-genre breakdown, a row appended to `eval/results/results.csv` with the git SHA. Not built: the blind rating tool, p90s, `Pk`/`WindowDiff`, cost per video-hour, the labeler noise floor (needs two labelers), per-`kind` breakdown, model ID in the row. |
 
 ## Why
 
