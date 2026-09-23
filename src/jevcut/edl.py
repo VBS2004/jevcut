@@ -86,11 +86,75 @@ def read_edl(path: str | Path) -> tuple[str, list[Clip]]:
     return data.get("source", ""), [Clip(**c) for c in data["clips"]]
 
 
-def render_clip(source: str | Path, clip: Clip, out: str | Path) -> Path:
+#: The 9:16 output frame. 1080 wide is what the vertical platforms serve at full quality.
+VERTICAL_SIZE = (1080, 1920)
+
+#: The largest centred 9:16 box the frame holds: full height from a landscape source, full
+#: width from one that is already narrower. Even sides, because yuv420p needs them.
+#: Centred and nothing more -- following the speaker's face is its own job, not built yet.
+#: Commas are escaped because the expression sits inside a filtergraph.
+VERTICAL_CROP = r"crop=w=trunc(min(iw\,ih*9/16)/2)*2:h=trunc(min(ih\,iw*16/9)/2)*2"
+
+
+def video_filter(*, vertical: bool = False) -> str | None:
+    """The -vf chain for a render, or None when the frame goes through untouched."""
+    steps: list[str] = []
+    if vertical:
+        width, height = VERTICAL_SIZE
+        # setsar=1 so players show the 1080x1920 it is, whatever the source's pixel shape.
+        steps += [VERTICAL_CROP, f"scale={width}:{height}", "setsar=1"]
+    return ",".join(steps) or None
+
+
+def render_command(
+    source: str | Path,
+    out: str | Path,
+    *,
+    render_t0: float,
+    pre: float,
+    duration: float,
+    vf: str | None = None,
+) -> list[str]:
+    """The ffmpeg invocation for one clip. Separate from running it so it can be tested."""
+    return [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-y",
+        "-ss",
+        f"{render_t0 - pre:.3f}",  # fast, keyframe-snapped
+        "-i",
+        str(source),
+        "-ss",
+        f"{pre:.3f}",  # accurate, from there
+        "-t",
+        f"{duration:.3f}",
+        *(["-vf", vf] if vf else []),
+        "-c:v",
+        "libx264",
+        "-preset",
+        "veryfast",
+        "-crf",
+        "20",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "160k",
+        "-movflags",
+        "+faststart",
+        str(out),
+    ]
+
+
+def render_clip(source: str | Path, clip: Clip, out: str | Path, *, vertical: bool = False) -> Path:
     """Cut one clip with ffmpeg, accurately.
 
     Re-encodes: stream copy would snap the start to the nearest keyframe, which can be
-    seconds away and would silently undo the boundary work.
+    seconds away and would silently undo the boundary work. ``vertical`` centre-crops to
+    9:16 at 1080x1920.
     """
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -108,36 +172,14 @@ def render_clip(source: str | Path, clip: Clip, out: str | Path) -> Path:
             f"it may start at or past the end of {source}"
         )
 
-    cmd = [
-        "ffmpeg",
-        "-hide_banner",
-        "-loglevel",
-        "error",
-        "-y",
-        "-ss",
-        f"{clip.render_t0 - pre:.3f}",  # fast, keyframe-snapped
-        "-i",
-        str(source),
-        "-ss",
-        f"{pre:.3f}",  # accurate, from there
-        "-t",
-        f"{duration:.3f}",
-        "-c:v",
-        "libx264",
-        "-preset",
-        "veryfast",
-        "-crf",
-        "20",
-        "-pix_fmt",
-        "yuv420p",
-        "-c:a",
-        "aac",
-        "-b:a",
-        "160k",
-        "-movflags",
-        "+faststart",
-        str(out),
-    ]
+    cmd = render_command(
+        source,
+        out,
+        render_t0=clip.render_t0,
+        pre=pre,
+        duration=duration,
+        vf=video_filter(vertical=vertical),
+    )
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"ffmpeg failed on {clip.id}: {result.stderr.strip()[:400]}")
@@ -163,6 +205,30 @@ def probe_duration(path: str | Path) -> float:
     if result.returncode != 0:
         raise RuntimeError(f"ffprobe failed: {result.stderr.strip()[:200]}")
     return float(result.stdout.strip())
+
+
+def probe_size(path: str | Path) -> tuple[int, int]:
+    """Width and height of the first video stream."""
+    result = subprocess.run(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-select_streams",
+            "v:0",
+            "-show_entries",
+            "stream=width,height",
+            "-of",
+            "csv=p=0:s=x",
+            str(path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"ffprobe failed: {result.stderr.strip()[:200]}")
+    width, height = result.stdout.strip().split("x")
+    return int(width), int(height)
 
 
 def have_ffmpeg() -> bool:

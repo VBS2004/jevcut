@@ -5,7 +5,18 @@ import subprocess
 
 import pytest
 
-from jevcut.edl import Clip, have_ffmpeg, probe_duration, read_edl, render_clip, write_edl
+from jevcut.edl import (
+    VERTICAL_CROP,
+    Clip,
+    have_ffmpeg,
+    probe_duration,
+    probe_size,
+    read_edl,
+    render_clip,
+    render_command,
+    video_filter,
+    write_edl,
+)
 
 needs_ffmpeg = pytest.mark.skipif(not have_ffmpeg(), reason="ffmpeg/ffprobe not on PATH")
 
@@ -94,6 +105,41 @@ def test_measured_and_rendered_edges_are_both_kept(tmp_path):
     assert row["render_t0"] < row["t0"] and row["render_t1"] > row["t1"]
 
 
+# --- the ffmpeg arguments -----------------------------------------------------
+
+
+def _cmd(**kw) -> list[str]:
+    return render_command("src.mp4", "out.mp4", render_t0=12.0, pre=5.0, duration=30.0, **kw)
+
+
+def test_a_plain_render_has_no_filter():
+    """Both options default off, so the output is what it was before they existed."""
+    assert video_filter() is None
+    assert "-vf" not in _cmd()
+
+
+def test_the_seek_is_fast_then_accurate_whatever_the_filter():
+    for vf in (None, video_filter(vertical=True)):
+        cmd = _cmd(vf=vf)
+        assert cmd[cmd.index("-i") - 1] == "7.000"  # fast seek, before the input
+        assert cmd[cmd.index("-i") + 3] == "5.000"  # accurate seek, after it
+        assert cmd[cmd.index("-t") + 1] == "30.000"
+
+
+def test_vertical_crops_then_scales_to_1080x1920():
+    vf = video_filter(vertical=True)
+    assert vf == f"{VERTICAL_CROP},scale=1080:1920,setsar=1"
+    cmd = _cmd(vf=vf)
+    assert cmd[cmd.index("-vf") + 1] == vf
+    assert cmd[-1] == "out.mp4"
+
+
+def test_the_crop_commas_are_escaped_for_the_filtergraph():
+    """An unescaped comma inside min() would split the chain into two broken filters."""
+    body = VERTICAL_CROP.replace("\\,", "")
+    assert "," not in body
+
+
 # --- the render ---------------------------------------------------------------
 
 
@@ -133,3 +179,11 @@ def test_a_clip_running_past_the_end_of_the_media_is_clamped(media, tmp_path):
 def test_a_clip_starting_past_the_end_is_refused(media, tmp_path):
     with pytest.raises(ValueError, match="no duration"):
         render_clip(media, _clip(render_t0=45.0, render_t1=50.0), tmp_path / "x.mp4")
+
+
+@needs_ffmpeg
+def test_a_vertical_render_is_1080x1920_and_keeps_its_length(media, tmp_path):
+    clip = _clip(t0=8.0, t1=20.0, render_t0=7.9, render_t1=20.3)
+    out = render_clip(media, clip, tmp_path / "v.mp4", vertical=True)
+    assert probe_size(out) == (1080, 1920)
+    assert abs(probe_duration(out) - (clip.render_t1 - clip.render_t0)) <= 0.1
