@@ -271,12 +271,47 @@ Found by the second-video check on a FOSDEM panel. Not built, because:
   panel cross-talk and was fixed by asking the model to tell speakers from audience in the
   question itself (false flags 23 of 92 → 1), with no speaker tags.
 - **It is expensive here.** WhisperX / pyannote means a gated HuggingFace model, a heavy
-  dependency, and more GPU memory on a 4GB card that already falls back to CPU.
+  dependency, and more GPU memory on a 4GB card that Whisper already shares.
 
 Revisit if clips from interviews start opening on the wrong person's turn, if captions
 need speaker names, or if per-speaker selection ("only the guest's answers") becomes a
 feature. The existing `speaker_change` code stays: idle on transcribed media, working when
 tags are supplied.
+
+## Baseline on the pilot eval set (2026-09-23)
+
+The first measurement across more than one video. Eight YouTube videos in seven genres,
+labeled per issue 011 (`eval/labels/`, 66 required clips, 36 `also_ok`, 39 hard
+negatives; seven labeled blind), scored with `jevcut eval` at commit `0bddb2a`:
+
+| | predicted | hit | also_ok | precision | recall | chance recall | in-range | on a negative |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| all 8 | 59 | 15 / 66 | 6 | 0.36 | 0.23 | 0.14 | 0.13 | 0.08 |
+
+Per genre, recall runs from 0.00 (both tutorials) to 0.67 (the benchmark review), and
+the animated explainer is *below* chance (0.17 vs 0.28).
+
+**What it says, across genres rather than about one video:**
+
+- **Boundaries and repair are where clips die, not selection.** Of 138 anchors, 79 were
+  dropped by the gate, and 74 of those drops name a mid-thought start or end. The anchors
+  sit on real moments; the placed clip around them starts or stops inside a thought, and
+  the widen-only repair loop cannot fix a start that is too *early*.
+- **Boundary precision fails outright.** 13% of matched clips have both edges inside the
+  labeler's acceptable ranges. The claim in the README is not yet true.
+- **When a clip survives it is usually real**: precision 1.00 on the science essay and
+  the review, and only 8% of shipped clips sit on a labeled hard negative.
+- **Labeling found the 75s cap too tight for long-form**: six strong moments run 84–113s
+  (two podcast answers, a panel answer, an essay's close, a cold open).
+
+This is the reference every change is scored against. It argues for replacing the
+placement + widen/tighten rules with a search -- code lists start/end candidates at real
+sentence boundaries, Jev judges each, code keeps the best -- and for keeping a change only
+if it moves these numbers on the set, not on one video.
+
+Caveats: one labeler per video, no human review yet, so no noise floor; the gate crashed
+on three videos (HTTP 529) and they were rerun from cache, so the numbers are complete but
+the gate needs to survive a failed request.
 
 ## What would let building resume
 
