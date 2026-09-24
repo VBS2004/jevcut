@@ -16,7 +16,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | column | meaning |
 | --- | --- |
 | clips / hit | clips shipped / labeled clips matched one-to-one (overlap IoU > 0.5) |
-| hit, both edges right | matched clips whose start and end are both inside the labeler's ranges -- the count that is the spec |
+| hit, both edges right | matched clips with start and end both inside the labeler's ranges |
 | P | share of shipped clips matching a labeled or also_ok clip |
 | R (chance) | share of labeled clips found, next to random clips of the same lengths |
 | both edges in range | of matched clips, start and end both inside the labeler's ranges |

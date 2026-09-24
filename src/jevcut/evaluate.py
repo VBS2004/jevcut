@@ -255,16 +255,19 @@ def agreement(a: dict, b: dict) -> dict:
 BENCH_DIR = Path("eval/benchmarks")
 
 
-def snapshot(runs: list[Path], dest: str | Path, about: dict) -> Path:
-    """Save each run's ``edl.json`` into ``dest`` as ``<run name>.json``, text removed,
-    with ``about.json`` saying what the version was."""
+def snapshot(runs: list[Path], dest: str | Path, about: dict, suffix: str = "-clips") -> Path:
+    """Save each run's ``edl.json`` into ``dest`` as ``<media stem>-clips.json``, text
+    removed, with ``about.json`` saying what the version was. ``suffix`` is the run
+    directory's, so a run kept beside the main one (``talk-lemonfox/``) is saved under
+    the same name every other version uses."""
     dest = Path(dest)
     dest.mkdir(parents=True, exist_ok=True)
     for run in runs:
         data = json.loads((run / "edl.json").read_text())
         for clip in data["clips"]:
             clip["text"] = ""
-        (dest / f"{run.name}.json").write_text(json.dumps(data, indent=1) + "\n")
+        stem = run.name.removesuffix(suffix)
+        (dest / f"{stem}-clips.json").write_text(json.dumps(data, indent=1) + "\n")
     (dest / "about.json").write_text(json.dumps(about, indent=2) + "\n")
     return dest
 

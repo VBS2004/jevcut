@@ -371,7 +371,7 @@ def cmd_bench(args: argparse.Namespace) -> int:
     from jevcut import evaluate
 
     if args.snapshot:
-        runs = sorted(p.parent for p in Path("eval/media").glob("*-clips/edl.json"))
+        runs = sorted(p.parent for p in Path("eval/media").glob(f"*{args.suffix}/edl.json"))
         order = 1 + max((a.get("order", 0) for _, a in evaluate.benchmarks()), default=0)
         about = {
             "order": order,
@@ -380,7 +380,7 @@ def cmd_bench(args: argparse.Namespace) -> int:
             "commit": args.commit,
             "gate_requests": args.gate_requests,
         }
-        dest = evaluate.snapshot(runs, evaluate.BENCH_DIR / args.snapshot, about)
+        dest = evaluate.snapshot(runs, evaluate.BENCH_DIR / args.snapshot, about, args.suffix)
         print(f"saved {len(runs)} runs -> {dest}")
 
     entries = evaluate.benchmarks()
@@ -445,7 +445,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | column | meaning |
 | --- | --- |
 | clips / hit | clips shipped / labeled clips matched one-to-one (overlap IoU > 0.5) |
-| hit, both edges right | matched clips whose start and end are both inside the labeler's ranges -- the count that is the spec |
+| hit, both edges right | matched clips with start and end both inside the labeler's ranges |
 | P | share of shipped clips matching a labeled or also_ok clip |
 | R (chance) | share of labeled clips found, next to random clips of the same lengths |
 | both edges in range | of matched clips, start and end both inside the labeler's ranges |
@@ -654,6 +654,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--what", default="", help="with --snapshot: what this version changed")
     p.add_argument("--commit", default="", help="with --snapshot: the commit it ran at")
     p.add_argument("--gate-requests", type=int, help="with --snapshot: gate requests spent")
+    p.add_argument(
+        "--suffix", default="-clips", help="with --snapshot: run dirs are <media stem><suffix>"
+    )
     p.set_defaults(func=cmd_bench)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
