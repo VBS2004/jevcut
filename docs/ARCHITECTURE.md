@@ -124,6 +124,10 @@ ending and passes or fails the finished clip, start included. An ending counts a
 below 0.5; a finished clip passes below 0.75 on the mid-thought and dangling questions.
 All thresholds are placeholders for 014.
 
+After the search, one more request asks the finished clip `promotion`: is it a sponsor
+read, an ad or a self-plug? Those open like part of the argument and pass every question
+above; it drops them. One request per shipped clip ([QUESTIONS.md](QUESTIONS.md#the-ad-check--one-noul-per-shipped-clip)).
+
 A `worth_clipping` question was deleted 2026-09-23: flattest of eight questions across 38
 clips and never once fired, because it asked the model to combine `hook` and `payoff`,
 which the ranking already does in code.

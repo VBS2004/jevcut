@@ -94,6 +94,9 @@ class Config:
     # other clips is flagged (0.52), a moderator question that ends before anyone
     # answers. Evidence is thin -- four positives, two videos.
     needs_room_threshold: float = 0.5
+    #: Separated perfectly on the pilot set (17 of 17 ads above, 0 of 236 content texts;
+    #: content peaked at 0.05, ads at a 0.95 median), so the bar is not delicate.
+    promotion_threshold: float = 0.5
     payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
     duration_band_s: tuple[float, float] = (25.0, 75.0)
 

@@ -38,10 +38,13 @@ class Chooser:
     """Answers the opening Choice with the mark rendered right before sentence ``at``, and
     puts the runner-up weight on the mark before sentence ``then``."""
 
-    def __init__(self, at: int, *, then: int | None = None, fail: bool = False):
-        self.at, self.then, self.fail, self.asked = at, then, fail, []
+    def __init__(self, at: int, *, then: int | None = None, fail: bool = False, ad: float = 0.02):
+        self.at, self.then, self.fail, self.ad, self.asked = at, then, fail, ad, []
 
     def ask(self, state, questions, *, pass_name):
+        if "promotion" in questions:  # the ad check on the finished clip
+            self.promo_asked = state["clip"]["text"]
+            return SimpleNamespace(answers={"promotion": SimpleNamespace(noul=self.ad)})
         self.asked.append((state, questions))
         if self.fail:
             raise RuntimeError("HTTP 529 from OpenRouter: overloaded")
@@ -126,6 +129,18 @@ def test_a_failed_opening_request_drops_the_clip_with_a_reason(talk, monkeypatch
     assert (result.requests, result.failed, calls) == (1, 1, [])
 
 
+def test_an_ad_that_passes_every_other_question_is_dropped(talk, monkeypatch):
+    t, cuts = talk
+    verify, _ = _judge(thought_starts=18, lands_at=26)
+    monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
+    chooser = Chooser(18, ad=0.95)
+    result = search_mod.search(chooser, t, cuts, t.sentences[20].id, Config())
+    assert not result.ok
+    assert result.verdict.reasons == ["promotion"]
+    # Asked once, of the finished clip: it opens where the clip opens.
+    assert chooser.promo_asked.startswith("this is sentence number 18 ")
+
+
 def test_the_ending_is_where_the_payoff_lands(talk, monkeypatch):
     t, cuts = talk
     verify, _ = _judge(thought_starts=18, lands_at=26)
@@ -181,7 +196,7 @@ def test_the_clip_stays_in_the_band(talk, monkeypatch):
     low, high = config.duration_band_s
     result = search_mod.search(Chooser(18), t, cuts, t.sentences[20].id, config)
     assert low <= result.boundary.duration <= high
-    assert result.requests == len(calls) + 1  # the endings, plus the one opening Choice
+    assert result.requests == len(calls) + 2  # the endings, the opening Choice, the ad check
 
 
 def test_a_failed_request_is_skipped_not_fatal(talk, monkeypatch):

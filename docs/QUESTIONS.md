@@ -186,6 +186,30 @@ Wording in `src/jevcut/questions.py` → `opening_questions()`.
 
 ---
 
+## The ad check — one Noul per shipped clip
+
+State: the finished clip's text, as for the gate. Asked once, after the search has picked
+both edges, so it costs one request per clip rather than one per candidate ending.
+
+| question | type | asks | role |
+| --- | --- | --- | --- |
+| `promotion` | Noul | is the clip a sponsor read, an ad, or the speaker plugging something of their own, rather than the discussion itself | drops the clip |
+
+Wording in `src/jevcut/questions.py` → `promotion_questions()`.
+
+- **Why it exists.** Judged on the labelers' own texts, the gate passed half the hard
+  negatives, and a third of those were sponsor reads and plugs: written to open like part
+  of the argument, they read as self-contained, hooky and paid off, so no other question
+  can see them.
+- **Spread-tested before wiring in** ([`eval/experiments/promotion_question.py`](../eval/experiments/promotion_question.py)),
+  on all 253 rubric-v2 texts: it fired on 17 of 17 promotions (median 0.95) and on none of
+  the 236 content texts (none above 0.05), product reviews included. The `false`
+  criterion says outright that naming, praising or reviewing a product is still content.
+- A failed request ships the clip: losing a real moment to a provider error costs more
+  than the rare ad it might have caught.
+
+---
+
 ## Pass E — the clip gate
 
 State: **the cut clip text and nothing else.** No title, no surrounding transcript. The

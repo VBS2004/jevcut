@@ -90,6 +90,37 @@ def opening_questions(mark_ids: list[str]) -> dict:
     }
 
 
+def promotion_questions() -> dict:
+    """Is the clip an ad? Asked once, of the finished clip, after the search.
+
+    The gate's other questions read how a clip is cut and whether it lands; none of them
+    can see that a stretch exists to sell something. Sponsor reads are written to open
+    like part of the argument, so they pass as self-contained, hooky, paid-off clips --
+    half the hard negatives the gate let through were ads or plugs (RESEARCH.md, "The
+    gate, judged on the labelers' own clips"). Kept out of `verify_questions` so it is one
+    request per shipped clip, not one per candidate ending.
+    """
+    return {
+        "promotion": Noul(
+            instructions=(
+                "Is `clip.text` promotion -- a sponsor read, an ad, or the speaker plugging "
+                "something of their own -- rather than the discussion itself?"
+            ),
+            criteria=NoulCriteria(
+                true=(
+                    "Its purpose is to get the viewer to buy, sign up for, install, "
+                    "subscribe to, follow or visit something, even when it opens like part "
+                    "of the discussion"
+                ),
+                false=(
+                    "It is the discussion itself, even when it names, praises or reviews a "
+                    "product, company or tool as part of its point"
+                ),
+            ),
+        ),
+    }
+
+
 def verify_questions() -> dict:
     """Pass E. One request per candidate clip, seven questions over the clip text alone.
 

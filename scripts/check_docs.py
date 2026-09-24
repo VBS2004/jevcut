@@ -53,9 +53,19 @@ def _flat(text: str) -> str:
 
 
 def check_questions(problems: list[str]) -> None:
-    from jevcut.questions import opening_questions, scan_questions, verify_questions
+    from jevcut.questions import (
+        opening_questions,
+        promotion_questions,
+        scan_questions,
+        verify_questions,
+    )
 
-    everything = {**scan_questions(["L000"]), **opening_questions(["C00"]), **verify_questions()}
+    everything = {
+        **scan_questions(["L000"]),
+        **opening_questions(["C00"]),
+        **promotion_questions(),
+        **verify_questions(),
+    }
     gate = set(verify_questions())
     questions_md = read("docs/QUESTIONS.md")
     flat_doc = _flat(questions_md)

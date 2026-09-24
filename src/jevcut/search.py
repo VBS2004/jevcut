@@ -36,7 +36,7 @@ from jevcut.boundaries import CUT_PREFERENCE, Boundary, align_end, align_start
 from jevcut.client import JevClient
 from jevcut.config import Config
 from jevcut.models import CutPoint, Sentence, Transcript
-from jevcut.questions import opening_questions
+from jevcut.questions import opening_questions, promotion_questions
 from jevcut.render import cut_id, render_markers
 
 #: Transcript shown past the anchor, so the Choice can read what the moment is building to.
@@ -160,7 +160,29 @@ def search(
     # pilot set, 0-2 more hits per label set (RESEARCH.md).
     result = _finish(client, transcript, real, anchor, start, config)
     result.requests += 1
+    if result.ok:
+        _screen_promotion(client, transcript, result, config)
     return result
+
+
+def _screen_promotion(
+    client: JevClient, transcript: Transcript, result: SearchResult, config: Config
+) -> None:
+    """One request on the finished clip: is it an ad? Sponsor reads open like part of the
+    argument and pass every other question. A failed request ships the clip -- losing a
+    real moment to a provider error is worse than the rare ad it might have caught."""
+    text = _text(transcript, result.boundary.t0, result.boundary.t1)
+    result.requests += 1
+    try:
+        answer = client.ask({"clip": {"text": text}}, promotion_questions(), pass_name="promotion")
+    except Exception as exc:  # noqa: BLE001 - see the docstring
+        log.warning("promotion request failed: %s", exc)
+        result.failed += 1
+        return
+    p = answer.answers["promotion"].noul or 0.0
+    result.judgment.nouls["promotion"] = p
+    if p >= config.promotion_threshold:
+        result.verdict = gate_mod.Verdict(gate_mod.DROP, ["promotion"])
 
 
 def _finish(
