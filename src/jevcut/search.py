@@ -16,8 +16,9 @@ The search assumes neither. For each anchor:
    final gate decides.
 2. **End.** From that start, every real boundary after the anchor that keeps the clip in
    the band is judged as the finished clip. Among those that pass the full gate, the
-   strongest ``payoff`` wins, ties to the earlier (tighter) end. The winner's judgment is
-   the final gate -- every candidate got the whole question set, so no extra request.
+   earliest one clean on ``ends_mid_thought`` wins: the shortest clip that finishes its
+   thought. With none clean, the least bad passing one. The winner's judgment is the
+   final gate -- every candidate got the whole question set, so no extra request.
 
 Real boundaries only -- sentence ends, speaker changes, the transcript's edges -- because
 a ``pause`` can fall mid-sentence. No thresholds of its own: it reuses the gate's.
@@ -146,9 +147,19 @@ def search(
 
     passing = [(span, j) for span, j in finished if gate_mod.verdict(j, config).ok]
     if passing:
-        (_, end), j = max(
-            passing, key=lambda sj: (sj[1].scores.get("payoff", 0.0), -sj[0][1].t_end)
-        )
+        # The shortest clip that finishes the thought: the earliest ending clean on
+        # ``ends_mid_thought`` by the same bar the opening is held to. Not the strongest
+        # payoff -- payoff tends to rise with more material, so picking it drifted every
+        # clip long. Not merely the earliest *passing* one either: the gate's own bar is
+        # looser, and the earliest pass was often the setup with its answer cut off.
+        def end_badness(j: gate_mod.Judgment) -> float:
+            return j.nouls.get("ends_mid_thought", 0.0)
+
+        clean = [sj for sj in passing if end_badness(sj[1]) < config.repair_threshold]
+        if clean:
+            (_, end), j = min(clean, key=lambda sj: sj[0][1].t_end)
+        else:
+            (_, end), j = min(passing, key=lambda sj: (end_badness(sj[1]), sj[0][1].t_end))
         return SearchResult(
             _boundary(start, end), j, gate_mod.Verdict(gate_mod.SHIP), requests, failed
         )

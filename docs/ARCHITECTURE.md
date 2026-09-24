@@ -93,7 +93,9 @@ placement and repair were replaced by a search (RESEARCH.md has both measurement
    `hook` wins, ties to the tighter one.
 2. **Ending.** From that opening, every real boundary after the anchor that keeps the
    clip in the band, judged as the finished clip. Among those passing the full gate the
-   strongest `payoff` wins, ties to the tighter one. Its judgment is the final gate.
+   earliest one clean on `ends_mid_thought` wins -- the shortest clip that finishes its
+   thought (eval/RUBRIC.md) -- else the least unfinished. Its judgment is the final gate.
+   It was the strongest `payoff`; payoff rises with more material, so that drifted long.
 
 No thresholds of its own. A failed request skips that candidate rather than the video.
 The rendered edges are then aligned into the surrounding silence (`boundaries.py`).
@@ -113,7 +115,7 @@ rationale is in [QUESTIONS.md](QUESTIONS.md#pass-e--the-clip-gate).
 | `ends_mid_thought` | Noul | **choose the ending** — must pass on the finished clip |
 | `standalone` | Noul | must pass on the finished clip |
 | `hook` | Score | picks among clean openings; ranking |
-| `payoff` | Score | picks among passing endings; ranking; bottom level fails the clip |
+| `payoff` | Score | ranking; bottom level fails the clip |
 
 The same question set judges every candidate the search lists (§D): the start questions
 choose the opening, the rest choose the ending and pass or fail the finished clip. An

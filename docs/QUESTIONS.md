@@ -179,7 +179,7 @@ question is for and why it is worded the way it is.
 | `ends_mid_thought` | Noul | does it stop before the point it was making arrives | chooses the ending |
 | `standalone` | Noul | would a viewer who has seen nothing else follow it | fails the finished clip |
 | `hook` | Score 0–3 | how well the opening holds attention | picks among clean openings; ranking |
-| `payoff` | Score 0–2 | does it deliver what the opening sets up | picks among passing endings; ranking |
+| `payoff` | Score 0–2 | does it deliver what the opening sets up | ranking; bottom level fails the clip |
 
 ### What changed, and why
 

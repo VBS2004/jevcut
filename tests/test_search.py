@@ -80,6 +80,44 @@ def test_the_ending_is_where_the_payoff_lands(talk, monkeypatch):
     assert result.judgment.scores["payoff"] == 2.0
 
 
+def _ending_judge(ends_mid):
+    """Clean opening at 18; ``ends_mid(last)`` sets how unfinished each ending reads, and
+    payoff keeps rising with length, the way it does on real material."""
+
+    def verify(client, text, config=None):
+        first, last = _span(text)
+        return Judgment(
+            nouls={
+                "needs_the_room": 0.1,
+                "starts_mid_thought": 0.1 if first == 18 else 0.9,
+                "dangling_reference": 0.1,
+                "ends_mid_thought": ends_mid(last),
+                "standalone": 0.8,
+            },
+            scores={"hook": 2.0, "payoff": min(2.0, 1.0 + 0.1 * last / 4)},
+        )
+
+    return verify
+
+
+def test_the_shortest_finished_clip_wins_over_a_longer_bigger_payoff(talk, monkeypatch):
+    t, cuts = talk
+    verify = _ending_judge(lambda last: 0.1 if last >= 26 else 0.9)
+    monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
+    result = search_mod.search(None, t, cuts, t.sentences[20].id, Config())
+    assert result.boundary.t1 == pytest.approx(t.sentences[26].t1, abs=0.01)
+
+
+def test_with_no_clean_ending_the_least_unfinished_one_ships(talk, monkeypatch):
+    t, cuts = talk
+    # Every ending passes the gate's looser bar, none the opening's; 30 is the least bad.
+    verify = _ending_judge(lambda last: 0.55 if last == 30 else 0.65)
+    monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
+    result = search_mod.search(None, t, cuts, t.sentences[20].id, Config())
+    assert result.ok
+    assert result.boundary.t1 == pytest.approx(t.sentences[30].t1, abs=0.01)
+
+
 def test_the_clip_stays_in_the_band(talk, monkeypatch):
     t, cuts = talk
     verify, calls = _judge(thought_starts=18, lands_at=26)
