@@ -361,6 +361,54 @@ labeler A's files or any jevcut output -- into `eval/labels-b/`. `jevcut agree`:
   lower bound on disagreement, not the human floor; one human review pass would bound it
   from the other side.
 
+### Shortest clean ending, and the rubric that had to change first (2026-09-24)
+
+The product spec, from review of the Olga clips: **a clip is the shortest cut that works,
+opening on its hook.** The search's ending picked the strongest `payoff`, which rises with
+more material. Changed to the earliest ending clean on `ends_mid_thought` (below the same
+0.5 bar the opening uses), else the least unfinished one. Every candidate was already in
+the response cache, so all of this was measured by replay at zero requests.
+
+**On the v1 labels it scored as a wash** -- median length 53 → 49s, recall 0.41 → 0.39,
+end error 4.6 → 5.2s, more ends before the labeler's shortest acceptable ending (7 → 12).
+Reading those "early" ends: five of six stop on the punchline and cut a restatement, a
+second list item or a repeated line ("…anybody who claims to predict the future is lying
+to you." vs the label running on to "There are too many variables."). The v1 labels ran
+54s median because their brief asked for "the natural cut" and never said to prefer the
+shorter of two working cuts. **The ruler did not state the spec,** so it scored the spec
+as an error.
+
+So the spec was written down first ([eval/RUBRIC.md](eval/RUBRIC.md)) and the set was
+labeled again from scratch against it, by two new blind labelers (`eval/labels-v2/`,
+`eval/labels-v2-b/`). They agree as tightly as v1's pair -- 80% of moments shared, starts
+0.0s apart at p90, ends 6.0s -- at 40-42s median. Against them, same runs:
+
+| ending rule | labeler | P | R | end error | ends early / in / late | start in range | length (labels) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| strongest payoff | v2 A | 0.30 | 0.41 | 6.2s | 0 / 11 / 12 | 4 of 23 | 53s (42s) |
+| earliest clean | v2 A | 0.29 | 0.39 | 4.0s | 4 / 8 / 10 | 3 of 22 | 49s (42s) |
+| strongest payoff | v2 B | 0.30 | 0.37 | 5.2s | 0 / 11 / 10 | 6 of 21 | 53s (40s) |
+| earliest clean | v2 B | 0.29 | 0.35 | 3.2s | 3 / 9 / 8 | 5 of 20 | 49s (40s) |
+
+- **Kept.** The end error falls by a third against both labelers and clips shorten; recall
+  moves by one clip. Ends are still more often late than early, so the ending is not yet
+  short enough -- but it is now moving the right way on a ruler that says what "right" is.
+- **The start is the open problem, and no selection rule fixes it.** Only 3-6 of ~22
+  matched starts land in range, mostly late. Replaying every rule over the cached opening
+  judgments (latest clean, cleanest, hook within a margin of the top, hook × cleanliness)
+  moves in-range by at most a few clips on either label set, inside the noise. Two causes
+  under the rules:
+  - **The start judgments are miscalibrated for this.** Of labeled starts that are
+    candidates, the gate calls only 31 of 52 (v1) and 18 of 35 (v2) clean, so the
+    cleanliness filter discards the right start about half the time. `hook` ranks the
+    labeled start first among ~9 candidates only a third to a half of the time, though it
+    is usually top three and within 0.1-0.15 of the best (on a 0-3 scale): a real signal
+    swamped by per-candidate noise, because each opening is scored alone.
+  - **1 in 5 labeled starts is not a candidate at all.** Whisper `small` drops full
+    stops ("…which is exactly why it works Law four…", "…solve them So I want to…"), so
+    the true sentence start sits inside an ASR line with no `sentence_end` before it.
+    Whether `large-v3` recovers them is the next measurement.
+
 ## What would let building resume
 
 Either:
