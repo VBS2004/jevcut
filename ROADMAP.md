@@ -5,6 +5,27 @@
 > decision log below and [RESEARCH.md](RESEARCH.md). M1 runs end to end as `jevcut run`.
 > The thesis paragraph below is the original plan, kept as written.
 
+## Now (2026-09-24)
+
+In order of what the numbers say costs the most. Scores for every step go through
+`jevcut bench` on both v2 labelers ([BENCHMARKS.md](BENCHMARKS.md)).
+
+- [ ] **1. Scan recall.** The scan anchors only 52–58% of labeled moments, even on Lemonfox
+      transcripts; an unanchored moment is a guaranteed miss. Diagnose per missed moment
+      first (window said "no moment", or said yes but spent its rounds on neighbours), then
+      fix the cause that dominates.
+- [ ] **2. Lemonfox by default** when `LEMONFOX_API_KEY` is set, local Whisper otherwise.
+      It raised recall on all four label sets (~$0.17 per hour of media).
+- [ ] **3. A screen question.** After ads, the hard negatives the gate lets through are
+      mostly narration of the screen. Spread-test on the labeled texts before wiring in.
+- [ ] **4. Pull openings earlier.** The opening Choice still starts late more often than
+      early; one wording experiment, scored on both labelers.
+- [ ] **5. One human review pass** on two videos: every labeler so far is the same model,
+      so the 0.0s start agreement is a lower bound.
+
+Done this round: rubric v2 and two blind label sets, the shortest clean ending, the opening
+Choice, the ad check, Lemonfox transcription, `jevcut bench` (RESEARCH.md has each).
+
 20 issues, 5 milestones. Ordered so that **the thing most likely to kill the project gets
 tested earliest**: if Pass D can't pick boundaries better than "peak sentence ± 15s", the
 whole thesis is wrong, and M2 is where that becomes undeniable.
