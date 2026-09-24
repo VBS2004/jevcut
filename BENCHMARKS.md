@@ -36,6 +36,11 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | promotion-gate | `b82d3d2` | Finished clips that are a sponsor read, an ad or a self-plug are dropped: one promotion Noul per shipped clip. |
 | lemonfox-asr | `1d10bc3` | Same pipeline as promotion-gate, on Lemonfox transcripts (hosted Whisper with punctuation and speaker labels) instead of local Whisper small. |
 | six-rounds | `f4b2d45` | Scan windows take up to 6 anchors instead of 3 (on Lemonfox transcripts); contains_moment never stopped a window, so the cap did. |
+| base-dense | `0fcf4db` | Baseline (013): every sentence judged with the gate's questions; clips around the peaks of a 12s rolling average. |
+| base-windows | `0fcf4db` | Baseline (013): 30s windows ending on sentence ends, each judged once, the best kept. |
+| base-naive | `0fcf4db` | Baseline (013): the top-scoring sentence plus or minus 15s. |
+| base-offset | `0fcf4db` | Baseline (013): jevcut's anchors, edges at a constant offset fitted leave-one-video-out. Selection requests are jevcut's. |
+| base-snap | `0fcf4db` | Baseline (013): jevcut's anchors, grown a sentence at a time to ~40s in code. Selection requests are jevcut's. |
 
 ## Scores
 
@@ -50,6 +55,11 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | promotion-gate | 78 | 18 | **5** | 0.32 | 0.32 (0.13) | 0.28 | 1.8s | 4.6s | 0.06 | 39s (42s) | 1,141 |
 | lemonfox-asr | 120 | 21 | **5** | 0.26 | 0.38 (0.17) | 0.24 | 1.2s | 4.4s | 0.07 | 45s (42s) | 1,477 |
 | six-rounds | 177 | 30 | **10** | 0.24 | 0.54 (0.25) | 0.33 | 1.1s | 4.3s | 0.07 | 44s (42s) | 2,646 |
+| base-dense | 177 | 25 | **1** | 0.19 | 0.45 (0.27) | 0.04 | 6.8s | 8.2s | 0.13 | 40s (42s) | 4,118 |
+| base-windows | 177 | 25 | **1** | 0.21 | 0.45 (0.24) | 0.04 | 8.0s | 5.8s | 0.10 | 32s (42s) | 505 |
+| base-naive | 177 | 24 | **3** | 0.18 | 0.43 (0.25) | 0.12 | 6.6s | 7.9s | 0.08 | 35s (42s) | 4,118 |
+| base-offset | 177 | 19 | **1** | 0.14 | 0.34 (0.24) | 0.05 | 9.4s | 4.6s | 0.07 | 35s (42s) | - |
+| base-snap | 177 | 21 | **0** | 0.16 | 0.38 (0.27) | 0.00 | 7.0s | 7.0s | 0.07 | 42s (42s) | - |
 
 ### Against v2 B (`eval/labels-v2-b`)
 
@@ -62,6 +72,11 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | promotion-gate | 78 | 16 | **6** | 0.33 | 0.28 (0.12) | 0.38 | 2.0s | 4.2s | 0.01 | 39s (40s) | 1,141 |
 | lemonfox-asr | 120 | 26 | **9** | 0.29 | 0.46 (0.16) | 0.35 | 1.9s | 0.4s | 0.06 | 45s (40s) | 1,477 |
 | six-rounds | 177 | 32 | **11** | 0.26 | 0.56 (0.24) | 0.34 | 1.9s | 0.6s | 0.06 | 44s (40s) | 2,646 |
+| base-dense | 177 | 22 | **1** | 0.20 | 0.39 (0.26) | 0.05 | 7.9s | 7.7s | 0.14 | 40s (40s) | 4,118 |
+| base-windows | 177 | 31 | **3** | 0.21 | 0.54 (0.23) | 0.10 | 7.0s | 5.6s | 0.10 | 32s (40s) | 505 |
+| base-naive | 177 | 19 | **3** | 0.15 | 0.33 (0.24) | 0.16 | 4.5s | 7.2s | 0.12 | 35s (40s) | 4,118 |
+| base-offset | 177 | 18 | **1** | 0.16 | 0.32 (0.24) | 0.06 | 7.0s | 8.3s | 0.07 | 35s (40s) | - |
+| base-snap | 177 | 16 | **0** | 0.15 | 0.28 (0.26) | 0.00 | 4.3s | 6.8s | 0.07 | 42s (40s) | - |
 
 ### Against v1 A (`eval/labels`)
 
@@ -74,6 +89,11 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | promotion-gate | 78 | 14 | **8** | 0.35 | 0.21 (0.13) | 0.57 | 0.0s | 5.5s | 0.08 | 39s (54s) | 1,141 |
 | lemonfox-asr | 120 | 25 | **13** | 0.33 | 0.38 (0.19) | 0.52 | 0.4s | 3.9s | 0.12 | 45s (54s) | 1,477 |
 | six-rounds | 177 | 34 | **20** | 0.29 | 0.52 (0.27) | 0.59 | 0.3s | 5.1s | 0.13 | 44s (54s) | 2,646 |
+| base-dense | 177 | 25 | **3** | 0.21 | 0.38 (0.29) | 0.12 | 9.1s | 7.0s | 0.18 | 40s (54s) | 4,118 |
+| base-windows | 177 | 30 | **4** | 0.22 | 0.45 (0.22) | 0.13 | 10.3s | 6.1s | 0.12 | 32s (54s) | 505 |
+| base-naive | 177 | 24 | **4** | 0.19 | 0.36 (0.24) | 0.17 | 6.3s | 8.1s | 0.16 | 35s (54s) | 4,118 |
+| base-offset | 177 | 22 | **4** | 0.16 | 0.33 (0.23) | 0.18 | 7.6s | 7.9s | 0.10 | 35s (54s) | - |
+| base-snap | 177 | 29 | **4** | 0.23 | 0.44 (0.30) | 0.14 | 10.3s | 8.2s | 0.11 | 42s (54s) | - |
 
 ### Against v1 B (`eval/labels-b`)
 
@@ -86,3 +106,8 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | promotion-gate | 78 | 17 | **10** | 0.32 | 0.30 (0.13) | 0.59 | 0.0s | 4.2s | 0.06 | 39s (55s) | 1,141 |
 | lemonfox-asr | 120 | 25 | **9** | 0.28 | 0.45 (0.19) | 0.36 | 0.4s | 4.2s | 0.10 | 45s (55s) | 1,477 |
 | six-rounds | 177 | 32 | **13** | 0.25 | 0.57 (0.26) | 0.41 | 0.4s | 5.1s | 0.10 | 44s (55s) | 2,646 |
+| base-dense | 177 | 22 | **1** | 0.20 | 0.39 (0.28) | 0.05 | 9.8s | 7.0s | 0.11 | 40s (55s) | 4,118 |
+| base-windows | 177 | 20 | **2** | 0.18 | 0.36 (0.21) | 0.10 | 12.8s | 5.8s | 0.10 | 32s (55s) | 505 |
+| base-naive | 177 | 22 | **3** | 0.19 | 0.39 (0.24) | 0.14 | 7.0s | 6.4s | 0.11 | 35s (55s) | 4,118 |
+| base-offset | 177 | 15 | **1** | 0.12 | 0.27 (0.23) | 0.07 | 9.3s | 7.2s | 0.08 | 35s (55s) | - |
+| base-snap | 177 | 20 | **4** | 0.16 | 0.36 (0.29) | 0.20 | 5.0s | 7.7s | 0.10 | 42s (55s) | - |

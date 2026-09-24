@@ -617,6 +617,43 @@ charges to transcribe it. `--all-endings` keeps the old behaviour for eval runs:
 offline experiment in this file re-picked from judgments the rule never used, and an early
 stop would not have cached them.
 
+### Baselines (013), on the pilot set (2026-09-25)
+
+jevcut (six rounds, Lemonfox) against five simpler systems on the same transcripts, cut
+points and labels, each shipping as many clips per video as jevcut (177). Full table and
+method: [eval/results/baselines.md](eval/results/baselines.md).
+
+| system | recall A / B | fully right clips A / B | precision A / B | start err p50 A / B | p90 A / B |
+| --- | --- | --- | --- | --- | --- |
+| **jevcut** | **0.54 / 0.56** | **10 / 11** | **0.24 / 0.26** | **1.1 / 1.9s** | 16.7 / 19.1s |
+| dense (every sentence judged) | 0.45 / 0.39 | 1 / 1 | 0.19 / 0.20 | 6.8 / 7.9s | 14.9 / 15.0s |
+| windows (30s tiles) | 0.45 / 0.54 | 1 / 3 | 0.21 / 0.21 | 8.0 / 7.0s | 20.7 / 17.8s |
+| naive (top sentence ± 15s) | 0.43 / 0.33 | 3 / 3 | 0.18 / 0.15 | 6.6 / 4.5s | 14.7 / 15.1s |
+| offset (jevcut's anchors, fitted constant) | 0.34 / 0.32 | 1 / 1 | 0.14 / 0.16 | 9.4 / 7.0s | 19.0 / 17.7s |
+| snap (jevcut's anchors, grown in code) | 0.38 / 0.28 | 0 / 0 | 0.16 / 0.15 | 7.0 / 4.3s | 18.3 / 19.2s |
+
+- **jevcut wins on everything the spec is about.** Most moments found, by far the most
+  clips with both edges right (10-11 against at most 3), best precision, and a typical
+  start 1-2s off against 4-9s. The labeled start's spread around the anchor is 17-18s
+  (stdev), so a fitted constant is nowhere near optimal by construction: this comparison
+  can tell methods apart, and it does.
+- **The boundary thesis holds here.** Baselines offset and snap keep jevcut's choice of
+  moments and swap only how the edges are set. Recall falls from 0.54/0.56 to 0.28-0.38
+  and fully right clips from 10-11 to 0-1: with the same moments, Jev-judged edges are
+  what make the clips match. The earlier finding that arithmetic stays competitive at
+  boundaries came from proxies; on clip labels it does not.
+- **It fails 013's ship criterion, on start_err_p90.** The criterion asks jevcut to beat
+  all five on p90 start error *and* on the mid-thought rate. It wins the mid-thought rate
+  (68% against 89-96%, judged by its own gate's questions; the labelers' own clips score
+  42-46%, so the yardstick is noisy and favours jevcut). It loses on p90: 16.7 / 19.1s
+  against dense's 14.9 / 15.0s and naive's 14.7 / 15.1s. On the moments both systems
+  found, the same holds -- jevcut's median start is 1-2s off against 4-9s, but its worst
+  tenth is 15-21s off against 14-17s for most baselines. **When jevcut misses a start it
+  misses by a lot**: the opening Choice picks a mark in the wrong place, where a baseline's
+  padding lands merely near. That tail, not the median, is the next thing to fix
+  (checklist step 4), and 013 stays open until it passes.
+- 8 videos and 177 clips per system, one pass, AI labelers only; 013 asks for 40 videos.
+
 ## What would let building resume
 
 Either:

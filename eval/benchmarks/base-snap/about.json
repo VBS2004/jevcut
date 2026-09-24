@@ -1,0 +1,7 @@
+{
+  "order": 12,
+  "name": "base-snap",
+  "what": "Baseline (013): jevcut's anchors, grown a sentence at a time to ~40s in code. Selection requests are jevcut's.",
+  "commit": "0fcf4db",
+  "gate_requests": null
+}

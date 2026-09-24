@@ -18,8 +18,12 @@ In order of what the numbers say costs the most. Scores for every step go throug
       It raised recall on all four label sets (~$0.17 per hour of media).
 - [ ] **3. A screen question.** After ads, the hard negatives the gate lets through are
       mostly narration of the screen. Spread-test on the labeled texts before wiring in.
-- [ ] **4. Pull openings earlier.** The opening Choice still starts late more often than
-      early; one wording experiment, scored on both labelers.
+- [x] **013 baselines, run on the pilot set.** jevcut beats all five on recall, fully right
+      clips, precision and median start error; **not passed** on `start_err_p90` (its
+      start misses are large). [eval/results/baselines.md](eval/results/baselines.md)
+- [ ] **4. Fix the openings' tail.** The opening Choice's misses are 15-21s off, worse than
+      simple padding at p90, and it still starts late more often than early. This is what
+      stands between jevcut and 013's ship criterion; score on both labelers.
 - [ ] **5. One human review pass** on two videos: every labeler so far is the same model,
       so the 0.0s start agreement is a lower bound.
 

@@ -1,0 +1,245 @@
+{
+ "source": "baseline snap",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L370",
+   "kind": "baseline",
+   "t0": 1503.18,
+   "t1": 1543.68,
+   "render_t0": 1503.18,
+   "render_t1": 1543.68,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.624
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L349",
+   "kind": "baseline",
+   "t0": 1447.0,
+   "t1": 1490.34,
+   "render_t0": 1447.0,
+   "render_t1": 1490.34,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.591
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L229",
+   "kind": "baseline",
+   "t0": 982.6,
+   "t1": 1027.94,
+   "render_t0": 982.6,
+   "render_t1": 1027.94,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.573
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L262",
+   "kind": "baseline",
+   "t0": 1134.0,
+   "t1": 1176.66,
+   "render_t0": 1134.0,
+   "render_t1": 1176.66,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.562
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L039",
+   "kind": "baseline",
+   "t0": 207.78,
+   "t1": 253.62,
+   "render_t0": 207.78,
+   "render_t1": 253.62,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.512
+   },
+   "rank": 5
+  },
+  {
+   "id": "clip006",
+   "anchor_id": "L090",
+   "kind": "baseline",
+   "t0": 425.54,
+   "t1": 468.16,
+   "render_t0": 425.54,
+   "render_t1": 468.16,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.49
+   },
+   "rank": 6
+  },
+  {
+   "id": "clip007",
+   "anchor_id": "L143",
+   "kind": "baseline",
+   "t0": 629.06,
+   "t1": 669.12,
+   "render_t0": 629.06,
+   "render_t1": 669.12,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.483
+   },
+   "rank": 7
+  },
+  {
+   "id": "clip008",
+   "anchor_id": "L255",
+   "kind": "baseline",
+   "t0": 1100.78,
+   "t1": 1146.26,
+   "render_t0": 1100.78,
+   "render_t1": 1146.26,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.463
+   },
+   "rank": 8
+  },
+  {
+   "id": "clip009",
+   "anchor_id": "L078",
+   "kind": "baseline",
+   "t0": 386.82,
+   "t1": 429.84,
+   "render_t0": 386.82,
+   "render_t1": 429.84,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.416
+   },
+   "rank": 9
+  },
+  {
+   "id": "clip010",
+   "anchor_id": "L203",
+   "kind": "baseline",
+   "t0": 885.96,
+   "t1": 930.06,
+   "render_t0": 885.96,
+   "render_t1": 930.06,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.413
+   },
+   "rank": 10
+  },
+  {
+   "id": "clip011",
+   "anchor_id": "L181",
+   "kind": "baseline",
+   "t0": 793.96,
+   "t1": 837.32,
+   "render_t0": 793.96,
+   "render_t1": 837.32,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.395
+   },
+   "rank": 11
+  },
+  {
+   "id": "clip012",
+   "anchor_id": "L125",
+   "kind": "baseline",
+   "t0": 576.56,
+   "t1": 619.84,
+   "render_t0": 576.56,
+   "render_t1": 619.84,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.391
+   },
+   "rank": 12
+  },
+  {
+   "id": "clip013",
+   "anchor_id": "L027",
+   "kind": "baseline",
+   "t0": 139.14,
+   "t1": 181.66,
+   "render_t0": 139.14,
+   "render_t1": 181.66,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.38
+   },
+   "rank": 13
+  },
+  {
+   "id": "clip014",
+   "anchor_id": "L296",
+   "kind": "baseline",
+   "t0": 1280.44,
+   "t1": 1321.46,
+   "render_t0": 1280.44,
+   "render_t1": 1321.46,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.328
+   },
+   "rank": 14
+  },
+  {
+   "id": "clip015",
+   "anchor_id": "L413",
+   "kind": "baseline",
+   "t0": 1610.76,
+   "t1": 1654.12,
+   "render_t0": 1610.76,
+   "render_t1": 1654.12,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.315
+   },
+   "rank": 15
+  }
+ ]
+}
