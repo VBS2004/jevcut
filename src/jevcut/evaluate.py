@@ -119,8 +119,16 @@ class VideoScore:
         return self.matched / self.labeled if self.labeled else 0.0
 
 
+#: How far outside a labeled range an edge may land and still count as in it: the timing
+#: jitter between two transcripts of the same audio. Labels are timed on one ASR's words;
+#: a run on another times the same word differently (Whisper small vs Lemonfox: 0.08s
+#: median, 0.26s p90), and many ranges are a single point, so without this an identical
+#: boundary on another transcript scores as a miss.
+RANGE_SLACK_S = 0.3
+
+
 def _inside(t: float, rng: list[float]) -> bool:
-    return rng[0] <= t <= rng[1]
+    return rng[0] - RANGE_SLACK_S <= t <= rng[1] + RANGE_SLACK_S
 
 
 def score_video(label: dict, edl_path: str | Path) -> VideoScore:

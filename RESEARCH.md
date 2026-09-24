@@ -522,6 +522,42 @@ set: no hit lost, precision up 0.01-0.02, share of clips on a hard negative 0.10
 (v2 A) and 0.04 → 0.01 (v2 B). +91 requests, about one per clip. Side by side with every
 other version in [BENCHMARKS.md](BENCHMARKS.md).
 
+### Lemonfox transcripts, and a range check that was too strict (2026-09-24)
+
+**Lemonfox** (hosted Whisper, punctuation and speaker labels; $0.50 per 3 hours, all 8
+videos in under 2 minutes) put a real boundary within 1s of 78% of labeled starts,
+against 75% for Whisper `small` and 68% for local `large-v3`, recovering 20 of the 44
+starts `small` misses -- although the labels were timed on `small`'s words. It labeled
+speakers on the panel and the debate (5 and 4), which become speaker-change cuts.
+
+**The range check was too strict for any cross-transcript comparison.** Two ASRs time the
+same word 0.08s apart at the median and 0.26s at p90, many labeled ranges are a single
+point, and the check had no tolerance -- so the same boundary on another transcript
+scored as a miss, and even on `small` a handful of starts sat a few tenths outside a
+point range. `evaluate.RANGE_SLACK_S = 0.3` now applies to every version; `jevcut bench`
+re-scored them all. **Every "in range" figure above this section was measured without
+it.**
+
+That re-scoring changes one conclusion. Counting matched clips with *both* edges right
+-- the count that is the spec:
+
+| version | v2 A | v2 B | v1 A | v1 B | recall v2 A / B |
+| --- | --- | --- | --- | --- | --- |
+| search (strongest-hook opening) | 6 | 7 | 11 | 8 | 0.41 / 0.37 |
+| opening-choice / promotion-gate | 5 | 6 | 8 | 10 | 0.32 / 0.28 |
+| lemonfox-asr (promotion-gate pipeline) | 5 | 9 | 13 | 9 | 0.38 / 0.46 |
+
+- **The opening Choice raised the *rate* of right edges** among matched clips (v2 B 0.33
+  → 0.38, v1 B 0.36 → 0.59) and brought clips to the rubric's length, **but it did not
+  raise the count** of fully right clips: it found fewer moments. It stays -- shorter,
+  cheaper, and the edges it finds are right more often -- but the claim above that it
+  won "on every label set" was a rate, not a count.
+- **Lemonfox wins back the recall** the Choice cost, on every label set (v2 B 0.28 →
+  0.46, v1 A 0.21 → 0.38), and has the most fully right clips on three of four sets.
+  Precision drops 0.03-0.06: the scan finds more anchors on a better-punctuated
+  transcript (166 vs 138) and more of them ship (120 clips vs 78). Gate requests rise
+  with them, 1,141 → 1,477.
+
 ## What would let building resume
 
 Either:

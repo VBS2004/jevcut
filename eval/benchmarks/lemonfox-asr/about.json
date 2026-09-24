@@ -1,0 +1,7 @@
+{
+  "order": 6,
+  "name": "lemonfox-asr",
+  "what": "Same pipeline as promotion-gate, on Lemonfox transcripts (hosted Whisper with punctuation and speaker labels) instead of local Whisper small.",
+  "commit": "1d10bc3",
+  "gate_requests": 1477
+}

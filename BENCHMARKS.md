@@ -34,6 +34,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | shortest-ending | `5be69bf` | Ending is the earliest one clean on ends_mid_thought, not the strongest payoff. |
 | opening-choice | `f093bdd` | Opening is one Choice over all candidate openings marked in the transcript. |
 | promotion-gate | `b82d3d2` | Finished clips that are a sponsor read, an ad or a self-plug are dropped: one promotion Noul per shipped clip. |
+| lemonfox-asr | `1d10bc3` | Same pipeline as promotion-gate, on Lemonfox transcripts (hosted Whisper with punctuation and speaker labels) instead of local Whisper small. |
 
 ## Scores
 
@@ -41,38 +42,42 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 
 | version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 13 | **1** | 0.25 | 0.23 (0.11) | 0.08 | 5.0s | 6.0s | 0.05 | 60s (42s) | - |
-| search | 98 | 23 | **2** | 0.30 | 0.41 (0.16) | 0.09 | 7.0s | 6.2s | 0.05 | 53s (42s) | 2,017 |
-| shortest-ending | 100 | 22 | **1** | 0.29 | 0.39 (0.16) | 0.05 | 6.9s | 4.0s | 0.06 | 49s (42s) | 2,017 |
-| opening-choice | 82 | 18 | **2** | 0.30 | 0.32 (0.14) | 0.11 | 1.8s | 4.6s | 0.10 | 41s (42s) | 1,050 |
-| promotion-gate | 78 | 18 | **2** | 0.32 | 0.32 (0.13) | 0.11 | 1.8s | 4.6s | 0.06 | 39s (42s) | 1,141 |
+| baseline | 59 | 13 | **2** | 0.25 | 0.23 (0.11) | 0.15 | 5.0s | 6.0s | 0.05 | 60s (42s) | - |
+| search | 98 | 23 | **6** | 0.30 | 0.41 (0.16) | 0.26 | 7.0s | 6.2s | 0.05 | 53s (42s) | 2,017 |
+| shortest-ending | 100 | 22 | **6** | 0.29 | 0.39 (0.16) | 0.27 | 6.9s | 4.0s | 0.06 | 49s (42s) | 2,017 |
+| opening-choice | 82 | 18 | **5** | 0.30 | 0.32 (0.14) | 0.28 | 1.8s | 4.6s | 0.10 | 41s (42s) | 1,050 |
+| promotion-gate | 78 | 18 | **5** | 0.32 | 0.32 (0.13) | 0.28 | 1.8s | 4.6s | 0.06 | 39s (42s) | 1,141 |
+| lemonfox-asr | 120 | 21 | **5** | 0.26 | 0.38 (0.17) | 0.24 | 1.2s | 4.4s | 0.07 | 45s (42s) | 1,477 |
 
 ### Against v2 B (`eval/labels-v2-b`)
 
 | version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | baseline | 59 | 10 | **1** | 0.27 | 0.18 (0.10) | 0.10 | 6.5s | 13.1s | 0.03 | 60s (40s) | - |
-| search | 98 | 21 | **4** | 0.30 | 0.37 (0.15) | 0.19 | 8.0s | 5.2s | 0.06 | 53s (40s) | 2,017 |
-| shortest-ending | 100 | 20 | **3** | 0.29 | 0.35 (0.15) | 0.15 | 4.7s | 3.2s | 0.06 | 49s (40s) | 2,017 |
-| opening-choice | 82 | 16 | **4** | 0.32 | 0.28 (0.13) | 0.25 | 2.0s | 4.2s | 0.04 | 41s (40s) | 1,050 |
-| promotion-gate | 78 | 16 | **4** | 0.33 | 0.28 (0.12) | 0.25 | 2.0s | 4.2s | 0.01 | 39s (40s) | 1,141 |
+| search | 98 | 21 | **7** | 0.30 | 0.37 (0.15) | 0.33 | 8.0s | 5.2s | 0.06 | 53s (40s) | 2,017 |
+| shortest-ending | 100 | 20 | **6** | 0.29 | 0.35 (0.15) | 0.30 | 4.7s | 3.2s | 0.06 | 49s (40s) | 2,017 |
+| opening-choice | 82 | 16 | **6** | 0.32 | 0.28 (0.13) | 0.38 | 2.0s | 4.2s | 0.04 | 41s (40s) | 1,050 |
+| promotion-gate | 78 | 16 | **6** | 0.33 | 0.28 (0.12) | 0.38 | 2.0s | 4.2s | 0.01 | 39s (40s) | 1,141 |
+| lemonfox-asr | 120 | 26 | **9** | 0.29 | 0.46 (0.16) | 0.35 | 1.9s | 0.4s | 0.06 | 45s (40s) | 1,477 |
 
 ### Against v1 A (`eval/labels`)
 
 | version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 15 | **2** | 0.36 | 0.23 (0.14) | 0.13 | 8.0s | 6.0s | 0.08 | 60s (54s) | - |
-| search | 98 | 27 | **3** | 0.40 | 0.41 (0.19) | 0.11 | 8.0s | 4.6s | 0.12 | 53s (54s) | 2,017 |
-| shortest-ending | 100 | 26 | **2** | 0.38 | 0.39 (0.18) | 0.08 | 4.7s | 5.2s | 0.13 | 49s (54s) | 2,017 |
-| opening-choice | 82 | 14 | **3** | 0.33 | 0.21 (0.14) | 0.21 | 0.0s | 5.5s | 0.10 | 41s (54s) | 1,050 |
-| promotion-gate | 78 | 14 | **3** | 0.35 | 0.21 (0.13) | 0.21 | 0.0s | 5.5s | 0.08 | 39s (54s) | 1,141 |
+| baseline | 59 | 15 | **4** | 0.36 | 0.23 (0.14) | 0.27 | 8.0s | 6.0s | 0.08 | 60s (54s) | - |
+| search | 98 | 27 | **11** | 0.40 | 0.41 (0.19) | 0.41 | 8.0s | 4.6s | 0.12 | 53s (54s) | 2,017 |
+| shortest-ending | 100 | 26 | **9** | 0.38 | 0.39 (0.18) | 0.35 | 4.7s | 5.2s | 0.13 | 49s (54s) | 2,017 |
+| opening-choice | 82 | 14 | **8** | 0.33 | 0.21 (0.14) | 0.57 | 0.0s | 5.5s | 0.10 | 41s (54s) | 1,050 |
+| promotion-gate | 78 | 14 | **8** | 0.35 | 0.21 (0.13) | 0.57 | 0.0s | 5.5s | 0.08 | 39s (54s) | 1,141 |
+| lemonfox-asr | 120 | 25 | **13** | 0.33 | 0.38 (0.19) | 0.52 | 0.4s | 3.9s | 0.12 | 45s (54s) | 1,477 |
 
 ### Against v1 B (`eval/labels-b`)
 
 | version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 11 | **0** | 0.34 | 0.20 (0.13) | 0.00 | 5.0s | 8.2s | 0.05 | 60s (55s) | - |
-| search | 98 | 22 | **6** | 0.34 | 0.39 (0.18) | 0.27 | 0.8s | 4.3s | 0.05 | 53s (55s) | 2,017 |
-| shortest-ending | 100 | 23 | **5** | 0.32 | 0.41 (0.18) | 0.22 | 1.5s | 5.2s | 0.06 | 49s (55s) | 2,017 |
-| opening-choice | 82 | 17 | **8** | 0.30 | 0.30 (0.14) | 0.47 | 0.0s | 4.2s | 0.10 | 41s (55s) | 1,050 |
-| promotion-gate | 78 | 17 | **8** | 0.32 | 0.30 (0.13) | 0.47 | 0.0s | 4.2s | 0.06 | 39s (55s) | 1,141 |
+| baseline | 59 | 11 | **1** | 0.34 | 0.20 (0.13) | 0.09 | 5.0s | 8.2s | 0.05 | 60s (55s) | - |
+| search | 98 | 22 | **8** | 0.34 | 0.39 (0.18) | 0.36 | 0.8s | 4.3s | 0.05 | 53s (55s) | 2,017 |
+| shortest-ending | 100 | 23 | **6** | 0.32 | 0.41 (0.18) | 0.26 | 1.5s | 5.2s | 0.06 | 49s (55s) | 2,017 |
+| opening-choice | 82 | 17 | **10** | 0.30 | 0.30 (0.14) | 0.59 | 0.0s | 4.2s | 0.10 | 41s (55s) | 1,050 |
+| promotion-gate | 78 | 17 | **10** | 0.32 | 0.30 (0.13) | 0.59 | 0.0s | 4.2s | 0.06 | 39s (55s) | 1,141 |
+| lemonfox-asr | 120 | 25 | **9** | 0.28 | 0.45 (0.19) | 0.36 | 0.4s | 4.2s | 0.10 | 45s (55s) | 1,477 |
