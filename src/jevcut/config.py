@@ -63,7 +63,12 @@ class Config:
     # fast speech, exactly where moments are densest. 60s matches the old 10-sentence
     # default at the documented 600-sentences-per-hour density.
     window_overlap_s: float = 60.0
-    max_anchors_per_window: int = 3
+    # The real stop (issue 005): contains_moment does not fall as moments are removed
+    # (0.93 -> 0.91 -> 0.88 median over three rounds), so this cap decides. At 3 it cut
+    # off every window on the pilot set and half the labeled moments never got an anchor;
+    # at 6, recall rose on all four label sets (0.38 -> 0.54 on v2 A) for 2-4 points of
+    # precision, and 5 -> 6 no longer added coverage (RESEARCH.md, "The scan's round cap").
+    max_anchors_per_window: int = 6
     contains_moment_threshold: float = 0.6
     anchor_removal_s: float = 20.0  # neighbourhood dropped before re-asking a window
     # Cross-window dedupe radius. Separate from anchor_removal_s on purpose: one governs

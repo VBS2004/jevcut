@@ -102,7 +102,7 @@ placement and repair were replaced by a search (RESEARCH.md has both measurement
 No thresholds of its own. A failed request skips that candidate rather than the video.
 The rendered edges are then aligned into the surrounding silence (`boundaries.py`).
 
-### E. Verify — the clip gate *(Jev, one request per candidate ending; ~7 per anchor)*
+### E. Verify — the clip gate *(Jev, one request per candidate ending; ~9 per anchor)*
 
 The state is the exact clip text and nothing else — no title, no surrounding
 transcript — because that is the condition the viewer will be in.
@@ -181,12 +181,12 @@ constant — so measure it rather than assume either way.
 
 | | requests | why |
 | --- | --- | --- |
-| Pass C | up to 3 per 80-sentence window (asked again after each anchor); windows overlap by 60s | 160 for the pilot set, ~34 per hour of media |
-| Boundary search + gate | ~7 per anchor: one opening Choice, then the endings | 1,050 for the pilot set, ~230 per hour |
-| **VOD total** | **~265 per hour of media** | vs ~600/hour for per-sentence dense scoring |
+| Pass C | up to 6 per 80-sentence window (asked again after each anchor); windows overlap by 60s | ~400 for the pilot set, ~85 per hour of media |
+| Boundary search + gate | ~9 per anchor: one opening Choice, the endings, the ad check | 2,646 for the pilot set (302 anchors), ~575 per hour |
+| **VOD total** | **~660 per hour of media** | about what per-sentence dense scoring (~600/hour) would cost; the price of 6 rounds per window |
 | Live | ~900/hr | one tick per 4s, plus ~2 per triggered clip (planned, not measured) |
 
-Measured on the pilot eval set: 8 videos, 4.6 hours of media, 138 anchors (2026-09-24).
+Measured on the pilot eval set: 8 videos, 4.6 hours of media, Lemonfox transcripts, 302 anchors (2026-09-24). At 3 rounds per window it was ~265 per hour for about half the recall.
 The planned ~32/hour assumed one gate request per clip; the search spends ~7 per anchor
 because it judges every candidate ending instead of repairing one placed clip. Judging
 every opening too cost ~15 per anchor until one Choice replaced it. Still well

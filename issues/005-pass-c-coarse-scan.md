@@ -110,3 +110,7 @@ Consequences:
   state. That is a relative question, which is the thing we actually want to know.
 - Until then, treat `max_anchors_per_window` as the real control and
   `contains_moment_threshold` as a floor for genuinely empty windows.
+- **Measured 2026-09-24 on the pilot eval set:** every window hit the cap of 3 (54 of 54
+  on Whisper small, 65 of 66 on Lemonfox), and half the labeled moments never got an
+  anchor. The cap is now 6: anchored moments 52/58% -> 71/70%, end-to-end recall
+  0.38 -> 0.54 (v2 A). RESEARCH.md, "The scan's round cap".
