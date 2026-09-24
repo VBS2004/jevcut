@@ -1,5 +1,14 @@
 # Cost model
 
+> **Measured 2026-09-24, pilot eval set (8 videos, 4.6 h, Lemonfox transcripts):** ~520
+> Jev requests per hour of video (scan ~85, boundary search ~430), ~1,100 input tokens
+> each, **$0.05 per 1,000 requests** as reported — about **$0.03 per video-hour**. The
+> plan below assumed ~32 requests per hour, one judgment per clip; the build judges every
+> candidate edge (openings by one Choice, endings in time order until one works), which is
+> what raised recall, and lands near the dense estimate instead. The analysis below is the
+> original plan, kept as written; requests are still the number to ration.
+
+
 Numbers below are **estimates to be validated by [issue 013](../issues/013-baseline-comparison.md).**
 Nothing here is measured yet. Treat every figure as a hypothesis with a test attached.
 

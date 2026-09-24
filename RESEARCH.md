@@ -596,6 +596,27 @@ an hour about half the time -- so the test is end to end. At 6, on Lemonfox tran
   media -- about 2.5x, and roughly what per-sentence dense scoring was estimated at.
   177 clips for 4.6 hours means ranking decides what a person sees first.
 
+### Stopping the ending search early (2026-09-24)
+
+Judging candidate endings was 69% of all requests. The rule keeps the earliest ending
+that passes clean, so once one turns up no later ending can change the pick -- the later
+judgments were paid for and never used. Replayed on the six-round run (302 ending
+searches, 2,119 candidates, median 7 each):
+
+| endings judged at a time | ending judgments saved | round trips per ending search |
+| --- | --- | --- |
+| all (before) | 0% | 1 |
+| 1 | 37% | 4.4 |
+| 2 (kept) | 31% | 2.5 |
+| 3 | 26% | 1.9 |
+
+Re-cut from cache at 2: **the clips are identical on all 8 videos**, gate requests
+2,646 → 1,981, ~660 → ~520 per hour of media including the scan. Measured cost: ~$0.05
+per 1,000 Jev requests as reported, so ~$0.03 per video-hour -- a fifth of what Lemonfox
+charges to transcribe it. `--all-endings` keeps the old behaviour for eval runs: every
+offline experiment in this file re-picked from judgments the rule never used, and an early
+stop would not have cached them.
+
 ## What would let building resume
 
 Either:

@@ -55,8 +55,10 @@ problem**, and boundaries are where existing Jev-based tools are weakest too:
    No offset or snapping rule answers those — there is nothing for it to compute on.
 
 2. **A cascade, not dense scoring.** A cheap windowed pass finds candidate anchors; only
-   survivors get the expensive boundary + verification passes. Est. ~8× fewer tokens and
-   ~20× fewer requests than scoring every sentence. See [docs/COST-MODEL.md](docs/COST-MODEL.md).
+   around those does jevcut judge candidate clips. The plan was ~20× fewer requests than
+   scoring every sentence; measured, it spends about as many (~520 per hour of video),
+   because every clip's candidate endings are judged. The requests went into boundaries
+   instead of into scoring every sentence. See [What it costs](#what-it-costs).
 
 3. **An explicit standalone gate — now the main event.** Dedicated Nouls for the failure
    modes that actually kill clips: starts mid-thought, dangling pronoun, payoff never
@@ -73,16 +75,40 @@ problem**, and boundaries are where existing Jev-based tools are weakest too:
    [docs/EVAL.md](docs/EVAL.md) defines the harness and the baselines we must beat before
    any of this is worth believing.
 
-## Honest framing on cost
+## What it costs
 
-Absolute cost here is already trivial — jev-skip reports **$0.0008/video** on a comparable
-workload, and Jev bills input only at $0.042/Mtok. jevcut's cascade is not going to turn
-cents into fractions of cents in a way anyone feels.
+Measured on the pilot eval set (8 videos, 4.6 hours of media, 2026-09-24), per hour of
+video:
 
-The cascade is worth building for **requests and latency**, not dollars: Jev's limit is
-1,200 requests/minute, and dense per-sentence scoring burns that budget on an hour of
-video. Fewer, fatter requests (one state, many parallel questions) is what makes live mode
-and batch backfill viable. Cost savings are a side effect; say so in that order.
+| | Jev requests | cost |
+| --- | --- | --- |
+| Transcription, Lemonfox (`--model lemonfox`) | – | ~$0.17 |
+| Scan: finding the moments worth clipping | ~85 | |
+| Boundary search: opening, endings, ad check | ~430 | |
+| **Jev total** | **~520** | **~$0.03** |
+
+Jev bills about **$0.05 per 1,000 requests** here (as reported per call, ~1,100 input
+tokens each), so the model calls are the cheap part: transcribing costs five times more.
+Local Whisper makes transcription free and finds fewer moments ([BENCHMARKS.md](BENCHMARKS.md)).
+
+**Requests, not dollars, are the budget that matters.** Jev allows 1,200 requests a
+minute, so at ~520 per hour of video one account backfills about two hours of video a
+minute. Three things keep the count down:
+
+- **The scan reads windows, not sentences.** About five minutes of transcript per
+  request, picking up to six moments from each.
+- **Openings are one question.** Every candidate start point is marked in the
+  transcript and a single Choice picks one, instead of judging each separately.
+- **Endings stop early.** A clip ends at the earliest point where its thought is
+  finished, so jevcut judges candidate endings in time order, two at a time, and stops
+  at the first that works: once one does, no later ending can change the pick. Same
+  clips, 25% fewer requests on the pilot set. `--all-endings` turns this off, for eval
+  runs that want every ending judged and on record.
+
+The first plan estimated ~32 requests per hour, one judgment per clip. Judging every
+candidate edge instead is what raised recall from 0.23 to 0.54, and it costs about what
+dense per-sentence scoring was estimated at (~600 per hour).
+[docs/COST-MODEL.md](docs/COST-MODEL.md) has the plan and the measurement side by side.
 
 ## Layout
 
