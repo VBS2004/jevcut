@@ -118,7 +118,8 @@ uv run jevcut clip t.json --media talk.mp4 --out clips/
 # without ASR, from the synthetic fixture
 uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out t.json
 
-# score every labeled video's run against its labels (eval/labels, issue 011); no API calls
+# score every labeled video's run against its labels (eval/labels, issue 011); no API calls.
+# What a label means -- the shortest cut that works, opening on its hook -- is eval/RUBRIC.md
 uv run jevcut eval --note "what changed"
 # how much two independent labelers agree -- the noise floor any boundary error sits on
 uv run jevcut agree eval/labels eval/labels-b
