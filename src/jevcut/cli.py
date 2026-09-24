@@ -149,6 +149,8 @@ def cmd_clip(args: argparse.Namespace) -> int:
     load_env()
     config = _config(args)
     config.cache_mode = args.cache
+    if getattr(args, "all_endings", False):
+        config.ending_batch = 0
     transcript = Transcript.from_json(args.transcript)
     found = cuts_mod.extract(transcript, config)
     print(f"{len(transcript)} sentences, {len(found)} cut points")
@@ -290,6 +292,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             out=str(out_dir),
             vertical=args.vertical,
             captions=args.captions,
+            all_endings=args.all_endings,
         )
     )
 
@@ -555,6 +558,13 @@ def _render_flags(p: argparse.ArgumentParser) -> None:
         "--captions",
         action="store_true",
         help="burn in word-level captions from the transcript's word timings",
+    )
+    p.add_argument(
+        "--all-endings",
+        action="store_true",
+        help="judge every candidate ending instead of stopping at the first that works. "
+        "Same clips, ~45%% more requests; for eval runs, so the cache holds every ending "
+        "for later experiments to re-pick from",
     )
 
 

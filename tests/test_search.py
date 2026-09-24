@@ -201,7 +201,7 @@ def test_the_clip_stays_in_the_band(talk, monkeypatch):
 
 def test_a_failed_request_is_skipped_not_fatal(talk, monkeypatch):
     t, cuts = talk
-    verify, _ = _judge(thought_starts=18, lands_at=26, fails={27, 28})
+    verify, _ = _judge(thought_starts=18, lands_at=26, fails={24, 25})
     monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
     result = search_mod.search(Chooser(18), t, cuts, t.sentences[20].id, Config())
     assert result.ok
@@ -225,3 +225,29 @@ def test_no_clean_ending_is_a_drop_that_names_the_failure(talk, monkeypatch):
     result = search_mod.search(Chooser(18), t, cuts, t.sentences[20].id, Config())
     assert not result.ok
     assert "ends mid-thought" in result.verdict.reasons
+
+
+def test_endings_are_judged_in_order_and_stop_once_one_passes_clean(talk, monkeypatch):
+    t, cuts = talk
+    verify, calls = _judge(thought_starts=18, lands_at=26)
+    monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
+    result = search_mod.search(Chooser(18), t, cuts, t.sentences[20].id, Config(ending_batch=2))
+    lasts = [last for _, last in calls]
+    assert lasts == sorted(lasts)  # time order
+    assert max(lasts) == 26  # nothing after the batch the clean pass turned up in
+    assert result.requests == len(calls) + 2  # the endings, the opening Choice, the ad check
+
+
+def test_the_early_stop_never_changes_the_clip(talk, monkeypatch):
+    t, cuts = talk
+    picks, asked = [], []
+    for batch in (0, 1, 2, 3):
+        verify, calls = _judge(thought_starts=18, lands_at=26)
+        monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
+        result = search_mod.search(
+            Chooser(18), t, cuts, t.sentences[20].id, Config(ending_batch=batch)
+        )
+        picks.append((result.boundary.t0, result.boundary.t1))
+        asked.append(len(calls))
+    assert len(set(picks)) == 1
+    assert asked[0] > asked[1]  # 0 judges every ending, for eval runs

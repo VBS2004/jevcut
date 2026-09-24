@@ -97,12 +97,15 @@ placement and repair were replaced by a search (RESEARCH.md has both measurement
    clip in the band, judged as the finished clip. Among those passing the full gate the
    earliest one clean on `ends_mid_thought` wins -- the shortest clip that finishes its
    thought (eval/RUBRIC.md) -- else the least unfinished. Its judgment is the final gate.
+   Endings are judged in time order, `ending_batch` (2) at a time, stopping at the first
+   clean pass: nothing later can change the pick, so the clips are identical and the
+   pilot set took 25% fewer gate requests. `--all-endings` judges them all, for eval runs.
    It was the strongest `payoff`; payoff rises with more material, so that drifted long.
 
 No thresholds of its own. A failed request skips that candidate rather than the video.
 The rendered edges are then aligned into the surrounding silence (`boundaries.py`).
 
-### E. Verify — the clip gate *(Jev, one request per candidate ending; ~9 per anchor)*
+### E. Verify — the clip gate *(Jev, one request per candidate ending judged; ~7 per anchor)*
 
 The state is the exact clip text and nothing else — no title, no surrounding
 transcript — because that is the condition the viewer will be in.
@@ -182,8 +185,8 @@ constant — so measure it rather than assume either way.
 | | requests | why |
 | --- | --- | --- |
 | Pass C | up to 6 per 80-sentence window (asked again after each anchor); windows overlap by 60s | ~400 for the pilot set, ~85 per hour of media |
-| Boundary search + gate | ~9 per anchor: one opening Choice, the endings, the ad check | 2,646 for the pilot set (302 anchors), ~575 per hour |
-| **VOD total** | **~660 per hour of media** | about what per-sentence dense scoring (~600/hour) would cost; the price of 6 rounds per window |
+| Boundary search + gate | ~7 per anchor: one opening Choice, the endings until one works, the ad check | 1,981 for the pilot set (302 anchors), ~430 per hour; 2,646 judging every ending |
+| **VOD total** | **~520 per hour of media** | near what per-sentence dense scoring (~600/hour) was estimated at; ~$0.03 at $0.05 per 1,000 requests |
 | Live | ~900/hr | one tick per 4s, plus ~2 per triggered clip (planned, not measured) |
 
 Measured on the pilot eval set: 8 videos, 4.6 hours of media, Lemonfox transcripts, 302 anchors (2026-09-24). At 3 rounds per window it was ~265 per hour for about half the recall.

@@ -82,3 +82,13 @@ def test_run_passes_the_render_options_through_to_clip(tmp_path, monkeypatch):
     assert (calls["clip"].vertical, calls["clip"].captions) == (True, False)
     assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--captions"]) == 0
     assert (calls["clip"].vertical, calls["clip"].captions) == (False, True)
+
+
+
+def test_all_endings_is_off_by_default_and_run_passes_it_to_clip(tmp_path, monkeypatch):
+    calls = _record(monkeypatch)
+
+    assert cli.main(["clip", "t.json"]) == 0
+    assert calls["clip"].all_endings is False  # the early stop: same clips, fewer requests
+    assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--all-endings"]) == 0
+    assert calls["clip"].all_endings is True

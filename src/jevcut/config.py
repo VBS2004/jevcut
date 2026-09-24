@@ -102,6 +102,11 @@ class Config:
     #: Separated perfectly on the pilot set (17 of 17 ads above, 0 of 236 content texts;
     #: content peaked at 0.05, ads at a 0.95 median), so the bar is not delicate.
     promotion_threshold: float = 0.5
+    #: Endings judged per round trip, in time order, until one passes clean (search.py).
+    #: 1 saves the most requests (37% on the pilot set) but waits ~4 round trips per clip;
+    #: 2 saves 31% at ~2.5; 0 judges every ending, which eval runs use (`--all-endings`) so
+    #: later experiments can re-pick from the full set without asking again.
+    ending_batch: int = 2
     payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
     duration_band_s: tuple[float, float] = (25.0, 75.0)
 
