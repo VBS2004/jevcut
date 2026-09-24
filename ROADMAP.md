@@ -22,8 +22,10 @@ In order of what the numbers say costs the most. Scores for every step go throug
       clips, precision and median start error; **not passed** on `start_err_p90` (its
       start misses are large). [eval/results/baselines.md](eval/results/baselines.md)
 - [ ] **4. Fix the openings' tail.** The opening Choice's misses are 15-21s off, worse than
-      simple padding at p90, and it still starts late more often than early. This is what
-      stands between jevcut and 013's ship criterion; score on both labelers.
+      simple padding at p90. Tried 2026-09-25, neither kept: offering openings after the
+      anchor, and rewording the Choice (RESEARCH.md). The far-off starts mostly follow a
+      scan anchor that closes the thought before. p90 over ~30 clips is set by the 3rd-worst
+      clip, so **grow the eval set first** (011 plans 40 videos) before tuning this further.
 - [ ] **5. One human review pass** on two videos: every labeler so far is the same model,
       so the 0.0s start agreement is a lower bound.
 

@@ -654,6 +654,38 @@ method: [eval/results/baselines.md](eval/results/baselines.md).
   (checklist step 4), and 013 stays open until it passes.
 - 8 videos and 177 clips per system, one pass, AI labelers only; 013 asks for 40 videos.
 
+### The openings' tail: two fixes tried, neither kept (2026-09-25)
+
+About one found clip in five starts 10s or more from the labeled start -- the tail that
+fails 013's p90 bar. Replaying every found clip's opening Choice from cache
+([`eval/experiments/opening_misses.py`](eval/experiments/opening_misses.py)):
+
+- **9 of the 13 far-off starts were never on offer.** 8 belonged to clips the labelers
+  started 4-23s *after* the anchor line, and the search offered openings only up to it.
+- **Fix 1: offer openings up to 20s after the anchor**, the stretch the Choice already
+  reads. The right start was then on offer in 12 of 15 far-off cases -- and the Choice
+  ranked it ~7th with ~1% of the vote. The question said to cut "around the line
+  `region.moment`", so when the scan's anchor was the close of the thought before, the
+  Choice kept that line and opened before it: doing what it was asked.
+- **Fix 2: reword it** -- the flagged line only points near the moment and may end the
+  thought before; where does the moment begin? Replayed on the Choice alone, it put more
+  starts in range on all four label sets (16 → 18, 17 → 21, 23 → 25, 23 → 25). End to end
+  on the six-round run, against it:
+
+| | both edges right (A / B / v1 A / v1 B) | recall v2 A / B | p90 start error | starts 10s+ off |
+| --- | --- | --- | --- | --- |
+| six rounds (kept) | 10 / 11 / 20 / 13 | 0.54 / 0.56 | 16.7 / 19.1 / 17.8 / 21.2s | 6 / 7 / 5 / 6 |
+| + openings after the anchor | 11 / 12 / 19 / 14 | 0.54 / 0.58 | 18.6 / 19.2 / 24.7 / 23.6s | 6 / 9 / 10 / 7 |
+| + the reworded question | 13 / 12 / 18 / 15 | 0.59 / 0.56 | 15.8 / 19.2 / 19.1 / 18.1s | 6 / 9 / 7 / 6 |
+
+**Neither kept.** A few more fully right clips on three sets, but the tail -- the target --
+did not move, and the far-off count rose (24 → 28 over the four sets). **The p90 itself
+is not a stable target at this size:** over ~30 matched clips it is set by about the
+third-worst clip, so one clip changes it by several seconds, as these rows show. Chasing
+it by wording on 8 videos would be tuning to those 3 clips. What would make it
+measurable is more videos; what the diagnosis points at is the anchor -- when the scan's
+line closes the thought before, every later step inherits it.
+
 ## What would let building resume
 
 Either:
