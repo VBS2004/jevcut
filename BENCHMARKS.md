@@ -33,6 +33,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | search | `11f5ebc` | Boundary search: every real-boundary opening judged alone, strongest hook among the clean; every ending judged, strongest payoff. |
 | shortest-ending | `5be69bf` | Ending is the earliest one clean on ends_mid_thought, not the strongest payoff. |
 | opening-choice | `f093bdd` | Opening is one Choice over all candidate openings marked in the transcript. |
+| promotion-gate | `b82d3d2` | Finished clips that are a sponsor read, an ad or a self-plug are dropped: one promotion Noul per shipped clip. |
 
 ## Scores
 
@@ -44,6 +45,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | search | 98 | 23 | **2** | 0.30 | 0.41 (0.16) | 0.09 | 7.0s | 6.2s | 0.05 | 53s (42s) | 2,017 |
 | shortest-ending | 100 | 22 | **1** | 0.29 | 0.39 (0.16) | 0.05 | 6.9s | 4.0s | 0.06 | 49s (42s) | 2,017 |
 | opening-choice | 82 | 18 | **2** | 0.30 | 0.32 (0.14) | 0.11 | 1.8s | 4.6s | 0.10 | 41s (42s) | 1,050 |
+| promotion-gate | 78 | 18 | **2** | 0.32 | 0.32 (0.13) | 0.11 | 1.8s | 4.6s | 0.06 | 39s (42s) | 1,141 |
 
 ### Against v2 B (`eval/labels-v2-b`)
 
@@ -53,6 +55,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | search | 98 | 21 | **4** | 0.30 | 0.37 (0.15) | 0.19 | 8.0s | 5.2s | 0.06 | 53s (40s) | 2,017 |
 | shortest-ending | 100 | 20 | **3** | 0.29 | 0.35 (0.15) | 0.15 | 4.7s | 3.2s | 0.06 | 49s (40s) | 2,017 |
 | opening-choice | 82 | 16 | **4** | 0.32 | 0.28 (0.13) | 0.25 | 2.0s | 4.2s | 0.04 | 41s (40s) | 1,050 |
+| promotion-gate | 78 | 16 | **4** | 0.33 | 0.28 (0.12) | 0.25 | 2.0s | 4.2s | 0.01 | 39s (40s) | 1,141 |
 
 ### Against v1 A (`eval/labels`)
 
@@ -62,6 +65,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | search | 98 | 27 | **3** | 0.40 | 0.41 (0.19) | 0.11 | 8.0s | 4.6s | 0.12 | 53s (54s) | 2,017 |
 | shortest-ending | 100 | 26 | **2** | 0.38 | 0.39 (0.18) | 0.08 | 4.7s | 5.2s | 0.13 | 49s (54s) | 2,017 |
 | opening-choice | 82 | 14 | **3** | 0.33 | 0.21 (0.14) | 0.21 | 0.0s | 5.5s | 0.10 | 41s (54s) | 1,050 |
+| promotion-gate | 78 | 14 | **3** | 0.35 | 0.21 (0.13) | 0.21 | 0.0s | 5.5s | 0.08 | 39s (54s) | 1,141 |
 
 ### Against v1 B (`eval/labels-b`)
 
@@ -71,3 +75,4 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | search | 98 | 22 | **6** | 0.34 | 0.39 (0.18) | 0.27 | 0.8s | 4.3s | 0.05 | 53s (55s) | 2,017 |
 | shortest-ending | 100 | 23 | **5** | 0.32 | 0.41 (0.18) | 0.22 | 1.5s | 5.2s | 0.06 | 49s (55s) | 2,017 |
 | opening-choice | 82 | 17 | **8** | 0.30 | 0.30 (0.14) | 0.47 | 0.0s | 4.2s | 0.10 | 41s (55s) | 1,050 |
+| promotion-gate | 78 | 17 | **8** | 0.32 | 0.30 (0.13) | 0.47 | 0.0s | 4.2s | 0.06 | 39s (55s) | 1,141 |

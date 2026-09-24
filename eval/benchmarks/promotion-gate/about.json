@@ -1,0 +1,7 @@
+{
+  "order": 5,
+  "name": "promotion-gate",
+  "what": "Finished clips that are a sponsor read, an ad or a self-plug are dropped: one promotion Noul per shipped clip.",
+  "commit": "b82d3d2",
+  "gate_requests": 1141
+}

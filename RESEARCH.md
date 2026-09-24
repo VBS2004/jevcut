@@ -506,6 +506,22 @@ Separation, clip over negative (AUC; 0.5 is none): `standalone` 0.79 / 0.74,
   and 27 of 41 (B) never had an anchor inside them; the search and gate lose the rest.
   Winning recall back starts at Pass C, not at the gate.
 
+### The ad check (2026-09-24)
+
+A `promotion` Noul -- is this a sponsor read, an ad or a self-plug rather than the
+discussion? -- spread-tested alone on all 253 rubric-v2 texts
+([`eval/experiments/promotion_question.py`](eval/experiments/promotion_question.py)):
+17 of 17 promotions fired (median 0.95), 0 of 236 content texts did (none above 0.05),
+product reviews included. Wired in as one request on each finished clip.
+
+On the pilot set it drops four clips: the WorkOS and Parallel sponsor reads in the Theo
+video (the first opens "after a real quick break for today's sponsor" and reads as a
+personal story), and two borderline self-plugs -- will.i.am on his own company's agent
+("we point out in our course"), and Sean on his own agent's design. Against every label
+set: no hit lost, precision up 0.01-0.02, share of clips on a hard negative 0.10 → 0.06
+(v2 A) and 0.04 → 0.01 (v2 B). +91 requests, about one per clip. Side by side with every
+other version in [BENCHMARKS.md](BENCHMARKS.md).
+
 ## What would let building resume
 
 Either:
