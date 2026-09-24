@@ -95,8 +95,6 @@ class Config:
     # answers. Evidence is thin -- four positives, two videos.
     needs_room_threshold: float = 0.5
     payoff_floor: float = 0.5  # Score expectation; level 0 is "never returns to it"
-    max_repairs: int = 3  # widen attempts before giving up on a clip
-    max_tightens: int = 3  # trim attempts once a clip works, to undo padding
     duration_band_s: tuple[float, float] = (25.0, 75.0)
 
     # --- live (016) --- PLACEHOLDER until 014

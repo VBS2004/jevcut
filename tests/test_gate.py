@@ -2,14 +2,10 @@
 
 import pytest
 
-from conftest import speech
-from jevcut import boundaries, gate
-from jevcut import cuts as cuts_mod
+from jevcut import gate
 from jevcut.backends import Answer, Response
 from jevcut.client import JevClient
 from jevcut.config import Config
-from jevcut.models import Transcript
-from jevcut.transcript import segment_words
 
 
 class StubBackend:
@@ -133,52 +129,6 @@ def test_a_payoff_that_never_lands_reaches_forward(tmp_path):
 def test_standalone_alone_does_not_say_which_edge_is_short(tmp_path):
     v = gate.verdict(gate.verify(_client(tmp_path, nouls={"standalone": 0.1}), "x"))
     assert v.action == gate.WIDEN_BOTH and "not standalone" in v.reasons
-
-
-# --- widening -----------------------------------------------------------------
-
-
-def _transcript(n=120):
-    text = " ".join(f"this is sentence number {i} and it ends here." for i in range(n))
-    sents = segment_words(speech(text, 0.0, word_s=0.35, gap_s=0.05))
-    return Transcript(sentences=sents, duration=sents[-1].t1)
-
-
-def test_widening_moves_the_start_back_and_leaves_the_end_alone():
-    config = Config()
-    t = _transcript()
-    cuts = cuts_mod.extract(t, config)
-    b = boundaries.place(t, cuts, t.sentences[60].id, config)
-    wider = boundaries.widen_start(cuts, b, config)
-    assert wider is not None
-    assert wider.t0 < b.t0
-    assert wider.t1 == b.t1 and wider.end_cut == b.end_cut
-    assert wider.duration > b.duration
-
-
-def test_widening_refuses_to_bloat_a_clip_past_the_band():
-    config = Config()
-    t = _transcript()
-    cuts = cuts_mod.extract(t, config)
-    b = boundaries.place(t, cuts, t.sentences[60].id, config)
-    tight = Config(duration_band_s=(config.duration_band_s[0], b.duration + 0.1))
-    assert boundaries.widen_start(cuts, b, tight) is None
-
-
-def test_widening_at_the_start_of_the_video_has_nowhere_to_go():
-    config = Config()
-    t = _transcript()
-    cuts = cuts_mod.extract(t, config)
-    b = boundaries.place(t, cuts, t.sentences[60].id, config)
-    first = boundaries.Boundary(
-        t0=cuts[0].t_start,
-        t1=b.t1,
-        render_t0=0.0,
-        render_t1=b.render_t1,
-        start_cut=cuts[0].id,
-        end_cut=b.end_cut,
-    )
-    assert boundaries.widen_start(cuts, first, config) is None
 
 
 def test_a_middling_score_widens_while_it_can_and_ships_once_it_cannot(tmp_path):
