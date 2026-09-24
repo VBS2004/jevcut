@@ -1,0 +1,7 @@
+{
+  "order": 4,
+  "name": "opening-choice",
+  "what": "Opening is one Choice over all candidate openings marked in the transcript.",
+  "commit": "f093bdd",
+  "gate_requests": 1050
+}

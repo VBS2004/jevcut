@@ -1,0 +1,30 @@
+{
+ "source": "eval/media/sean-agent-memory.mp4",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L011",
+   "kind": "demo",
+   "t0": 30.88,
+   "t1": 100.68,
+   "render_t0": 30.759999999999998,
+   "render_t1": 100.96000000000001,
+   "start_cut": "C05",
+   "end_cut": "C17",
+   "text": "",
+   "scores": {
+    "p_moment": 0.88,
+    "anchor_confidence": 0.15,
+    "needs_the_room": 0.08,
+    "starts_mid_thought": 0.71,
+    "ends_mid_thought": 0.67,
+    "dangling_reference": 0.46,
+    "standalone": 0.54,
+    "hook": 0.64,
+    "payoff": 1.66,
+    "composite": 0.445
+   },
+   "rank": 1
+  }
+ ]
+}

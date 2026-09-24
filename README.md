@@ -14,7 +14,8 @@ ranking (008), EDL and ffmpeg render (009), and a response cache for reproducibl
 (004). Validated on two FOSDEM videos, a solo talk and a panel; a human rated the solo
 talk's output. Thresholds are measured on those two videos only and are not calibrated —
 that is 014. The research phase that changed the design is in [RESEARCH.md](RESEARCH.md);
-see [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
+every measured version, scored side by side on the eval set, is in
+[BENCHMARKS.md](BENCHMARKS.md); see [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
 
 **Scope: v1 clips verbal content** — podcasts, interviews, talks, panels, streams where
 people talk. The judge is Jev over transcript text, so a moment carrying no words (a crash,
@@ -124,6 +125,9 @@ uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out 
 uv run jevcut eval --note "what changed"
 # how much two independent labelers agree -- the noise floor any boundary error sits on
 uv run jevcut agree eval/labels-v2 eval/labels-v2-b
+# every measured version, re-scored against every label set -> BENCHMARKS.md. After a
+# change is kept: jevcut bench --snapshot NAME --what "..." --commit SHA --gate-requests N
+uv run jevcut bench
 
 # the stages one at a time
 uv run jevcut cuts t.json --out c.json

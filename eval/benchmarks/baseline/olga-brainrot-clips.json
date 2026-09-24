@@ -1,0 +1,105 @@
+{
+ "source": "eval/media/olga-brainrot.mp4",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L161",
+   "kind": "explanation",
+   "t0": 904.94,
+   "t1": 954.4,
+   "render_t0": 904.82,
+   "render_t1": 954.75,
+   "start_cut": "C167",
+   "end_cut": "C177",
+   "text": "",
+   "scores": {
+    "p_moment": 0.96,
+    "anchor_confidence": 0.14,
+    "needs_the_room": 0.1,
+    "starts_mid_thought": 0.16,
+    "ends_mid_thought": 0.24,
+    "dangling_reference": 0.16,
+    "standalone": 0.82,
+    "hook": 2.19,
+    "payoff": 1.91,
+    "composite": 0.814
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L109",
+   "kind": "explanation",
+   "t0": 648.98,
+   "t1": 690.54,
+   "render_t0": 648.73,
+   "render_t1": 690.8199999999999,
+   "start_cut": "C120",
+   "end_cut": "C126",
+   "text": "",
+   "scores": {
+    "p_moment": 0.95,
+    "anchor_confidence": 0.13,
+    "needs_the_room": 0.26,
+    "starts_mid_thought": 0.5,
+    "ends_mid_thought": 0.19,
+    "dangling_reference": 0.24,
+    "standalone": 0.68,
+    "hook": 2.25,
+    "payoff": 1.74,
+    "composite": 0.795
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L040",
+   "kind": "explanation",
+   "t0": 224.54,
+   "t1": 266.0799999999999,
+   "render_t0": 224.42,
+   "render_t1": 266.3599999999999,
+   "start_cut": "C42",
+   "end_cut": "C53",
+   "text": "",
+   "scores": {
+    "p_moment": 0.96,
+    "anchor_confidence": 0.25,
+    "needs_the_room": 0.06,
+    "starts_mid_thought": 0.31,
+    "ends_mid_thought": 0.25,
+    "dangling_reference": 0.12,
+    "standalone": 0.87,
+    "hook": 2.01,
+    "payoff": 1.96,
+    "composite": 0.786
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L144",
+   "kind": "explanation",
+   "t0": 821.54,
+   "t1": 869.24,
+   "render_t0": 821.42,
+   "render_t1": 869.52,
+   "start_cut": "C152",
+   "end_cut": "C159",
+   "text": "",
+   "scores": {
+    "p_moment": 0.95,
+    "anchor_confidence": 0.21,
+    "needs_the_room": 0.04,
+    "starts_mid_thought": 0.59,
+    "ends_mid_thought": 0.19,
+    "dangling_reference": 0.18,
+    "standalone": 0.78,
+    "hook": 1.07,
+    "payoff": 1.97,
+    "composite": 0.592
+   },
+   "rank": 4
+  }
+ ]
+}

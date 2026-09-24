@@ -155,3 +155,24 @@ def test_summary_reports_how_long_the_clips_run(tmp_path):
     s = summary([score_video(_label(), edl)])
     assert s["duration_median"] == 30.0
     assert s["label_duration_median"] == 45.0
+
+
+def test_a_snapshot_scores_like_the_run_it_was_taken_from(tmp_path, monkeypatch):
+    from jevcut.evaluate import benchmarks, score_set, snapshot
+
+    monkeypatch.chdir(tmp_path)
+    label = _label(local_path="media/talk.mp4")
+    (tmp_path / "labels").mkdir()
+    (tmp_path / "labels" / "abc.json").write_text(json.dumps(label))
+    run = tmp_path / "media" / "talk-clips"
+    run.mkdir(parents=True)
+    write_edl([_clip(101, 151, 1), _clip(295, 340, 2)], run / "edl.json")
+
+    dest = snapshot([run], tmp_path / "bench" / "v1", {"order": 1, "name": "v1"})
+    saved = json.loads((dest / "talk-clips.json").read_text())
+    assert all(c["text"] == "" for c in saved["clips"])  # times and scores only
+
+    live, _ = score_set(tmp_path / "labels")
+    kept, _ = score_set(tmp_path / "labels", edl_dir=dest)
+    assert summary(live) == summary(kept)
+    assert [a["name"] for _, a in benchmarks(tmp_path / "bench")] == ["v1"]

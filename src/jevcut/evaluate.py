@@ -173,12 +173,19 @@ def edl_for(label: dict, suffix: str = "-clips") -> Path:
     return media.with_name(media.stem + suffix) / "edl.json"
 
 
-def score_set(labels_dir: str | Path, suffix: str = "-clips") -> tuple[list[VideoScore], list[str]]:
-    """Score every labeled video that has a run; return the scores and what was skipped."""
+def score_set(
+    labels_dir: str | Path, suffix: str = "-clips", edl_dir: str | Path | None = None
+) -> tuple[list[VideoScore], list[str]]:
+    """Score every labeled video that has a run; return the scores and what was skipped.
+
+    ``edl_dir`` scores a saved benchmark instead of the live run: one ``<run name>.json``
+    per video, as :func:`snapshot` writes them."""
     scores, skipped = [], []
     for path in sorted(Path(labels_dir).glob("*.json")):
         label = json.loads(path.read_text())
         edl = edl_for(label, suffix)
+        if edl_dir is not None:
+            edl = Path(edl_dir) / f"{edl.parent.name}.json"
         if not edl.exists():
             skipped.append(f"{path.name}: no run at {edl}")
             continue
@@ -237,3 +244,36 @@ def agreement(a: dict, b: dict) -> dict:
         "start_deltas": [abs(ga[i][0] - gb[j][0]) for i, j in pairs],
         "end_deltas": [abs(ga[i][1] - gb[j][1]) for i, j in pairs],
     }
+
+
+# -- benchmarks ------------------------------------------------------------------------
+#
+# Every version of the pipeline that was measured, kept as its EDLs so it can be scored
+# again against any label set -- including ones labeled after it ran. Times and scores
+# only: the clip text is dropped, so a snapshot is small and carries no transcript.
+
+BENCH_DIR = Path("eval/benchmarks")
+
+
+def snapshot(runs: list[Path], dest: str | Path, about: dict) -> Path:
+    """Save each run's ``edl.json`` into ``dest`` as ``<run name>.json``, text removed,
+    with ``about.json`` saying what the version was."""
+    dest = Path(dest)
+    dest.mkdir(parents=True, exist_ok=True)
+    for run in runs:
+        data = json.loads((run / "edl.json").read_text())
+        for clip in data["clips"]:
+            clip["text"] = ""
+        (dest / f"{run.name}.json").write_text(json.dumps(data, indent=1) + "\n")
+    (dest / "about.json").write_text(json.dumps(about, indent=2) + "\n")
+    return dest
+
+
+def benchmarks(root: str | Path = BENCH_DIR) -> list[tuple[Path, dict]]:
+    """Every saved version, in the order they were measured."""
+    found = [
+        (d, json.loads((d / "about.json").read_text()))
+        for d in Path(root).iterdir()
+        if (d / "about.json").exists()
+    ]
+    return sorted(found, key=lambda da: (da[1].get("order", 0), da[0].name))
