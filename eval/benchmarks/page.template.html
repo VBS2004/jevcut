@@ -1,0 +1,471 @@
+<title>jevcut Benchmarks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ground: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #15181d;
+  --ink-2: #4f5663;
+  --ink-3: #7a8190;
+  --rule: #e2e5ea;
+  --grid: #eceef2;
+  --series-a: #2a78d6;
+  --series-b: #eb6834;
+  --single: #6b7483;
+  --found: #256abf;
+  --anchored: #86b6ef;
+  --never: #cfd3da;
+  --chip: #e8eef8;
+  --chip-ink: #1c4f95;
+  --focus: #2a78d6;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #111317;
+    --surface: #1a1d22;
+    --ink: #f1f3f6;
+    --ink-2: #b3bac6;
+    --ink-3: #868e9c;
+    --rule: #2b3038;
+    --grid: #252930;
+    --series-a: #3987e5;
+    --series-b: #d95926;
+    --single: #8e97a6;
+    --found: #5598e7;
+    --anchored: #1c5cab;
+    --never: #3a3f48;
+    --chip: #1d2a3d;
+    --chip-ink: #9ec5f4;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #111317;
+  --surface: #1a1d22;
+  --ink: #f1f3f6;
+  --ink-2: #b3bac6;
+  --ink-3: #868e9c;
+  --rule: #2b3038;
+  --grid: #252930;
+  --series-a: #3987e5;
+  --series-b: #d95926;
+  --single: #8e97a6;
+  --found: #5598e7;
+  --anchored: #1c5cab;
+  --never: #3a3f48;
+  --chip: #1d2a3d;
+  --chip-ink: #9ec5f4;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font: 15px/1.55 var(--sans);
+  padding-inline: 16px;
+  padding-block: 32px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; }
+h2 { font-size: 20px; font-weight: 600; }
+h3 { font-size: 15px; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.lede { max-width: 68ch; color: var(--ink-2); font-size: 16px; }
+header { display: grid; gap: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; font: 13px/1.4 var(--mono); color: var(--ink-2); }
+.facts b { color: var(--ink); font-weight: 500; }
+section { display: grid; gap: 16px; }
+.section-head { display: grid; gap: 6px; }
+.section-head p { color: var(--ink-2); max-width: 72ch; }
+
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.toggle { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); padding: 3px; gap: 3px; }
+.toggle button {
+  font: 500 13px/1 var(--sans); color: var(--ink-2); background: transparent; border: 0;
+  border-radius: 6px; padding: 9px 14px; cursor: pointer;
+}
+.toggle button[aria-pressed="true"] { background: var(--chip); color: var(--chip-ink); }
+.toggle button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 7px; }
+.swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 960px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 16px 16px 12px; display: grid; gap: 8px; position: relative; min-width: 0;
+}
+.card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.dir { font: 12px/1 var(--mono); color: var(--ink-3); white-space: nowrap; }
+.note { font-size: 12.5px; color: var(--ink-3); }
+.chart { width: 100%; min-height: 40px; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--mono); }
+
+.split { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+
+.tip {
+  position: absolute; pointer-events: none; z-index: 5; background: var(--ink); color: var(--surface);
+  font: 12px/1.45 var(--mono); padding: 7px 9px; border-radius: 6px; max-width: 240px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
+}
+.tip b { font-weight: 500; }
+
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 12px/1.3 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+th.num { text-align: right; }
+.vname { font-weight: 600; white-space: nowrap; }
+.commit { font: 12px var(--mono); color: var(--ink-3); }
+.chip { display: inline-block; font: 500 11px/1 var(--mono); padding: 4px 6px; border-radius: 4px; background: var(--chip); color: var(--chip-ink); margin-left: 6px; vertical-align: 1px; }
+
+details { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+summary { cursor: pointer; padding: 14px 16px; font-weight: 600; }
+details .table-wrap { border: 0; border-top: 1px solid var(--rule); border-radius: 0 0 10px 10px; }
+
+.steps { display: grid; gap: 12px; counter-reset: step; }
+.step {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px;
+  display: grid; grid-template-columns: 32px 1fr; gap: 4px 14px;
+}
+.step::before {
+  counter-increment: step; content: counter(step); grid-row: span 2;
+  font: 500 14px/32px var(--mono); text-align: center; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--chip); color: var(--chip-ink);
+}
+.step p { color: var(--ink-2); max-width: 78ch; }
+.step.done::before { content: "✓"; }
+.foot { font-size: 13px; color: var(--ink-3); display: grid; gap: 6px; max-width: 80ch; }
+code { font: 0.92em var(--mono); background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+@media (prefers-reduced-motion: no-preference) { .bar { transition: width 0.25s ease; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">jevcut · pilot eval set</span>
+    <h1>Every version, scored on the same eight videos</h1>
+    <p class="lede">Each row is a saved run of the pipeline, re-scored against every label set — including labels drawn after it ran. The spec is <b>the shortest cut that works, opening on its hook</b>; the v2 labels were drawn against it, so read those first.</p>
+    <div class="facts">
+      <span><b>8</b> videos</span><span><b>7</b> genres</span><span><b>4.6 h</b> of media</span>
+      <span><b>2</b> blind labelers per label set</span><span>v2: <b>56 / 57</b> labeled clips</span>
+    </div>
+  </header>
+
+  <section aria-labelledby="scores-h">
+    <div class="section-head">
+      <h2 id="scores-h">Scores by version</h2>
+      <p>Two bars per version: one per labeler. Where they disagree, the difference is the noise in the ruler, not in jevcut. Below the rule in each chart: five simpler systems on the same transcripts and labels, each shipping as many clips as jevcut (issue 013).</p>
+    </div>
+    <div class="controls">
+      <div class="toggle" role="group" aria-label="Label set">
+        <button type="button" id="set-v2" aria-pressed="true">Spec labels (v2)</button>
+        <button type="button" id="set-v1" aria-pressed="false">Earlier labels (v1)</button>
+      </div>
+      <div class="legend" aria-label="Legend">
+        <span class="key"><span class="swatch" style="background:var(--series-a)"></span>Labeler A</span>
+        <span class="key"><span class="swatch" style="background:var(--series-b)"></span>Labeler B</span>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section aria-labelledby="lost-h">
+    <div class="split">
+      <div class="card">
+        <div class="card-head"><h3 id="lost-h">Where labeled moments are lost</h3><span class="dir">v2 labels</span></div>
+        <p class="note">Every labeled clip, by what happened to it. With 3 scan rounds per window about half never got an anchor; with 6, the misses split evenly between the scan and the later stages.</p>
+        <div class="legend">
+          <span class="key"><span class="swatch" style="background:var(--found)"></span>Found</span>
+          <span class="key"><span class="swatch" style="background:var(--anchored)"></span>Anchored, then lost</span>
+          <span class="key"><span class="swatch" style="background:var(--never)"></span>Never anchored</span>
+        </div>
+        <div class="chart" id="lost"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Cost</h3><span class="dir">lower is cheaper</span></div>
+        <p class="note">Jev requests in the boundary search and gate, all 8 videos. The scan adds ~160–200 at 3 rounds per window, ~400 at 6. The offset and snap baselines reuse jevcut’s choice of moments and spend nothing on edges.</p>
+        <div class="chart" id="cost"></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="versions-h">
+    <div class="section-head"><h2 id="versions-h">The versions</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Version</th><th>Commit</th><th>What changed</th></tr></thead>
+        <tbody id="versions"></tbody>
+      </table>
+    </div>
+    <details>
+      <summary>All numbers, <span id="table-set">spec labels (v2)</span></summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Version</th><th>Labeler</th><th class="num">Clips</th><th class="num">Found</th><th class="num">Both edges right</th>
+            <th class="num">Precision</th><th class="num">Recall</th><th class="num">Chance</th><th class="num">Start err</th>
+            <th class="num">End err</th><th class="num">On a negative</th><th class="num">Length</th>
+          </tr></thead>
+          <tbody id="numbers"></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section aria-labelledby="next-h">
+    <div class="section-head">
+      <h2 id="next-h">Next steps</h2>
+      <p>In order of what the numbers say is costing the most.</p>
+    </div>
+    <div class="steps">
+      <div class="step done"><h3>Compare against simpler systems (013) <span class="chip">done</span></h3><p>jevcut beats all five baselines on recall, clips with both edges right (10–11 against at most 3), precision and typical start error. It does not yet pass the issue’s ship bar: its worst starts are further off than simple padding’s, because when the opening pick misses, it misses by a lot.</p></div>
+      <div class="step done"><h3>Find more moments in the scan <span class="chip">done</span></h3><p>Every window stopped on its 3-round cap, never on “is there a moment here” — that stayed at 0.88 by round 3. At 6 rounds, moments never anchored fell from 24 to 13 (labeler A) and recall rose from 0.38 to 0.54, for 2–4 points of precision and about 2.5× the requests — trimmed back by stopping the ending search at the first ending that works.</p></div>
+      <div class="step"><h3>Make Lemonfox the default when a key is set</h3><p>It raised recall on all four label sets and has the most fully right clips on three of them, for about $0.17 per hour of video. Fall back to local Whisper when there is no key.</p></div>
+      <div class="step"><h3>Win back precision with a screen question</h3><p>Lemonfox ships more clips, and precision fell 3–6 points. After ads, the hard negatives the gate still lets through are mostly narration of what is on screen — chart numbers, live demos. One “does the point depend on the screen?” question, spread-tested on the labeled texts before wiring in, as the ad check was.</p></div>
+      <div class="step"><h3>Fix the openings’ worst misses</h3><p>At the 90th percentile the opening Choice’s starts are 15–21s off — worse than simple padding — and it still starts late more often than early. This is what stands between jevcut and the baseline gate.</p></div>
+      <div class="step"><h3>One human review pass</h3><p>Every labeler so far is the same model, so the 0.0s start agreement is a lower bound. A human pass on two videos would bound the ruler from the other side.</p></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p>An edge counts as right within 0.3s of the labeler’s range: two transcripts time the same word up to ~0.26s apart. “Found” is a one-to-one match at overlap (IoU) above 0.5. Chance is recall from random clips of the same lengths.</p>
+    <p>Regenerated from <code>eval/benchmarks/</code>; the same numbers are in <code>BENCHMARKS.md</code> (<code>uv run jevcut bench</code>). Why each change was made is in <code>RESEARCH.md</code>.</p>
+  </div>
+</div>
+
+<script>
+const DATA = __DATA__;
+const LOST = [
+  { label: "Whisper small · A", found: 18, anchored: 15, never: 23 },
+  { label: "Whisper small · B", found: 16, anchored: 14, never: 27 },
+  { label: "Lemonfox · A", found: 21, anchored: 11, never: 24 },
+  { label: "Lemonfox · B", found: 26, anchored: 10, never: 21 },
+  { label: "Lemonfox, 6 rounds · A", found: 30, anchored: 13, never: 13 },
+  { label: "Lemonfox, 6 rounds · B", found: 32, anchored: 12, never: 13 },
+];
+const NAMES = {
+  "baseline": "First version", "search": "Search", "shortest-ending": "Shortest ending",
+  "opening-choice": "Opening Choice", "promotion-gate": "Ad check", "lemonfox-asr": "Lemonfox ASR",
+  "six-rounds": "6 scan rounds",
+  "base-dense": "Baseline: dense", "base-windows": "Baseline: windows", "base-naive": "Baseline: naive",
+  "base-offset": "Baseline: offset", "base-snap": "Baseline: snap",
+};
+const LATEST = "six-rounds";
+const pct = v => (v * 100).toFixed(0) + "%";
+const METRICS = [
+  { key: "recall", title: "Recall", dir: "higher is better", fmt: pct, max: 0.6, ticks: [0, 0.2, 0.4, 0.6],
+    note: "Share of labeled clips found.", extra: s => `chance ${pct(s.chance)}` },
+  { key: "precision", title: "Precision", dir: "higher is better", fmt: pct, max: 0.5, ticks: [0, 0.25, 0.5],
+    note: "Share of shipped clips that match a labeled or acceptable clip." },
+  { key: "both_right", title: "Clips with both edges right", dir: "higher is better", fmt: v => String(v), max: 25, ticks: [0, 10, 20],
+    note: "Found clips whose start and end both land in the labeler’s range — the spec, as a count.",
+    extra: s => `of ${s.hit} found` },
+  { key: "start_err", title: "Start error", dir: "lower is better", fmt: v => v.toFixed(1) + "s", max: 10, ticks: [0, 5, 10],
+    note: "Median distance from the labeled start, found clips." },
+  { key: "length", title: "Clip length", dir: "closer to labels", fmt: v => Math.round(v) + "s", max: 70, ticks: [0, 20, 40, 60],
+    note: "Median shipped length. The line marks the labeled median.", ref: "label_length" },
+  { key: "negative", title: "On a hard negative", dir: "lower is better", fmt: pct, max: 0.15, ticks: [0, 0.05, 0.1, 0.15],
+    note: "Share of shipped clips sitting on something labelers flagged as tempting but wrong." },
+];
+
+let set = "v2";
+const labelers = () => set === "v2" ? ["v2A", "v2B"] : ["v1A", "v1B"];
+const svgNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs = {}, parent) {
+  const n = document.createElementNS(svgNS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function roundedBar(g, x, y, w, h, fill) {
+  // Square at the baseline, 4px rounded at the data end.
+  const r = Math.min(4, w / 2, h / 2);
+  if (w <= 0) return el("rect", { x, y, width: 0, height: h, fill }, g);
+  const d = `M${x},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + h - r} Q${x + w},${y + h} ${x + w - r},${y + h} H${x} Z`;
+  return el("path", { d, fill, class: "bar" }, g);
+}
+function tipFor(card) {
+  let t = card.querySelector(".tip");
+  if (!t) { t = document.createElement("div"); t.className = "tip"; t.hidden = true; card.appendChild(t); }
+  return t;
+}
+function bindTip(card, target, html) {
+  const tip = tipFor(card);
+  const show = e => {
+    tip.innerHTML = html; tip.hidden = false;
+    const r = card.getBoundingClientRect();
+    const x = Math.min(e.clientX - r.left + 12, r.width - tip.offsetWidth - 8);
+    tip.style.left = Math.max(8, x) + "px";
+    tip.style.top = (e.clientY - r.top + 14) + "px";
+  };
+  target.addEventListener("mousemove", show);
+  target.addEventListener("mouseleave", () => { tip.hidden = true; });
+}
+
+// Horizontal grouped bars: one row per version, one bar per series.
+function barChart(host, card, { rows, series, max, ticks, fmt, refs }) {
+  host.innerHTML = "";
+  const W = Math.max(host.clientWidth, 260);
+  const labelW = Math.min(118, W * 0.36), valueW = 44;
+  const plotW = W - labelW - valueW;
+  const barH = series.length > 1 ? 9 : 12, gap = 2;
+  const rowH = series.length * barH + (series.length - 1) * gap + 12;
+  const top = 4, H = top + rows.length * rowH + 22;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img" }, host);
+  const x = v => labelW + Math.max(0, Math.min(v, max)) / max * plotW;
+  for (const t of ticks) {
+    el("line", { x1: x(t), x2: x(t), y1: top, y2: H - 20, stroke: "var(--grid)", "stroke-width": 1 }, svg);
+    const tx = el("text", { x: x(t), y: H - 6, "text-anchor": "middle", "font-size": 11, fill: "var(--ink-3)" }, svg);
+    tx.textContent = fmt(t);
+  }
+  rows.forEach((row, i) => {
+    const y0 = top + i * rowH + 6;
+    // The 013 baselines sit below a rule, apart from jevcut's own versions.
+    if (row.id.startsWith("base-") && i > 0 && !rows[i - 1].id.startsWith("base-")) {
+      el("line", { x1: 0, x2: W, y1: y0 - 6, y2: y0 - 6, stroke: "var(--rule)", "stroke-width": 1 }, svg);
+    }
+    const name = el("text", { x: labelW - 10, y: y0 + (rowH - 12) / 2 + 4, "text-anchor": "end", "font-size": 12,
+      fill: row.id === LATEST ? "var(--ink)" : "var(--ink-2)", "font-weight": row.id === LATEST ? 500 : 400,
+      "font-family": "var(--sans)" }, svg);
+    name.textContent = row.name;
+    series.forEach((s, j) => {
+      const v = row.values[j];
+      const y = y0 + j * (barH + gap);
+      const g = el("g", {}, svg);
+      if (v == null) {
+        const na = el("text", { x: labelW + 4, y: y + barH - 1, "font-size": 11, fill: "var(--ink-3)" }, g);
+        na.textContent = "not recorded";
+        return;
+      }
+      roundedBar(g, labelW, y, x(v) - labelW, barH, s.color);
+      const val = el("text", { x: x(v) + 6, y: y + barH - 1, "font-size": 11, fill: "var(--ink-2)" }, g);
+      val.textContent = fmt(v);
+      const hit = el("rect", { x: labelW, y: y - 1, width: plotW + valueW, height: barH + 2, fill: "transparent" }, g);
+      bindTip(card, hit, row.tips[j]);
+    });
+    if (refs && refs[i] != null) {
+      const rx = x(refs[i]);
+      el("line", { x1: rx, x2: rx, y1: y0 - 3, y2: y0 + rowH - 9, stroke: "var(--ink)", "stroke-width": 1.5 }, svg);
+    }
+  });
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  if (!grid.children.length) {
+    for (const m of METRICS) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<div class="card-head"><h3>${m.title}</h3><span class="dir">${m.dir}</span></div>
+        <p class="note">${m.note}</p><div class="chart" data-metric="${m.key}"></div>`;
+      grid.appendChild(card);
+    }
+  }
+  const [a, b] = labelers();
+  for (const m of METRICS) {
+    const host = grid.querySelector(`[data-metric="${m.key}"]`);
+    const card = host.closest(".card");
+    const rows = DATA.versions.map(v => {
+      const sa = DATA.scores[`${v.id}|${a}`], sb = DATA.scores[`${v.id}|${b}`];
+      const tip = (s, who) => `<b>${NAMES[v.id]}</b> · labeler ${who}<br>${m.title}: ${m.fmt(s[m.key])}` +
+        (m.extra ? `<br>${m.extra(s)}` : "") + `<br>${s.clips} clips shipped, ${s.hit} of ${s.labeled} found`;
+      return { id: v.id, name: NAMES[v.id], values: [sa[m.key], sb[m.key]], tips: [tip(sa, "A"), tip(sb, "B")] };
+    });
+    const refs = m.ref ? DATA.versions.map(v => (DATA.scores[`${v.id}|${a}`][m.ref] + DATA.scores[`${v.id}|${b}`][m.ref]) / 2) : null;
+    barChart(host, card, { rows, series: [{ color: "var(--series-a)" }, { color: "var(--series-b)" }],
+      max: m.max, ticks: m.ticks, fmt: m.fmt, refs });
+  }
+}
+
+function renderCost() {
+  const host = document.getElementById("cost");
+  const rows = DATA.versions.map(v => ({ id: v.id, name: NAMES[v.id], values: [v.gate_requests],
+    tips: [`<b>${NAMES[v.id]}</b><br>${v.gate_requests == null ? "not recorded" : v.gate_requests.toLocaleString() + " gate requests"}`] }));
+  barChart(host, host.closest(".card"), { rows, series: [{ color: "var(--single)" }], max: 4500,
+    ticks: [0, 2000, 4000], fmt: v => v >= 1000 ? (v / 1000).toFixed(v % 1000 ? 1 : 0) + "k" : String(v) });
+}
+
+function renderLost() {
+  const host = document.getElementById("lost");
+  const card = host.closest(".card");
+  host.innerHTML = "";
+  const W = Math.max(host.clientWidth, 260);
+  const labelW = Math.min(170, W * 0.42), plotW = W - labelW - 4;
+  const barH = 20, rowH = 34, top = 4, H = top + LOST.length * rowH + 22;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img" }, host);
+  const total = LOST[0].found + LOST[0].anchored + LOST[0].never;
+  const max = 60, x = v => v / max * plotW;
+  for (const t of [0, 20, 40, 60]) {
+    el("line", { x1: labelW + x(t), x2: labelW + x(t), y1: top, y2: H - 20, stroke: "var(--grid)", "stroke-width": 1 }, svg);
+    const tx = el("text", { x: labelW + x(t), y: H - 6, "text-anchor": "middle", "font-size": 11, fill: "var(--ink-3)" }, svg);
+    tx.textContent = t;
+  }
+  const parts = [["found", "var(--found)", "Found"], ["anchored", "var(--anchored)", "Anchored, then lost"], ["never", "var(--never)", "Never anchored"]];
+  const inkOn = { found: "#ffffff", anchored: "var(--ink)", never: "var(--ink)" };
+  LOST.forEach((row, i) => {
+    const y = top + i * rowH + 6;
+    const name = el("text", { x: labelW - 10, y: y + 14, "text-anchor": "end", "font-size": 12, fill: "var(--ink-2)", "font-family": "var(--sans)" }, svg);
+    name.textContent = row.label;
+    let cx = labelW;
+    const n = row.found + row.anchored + row.never;
+    parts.forEach(([k, color, label], j) => {
+      const w = x(row[k]) - (j < parts.length - 1 ? 2 : 0);
+      const last = j === parts.length - 1;
+      const seg = last ? roundedBar(svg, cx, y, w, barH, color) : el("rect", { x: cx, y, width: Math.max(w, 0), height: barH, fill: color }, svg);
+      if (w > 26) {
+        const t = el("text", { x: cx + w / 2, y: y + 14, "text-anchor": "middle", "font-size": 11, fill: inkOn[k] }, svg);
+        t.textContent = row[k];
+      }
+      bindTip(card, seg, `<b>${row.label}</b><br>${label}: ${row[k]} of ${n} (${pct(row[k] / n)})`);
+      cx += x(row[k]);
+    });
+  });
+}
+
+function renderTables() {
+  const vt = document.getElementById("versions");
+  vt.innerHTML = DATA.versions.map(v => `<tr><td class="vname">${NAMES[v.id]}${v.id === LATEST ? '<span class="chip">latest</span>' : ""}</td>
+    <td class="commit">${v.commit || "–"}</td><td>${v.what || ""}</td></tr>`).join("");
+  const nt = document.getElementById("numbers");
+  const rows = [];
+  for (const v of DATA.versions) for (const [k, who] of [[labelers()[0], "A"], [labelers()[1], "B"]]) {
+    const s = DATA.scores[`${v.id}|${k}`];
+    rows.push(`<tr><td class="vname">${NAMES[v.id]}</td><td>${who}</td><td class="num">${s.clips}</td>
+      <td class="num">${s.hit} / ${s.labeled}</td><td class="num">${s.both_right}</td><td class="num">${pct(s.precision)}</td>
+      <td class="num">${pct(s.recall)}</td><td class="num">${pct(s.chance)}</td><td class="num">${s.start_err.toFixed(1)}s</td>
+      <td class="num">${s.end_err.toFixed(1)}s</td><td class="num">${pct(s.negative)}</td>
+      <td class="num">${Math.round(s.length)}s / ${Math.round(s.label_length)}s</td></tr>`);
+  }
+  nt.innerHTML = rows.join("");
+  document.getElementById("table-set").textContent = set === "v2" ? "spec labels (v2)" : "earlier labels (v1)";
+}
+
+function setLabels(next) {
+  set = next;
+  try { localStorage.setItem("jevcut-bench-set", set); } catch (e) {}
+  document.getElementById("set-v2").setAttribute("aria-pressed", String(set === "v2"));
+  document.getElementById("set-v1").setAttribute("aria-pressed", String(set === "v1"));
+  renderGrid(); renderTables();
+}
+document.getElementById("set-v2").addEventListener("click", () => setLabels("v2"));
+document.getElementById("set-v1").addEventListener("click", () => setLabels("v1"));
+try { const saved = localStorage.getItem("jevcut-bench-set"); if (saved === "v1" || saved === "v2") set = saved; } catch (e) {}
+
+function renderAll() { setLabels(set); renderCost(); renderLost(); }
+renderAll();
+let resizeTimer;
+new ResizeObserver(() => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { renderGrid(); renderCost(); renderLost(); }, 80); })
+  .observe(document.querySelector(".wrap"));
+</script>

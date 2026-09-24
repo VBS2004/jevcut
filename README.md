@@ -158,6 +158,8 @@ uv run jevcut agree eval/labels-v2 eval/labels-v2-b
 # every measured version, re-scored against every label set -> BENCHMARKS.md. After a
 # change is kept: jevcut bench --snapshot NAME --what "..." --commit SHA --gate-requests N
 uv run jevcut bench
+# the same as a web page of bar charts (template: eval/benchmarks/page.template.html)
+uv run python scripts/bench_page.py benchmarks.html
 
 # the stages one at a time
 uv run jevcut cuts t.json --out c.json
