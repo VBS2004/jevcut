@@ -1,0 +1,130 @@
+{
+ "source": "eval/media/psychtoons-charisma.mp4",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L144",
+   "kind": "explanation",
+   "t0": 482.6,
+   "t1": 536.16,
+   "render_t0": 482.48,
+   "render_t1": 536.4399999999999,
+   "start_cut": "C117",
+   "end_cut": "C131",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.14,
+    "needs_the_room": 0.09,
+    "starts_mid_thought": 0.05,
+    "ends_mid_thought": 0.09,
+    "dangling_reference": 0.13,
+    "standalone": 0.89,
+    "hook": 2.72,
+    "payoff": 1.99,
+    "composite": 0.94
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L085",
+   "kind": "explanation",
+   "t0": 260.32,
+   "t1": 325.5400000000001,
+   "render_t0": 260.2,
+   "render_t1": 325.82,
+   "start_cut": "C59",
+   "end_cut": "C77",
+   "text": "",
+   "scores": {
+    "p_moment": 0.98,
+    "anchor_confidence": 0.32,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.14,
+    "ends_mid_thought": 0.53,
+    "dangling_reference": 0.14,
+    "standalone": 0.8,
+    "hook": 2.74,
+    "payoff": 1.94,
+    "composite": 0.935
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L051",
+   "kind": "explanation",
+   "t0": 199.2,
+   "t1": 272.88,
+   "render_t0": 199.07999999999998,
+   "render_t1": 273.15999999999997,
+   "start_cut": "C47",
+   "end_cut": "C63",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.36,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.14,
+    "ends_mid_thought": 0.14,
+    "dangling_reference": 0.13,
+    "standalone": 0.86,
+    "hook": 2.6,
+    "payoff": 1.99,
+    "composite": 0.915
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L238",
+   "kind": "explanation",
+   "t0": 805.06,
+   "t1": 864.04,
+   "render_t0": 804.9399999999999,
+   "render_t1": 864.3199999999999,
+   "start_cut": "C197",
+   "end_cut": "C211",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.76,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.12,
+    "ends_mid_thought": 0.11,
+    "dangling_reference": 0.12,
+    "standalone": 0.88,
+    "hook": 2.57,
+    "payoff": 1.98,
+    "composite": 0.907
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L172",
+   "kind": "explanation",
+   "t0": 615.64,
+   "t1": 686.7,
+   "render_t0": 615.39,
+   "render_t1": 686.98,
+   "start_cut": "C152",
+   "end_cut": "C166",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.13,
+    "needs_the_room": 0.07,
+    "starts_mid_thought": 0.14,
+    "ends_mid_thought": 0.15,
+    "dangling_reference": 0.18,
+    "standalone": 0.82,
+    "hook": 2.41,
+    "payoff": 1.67,
+    "composite": 0.815
+   },
+   "rank": 5
+  }
+ ]
+}

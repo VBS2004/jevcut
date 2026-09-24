@@ -1,0 +1,339 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=AZIQ90TUTaM",
+    "title": "AI and Humanity: Evolution or Revolution? | Global Conference 2026",
+    "channel": "Milken Institute",
+    "genre": "conference panel with moderator and live audience",
+    "duration_s": 3502.5,
+    "sha256_prefix": "47d0e4cb4d15c29b",
+    "local_path": "eval/media/milken-ai-panel.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "better-blinking-cursor",
+      "start": 248.7,
+      "start_range": [
+        247.6,
+        248.7
+      ],
+      "end": 286.7,
+      "end_range": [
+        286.7,
+        299.8
+      ],
+      "why": "Tristan (inferred speaker): AI helps me fix my washing machine, but is a better blinking cursor what the companies are racing to build? No, they're racing to build uncontrollable superintelligence in an arms race. His full answer from 200.0 (the social media predictions) also works but runs about 87s.",
+      "over_band": false
+    },
+    {
+      "id": "coal-miners-to-code",
+      "start": 623.8,
+      "start_range": [
+        623.8,
+        653.4
+      ],
+      "end": 697.8,
+      "end_range": [
+        696.6,
+        697.8
+      ],
+      "why": "Amy (inferred speaker): West Virginia skipped the planning, the mines shut, and someone decided to teach coal miners to code, ignoring generational skills that could have attracted heavy-machinery firms. A complete story. Her 'yeah, you should laugh' is a room moment but reads fine. Starting at 653.4 (the mines shut) also works.",
+      "over_band": false
+    },
+    {
+      "id": "doom-already-happened",
+      "start": 1039.0,
+      "start_range": [
+        1033.3,
+        1039.0
+      ],
+      "end": 1083.2,
+      "end_range": [
+        1077.8,
+        1083.2
+      ],
+      "why": "Will (inferred speaker): the people shocked by AI doom have lived in comfort; if you're from the Bronx, Compton, the Congo, the global south, that doom and gloom already happened, and not because of AI but because of human greed.",
+      "over_band": false
+    },
+    {
+      "id": "ai-didnt-do-that",
+      "start": 1388.0,
+      "start_range": [
+        1380.9,
+        1388.0
+      ],
+      "end": 1432.0,
+      "end_range": [
+        1419.7,
+        1432.0
+      ],
+      "why": "Will: 'I come from one of those communities', never taken seriously; AI didn't put a liquor store next to a check cashing place next to an elementary school; how dare we say we can't fix it ourselves. The most emphatic moment of the panel. Contains profanity.",
+      "over_band": false
+    },
+    {
+      "id": "intelligence-curse",
+      "start": 1615.7,
+      "start_range": [
+        1608.0,
+        1615.7
+      ],
+      "end": 1689.0,
+      "end_range": [
+        1685.3,
+        1705.0
+      ],
+      "why": "Tristan: the resource curse (Libya, Congo, Venezuela) mapped onto AI. When 60-70% of GDP comes from data centers, governments stop investing in people. Running to 1705.0 adds Sam Altman's 'it takes energy to grow a human' punch but takes it to 89s.",
+      "over_band": false
+    },
+    {
+      "id": "intentions-is-all-we-need",
+      "start": 1790.0,
+      "start_range": [
+        1783.0,
+        1790.0
+      ],
+      "end": 1861.8,
+      "end_range": [
+        1861.8,
+        1869.4
+      ],
+      "why": "Will on regulation: pilots, cars and drivers all need licenses, but AI builders need none; 'Attention Is All You Need' should have a governance sequel: 'intentions is all we need'.",
+      "over_band": false
+    },
+    {
+      "id": "alibaba-mining-crypto",
+      "start": 2177.3,
+      "start_range": [
+        2143.9,
+        2177.3
+      ],
+      "end": 2208.2,
+      "end_range": [
+        2208.2,
+        2208.2
+      ],
+      "why": "Tristan: during training, Alibaba's model autonomously opened a secret channel past the firewall and repurposed its GPUs to mine crypto. Starting at 2143.9 adds his 'unlike a toaster, AI isn't controllable' framing (64s). Must end before the 'should be a gasp' / show of hands.",
+      "over_band": false
+    },
+    {
+      "id": "we-dont-know-what-were-doing",
+      "start": 2231.8,
+      "start_range": [
+        2226.0,
+        2231.8
+      ],
+      "end": 2288.8,
+      "end_range": [
+        2275.7,
+        2288.8
+      ],
+      "why": "Tristan: self-preservation, deception and peer preservation (models copying each other's code and covering their tracks) are no longer hypothetical. 'We do not know what the fuck we're doing', racing only because of the arms race.",
+      "over_band": false
+    },
+    {
+      "id": "cant-predict-the-future",
+      "start": 2592.8,
+      "start_range": [
+        2592.8,
+        2592.8
+      ],
+      "end": 2629.5,
+      "end_range": [
+        2622.2,
+        2629.5
+      ],
+      "why": "Amy: 'my job is to predict the future, 20 years in AI, and I'll be the first to tell you I can't; anyone who claims to know is lying to you. Regulation is inherently a look back.'",
+      "over_band": false
+    },
+    {
+      "id": "shared-restroom",
+      "start": 2971.2,
+      "start_range": [
+        2964.4,
+        2971.2
+      ],
+      "end": 2998.1,
+      "end_range": [
+        2985.1,
+        2998.1
+      ],
+      "why": "Will: imagine buying a house where you share the restroom with the neighborhood; so why are we sharing our data with the village? One GPU at home is enough for the whole family. Funny and self-contained, though short.",
+      "over_band": false
+    },
+    {
+      "id": "arm-farms",
+      "start": 3173.1,
+      "start_range": [
+        3173.1,
+        3186.7
+      ],
+      "end": 3246.5,
+      "end_range": [
+        3205.6,
+        3246.5
+      ],
+      "why": "Tristan: arm farms, a popular LA job where people wear GoPros doing tasks to train the AI that replaces them, as a metaphor for future jobs: building the coffin your job will lie in. Ending at 3205.6 (the metaphor lands) also works.",
+      "over_band": false
+    },
+    {
+      "id": "where-is-your-political-power",
+      "start": 3250.5,
+      "start_range": [
+        3250.1,
+        3251.3
+      ],
+      "end": 3296.4,
+      "end_range": [
+        3285.7,
+        3296.4
+      ],
+      "why": "Tristan: in the industrial revolution workers could withhold labor, but with AI where is your political power? Harari: 20% unemployment for three years produced fascism, and the next 12 months are the window.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 35.6,
+      "why": "Moderator's opening framing (Dario's country of geniuses, Elon's robots): quotable, but it sets up the panel and has no point of its own."
+    },
+    {
+      "start": 137.5,
+      "end": 159.1,
+      "why": "Amy's 2003 scraper that 'might have been slightly not legal... this is public, right?': gets a laugh in the room but is an aside inside her answer."
+    },
+    {
+      "start": 580.7,
+      "end": 615.3,
+      "why": "Strong claim that GDP rises while jobs vanish, rebutting 'Ken's session just before this', which the viewer never saw (and the claim is misspoken)."
+    },
+    {
+      "start": 730.2,
+      "end": 771.1,
+      "why": "Sounds like a strong close ('the two guiding principles are fear and FOMO... economic catastrophe'), but it's broken by an off-mic 'I'm allergic to latex. There we go' that only makes sense in the room."
+    },
+    {
+      "start": 1433.0,
+      "end": 1480.4,
+      "why": "Panel banter ('we might get some more doom and gloom, just be prepared... boom'), then a garbled Disneyland optimism riff that leans on Tristan's earlier points."
+    },
+    {
+      "start": 2208.2,
+      "end": 2226.0,
+      "why": "'It should be a gasp. How many people here knew about that? About 10 hands up': a show-of-hands moment that only works in the room."
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "social-media-predicted",
+      "start": 203.9,
+      "start_range": [
+        200.0,
+        203.9
+      ],
+      "end": 241.5,
+      "end_range": [
+        241.5,
+        241.5
+      ],
+      "why": "Tristan sidesteps 'how has AI helped you': in 2014-16 he predicted on this stage that social media's incentives would bring addiction, polarization and a preventable societal catastrophe. Stands alone but is mostly about social media; the AI payoff is in better-blinking-cursor.",
+      "over_band": false
+    },
+    {
+      "id": "weapons-manufacturer",
+      "start": 786.2,
+      "start_range": [
+        772.9,
+        786.2
+      ],
+      "end": 855.7,
+      "end_range": [
+        838.7,
+        855.7
+      ],
+      "why": "Moderator asks Salesforce's Suzanne how an 'AI weapons manufacturer' can be a responsible actor; she rejects the analogy and gives retraining and new-job facts. A spicy exchange, but the answer is corporate.",
+      "over_band": false
+    },
+    {
+      "id": "race-to-replace",
+      "start": 1547.0,
+      "start_range": [
+        1547.0,
+        1561.3
+      ],
+      "end": 1607.0,
+      "end_range": [
+        1605.0,
+        1607.0
+      ],
+      "why": "Tristan: why we're heading to an anti-human future. $20-a-month subscriptions won't pay back trillions of investment, replacing human work will, and firms that swap out workers outcompete those that don't: 'an arms race all the way down'.",
+      "over_band": false
+    },
+    {
+      "id": "let-it-rip-lock-it-down",
+      "start": 2056.9,
+      "start_range": [
+        2056.9,
+        2056.9
+      ],
+      "end": 2143.6,
+      "end_range": [
+        2141.1,
+        2143.6
+      ],
+      "why": "Tristan's two attractors: let it rip (any rogue group gets godlike hacking) versus lock it down (who would you trust with a million times more power?). A clear framework, but no tight cut keeps both halves.",
+      "over_band": true
+    },
+    {
+      "id": "f1-steering-wheel",
+      "start": 2518.8,
+      "start_range": [
+        2518.8,
+        2522.9
+      ],
+      "end": 2592.3,
+      "end_range": [
+        2588.0,
+        2592.3
+      ],
+      "why": "Amy: regulation won't work for AI. Mercedes' push-pull steering wheel won until it was banned the next year, because nobody thought to regulate it in advance. Starting at 2522.9 ('let me give you a quick example about F1') also works.",
+      "over_band": false
+    },
+    {
+      "id": "bretton-woods-for-ai",
+      "start": 3298.5,
+      "start_range": [
+        3298.5,
+        3298.5
+      ],
+      "end": 3349.8,
+      "end_range": [
+        3349.8,
+        3357.1
+      ],
+      "why": "Tristan: Bretton Woods kept delegates in a hotel for a month after the bomb to design a positive-sum system; AI is that kind of technology and needs its own. Ending at 3357.1 adds 'runaway technology and a walk-away government'.",
+      "over_band": false
+    },
+    {
+      "id": "three-questions",
+      "start": 3395.0,
+      "start_range": [
+        3376.9,
+        3395.0
+      ],
+      "end": 3461.5,
+      "end_range": [
+        3461.5,
+        3474.3
+      ],
+      "why": "Amy's closing advice: always ask where the world is going, where risk or opportunity will be created, and how we will participate, the part everyone forgets until it's too late. Addressed to the room, but reads as general advice.",
+      "over_band": false
+    }
+  ]
+}

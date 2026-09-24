@@ -21,6 +21,11 @@ part of the system under test, not an excuse.
 - Rejected candidates: stretches that look interesting by energy but don't stand alone.
   These are the hard negatives and the most valuable labels in the set.
 
+Gameplay/reaction videos will carry **event clips** — moments that are loud rather than
+spoken. v1 cannot detect those at all ([issue 021](../issues/021-event-clips.md)), so when
+012 reports Pass C recall, **split it by clip class before acting on it**: a verbal miss is
+a threshold problem, an event miss is not reachable by any threshold.
+
 Two labelers per video, disagreements reconciled. **Record inter-labeler boundary
 disagreement** — it's the noise floor. If humans disagree by 1.5s median, a 1.5s median
 error is a solved problem and chasing lower is chasing noise.

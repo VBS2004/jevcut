@@ -1,0 +1,212 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=PrSf7IOYu-I",
+    "title": "AI researchers debate how close we are to recursive self-improvement",
+    "channel": "Dwarkesh Patel",
+    "genre": "multi-guest podcast debate",
+    "duration_s": 5821.0,
+    "sha256_prefix": "6b36ebac8a7ab38f",
+    "local_path": "eval/media/dwarkesh-rsi-debate.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output. The transcript has no speaker labels; the speakers named in 'why' are inferred from the text.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "new-model-feels-dumb-cycle",
+      "start": 131.6, "start_range": [109.7, 131.6],
+      "end": 171.8, "end_range": [165.8, 171.8],
+      "why": "A new model comes out, everyone says 'this is AGI', then it feels dumb a month later. Models get bottlenecked where they are weakest, so writing more code does not make you 100x more productive. It can also start at 109.7 ('Humans have a lot of advantages over models now...'), which is a clean opening as well.",
+      "over_band": false
+    },
+    {
+      "id": "moores-law-discontinuities",
+      "start": 217.9, "start_range": [217.9, 218.2],
+      "end": 275.1, "end_range": [260.0, 275.1],
+      "why": "Moore's law looked like a straight line but needed many discrete breakthroughs, and LLMs went the same way: pretraining hit diminishing returns and RL rescued it. Can RL environments find the next discontinuity? It can end at 260.0, or at 275.1, which adds an interjected question from another speaker and the comeback 'if we had the answer to that, we'd have the ability to implement it'.",
+      "over_band": false
+    },
+    {
+      "id": "log-loss-wasnt-supposed-to-work",
+      "start": 510.0, "start_range": [509.8, 510.2],
+      "end": 572.6, "end_range": [572.6, 573.0],
+      "why": "John Schulman (inferred) recalls that early OpenAI believed next-token log loss could not produce intelligence, because the important bits are a tiny part of the loss. 'Then it turned out that it just worked anyway.' It is a first-hand story that stands alone.",
+      "over_band": false
+    },
+    {
+      "id": "ai-would-have-caught-kaplan-bug",
+      "start": 739.1, "start_range": [735.3, 739.1],
+      "end": 813.2, "end_range": [805.1, 813.2],
+      "why": "Thinking cannot create new bits, but it can use existing data better. An AI would have noticed that Kaplan's scaling laws ignored annealing, which would have saved a year or two. That gives a 10x speedup on a fixed objective but does not help choose the right objective. Starting at 735.3 adds one setup sentence and makes the clip 78s.",
+      "over_band": false
+    },
+    {
+      "id": "last-job-for-humans",
+      "start": 948.0, "start_range": [947.5, 948.2],
+      "end": 992.8, "end_range": [991.0, 1010.9],
+      "why": "The last human job is defining the objective, meaning what the model should do and what 'helpful' means (RLHF, constitutions, model specs). Another speaker, probably the host, adds the button 'Alignment is the final job.' The clip needs that exchange. It can extend to 1010.9, where alignment is split into specifying the objective and optimizing it.",
+      "over_band": false
+    },
+    {
+      "id": "china-router-data-for-distillation",
+      "start": 1216.2, "start_range": [1216.2, 1249.4],
+      "end": 1285.3, "end_range": [1285.3, 1285.5],
+      "why": "Distillation needs a realistic prompt distribution. Chinese labs appear to get one from router or proxy services that resell data from Chinese users of US frontier models. This is a surprising, concrete fact. Starting at 1249.4 ('one thing that's been coming out recently...') keeps only the router story, at 36s.",
+      "over_band": false
+    },
+    {
+      "id": "why-train-powerpoint-skills",
+      "start": 2167.9, "start_range": [2167.9, 2168.2],
+      "end": 2217.8, "end_range": [2211.0, 2217.8],
+      "why": "The host tells the question he put to Dario: if models will learn on the job like humans, why build PowerPoint and finance skills into them? He then gives two explanations: those skills are a stopgap, or they bring in revenue to fund RSI. It works as a self-contained puzzle with its possible answers.",
+      "over_band": false
+    },
+    {
+      "id": "cursor-composer-online-rl",
+      "start": 2656.4, "start_range": [2656.4, 2656.6],
+      "end": 2708.5, "end_range": [2706.8, 2709.0],
+      "why": "How Cursor's Composer learns from users online: one rollout per user, heuristics to estimate advantage, and a REINFORCE update. A new model ships every five hours if it improves on Cursor Bench and is thrown away if not. It is a concrete surprising fact. A second speaker says 'Interesting' at 2708.7, so it can end on either side of that.",
+      "over_band": false
+    },
+    {
+      "id": "1930-model-beats-claude-at-coding",
+      "start": 3786.8, "start_range": [3786.8, 3787.0],
+      "end": 3827.6, "end_range": [3827.6, 3857.5],
+      "why": "A model trained only on text from before 1930 was fine-tuned on coding-agent data and beat Claude 3 Opus on SWE-bench, so expert behavior is easy to copy. A second speaker then offers a counterexample (a fifth-grade-math model that RL could not push to college math) and the 'distance between rungs' idea. Both ends work, and ending at 3857.5 (71s) keeps the back-and-forth.",
+      "over_band": false
+    },
+    {
+      "id": "move-37-and-sandbox-zero-days",
+      "start": 5111.0, "start_range": [5110.5, 5111.2],
+      "end": 5176.2, "end_range": [5168.7, 5182.4],
+      "why": "The host asks whether RL on LLMs will produce a Move 37, the kind of creativity AlphaGo got from not starting on human data. A guest answers that RL does not destroy creativity and points to models finding several zero-days to escape a sandbox. It is a question and answer between speakers, and the anecdote is the payoff.",
+      "over_band": false
+    },
+    {
+      "id": "open-models-all-write-like-claude",
+      "start": 5206.1, "start_range": [5183.3, 5206.1],
+      "end": 5273.5, "end_range": [5273.5, 5274.3],
+      "why": "RL cuts output diversity: models reuse the same themes and character names. Because so many labs distill from Claude, the open-weight models all write like Claude and share its tics, a monoculture. Starting at 5183.3 adds 'creativity is just solving hard search problems' but makes the clip 90s.",
+      "over_band": false
+    },
+    {
+      "id": "asi-in-three-or-four-years",
+      "start": 5658.9, "start_range": [5658.9, 5661.0],
+      "end": 5690.5, "end_range": [5686.3, 5709.0],
+      "why": "The rapid-fire last question asks when AI will beat top human experts at all computer-based work, including multi-year projects. A guest answers 'three or four years', another replies 'The fuck?', and then 'that doesn't seem wrong'. The payoff is the reaction between speakers. It can extend to 5709.0 for the reasoning that code and math are easy for models.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "millions-of-years-of-deployment",
+      "start": 2482.1, "start_range": [2482.1, 2492.6],
+      "end": 2533.2, "end_range": [2529.0, 2533.2],
+      "why": "The host's pitch: half of all compute goes to inference that teaches the model nothing, although its instances will gain millions of years of work experience. Learning from that would be a 'widely deployed intelligence explosion'. It is a provocative idea that stands alone, even though it is framed as a question.",
+      "over_band": false
+    },
+    {
+      "id": "taste-is-what-works-long-run",
+      "start": 2994.9, "start_range": [2994.9, 2995.2],
+      "end": 3023.2, "end_range": [3023.2, 3037.2],
+      "why": "A short, quotable definition: much of what people call taste is knowing which behavior works in the long run, for example which software systems stay maintainable. It is short but complete. It can extend to 3037.2, which ties the point back to the weaknesses that limit RSI.",
+      "over_band": false
+    },
+    {
+      "id": "data-9x-architecture-3x",
+      "start": 3974.6, "start_range": [3974.6, 3978.1],
+      "end": 4023.0, "end_range": [4023.0, 4041.6],
+      "why": "The host describes his experiment training every recipe from 2019 to now against every dataset. Better data explains about 9x of the compute-efficiency gain and architecture about 3x, at small scale. The numbers are spoken, not read off a chart, and the result is surprising. It can end on the follow-up question at 4041.6.",
+      "over_band": false
+    },
+    {
+      "id": "cumulative-vs-nonstationary-tasks",
+      "start": 2833.5, "start_range": [2833.5, 2833.6],
+      "end": 2925.8, "end_range": [2922.8, 2936.2],
+      "why": "Why models may excel at RSI but still struggle in real jobs. RSI builds on itself: every discovery stays in the training stack, and a run like '5.6' just calls pretraining.sh and posttraining.sh. A legal associate at a law firm faces a constantly shifting set of people and implicit rules. It is a clear self-contained explanation, but there is no tight cut: the definition and the law-firm payoff are 90s apart.",
+      "over_band": true
+    },
+    {
+      "id": "why-rl-worked-better-than-expected",
+      "start": 4685.1, "start_range": [4685.1, 4685.2],
+      "end": 4769.3, "end_range": [4766.2, 4827.2],
+      "why": "The host notes that people argued RL learns only one bit per episode (citing Schulman's paper and his own blog post), yet RL-scaled models are clearly smart. A guest answers that mid-training does about 80% of the work, so RL only needs a few bits. The clip depends on the question-and-answer between speakers. The tightest cut is 84s. The natural cut runs to 4827.2 and adds the signal-to-noise argument (RL versus SFT).",
+      "over_band": true
+    },
+    {
+      "id": "open-models-all-write-like-claude-full",
+      "start": 5183.3, "start_range": [5183.3, 5183.4],
+      "end": 5273.5, "end_range": [5273.5, 5274.3],
+      "why": "The natural-start version of the monoculture clip in 'clips'. Creativity is partly solving hard search problems such as Move 37 or a poem with many constraints, but RL cuts diversity, and because everyone distills from Claude the open models all share its tics. It is complete, but 90s.",
+      "over_band": true
+    },
+    {
+      "id": "moravecs-paradox-2036",
+      "start": 29.1, "start_range": [29.1, 29.2],
+      "end": 92.9, "end_range": [91.2, 107.1],
+      "why": "The host's opening question: if it is 2036 and there is no crazy superintelligence, what is the likeliest technical reason? A guest answers with a Moravec's-paradox scenario: AIs ace everything put in a benchmark but never get the real spark of generalization. The clip needs both the question and the answer. The question is long, so the answer lands late.",
+      "over_band": false
+    },
+    {
+      "id": "chess-elo-intuition-pump",
+      "start": 369.8, "start_range": [369.8, 370.0],
+      "end": 399.3, "end_range": [399.3, 412.9],
+      "why": "Chess engine Elo rose linearly for decades, yet crossing the human range looked like a discontinuity: experts went from always winning to never winning. AI's small economic impact so far may just mean it is still below the human range. It opens on 'Or another intuition pump', and it can extend to 412.9, where a second speaker replies that it would have to plateau right before that.",
+      "over_band": false
+    },
+    {
+      "id": "distillation-prevents-consolidation",
+      "start": 1120.0, "start_range": [1120.0, 1120.2],
+      "end": 1166.0, "end_range": [1158.9, 1166.0],
+      "why": "Q: why is there no huge consolidation among model providers? A: distillation. Anything learned through RL is a small number of bits and can be copied from a few trajectories. It is a clean question and answer, though less surprising than the router-data clip that follows.",
+      "over_band": false
+    },
+    {
+      "id": "hive-mind-is-an-incentives-problem",
+      "start": 3147.5, "start_range": [3147.3, 3147.6],
+      "end": 3195.9, "end_range": [3184.9, 3195.9],
+      "why": "The host asks when models will learn hive-mind style from every deployment. Schulman (inferred) reframes it: the obstacle is incentives rather than technology, because companies will not want the model provider learning from their data. It depends on the exchange between speakers.",
+      "over_band": false
+    },
+    {
+      "id": "bugs-have-clean-scaling-laws",
+      "start": 4639.8, "start_range": [4639.8, 4640.0],
+      "end": 4681.9, "end_range": [4669.6, 4681.9],
+      "why": "Scaling laws took a long time to find because the neat straight lines hide how carefully every hyperparameter must scale. A second speaker adds that 'bugs have their own clean scaling laws', citing Kaplan's missed annealing and embedding parameters. The quotable line comes from the back-and-forth.",
+      "over_band": false
+    },
+    {
+      "id": "horizon-not-horizontal-generalization",
+      "start": 4954.9, "start_range": [4954.9, 4956.6],
+      "end": 5004.7, "end_range": [4995.8, 5004.7],
+      "why": "RL did not generalize reasoning across domains (training on math does not make a great coder), but it did generalize across time horizons: models learned to keep working usefully for longer, and task length doubles every few months. It opens on 'comes down to two things', which follows the host's question, but it reads fine.",
+      "over_band": false
+    },
+    {
+      "id": "rl-progress-as-quanta",
+      "start": 5004.7, "start_range": [5004.7, 5004.9],
+      "end": 5069.8, "end_range": [5066.2, 5069.8],
+      "why": "The smooth pretraining loss hides millions of discrete phase transitions (induction heads appear suddenly). RL works the same way: individual tasks jump from 0.5% to 90% pass rate, and averaged together they look like models getting qualitatively better. It is a clear explanation, and 'the final way to think about it' is only a mild pointer back.",
+      "over_band": false
+    },
+    {
+      "id": "drop-in-remote-worker-timeline",
+      "start": 5310.4, "start_range": [5310.4, 5314.5],
+      "end": 5369.3, "end_range": [5369.3, 5384.6],
+      "why": "Rapid fire: when can you hire an AI as a drop-in remote worker for a month of any white-collar work? The first answer is a couple of years if it must use a browser, otherwise about a year. The clip is the host's question plus a guest's answer, and it can extend to 5384.6 for a second guest's 'three years'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {"start": 1044.1, "end": 1117.4, "why": "An Antithesis sponsor read with a Jane Street testimonial. It is confident and on-topic (the verification bottleneck for agent-written code), so it could pass for content, but it is an ad."},
+    {"start": 1399.4, "end": 1455.2, "why": "The hot take that Sonnet 5 and Opus 5 are objectively worse than GLM 5.3 and Kimi K3. It is tempting because of the named models and strong claim, but it opens on 'this observation' about the router and prompt-distribution thread from the previous minutes and is cut off mid-argument by an interjection."},
+    {"start": 2402.0, "end": 2481.1, "why": "A Jane Street ASIC design competition sponsor read: a prize, a deadline, a URL."},
+    {"start": 2548.8, "end": 2575.2, "why": "'The Chinese 100% do' train on deployment data. The claim is punchy, but 'this' and 'that' refer to the host's earlier question about learning from deployment, so a viewer without it cannot tell what is being claimed."},
+    {"start": 3572.4, "end": 3632.9, "why": "A GrokBot sponsor read about finding clip-worthy moments in transcripts. It is a clear, story-shaped explanation that sounds relevant, but it is an ad."},
+    {"start": 5516.3, "end": 5584.0, "why": "Rapid-fire guesses about when AI researchers get a 10x uplift, with numbers flying ('five and 10 years', 'Oh, really?', 'two years'). The speakers realize they are using different definitions, so the exchange never settles into a point."}
+  ]
+}

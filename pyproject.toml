@@ -1,0 +1,91 @@
+[project]
+name = "jevcut"
+version = "0.1.0"
+description = "Auto-clipping that picks cut points, not windows."
+requires-python = ">=3.11"
+dependencies = [
+    "typesafe-sdk>=0.5.7",
+]
+
+[project.optional-dependencies]
+# Heavy, optional: ingest works from pre-computed word timings without these.
+asr = [
+    "faster-whisper>=1.0",
+    # The CUDA 12 runtime CTranslate2 loads at the first encode. Without these a working
+    # GPU still falls back to CPU (see transcript._decode). Wheels, not a system install.
+    "nvidia-cublas-cu12; sys_platform == 'linux'",
+    "nvidia-cudnn-cu12>=9,<10; sys_platform == 'linux'",
+]
+shots = ["scenedetect>=0.6"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+jevcut = "jevcut.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jevcut"]
+
+[[tool.uv.index]]
+name = "typesafe"
+url = "https://pypi.typesafe.ai/simple"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+
+[tool.ruff]
+# Measured, not chosen: the code already wraps at 100. Only 9 lines out of ~3000
+# exceed it, while 52 sit in the 88-100 band that ruff's default 88 would flag.
+# 88 would fight the existing style; 100 describes it.
+line-length = 100
+target-version = "py311"
+# Ruff 0.16 also formats Python code blocks inside Markdown. The docs and issue
+# write-ups use hand-aligned snippets to make a point about layout, so ruff stays
+# on Python and leaves prose alone.
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+# Deliberately narrow. E/W (pycodestyle) and F (pyflakes) are the baseline;
+# I (isort) keeps import blocks ordered; B (bugbear) catches real mistakes
+# (mutable defaults, loop-variable capture) rather than taste.
+# Beyond that core, three additions, each earning its place:
+#   UP     - pyupgrade: the project is >=3.11 only, so modern syntax is always
+#            available and there is no compatibility reason to keep old forms.
+#   RUF    - ruff's own checks; RUF100 flags `noqa` comments that no longer
+#            suppress anything, which keeps suppressions from going stale.
+#   BLE001 - one rule, not the whole BLE group: scan.py already carries a
+#            `# noqa: BLE001` on a deliberate blind except. Selecting the rule
+#            makes that annotation mean something instead of being dead text,
+#            and it costs nothing -- it finds no other blind excepts today.
+# Not enabled: D (docstrings). Docstrings here are long-form intentional prose,
+# and D-rules would grade their shape, producing noise instead of signal.
+select = ["E", "W", "F", "I", "B", "UP", "RUF", "BLE001"]
+
+ignore = [
+    # Every zip() here is the pairwise idiom, zip(xs, xs[1:]), whose operands are
+    # unequal in length on purpose. B905's remedy -- strict=True -- would turn
+    # working code into a ValueError, so the rule carries no signal in this repo.
+    # (RUF007 stays on: it flags the same lines with the remedy that is actually
+    # right, itertools.pairwise.)
+    "B905",
+]
+
+[tool.ruff.lint.isort]
+# conftest is a local test helper imported bare, resolved by pythonpath = ["tests"];
+# without this isort files it under third-party.
+known-first-party = ["jevcut", "conftest"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests build deliberately odd inputs and lean on pytest fixture shadowing.
+"tests/*" = [
+    "B011",  # assert False is a legitimate "should not reach here" in a test
+]
+
+[tool.ruff.format]
+# Match the source: double quotes and spaces are already what the code uses.
+quote-style = "double"
+indent-style = "space"

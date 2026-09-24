@@ -1,0 +1,234 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=jgGyX7MPPVg",
+    "title": "Anthropic Actually Fixed Opus",
+    "channel": "Theo - t3.gg",
+    "genre": "long opinion commentary (partly screen-shared)",
+    "duration_s": 2413.2,
+    "sha256_prefix": "ec05e315bcc6f1f2",
+    "local_path": "eval/media/theo-opus.mp4"
+  },
+  "protocol": {
+    "status": "second independent labeler (B), for the noise floor",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "opus-rise-fall-and-fix",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.0
+      ],
+      "end": 113.3,
+      "end_range": [
+        96.0,
+        113.3
+      ],
+      "why": "Thesis cold open: Opus 4.5 changed coding, Opus 5 'felt more like a liability', and 5.5 is blowing him away. It has no tight in-band cut: it only lands at 'may have hit it' (96s) or 'Absolutely' (113s).",
+      "over_band": true
+    },
+    {
+      "id": "zdr-makes-opus-the-business-default",
+      "start": 620.3,
+      "start_range": [
+        613.9,
+        620.3
+      ],
+      "end": 659.3,
+      "end_range": [
+        659.3,
+        662.0
+      ],
+      "why": "Clear insight: Fable has no zero-data-retention option, so ZDR-bound companies can't use it, and Opus 5.5 will become the most popular coding model on that detail alone.",
+      "over_band": false
+    },
+    {
+      "id": "max-effort-ran-six-hours",
+      "start": 1047.8,
+      "start_range": [
+        1047.8,
+        1048.5
+      ],
+      "end": 1077.7,
+      "end_range": [
+        1073.7,
+        1077.7
+      ],
+      "why": "Story with a point: max effort levels make the model loop forever. His own thread ran 6.5 hours writing a markdown plan on max and got only halfway.",
+      "over_band": false
+    },
+    {
+      "id": "dont-use-max",
+      "start": 1081.5,
+      "start_range": [
+        1081.5,
+        1082.0
+      ],
+      "end": 1150.3,
+      "end_range": [
+        1146.1,
+        1150.3
+      ],
+      "why": "His own Skatebench: going from x-high to max takes ~300 to ~5000 tokens per question (10x the cost) for a 1% score bump, so 'don't use max on this model'. The numbers support a verbal point and aren't just read off a chart.",
+      "over_band": false
+    },
+    {
+      "id": "context-window-paranoia",
+      "start": 1998.5,
+      "start_range": [
+        1998.5,
+        2008.6
+      ],
+      "end": 2055.4,
+      "end_range": [
+        2045.6,
+        2055.4
+      ],
+      "why": "Explains a real quirk: models trained before compaction was reliable learned to fear their context limit; OpenAI trained it out, Anthropic less so. It can open on 'not without its quirks' or directly on 'paranoia around the context window'.",
+      "over_band": false
+    },
+    {
+      "id": "dont-throw-out-fable-yet",
+      "start": 2256.6,
+      "start_range": [
+        2256.6,
+        2257.1
+      ],
+      "end": 2295.9,
+      "end_range": [
+        2287.3,
+        2295.9
+      ],
+      "why": "Grounded take: Opus 5.5 is smaller and dumber than Fable, and on longer jobs the odds of hitting a failure spike go up, so be realistic before replacing Fable.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "anthropic-loosens-the-leash",
+      "start": 662.6,
+      "start_range": [
+        662.6,
+        669.6
+      ],
+      "end": 733.9,
+      "end_range": [
+        714.1,
+        733.9
+      ],
+      "why": "He reads out an employee's 'sorry about that model' tweet and argues Anthropic is letting staff post freely, which is a nice cultural shift. Works from the words, but leans on the on-screen tweet.",
+      "over_band": false
+    },
+    {
+      "id": "cheaper-but-not-efficient",
+      "start": 836.8,
+      "start_range": [
+        833.8,
+        836.8
+      ],
+      "end": 869.8,
+      "end_range": [
+        869.8,
+        876.8
+      ],
+      "why": "Point: the model is cheaper per token but uses about 4x the tokens of GPT-6 Astra, and '2x faster doesn't matter if you need 4x more tokens'. It is built on read-out benchmark numbers, so accept but don't insist.",
+      "over_band": false
+    },
+    {
+      "id": "max-effort-full-rant",
+      "start": 1047.8,
+      "start_range": [
+        1047.8,
+        1048.5
+      ],
+      "end": 1150.3,
+      "end_range": [
+        1146.1,
+        1150.3
+      ],
+      "why": "Both max-effort segments as one continuous rant (story plus Skatebench numbers).",
+      "over_band": true
+    },
+    {
+      "id": "better-value-than-codex",
+      "start": 1233.4,
+      "start_range": [
+        1198.3,
+        1233.4
+      ],
+      "end": 1260.8,
+      "end_range": [
+        1260.8,
+        1264.7
+      ],
+      "why": "Value take: a day of real work (visualizer, a PR) cost ~1% of his weekly limit, and it beats a Codex sub for $200. The start at 1198 (the work list) and the start at 1233 ('I can't believe I'm saying this') both work.",
+      "over_band": false
+    },
+    {
+      "id": "fable-still-for-frontend",
+      "start": 1549.3,
+      "start_range": [
+        1549.3,
+        1550.0
+      ],
+      "end": 1576.9,
+      "end_range": [
+        1576.9,
+        1577.2
+      ],
+      "why": "Short verdict: Opus is the right default for most things, but reach for Fable on frontend and marketing pages.",
+      "over_band": false
+    },
+    {
+      "id": "pretraining-vs-posttraining-kings",
+      "start": 2337.4,
+      "start_range": [
+        2337.4,
+        2347.4
+      ],
+      "end": 2363.3,
+      "end_range": [
+        2363.3,
+        2366.3
+      ],
+      "why": "Quotable framing: Anthropic are the pre-training kings and OpenAI the post-training kings, but Anthropic has caught up on post-training. It is short.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 118.6,
+      "end": 200.0,
+      "why": "WorkOS sponsor read; has a genuinely funny aside ('configuring Okta is hell'), but it's an ad."
+    },
+    {
+      "start": 213.8,
+      "end": 229.2,
+      "why": "Subscribe plea ('less than half of y'all are subbed')."
+    },
+    {
+      "start": 387.0,
+      "end": 454.8,
+      "why": "Benchmark chart readout ('slaughtering', $2.94 vs $20, medium beats Fable on max): excited numbers read off the screen."
+    },
+    {
+      "start": 553.0,
+      "end": 599.2,
+      "why": "Reads Opus 5 vs 5.5 sample outputs off the screen ('That is absolute nonsense', 'three mdashes'); the contrast is only visible."
+    },
+    {
+      "start": 1407.1,
+      "end": 1479.7,
+      "why": "Parallel sponsor read with a live speed race ('going now... still going')."
+    },
+    {
+      "start": 1893.7,
+      "end": 1995.7,
+      "why": "High-energy reaction to the Fishslop 3D demo ('look at the stingray', 'what the fuck'); pure on-screen reaction."
+    }
+  ]
+}

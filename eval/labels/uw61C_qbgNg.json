@@ -1,0 +1,269 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=uw61C_qbgNg",
+    "title": "Psychology of Charisma: How To Actually Make People Like You",
+    "channel": "PsychToons",
+    "genre": "narrated animated explainer (fast narration)",
+    "duration_s": 921.4,
+    "sha256_prefix": "1bf393d9187637ae",
+    "local_path": "eval/media/psychtoons-charisma.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "wrong-target",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.3
+      ],
+      "end": 57.5,
+      "end_range": [
+        50.2,
+        57.5
+      ],
+      "why": "Cold open: charisma advice aims at the wrong target; charisma isn't something people see in you, it's how they feel about themselves around you. Ends before 'Welcome back to PsychToons'.",
+      "over_band": false
+    },
+    {
+      "id": "influence-vs-affability",
+      "start": 81.2,
+      "start_range": [
+        75.1,
+        81.2
+      ],
+      "end": 144.1,
+      "end_range": [
+        139.4,
+        144.1
+      ],
+      "why": "The 2018 Toronto study split charisma into influence and affability; all popular advice trains influence, which reads as intensity, not charisma.",
+      "over_band": false
+    },
+    {
+      "id": "perceived-responsiveness",
+      "start": 150.7,
+      "start_range": [
+        144.6,
+        150.7
+      ],
+      "end": 208.5,
+      "end_range": [
+        203.3,
+        208.5
+      ],
+      "why": "Reis and Shaver's perceived partner responsiveness: understanding, validation, caring; nothing on the list is about you. 'You do not generate liking, you create the conditions.' Can open on the question 'what is affability made of?' at 144.6.",
+      "over_band": false
+    },
+    {
+      "id": "warmth-before-competence",
+      "start": 214.7,
+      "start_range": [
+        214.7,
+        214.7
+      ],
+      "end": 277.3,
+      "end_range": [
+        272.9,
+        277.3
+      ],
+      "why": "Fiske's warmth vs competence: warmth is judged first because 'are you going to hurt me?' came before 'how skilled are you?'. Ends on heat vs light: brilliant but cold to stand next to.",
+      "over_band": false
+    },
+    {
+      "id": "trained-to-audition",
+      "start": 277.6,
+      "start_range": [
+        277.6,
+        282.5
+      ],
+      "end": 350.9,
+      "end_range": [
+        317.5,
+        350.9
+      ],
+      "why": "'It's not stupidity, it's training': school, interviews, social media all grade performance, so we audition. Two good ends: 317.5 ('nobody makes money telling you to think about yourself less') or 350.9 ('you're not failing because you're boring, you're failing because you're busy'). The range is wide on purpose.",
+      "over_band": false
+    },
+    {
+      "id": "liking-gap",
+      "start": 356.5,
+      "start_range": [
+        356.5,
+        356.5
+      ],
+      "end": 412.1,
+      "end_range": [
+        389.4,
+        412.1
+      ],
+      "why": "Boothby 2018 liking-gap study: people systematically underestimate how much they are liked because they grade their own performance, and the trap that follows.",
+      "over_band": false
+    },
+    {
+      "id": "confidence-is-an-output",
+      "start": 414.0,
+      "start_range": [
+        414.0,
+        419.5
+      ],
+      "end": 476.9,
+      "end_range": [
+        473.0,
+        476.9
+      ],
+      "why": "'Just be confident' fails: confidence is an output, not an input. Antonakis trained managers in charismatic behaviors and blind raters scored them higher: same people, different moves.",
+      "over_band": false
+    },
+    {
+      "id": "ask-the-second-question",
+      "start": 481.1,
+      "start_range": [
+        479.5,
+        482.6
+      ],
+      "end": 536.2,
+      "end_range": [
+        533.0,
+        536.2
+      ],
+      "why": "Law 1: follow-up questions drive liking (Harvard speed-dating data); 'that is two people taking turns waiting'. Self-contained, with an actionable ending.",
+      "over_band": false
+    },
+    {
+      "id": "say-the-specific-thing",
+      "start": 589.1,
+      "start_range": [
+        587.5,
+        591.0
+      ],
+      "end": 636.7,
+      "end_range": [
+        633.3,
+        636.7
+      ],
+      "why": "Law 3: people underestimate how good a compliment feels (Zhao and Epley); 'nice shirt is noise', a specific compliment proves you paid attention. Whisper merged its end with 'Law four' (the cut is at ~636.7).",
+      "over_band": false
+    },
+    {
+      "id": "handle-good-news",
+      "start": 637.7,
+      "start_range": [
+        636.8,
+        640.2
+      ],
+      "end": 686.7,
+      "end_range": [
+        683.6,
+        686.7
+      ],
+      "why": "Law 4: capitalization, where how you respond to good news predicts closeness; don't deflate it, ask for the story. 'People remember exactly who let them be happy out loud.'",
+      "over_band": false
+    },
+    {
+      "id": "beautiful-mess-effect",
+      "start": 688.2,
+      "start_range": [
+        687.2,
+        690.7
+      ],
+      "end": 743.4,
+      "end_range": [
+        734.8,
+        743.4
+      ],
+      "why": "Law 5: the beautiful mess effect. Our own vulnerability looks like weakness to us and courage to others; one honest sentence is enough.",
+      "over_band": false
+    },
+    {
+      "id": "show-up-again",
+      "start": 745.1,
+      "start_range": [
+        744.0,
+        746.2
+      ],
+      "end": 799.7,
+      "end_range": [
+        796.9,
+        799.7
+      ],
+      "why": "Law 6: Moreland and Beach 1992, where women who silently attended more lectures were rated warmer. Liking is built by frequency, not one brilliant encounter.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 57.5,
+      "end": 74.7,
+      "why": "Channel intro promising 'six laws that make people genuinely like you, all backed by real research'. A strong hook with no payoff inside the cut."
+    },
+    {
+      "start": 800.1,
+      "end": 869.7,
+      "why": "Closing reflection with the Simone Weil 'attention is the rarest form of generosity' quote. It is quotable, but it opens on 'practice these six' and leans on the whole video."
+    },
+    {
+      "start": 869.7,
+      "end": 898.4,
+      "why": "Comment prompt listing the six laws, then 'remember what the liking gap tells us: people already like you more than you think'. A strong line, but it is a callback inside the outro."
+    },
+    {
+      "start": 898.4,
+      "end": 920.1,
+      "why": "Like / share-with-a-friend / subscribe call to action."
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "law2-warmth-before-credentials",
+      "start": 537.6,
+      "start_range": [
+        537.6,
+        541.8
+      ],
+      "end": 587.5,
+      "end_range": [
+        584.5,
+        587.5
+      ],
+      "why": "Law 2: lead with warmth, not credentials. Competence introduced first is judged, after warmth it is admired. 'Remember what Fiske found' is a light callback, but the next sentence restates the finding, so it holds up. Starting at 541.8 skips the callback but loses the law's title.",
+      "over_band": false
+    },
+    {
+      "id": "busy-not-boring",
+      "start": 322.9,
+      "start_range": [
+        322.9,
+        323.2
+      ],
+      "end": 350.9,
+      "end_range": [
+        346.7,
+        350.9
+      ],
+      "why": "Short version of the payoff in 'trained-to-audition': the harder you try to be liked the worse you get, because attention on yourself is attention not on them. 'You're failing because you are busy.' About 28s.",
+      "over_band": false
+    },
+    {
+      "id": "charisma-can-be-installed",
+      "start": 442.8,
+      "start_range": [
+        442.8,
+        442.8
+      ],
+      "end": 476.9,
+      "end_range": [
+        473.0,
+        476.9
+      ],
+      "why": "Shorter cut of 'confidence-is-an-output': charisma is behavior and behavior can be installed; Antonakis's trained managers were rated more charismatic by blind raters. About 34s.",
+      "over_band": false
+    }
+  ]
+}

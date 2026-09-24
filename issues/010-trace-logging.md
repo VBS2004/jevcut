@@ -24,8 +24,16 @@ where the right cut point was never offered as an option.
 - `jevcut explain <clip_id>` — prints the full chain for one clip: window → anchor →
   candidate cut points offered → chosen cuts → gate answers → composite → verdict.
 - **Candidate coverage check**, run automatically against eval labels: for each labeled
-  boundary, was a cut point within 1.0s actually in the option list? Classify as
-  `missing_candidate` before anything is called a model error.
+  boundary, was a cut point within **2.0s** actually in the option list? Classify as
+  `missing_candidate` before anything is called a model error. The tolerance matches
+  [003](003-cut-point-extraction.md), which measured where it is reachable — keep the two
+  in step, and count "no transcript there" separately as 003 requires.
+- **Adjacency rate**, from the distributions already in the trace: how often are the top
+  two options *neighbouring IDs* with a close margin? That is the signature of a pick that
+  landed one line off because the labels look alike, not because the model was wrong about
+  the content — and it is a different repair from either a missing candidate or a bad
+  question. Feeds the label-scheme A/B in [014](014-threshold-tuning.md). Costs nothing:
+  every Choice response already carries the full distribution.
 - Triage classifier over traces: `asr_error | missing_candidate | model_error |
   composition_error | service_error`.
 

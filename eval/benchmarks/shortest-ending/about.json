@@ -1,0 +1,7 @@
+{
+  "order": 3,
+  "name": "shortest-ending",
+  "what": "Ending is the earliest one clean on ends_mid_thought, not the strongest payoff.",
+  "commit": "5be69bf",
+  "gate_requests": 2017
+}

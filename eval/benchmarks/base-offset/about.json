@@ -1,0 +1,7 @@
+{
+  "order": 11,
+  "name": "base-offset",
+  "what": "Baseline (013): jevcut's anchors, edges at a constant offset fitted leave-one-video-out. Selection requests are jevcut's.",
+  "commit": "0fcf4db",
+  "gate_requests": null
+}

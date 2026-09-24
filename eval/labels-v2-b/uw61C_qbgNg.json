@@ -1,0 +1,245 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=uw61C_qbgNg",
+    "title": "Psychology of Charisma: How To Actually Make People Like You",
+    "channel": "PsychToons",
+    "genre": "narrated animated explainer",
+    "duration_s": 921.0,
+    "sha256_prefix": "1bf393d9187637ae",
+    "local_path": "eval/media/psychtoons-charisma.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "charisma-wrong-target",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.0
+      ],
+      "end": 50.2,
+      "end_range": [
+        50.2,
+        57.5
+      ],
+      "why": "Cold open: 'everything you've been taught about charisma is aimed at the wrong target'; payoff 'charisma is not something people see in you, it's something they feel about themselves when they're with you' (50.2). The 'tuning an instrument nobody is listening to' kicker (57.5) also works.",
+      "over_band": false
+    },
+    {
+      "id": "harder-you-try",
+      "start": 322.9,
+      "start_range": [
+        322.9,
+        322.9
+      ],
+      "end": 350.9,
+      "end_range": [
+        350.9,
+        350.9
+      ],
+      "why": "'The harder you try to be liked, the worse you get at it': attention spent monitoring yourself is taken from the other person; lands on 'You are not failing because you are boring. You are failing because you are busy.'",
+      "over_band": false
+    },
+    {
+      "id": "liking-gap",
+      "start": 356.5,
+      "start_range": [
+        356.5,
+        356.5
+      ],
+      "end": 389.4,
+      "end_range": [
+        389.4,
+        389.4
+      ],
+      "why": "Boothby 2018: people systematically underestimate how much they were liked (the liking gap), because they were grading their own performance harshly. Stops before the 'sit with the full shape of the trap' recap.",
+      "over_band": false
+    },
+    {
+      "id": "confidence-is-an-output",
+      "start": 414.0,
+      "start_range": [
+        414.0,
+        419.5
+      ],
+      "end": 439.1,
+      "end_range": [
+        436.7,
+        439.1
+      ],
+      "why": "Kills 'just be confident / just be yourself': confidence is not an input, it's an output that arrives after competence; 'nobody has ever willed themselves into charisma'. Opening on 'Just be confident.' (419.5) also works but runs under 25s.",
+      "over_band": false
+    },
+    {
+      "id": "ask-the-second-question",
+      "start": 481.1,
+      "start_range": [
+        479.5,
+        481.1
+      ],
+      "end": 528.4,
+      "end_range": [
+        518.1,
+        536.2
+      ],
+      "why": "Law 1: follow-up questions drive liking (Harvard speed-dating data); 'that is two people taking turns waiting'; lands on 'people who asked more follow-ups got more second dates'. Ending on the actionable 'ask about the part they skipped over' (536.2) is equally good.",
+      "over_band": false
+    },
+    {
+      "id": "warmth-before-credentials",
+      "start": 537.6,
+      "start_range": [
+        536.6,
+        537.6
+      ],
+      "end": 587.5,
+      "end_range": [
+        587.5,
+        587.5
+      ],
+      "why": "Law 2: lead with warmth, not credentials; restates Fiske (warmth judged first) so it stands alone; lands on 'Competence introduced first is judged. Competence introduced after warmth is admired.'",
+      "over_band": false
+    },
+    {
+      "id": "beautiful-mess",
+      "start": 688.2,
+      "start_range": [
+        687.2,
+        688.2
+      ],
+      "end": 721.9,
+      "end_range": [
+        716.7,
+        743.4
+      ],
+      "why": "Law 5: the beautiful mess effect -- our own vulnerability reads to us as weakness, others' as courage; lands on 'it is a known distortion'. The practical 'one honest sentence... the other person exhales' ending (743.4) also works; two genuinely good ends.",
+      "over_band": false
+    },
+    {
+      "id": "show-up-again",
+      "start": 745.1,
+      "start_range": [
+        744.0,
+        745.1
+      ],
+      "end": 784.7,
+      "end_range": [
+        778.8,
+        799.7
+      ],
+      "why": "Law 6: Moreland & Beach 1992 -- women who silently attended more lectures were rated warmer; lands on 'liking is built by frequency'. 'No words. Just repetition.' (778.8) or the gym/colleague advice (799.7) are acceptable ends.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "influence-vs-affability",
+      "start": 81.2,
+      "start_range": [
+        81.2,
+        81.2
+      ],
+      "end": 139.4,
+      "end_range": [
+        139.4,
+        144.1
+      ],
+      "why": "Charisma splits into influence and affability (Toronto 2018); all popular advice trains influence, and 'influence with no affability doesn't read as charisma, it reads as intensity'.",
+      "over_band": false
+    },
+    {
+      "id": "warmth-judged-first",
+      "start": 214.7,
+      "start_range": [
+        214.7,
+        214.7
+      ],
+      "end": 251.8,
+      "end_range": [
+        251.8,
+        257.0
+      ],
+      "why": "Fiske: people rate warmth and competence, warmth first, because historically the urgent question was 'are you going to hurt me?' -- intent decided survival.",
+      "over_band": false
+    },
+    {
+      "id": "charisma-is-trainable",
+      "start": 442.8,
+      "start_range": [
+        439.6,
+        442.8
+      ],
+      "end": 473.0,
+      "end_range": [
+        473.0,
+        478.4
+      ],
+      "why": "'Charisma is not a personality you were issued at birth, it is behavior': Antonakis trained managers and blind raters scored them higher -- same people, different moves.",
+      "over_band": false
+    },
+    {
+      "id": "say-the-specific-thing",
+      "start": 589.1,
+      "start_range": [
+        587.5,
+        589.1
+      ],
+      "end": 636.8,
+      "end_range": [
+        633.7,
+        636.8
+      ],
+      "why": "Law 3: people underestimate how good compliments feel (Zhao & Epley); 'nice shirt is noise', a specific compliment nobody else could have given is why it works. End is mid-line before 'Law four'.",
+      "over_band": false
+    },
+    {
+      "id": "handle-good-news",
+      "start": 638.2,
+      "start_range": [
+        636.8,
+        638.2
+      ],
+      "end": 686.7,
+      "end_range": [
+        683.6,
+        686.7
+      ],
+      "why": "Law 4: how you respond to good news predicts relationship strength; don't deflate it, ask for the story; 'people remember exactly who let them be happy out loud'. Starts mid-line after 'Law four'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 57.5,
+      "end": 74.7,
+      "why": "Channel intro: 'Welcome back to PsychToons... six laws... all backed by real research' -- promises, no content."
+    },
+    {
+      "start": 389.8,
+      "end": 412.1,
+      "why": "'Sit with the full shape of the trap' -- a recap of the liking-gap loop whose support came in the previous minute."
+    },
+    {
+      "start": 800.1,
+      "end": 834.6,
+      "why": "Closing summary ('practice these six... you were tired from performing while socializing'); quotable but leans on the six laws already covered."
+    },
+    {
+      "start": 869.7,
+      "end": 898.4,
+      "why": "Comment prompt listing the six laws, then 'people already like you more than you think' -- a callback to the liking gap, not self-contained."
+    },
+    {
+      "start": 898.4,
+      "end": 920.1,
+      "why": "Like, share and subscribe outro."
+    }
+  ]
+}

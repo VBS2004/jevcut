@@ -1,0 +1,78 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=kWToHpdxScE",
+    "title": "Open Source, Faster Jev is HERE",
+    "channel": "CoderOne",
+    "genre": "screen-recorded tutorial with opinion",
+    "duration_s": 782.2,
+    "sha256_prefix": "cdbf4e117c4b219f",
+    "local_path": "eval/media/coderone-jev.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": false,
+    "note": "Drafted AFTER seeing jevcut's output on this video (2026-09-23), which issue 011 warns against. Treat as contaminated until the human review.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "cold-open",
+      "start": 0.0,
+      "start_range": [0.0, 0.3],
+      "end": 56.2,
+      "end_range": [27.8, 68.4],
+      "why": "AI plays snake locally, 30 decisions a second, never fails; then what a System 1 model is. Two defensible endings: after the snake beat (27.8) or after the explanation (56-68)."
+    },
+    {
+      "id": "what-people-built",
+      "start": 68.5,
+      "start_range": [68.5, 75.0],
+      "end": 137.7,
+      "end_range": [135.4, 140.6],
+      "why": "Since the launch people have built: Mario, lead scoring, a flight booked in 7s for $0.0039."
+    },
+    {
+      "id": "ported-in-one-session",
+      "start": 201.4,
+      "start_range": [180.6, 201.4],
+      "end": 263.7,
+      "end_range": [248.3, 263.7],
+      "why": "Running an open-weights model locally is cooler; Claude Code ported the demo to it in one session."
+    },
+    {
+      "id": "cloned-in-five-days",
+      "start": 378.5,
+      "start_range": [378.5, 387.1],
+      "end": 431.9,
+      "end_range": [416.1, 454.8],
+      "why": "Hot take: three years in stealth, cloned in five days; it is not going to be closed source any more. Best clip in the video."
+    },
+    {
+      "id": "system-one-explainer",
+      "start": 469.5,
+      "start_range": [469.5, 474.2],
+      "end": 537.1,
+      "end_range": [511.8, 573.8],
+      "why": "System 1 vs System 2, Thinking Fast and Slow, LLMs can't count the Rs. The whole stretch is ~104s, over the 75s band; 469-537 is the tight cut.",
+      "over_band": true
+    }
+  ],
+  "negatives": [
+    {
+      "start": 263.7,
+      "end": 378.4,
+      "why": "Live browser-agent demos ('watch this, it's gonna be so fast'): the point is on screen, not in the words."
+    },
+    {
+      "start": 598.2,
+      "end": 757.0,
+      "why": "Sandwich / email playground walkthrough: narrates UI the viewer cannot see ('these are the results in here'). Emphatic numbers, no standalone point."
+    },
+    {
+      "start": 763.2,
+      "end": 782.2,
+      "why": "Outro."
+    }
+  ]
+}

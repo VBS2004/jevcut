@@ -1,0 +1,7 @@
+{
+  "order": 1,
+  "name": "baseline",
+  "what": "Clip placed around the anchor by rule, repaired by widening on a mid-thought edge, then tightened.",
+  "commit": "0bddb2a",
+  "gate_requests": null
+}

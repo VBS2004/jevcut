@@ -6,6 +6,7 @@
 | **Depends on** | 006 |
 | **Blocks** | 008 |
 | **Size** | M |
+| **Status** | **Built, reshaped** — `src/jevcut/gate.py`, `src/jevcut/questions.py`, `src/jevcut/search.py`, `tests/test_gate.py`, `tests/test_search.py`. Since 2026-09-24 the gate chooses boundaries by search (candidate openings, then endings, each judged) instead of repairing a placed clip. Seven questions, repair loop with widen/tighten; differs from the spec below in the ways recorded in docs/QUESTIONS.md. |
 
 ## Why
 

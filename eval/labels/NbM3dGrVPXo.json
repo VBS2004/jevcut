@@ -1,0 +1,224 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=NbM3dGrVPXo",
+    "title": "SCROLLING RUINED MY ABILITY TO THINK. the neuroscience of brainrot & how to fix it",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 984.8,
+    "sha256_prefix": "4accdf4562b9a0c6",
+    "local_path": "eval/media/olga-brainrot.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "summarize-last-video",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.3
+      ],
+      "end": 47.1,
+      "end_range": [
+        39.6,
+        47.1
+      ],
+      "why": "Cold open challenge: summarize the last video you watched in five sentences. You couldn't, and not because of bad memory. 'Brain rot' names the symptom, not the cause. Ending at 39.6 also lands.",
+      "over_band": false
+    },
+    {
+      "id": "fluency-illusion",
+      "start": 65.3,
+      "start_range": [
+        65.3,
+        65.3
+      ],
+      "end": 101.8,
+      "end_range": [
+        94.7,
+        101.8
+      ],
+      "why": "Names and explains the fluency illusion: smooth, familiar-sounding content makes your brain think you understand it; recognizing the words is not understanding the idea.",
+      "over_band": false
+    },
+    {
+      "id": "dopamine-ten-year-old",
+      "start": 105.3,
+      "start_range": [
+        105.3,
+        105.3
+      ],
+      "end": 166.2,
+      "end_range": [
+        157.9,
+        166.2
+      ],
+      "why": "Think of a field you've consumed a lot of: a curious 10-year-old asks what dopamine is, you give the fact, then they ask how it works and you freeze. A relatable example that stands on its own.",
+      "over_band": false
+    },
+    {
+      "id": "frictionless-media",
+      "start": 457.9,
+      "start_range": [
+        457.9,
+        458.5
+      ],
+      "end": 514.7,
+      "end_range": [
+        506.6,
+        514.7
+      ],
+      "why": "The whole media landscape is built to be frictionless: creators' number one goal is not to lose attention; Netflix spoon-feeds plot, news becomes 30-second summaries, bestsellers let you turn your brain off. Starts right after the sponsor read ends.",
+      "over_band": false
+    },
+    {
+      "id": "shallow-practice",
+      "start": 518.0,
+      "start_range": [
+        518.0,
+        518.0
+      ],
+      "end": 556.6,
+      "end_range": [
+        556.6,
+        597.6
+      ],
+      "why": "Years of effortless content train shallow engagement; neurons that fire together wire together, so deep engagement weakens like an unused muscle. Ending at 597.6 ('can you train it back? of course... it's not that the book is too hard') also works but runs 80s.",
+      "over_band": false
+    },
+    {
+      "id": "generation-effect",
+      "start": 649.0,
+      "start_range": [
+        649.0,
+        652.6
+      ],
+      "end": 682.3,
+      "end_range": [
+        682.3,
+        682.3
+      ],
+      "why": "Fix two, produce, don't just consume: the generation effect. You learn far more deeply by producing your own thoughts, which is why schools assign essays. Stops before the comments call to action.",
+      "over_band": false
+    },
+    {
+      "id": "default-mode-network",
+      "start": 796.0,
+      "start_range": [
+        796.0,
+        801.2
+      ],
+      "end": 869.2,
+      "end_range": [
+        838.9,
+        869.2
+      ],
+      "why": "The neurological reason doing nothing matters: the default mode network consolidates memories when there is no input, which is why ideas come in the shower, and scrolling in every quiet moment suppresses it. Cut starts mid-sentence at 'here's the neurological reason why doing nothing is so important'.",
+      "over_band": false
+    },
+    {
+      "id": "what-brainrot-is",
+      "start": 899.9,
+      "start_range": [
+        869.6,
+        899.9
+      ],
+      "end": 954.4,
+      "end_range": [
+        954.4,
+        954.4
+      ],
+      "why": "Closing thesis: you know bits of everything, but does it connect? Brain rot isn't just TikTok fog; it's being the most informed humans ever and unable to turn it into understanding. Starting at the T.S. Eliot quote (869.6) is also a good cut but runs 85s.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 358.1,
+      "end": 456.4,
+      "why": "Superhuman sponsor read. It opens as a natural continuation ('this is why I've become intentional about my mental energy'), so it sounds like content."
+    },
+    {
+      "start": 186.3,
+      "end": 206.6,
+      "why": "Strong claim ('the easier information is to consume, the more your brain lies to you'), but it hangs on the previous minute and ends with 'we'll come back to that in a minute'."
+    },
+    {
+      "start": 682.8,
+      "end": 712.8,
+      "why": "'Write five sentences in the comments', then 'remember the challenge at the beginning of the video?': a call to action plus a callback into the video itself."
+    },
+    {
+      "start": 728.6,
+      "end": 741.6,
+      "why": "Hype for fix three ('the most important, least intuitive one, my life is better now that I know') with no content yet."
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "surface-vs-deep-processing",
+      "start": 212.3,
+      "start_range": [
+        207.0,
+        212.3
+      ],
+      "end": 286.8,
+      "end_range": [
+        268.6,
+        286.8
+      ],
+      "why": "Surface processing (broccoli is good for you, but why?) versus deep processing (rebuild the reasoning); passively watching an inflation video versus pausing to explain it; deep processing needs friction. A clear explainer, somewhat textbook.",
+      "over_band": false
+    },
+    {
+      "id": "seek-friction",
+      "start": 604.0,
+      "start_range": [
+        604.0,
+        604.0
+      ],
+      "end": 649.0,
+      "end_range": [
+        643.6,
+        649.0
+      ],
+      "why": "Fix one, seek friction: consume things that make you work, like a book dense enough to reread a paragraph three times; that struggle is your deep circuits firing. Opens with a list marker but stands alone.",
+      "over_band": false
+    },
+    {
+      "id": "never-give-brain-space",
+      "start": 743.7,
+      "start_range": [
+        743.7,
+        743.7
+      ],
+      "end": 793.1,
+      "end_range": [
+        780.8,
+        793.1
+      ],
+      "why": "Finish one tab, open another; phone out in every queue; video after video, so your brain never gets space to breathe. Walk without your phone, stare out a window. Relatable, but the 'why' comes in the next clip.",
+      "over_band": false
+    },
+    {
+      "id": "eliot-to-brainrot-full",
+      "start": 869.6,
+      "start_range": [
+        869.6,
+        869.6
+      ],
+      "end": 954.4,
+      "end_range": [
+        954.4,
+        954.4
+      ],
+      "why": "The full closing: T.S. Eliot 1934 ('where is the knowledge we have lost in information?'), then what brain rot really is. It runs 85s with no tighter cut that keeps the quote; the tight version is what-brainrot-is.",
+      "over_band": true
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=jgGyX7MPPVg",
+    "title": "Anthropic Actually Fixed Opus",
+    "channel": "Theo - t3.gg",
+    "genre": "long opinion commentary (partly screen-shared)",
+    "duration_s": 2413.6,
+    "sha256_prefix": "ec05e315bcc6f1f2",
+    "local_path": "eval/media/theo-opus.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "opus-fell-off-then-fixed",
+      "start": 31.6,
+      "start_range": [
+        31.6,
+        42.4
+      ],
+      "end": 100.1,
+      "end_range": [
+        96.0,
+        106.9
+      ],
+      "why": "Opens on 'every launch besides Fable has been iffy at best'; Opus 5 was slop and a liability, so a 5.5 bump set a high bar; lands on 'I've been using Opus 5.5 all day and it has been blowing me away' (100.1). Starting at 'I'll take some fault here, I fell for Opus 5' (42.4) also works.",
+      "over_band": false
+    },
+    {
+      "id": "zdr-makes-it-default",
+      "start": 620.3,
+      "start_range": [
+        613.9,
+        620.3
+      ],
+      "end": 659.3,
+      "end_range": [
+        659.3,
+        662.0
+      ],
+      "why": "Fable lacks zero data retention, so companies that need ZDR can't use it; Opus supports it, so this model 'is almost immediately going to become the most popular for coding with AI by far, just from this one particular detail' (659.3).",
+      "over_band": false
+    },
+    {
+      "id": "employees-can-post",
+      "start": 662.6,
+      "start_range": [
+        662.6,
+        662.6
+      ],
+      "end": 714.1,
+      "end_range": [
+        714.1,
+        714.1
+      ],
+      "why": "Reads an Anthropic employee's tweet ('way better than Opus 5, sorry about that model'), then the take: Anthropic is loosening the leash on what employees can say; lands on 'a very nice cultural change at Anthropic, and I really hope they maintain this.'",
+      "over_band": false
+    },
+    {
+      "id": "cheaper-not-efficient",
+      "start": 838.4,
+      "start_range": [
+        836.8,
+        838.4
+      ],
+      "end": 869.8,
+      "end_range": [
+        869.8,
+        876.8
+      ],
+      "why": "'This model is cheaper, but it's not because it's more efficient': ~120k tokens per task vs 73k for Opus 5 and 27k for Astra; lands on 'it doesn't matter if you're 2x faster if you need 4x more tokens' (869.8).",
+      "over_band": false
+    },
+    {
+      "id": "six-hour-markdown-plan",
+      "start": 1047.8,
+      "start_range": [
+        1047.8,
+        1047.8
+      ],
+      "end": 1073.7,
+      "end_range": [
+        1073.7,
+        1077.7
+      ],
+      "why": "Disdain for max effort (loops, burns tokens), with the story: a thread ran 6.5 hours writing a markdown plan on max until he stopped it (1073.7). 'Apparently it only got halfway done' (1077.7) is an acceptable later end.",
+      "over_band": false
+    },
+    {
+      "id": "max-is-10x-for-1pct",
+      "start": 1081.5,
+      "start_range": [
+        1081.5,
+        1081.5
+      ],
+      "end": 1146.1,
+      "end_range": [
+        1143.9,
+        1150.3
+      ],
+      "why": "Skatebench as evidence against max effort: x-high used ~330 reasoning tokens per question, max ~5,000, for a 1% score bump; lands on 'don't use max on this model' (1146.1), with the 'watch tokens burn' line as a later end.",
+      "over_band": false
+    },
+    {
+      "id": "one-percent-of-weekly",
+      "start": 1198.3,
+      "start_range": [
+        1198.3,
+        1198.3
+      ],
+      "end": 1230.4,
+      "end_range": [
+        1230.4,
+        1233.1
+      ],
+      "why": "A day of real work (visualizer, ports, computer use, finding a repo, filing and merging a PR with fixes) and the punchline: 'All of this combined was 1% of my weekly' (1230.4).",
+      "over_band": false
+    },
+    {
+      "id": "fable-still-for-frontend",
+      "start": 1549.3,
+      "start_range": [
+        1549.3,
+        1549.3
+      ],
+      "end": 1576.9,
+      "end_range": [
+        1571.0,
+        1576.9
+      ],
+      "why": "Gut-feel verdict: Fable is still stronger at some edges and more thorough; Opus is the right default, but reach for Fable for frontend, especially marketing pages and design overhauls. 'Don't be scared to reach for Fable for frontend' (1571.0) is an acceptable earlier end but runs under the band.",
+      "over_band": false
+    },
+    {
+      "id": "context-window-paranoia",
+      "start": 1998.5,
+      "start_range": [
+        1998.5,
+        2008.6
+      ],
+      "end": 2045.6,
+      "end_range": [
+        2045.3,
+        2055.4
+      ],
+      "why": "Quirk: paranoia about the context window. Models were trained on tasks that fit in context, so they learned to fear the limit; OpenAI beat this out, and Anthropic less so (2045.6). Two starts work: 'this model is not without its quirks' (1998.5) or 'One of the most frustrating ones for me is paranoia around the context window' (2008.6).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "better-value-than-codex",
+      "start": 1233.4,
+      "start_range": [
+        1233.4,
+        1233.4
+      ],
+      "end": 1260.8,
+      "end_range": [
+        1257.1,
+        1260.8
+      ],
+      "why": "'I can't believe I'm saying this': if it's a solid daily driver, the Claude sub beats the Codex sub on value, since Astra is spiky and expensive. Its support (usage numbers) came just before, so optional.",
+      "over_band": false
+    },
+    {
+      "id": "dont-throw-out-fable",
+      "start": 2256.6,
+      "start_range": [
+        2256.6,
+        2257.3
+      ],
+      "end": 2287.3,
+      "end_range": [
+        2287.3,
+        2295.9
+      ],
+      "why": "Caution: this model is smaller and dumber, and longer jobs raise the odds of hitting its failures (repair loops, thinking its context will die). ASR is garbled at the start ('I'm not sure we aren't getting too excited').",
+      "over_band": false
+    },
+    {
+      "id": "200-dollar-sub-value",
+      "start": 2297.6,
+      "start_range": [
+        2297.6,
+        2297.6
+      ],
+      "end": 2325.2,
+      "end_range": [
+        2312.5,
+        2325.2
+      ],
+      "why": "Usage per dollar beats Fable and the Codex plans; 'your $200 Claude sub is running laps around our friends at OpenAI.' Overlaps the Codex-value take above.",
+      "over_band": false
+    },
+    {
+      "id": "pre-training-kings",
+      "start": 2338.4,
+      "start_range": [
+        2338.4,
+        2338.4
+      ],
+      "end": 2363.3,
+      "end_range": [
+        2363.3,
+        2363.3
+      ],
+      "why": "OpenAI has been better at distilling big-model capability into small cheap models: 'They're the pre-training kings and OpenAI is the post-training kings', and Anthropic seems to have caught up on post-training.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 118.6,
+      "end": 200.9,
+      "why": "WorkOS sponsor read that opens as a personal story (Codex computer use couldn't sign in)."
+    },
+    {
+      "start": 553.0,
+      "end": 594.3,
+      "why": "Reads the Opus 5 vs 5.5 example responses off the announcement ('absolute nonsense', 'three mdashes'); the point is on screen."
+    },
+    {
+      "start": 936.9,
+      "end": 958.3,
+      "why": "'Opus 5.5 has swept the Pareto frontier line' read off his own chart."
+    },
+    {
+      "start": 1404.4,
+      "end": 1479.7,
+      "why": "Parallel sponsor read with a live speed race."
+    },
+    {
+      "start": 1893.7,
+      "end": 1995.7,
+      "why": "Fish-slop 3D demo reactions ('what the fuck', 'I did not think we would get this far this fast'); room-only, depends on what is on screen."
+    },
+    {
+      "start": 2392.9,
+      "end": 2409.0,
+      "why": "Closing 'congrats to everybody at a company that restricts models'; the ZDR support came 29 minutes earlier."
+    }
+  ]
+}

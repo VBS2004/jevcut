@@ -1,0 +1,144 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=072eNztI06k",
+    "title": "You Can Learn AI Agent Memory Layers | Graph RAG, Vector DB, SQLite, Hermes, Waku",
+    "channel": "Sean's AI Stories",
+    "genre": "technical tutorial",
+    "duration_s": 1826.4,
+    "sha256_prefix": "8da1209e3ab96b92",
+    "local_path": "eval/media/sean-agent-memory.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "rag-in-one-example",
+      "start": 381.0,
+      "start_range": [
+        380.3,
+        381.0
+      ],
+      "end": 413.5,
+      "end_range": [
+        413.1,
+        413.6
+      ],
+      "why": "Plain explanation of RAG: embed 'food' as a vector, find what's nearby (apple, sausages), so semantic search instead of keywords. Opens on 'the third one is' if started at 380.3; 381.0 starts on 'retrieval augmented generation'.",
+      "over_band": false
+    },
+    {
+      "id": "retire-dont-delete",
+      "start": 452.0,
+      "start_range": [
+        449.8,
+        457.5
+      ],
+      "end": 518.3,
+      "end_range": [
+        514.0,
+        518.3
+      ],
+      "why": "Maintaining memory: add/delete/overwrite/no-op, and why you 'retire' a fact instead of deleting it (1,000 stars in 25 days is superseded by 1,300, not erased). Clear worked example. The opener promises four ways and the clip covers two, which is a small flaw.",
+      "over_band": false
+    },
+    {
+      "id": "consolidation-pipeline",
+      "start": 679.8,
+      "start_range": [
+        679.8,
+        682.4
+      ],
+      "end": 712.4,
+      "end_range": [
+        703.3,
+        712.4
+      ],
+      "why": "How semantic memory gets built: every conversation goes into a SQLite state.db, every 5-10 turns a cheap model consolidates it and distills facts into memory.md. Short but complete. Only just over the 25s floor.",
+      "over_band": false
+    },
+    {
+      "id": "reflect-like-dreaming",
+      "start": 539.2,
+      "start_range": [
+        539.2,
+        539.2
+      ],
+      "end": 584.5,
+      "end_range": [
+        576.3,
+        584.5
+      ],
+      "why": "'Reflect': merge duplicates and drop stale facts while the agent is idle, like the 'dreaming' Anthropic proposed; a post-process step for memory. Opens on 'last but not least', which is a soft list-tail opening, but the concept is explained in full.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 172.4,
+      "end": 214.3,
+      "why": "Click-by-click walkthrough ('scroll down to .hermes, double click on memory.md, it will show you the memories right here'). Step-by-step UI narration."
+    },
+    {
+      "start": 245.7,
+      "end": 279.6,
+      "why": "Zep graph example (founder Alex, Lisbon AI meetup, product launch in May/June) narrated off a graph on screen ('you can see these are all interconnected')."
+    },
+    {
+      "start": 612.0,
+      "end": 640.4,
+      "why": "Hermes 'soul' prompt that makes it talk like Pikachu. The funniest moment, but it is reading a file on screen and illustrates a point from earlier."
+    },
+    {
+      "start": 1405.9,
+      "end": 1460.7,
+      "why": "Memory arena results: 4.6s for SQLite, 7.5s for LangMem, chili oil on the white rug. Numbers and a comedic setup, but it is reading a live dashboard and the setup facts come from ~250s earlier."
+    },
+    {
+      "start": 1732.4,
+      "end": 1803.8,
+      "why": "Critique of Zep ('overkill', 'Zep team, please fix speed'). The only opinion in the demo, but it is reacting to a graph and a spinner on screen and depends on the demo running since 1100s."
+    },
+    {
+      "start": 1639.4,
+      "end": 1676.2,
+      "why": "Community / Discord live-session plug."
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "vector-stores-explained",
+      "start": 811.5,
+      "start_range": [
+        811.5,
+        811.5
+      ],
+      "end": 863.4,
+      "end_range": [
+        857.8,
+        863.4
+      ],
+      "why": "What a vector store does: embed words as high-dimensional vectors because computers only process numbers, similarity search (food, apple, sausages), maintain by upsert or delete. Clear, but carries 'as I mentioned earlier' and 'remember earlier' callbacks.",
+      "over_band": false
+    },
+    {
+      "id": "memories-are-the-asset",
+      "start": 727.1,
+      "start_range": [
+        727.1,
+        733.6
+      ],
+      "end": 748.1,
+      "end_range": [
+        739.4,
+        748.1
+      ],
+      "why": "Take: harnesses are flexible, craft your own; what lasts is the memories, the most valuable asset of any agent harness. Standalone but short (about 21s, under band).",
+      "over_band": false
+    }
+  ]
+}

@@ -6,6 +6,7 @@
 | **Depends on** | 009 |
 | **Blocks** | 012, 003's recall check |
 | **Size** | XL (humans are the bottleneck) |
+| **Status** | **Pilot** — 8 videos, 7 genres (one multi-speaker podcast, one panel). Current labels: rubric v2 ([eval/RUBRIC.md](../eval/RUBRIC.md): the shortest cut that works, opening on its hook), two blind labelers, `eval/labels-v2/` (A, 56 clips) and `eval/labels-v2-b/` (B, 57); they share 80% of moments, start delta 0.0s p50 / 0.0s p90, end 6.0s p90. v1 (`eval/labels/`, `eval/labels-b/`, the natural cut, 54s median) is kept for the earlier results in RESEARCH.md. All labelers are the same model, so the floor is a lower bound; no human review yet. Not the 40-video set. |
 
 ## Why
 
@@ -25,6 +26,20 @@ that's 1.5s, then 1.5s median error is done, and chasing 0.5s is chasing noise.
   Pass E does anything.
 - Reconcile disagreements in a third pass; **keep the pre-reconciliation deltas** — that's
   the noise floor.
+- **Chat-triggered clips are a free selection label, and only that.** Every `!clip` in a
+  live chat, and every Twitch Clip, is a human saying "this moment is worth clipping",
+  timestamped, at scale, on public content. It is the closest thing this task has to a
+  SponsorBlock, and it speaks to the [RESEARCH.md](../RESEARCH.md) failure mode that costs
+  the most if true — that selection, not boundaries, is the hard part. Three limits, each
+  disqualifying it for boundary work:
+  - it is a **reaction**, so it lags the moment by human response time — which is exactly
+    why StreamClipper and Streamsnip both subtract a flat 30s (see
+    [017](017-retro-start-and-tail.md));
+  - it marks **selection only**: no start, no end, no acceptable range;
+  - it skews to chat-active streams and meme-able moments, not a well-made point.
+
+  Usable for "do humans agree about *which* moments"; never for "where does it start".
+  Keep it out of the boundary labels entirely.
 - Store as `eval/labels/<video_id>.json`. Videos by URL + checksum, not committed.
 - Rights: public/CC content, or content the team owns. No redistribution of source media.
 

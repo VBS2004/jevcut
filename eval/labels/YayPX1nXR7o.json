@@ -1,0 +1,104 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=YayPX1nXR7o",
+    "title": "5GHz 8 Elite Extreme Gen 6 vs A20 Pro vs Dimensity 9600 Pro - Who's Actually Faster?",
+    "channel": "Trakin Tech English",
+    "genre": "tech benchmark review",
+    "duration_s": 477.6,
+    "sha256_prefix": "006929614ada5856",
+    "local_path": "eval/media/trakin-chips.mp4"
+  },
+  "protocol": {
+    "status": "pilot -- one draft labeler (Claude agent) plus one human reviewer, not issue 011's two independent labelers",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "memory-off-the-soc",
+      "start": 147.0,
+      "start_range": [
+        147.0,
+        158.7
+      ],
+      "end": 187.2,
+      "end_range": [
+        183.2,
+        187.2
+      ],
+      "why": "Why the Extreme outruns the regular Elite despite the same cores: Qualcomm moves memory off the SoC so OEMs can pull heat away, the same trick as Apple's A20 Pro. Opens with 'remember when I said', but it restates the claim; starting at 155.5 or 158.7 ('Qualcomm is moving the memory away') also works.",
+      "over_band": false
+    },
+    {
+      "id": "ray-tracing-can-wait",
+      "start": 297.6,
+      "start_range": [
+        284.6,
+        297.6
+      ],
+      "end": 349.0,
+      "end_range": [
+        343.1,
+        349.0
+      ],
+      "why": "Snapdragon trails in ray tracing; Qualcomm says no phone game needs it, the host agrees RT on phones is overkill and says the real bet is Adreno Neural Fusion. A clear opinion with its reason. Starting at 284.6 adds the spoken Solar Bay numbers, which still read fine from words.",
+      "over_band": false
+    },
+    {
+      "id": "verdict-not-fastest",
+      "start": 397.1,
+      "start_range": [
+        397.1,
+        397.1
+      ],
+      "end": 442.8,
+      "end_range": [
+        438.8,
+        442.8
+      ],
+      "why": "The verdict: 5GHz is a milestone but it is not the fastest CPU, Apple still leads single-core; what he likes anyway (APV, 8K60, raster GPU, Neural Fusion); ray tracing can wait.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 31.4,
+      "why": "Joke about the ridiculous chip name plus '5GHz doesn't make it fastest, I have scores to prove that': a hook whose payoff comes minutes later."
+    },
+    {
+      "start": 118.5,
+      "end": 146.7,
+      "why": "'Take a direction with your finger and hit subscribe' gag, then core counts and clock speeds read off a spec sheet."
+    },
+    {
+      "start": 198.6,
+      "end": 237.3,
+      "why": "Geekbench numbers read out, ending in 'Snapdragon is technically not the fastest'. The conclusion sounds clippable, but its only support is the numbers just read, and the verdict clip says it better."
+    },
+    {
+      "start": 237.7,
+      "end": 297.3,
+      "why": "AnTuTu '5.5 million, fantastic' and the Steel Nomad and Solar Bay FPS figures: benchmark chart narration."
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "xtreme-vs-regular-elite",
+      "start": 52.1,
+      "start_range": [
+        52.1,
+        52.1
+      ],
+      "end": 109.0,
+      "end_range": [
+        109.0,
+        109.0
+      ],
+      "why": "How the Extreme differs from the regular 8 Elite Gen 6: same 2nm and Oryon cores, but only the Extreme gets 8K60/4K240, APV and VVC decoding, so base flagships get the Gen 6 and Pro/Ultra phones get the Extreme. A clear explanation, but mostly a spec list, and 'both the chips' needs the title for context.",
+      "over_band": false
+    }
+  ]
+}

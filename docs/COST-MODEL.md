@@ -1,13 +1,46 @@
 # Cost model
 
+> **Measured 2026-09-24, pilot eval set (8 videos, 4.6 h, Lemonfox transcripts):** ~520
+> Jev requests per hour of video (scan ~85, boundary search ~430), ~1,100 input tokens
+> each, **$0.05 per 1,000 requests** as reported — about **$0.03 per video-hour**. The
+> plan below assumed ~32 requests per hour, one judgment per clip; the build judges every
+> candidate edge (openings by one Choice, endings in time order until one works), which is
+> what raised recall, and lands near the dense estimate instead. The analysis below is the
+> original plan, kept as written; requests are still the number to ration.
+
+
 Numbers below are **estimates to be validated by [issue 013](../issues/013-baseline-comparison.md).**
 Nothing here is measured yet. Treat every figure as a hypothesis with a test attached.
+
+## Measured, 2026-09-20
+
+First live calls through OpenRouter (`typesafe/jev-1.13`), which bills at the same
+$0.042/Mtok and **reports `usage.cost` per response** — jevcut records that number rather
+than recomputing it.
+
+| Observation | Content chars | Reported input tokens |
+| --- | --- | --- |
+| 1 state + 1 Noul | ~94 | 275 |
+| 1 state + 4 questions (Pass E shape) | ~1,532 | 696 |
+
+**There is a fixed ~250-token cost per request**, independent of content — the API's own
+scaffolding around the questions. Two consequences:
+
+1. A naive `chars/4` estimate underestimates a small request by roughly 10x, which would
+   make the budget guard useless precisely where it matters. `client.py` now models
+   `250 + chars/3.5`, fitted to the two points above, and issue 018 refines it.
+2. **It strengthens the cascade argument.** Per-request overhead is a per-*request* tax,
+   so 600 dense requests carry ~150k tokens of pure overhead where 32 carry ~8k. Add that
+   to the table below when 013 measures it for real.
+
+A full Pass E call on a real clip cost **$0.000029**. Latency was under 2s.
 
 ## Pricing facts
 
 From [Models](https://docs.typesafe.ai/models.md), `jev-1.13.0`:
 
 - **$0.042 / Mtok input. Output tokens are free.** Only what you send costs money.
+  (OpenRouter bills the same rate and returns `usage.cost`; prefer the reported number.)
 - **Context:** 64k per request total (state + all questions); 32k for state + the single
   longest question.
 - **Rate limits:** 250,000 tokens/sec, **1,200 requests/min** — and the docs warn these

@@ -1,0 +1,55 @@
+{
+ "source": "eval/media/trakin-chips.mp4",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L056",
+   "kind": "explanation",
+   "t0": 289.62,
+   "t1": 334.52,
+   "render_t0": 289.5,
+   "render_t1": 334.64000000000004,
+   "start_cut": "C48",
+   "end_cut": "C55",
+   "text": "",
+   "scores": {
+    "p_moment": 0.94,
+    "anchor_confidence": 0.16,
+    "needs_the_room": 0.06,
+    "starts_mid_thought": 0.42,
+    "ends_mid_thought": 0.28,
+    "dangling_reference": 0.31,
+    "standalone": 0.66,
+    "hook": 1.66,
+    "payoff": 1.96,
+    "composite": 0.713
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L081",
+   "kind": "hot_take",
+   "t0": 397.12,
+   "t1": 468.32,
+   "render_t0": 397.0,
+   "render_t1": 468.67,
+   "start_cut": "C67",
+   "end_cut": "C79",
+   "text": "",
+   "scores": {
+    "p_moment": 0.93,
+    "anchor_confidence": 0.12,
+    "needs_the_room": 0.19,
+    "starts_mid_thought": 0.35,
+    "ends_mid_thought": 0.23,
+    "dangling_reference": 0.27,
+    "standalone": 0.75,
+    "hook": 1.89,
+    "payoff": 1.64,
+    "composite": 0.701
+   },
+   "rank": 2
+  }
+ ]
+}

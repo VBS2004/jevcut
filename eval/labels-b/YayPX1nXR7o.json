@@ -1,0 +1,104 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=YayPX1nXR7o",
+    "title": "5GHz 8 Elite Extreme Gen 6 vs A20 Pro vs Dimensity 9600 Pro - Who's Actually Faster?",
+    "channel": "Trakin Tech English",
+    "genre": "tech benchmark review",
+    "duration_s": 477.6,
+    "sha256_prefix": "006929614ada5856",
+    "local_path": "eval/media/trakin-chips.mp4"
+  },
+  "protocol": {
+    "status": "second independent labeler (B), for the noise floor",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "packaging-moves-memory-off-soc",
+      "start": 147.0,
+      "start_range": [
+        146.8,
+        147.2
+      ],
+      "end": 187.2,
+      "end_range": [
+        183.2,
+        187.4
+      ],
+      "why": "Explains why the Xtreme outperforms the regular Elite despite the same cores: offset package-on-package moves memory off the SoC so heat escapes better, the same idea as Apple's A20 Pro. 'Remember when I said' restates the claim, so it stands alone.",
+      "over_band": false
+    },
+    {
+      "id": "ray-tracing-is-overkill",
+      "start": 284.6,
+      "start_range": [
+        284.4,
+        297.8
+      ],
+      "end": 343.1,
+      "end_range": [
+        339.7,
+        343.3
+      ],
+      "why": "Snapdragon trails on ray tracing; Qualcomm says Solar Bay Extreme matches no real mobile game, and the host agrees RT on phones is overkill. The few spoken FPS numbers are summarised in words. It can start at the test intro or directly at 'it is trailing behind its competitors'.",
+      "over_band": false
+    },
+    {
+      "id": "verdict-5ghz-not-fastest",
+      "start": 397.1,
+      "start_range": [
+        396.9,
+        397.3
+      ],
+      "end": 442.8,
+      "end_range": [
+        438.8,
+        443.0
+      ],
+      "why": "The verdict answering the title: 5GHz is a milestone but Apple still has the fastest single core, the codec/8K60/raster-GPU upgrades are the real wins, and 'ray tracing can wait'.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "extreme-vs-regular-elite",
+      "start": 52.1,
+      "start_range": [
+        52.0,
+        52.3
+      ],
+      "end": 109.0,
+      "end_range": [
+        108.8,
+        109.2
+      ],
+      "why": "What separates the two Snapdragon chips (video codecs, 8K60, VVC) and the idea that base flagships get the regular chip while Pro/Ultra models get the Xtreme. Clear, but a spec list, and it promises an explanation it doesn't give here.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 31.4,
+      "why": "The intro joke about the ridiculous chip name plus '5GHz ... I have benchmark scores to prove that'. A catchy teaser whose payoff comes minutes later."
+    },
+    {
+      "start": 198.6,
+      "end": 237.3,
+      "why": "The Geekbench 6 score read-out (4291/12684 and so on) ending 'despite 5GHz it's not the fastest'. Reading benchmark numbers off a chart, which the brief excludes."
+    },
+    {
+      "start": 237.7,
+      "end": 284.2,
+      "why": "The AnTuTu '5.5 million, fantastic' score and the Steel Nomad FPS read-out ('more powerful than the A20 Pro's GPU'). Numbers read off the screen, with a caveat about the reference device."
+    },
+    {
+      "start": 443.0,
+      "end": 468.3,
+      "why": "The comment prompt plus the 'by the way I forgot' Xiaomi 18 Pro / Motorola news tidbit and sign-off. Sounds like news but it's an afterthought inside the outro."
+    }
+  ]
+}

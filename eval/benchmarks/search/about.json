@@ -1,0 +1,7 @@
+{
+  "order": 2,
+  "name": "search",
+  "what": "Boundary search: every real-boundary opening judged alone, strongest hook among the clean; every ending judged, strongest payoff.",
+  "commit": "11f5ebc",
+  "gate_requests": 2017
+}

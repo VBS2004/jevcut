@@ -1,0 +1,55 @@
+{
+ "source": "eval/media/coderone-jev.mp4",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L069",
+   "kind": "demo",
+   "t0": 303.4,
+   "t1": 378.38,
+   "render_t0": 303.28,
+   "render_t1": 378.46,
+   "start_cut": "C57",
+   "end_cut": "C71",
+   "text": "",
+   "scores": {
+    "p_moment": 0.83,
+    "anchor_confidence": 0.19,
+    "needs_the_room": 0.11,
+    "starts_mid_thought": 0.46,
+    "ends_mid_thought": 0.41,
+    "dangling_reference": 0.5,
+    "standalone": 0.44,
+    "hook": 1.49,
+    "payoff": 1.74,
+    "composite": 0.637
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L024",
+   "kind": "demo",
+   "t0": 100.06,
+   "t1": 151.14,
+   "render_t0": 99.81,
+   "render_t1": 151.48999999999998,
+   "start_cut": "C21",
+   "end_cut": "C30",
+   "text": "",
+   "scores": {
+    "p_moment": 0.88,
+    "anchor_confidence": 0.14,
+    "needs_the_room": 0.07,
+    "starts_mid_thought": 0.56,
+    "ends_mid_thought": 0.68,
+    "dangling_reference": 0.62,
+    "standalone": 0.45,
+    "hook": 0.92,
+    "payoff": 1.38,
+    "composite": 0.45
+   },
+   "rank": 2
+  }
+ ]
+}

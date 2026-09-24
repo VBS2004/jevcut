@@ -1,0 +1,120 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=072eNztI06k",
+    "title": "You Can Learn AI Agent Memory Layers | Graph RAG, Vector DB, SQLite, Hermes, Waku",
+    "channel": "Sean's AI Stories",
+    "genre": "technical tutorial",
+    "duration_s": 1826.0,
+    "sha256_prefix": "8da1209e3ab96b92",
+    "local_path": "eval/media/sean-agent-memory.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "retire-dont-delete",
+      "start": 468.4,
+      "start_range": [
+        457.5,
+        468.4
+      ],
+      "end": 518.3,
+      "end_range": [
+        513.7,
+        518.3
+      ],
+      "why": "Agent memory maintenance: 'retire' is different from delete -- invalidate old facts with a time range; worked example (1,000 GitHub stars in 25 days, then 1.3k) shows why the old fact is kept for tracing. Starting at 457.5 adds the full add/delete/overwrite/no-op list as setup; both work.",
+      "over_band": false
+    },
+    {
+      "id": "rag-food-example",
+      "start": 381.0,
+      "start_range": [
+        380.4,
+        381.0
+      ],
+      "end": 413.5,
+      "end_range": [
+        409.7,
+        413.5
+      ],
+      "why": "Plain explanation of RAG: 'food' is embedded as a vector and similar vectors (apple, sausages) are retrieved -- semantic search instead of keywords. Starts at 'retrieval augmented generation' to drop the 'third one is' list marker.",
+      "over_band": false
+    },
+    {
+      "id": "reflect-and-dreaming",
+      "start": 540.4,
+      "start_range": [
+        539.2,
+        551.7
+      ],
+      "end": 584.5,
+      "end_range": [
+        576.3,
+        584.5
+      ],
+      "why": "'Reflect' merges or drops duplicate and outdated memories, linked to what Anthropic calls dreaming: while the agent is idle, schedule it to reflect and consolidate -- a post-process step. Opening at 551.7 on the dreaming line also works since the idea is re-explained; the 'last but not least' run-up is dropped.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "why-chatgpt-remembers",
+      "start": 1.2,
+      "start_range": [
+        1.2,
+        1.2
+      ],
+      "end": 19.5,
+      "end_range": [
+        19.5,
+        19.5
+      ],
+      "why": "Intro fact: an LLM call carries nothing long-term; ChatGPT and Claude Code remember you because of a memory system built into their harness. Self-contained but only ~18s.",
+      "over_band": false
+    },
+    {
+      "id": "memory-md-fills-context",
+      "start": 308.7,
+      "start_range": [
+        308.7,
+        308.7
+      ],
+      "end": 346.8,
+      "end_range": [
+        340.4,
+        346.8
+      ],
+      "why": "'Do nothing' retrieval: a short memory.md is just always loaded, which is part of why Claude Code's context usage looks huge (along with tool and MCP definitions). Has a light back-reference to an earlier screen.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 88.8,
+      "end": 112.1,
+      "why": "Repo plug: open-source Waku agent, 1.3k stars, thanks and pip install -- self-promotion."
+    },
+    {
+      "start": 1398.9,
+      "end": 1460.7,
+      "why": "Arena results read off the dashboard: 4.6 s for SQLite, 7.5 s for LangMem, 'the answer is correct' -- numbers that only mean anything with the screen."
+    },
+    {
+      "start": 1732.4,
+      "end": 1764.1,
+      "why": "'Maybe graph memory is overkill for smaller use cases' -- sounds like a take, but its support is the Zep graph on screen and the wait before it."
+    },
+    {
+      "start": 1786.9,
+      "end": 1803.8,
+      "why": "'Zep team, if you're watching, please fix speed' -- a callout whose support is the preceding minutes of waiting on the demo."
+    }
+  ]
+}

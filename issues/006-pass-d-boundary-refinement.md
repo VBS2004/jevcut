@@ -6,6 +6,7 @@
 | **Depends on** | 003, 005 |
 | **Blocks** | 007 |
 | **Size** | L |
+| **Status** | **Off the critical path** (2026-09-22) — boundaries are set in code (`src/jevcut/boundaries.py`); see RESEARCH.md. Kept as a spec. |
 
 ## Why
 
@@ -13,8 +14,35 @@
 isn't. Picking the exact cut point instead of snapping to a window is the entire quality
 thesis, and 013 exists to test it.
 
+## What it has to beat, measured before it was built
+
+A Choice over enumerated cut points was tested against human topic boundaries before this
+issue started: it beat a random pick from the same options by >2× and beat a
+biggest-pause heuristic, **and lost to a tuned constant offset from the anchor** (8.7s vs
+5.5s median, [RESEARCH.md](../RESEARCH.md)).
+
+That was a proxy — topic boundaries, no noise floor, untuned wording — so it is not a
+verdict on this issue. Treat it as the bar being higher than it looked: **the mechanism
+demonstrably extracts signal, and demonstrably has not yet beaten arithmetic.** If Pass D
+lands here too, the honest move is the one [RESEARCH.md](../RESEARCH.md) already names —
+code for boundaries, Jev for worth and standalone — not another wording pass.
+
+Two things that experiment says to do differently here:
+
+- **Report against a tuned constant, not a strawman** — baseline 4 in
+  [013](013-baseline-comparison.md), swept on the tune split.
+- **Do not expect confidence to save a weak pick.** Accuracy was flat across every
+  confidence band, so there was no threshold that isolated the good answers. Check whether
+  that holds with this issue's real wording before designing any gate around
+  `start_cut` confidence.
+
 ## Build
 
+- **Read the scan header before spending anything.** `read_scan` returns coverage
+  alongside the anchors ([005](005-pass-c-coarse-scan.md)). A scan that missed a third of
+  its windows is a floor, not a result, and refining it produces a confident-looking clip
+  list for a video nobody finished looking at. Decide the policy here and state it: refuse
+  under some coverage, or proceed and mark every clip. Do not ignore the field.
 - Region: anchor ±90s of transcript, cut points inlined as `«C07»`
   (helper from 003).
 - One request per anchor, four questions in parallel:
@@ -50,3 +78,32 @@ thesis, and 013 exists to test it.
 - Low Choice confidence here usually means several adjacent cut points are all acceptable —
   which is harmless. Don't gate on it without checking that first. Several acceptable
   alternatives spread probability just like genuine confusion does.
+
+## Note: handling a near-tied `kind`
+
+Observed live on 2026-09-20. A clip recounting an outage *and* using it to explain
+thundering herd returned:
+
+```
+explanation  0.470   <- winner
+story        0.440
+joke         0.060
+hot_take     0.030
+confidence   0.33
+```
+
+Low confidence, but **not confusion** — both labels are correct, and the nonsense options
+got ~0. This is the documented case where several acceptable alternatives spread
+probability, which is not a reason to reject anything. A confidence gate on `kind` would
+have thrown away a good clip for being two good things at once.
+
+**Rule to implement:** when the top two `kind` probabilities are within ~0.1, prefer
+**`story`** boundary wording. A story's boundaries (start where the situation is
+established, end at the outcome) *contain* an explanation's, so the wider rule is the
+safe one — the failure mode of guessing wrong is a clip missing its setup, which is
+exactly what Pass E's `starts_mid_thought` gate is built to catch.
+
+Diagnose a spread by looking at **which** options share the probability, never at the
+confidence number alone: two fair readings of the same text is case 2, unrelated
+categories lighting up is case 1 (the model did not understand) and is a real problem.
+Issue 014 should sweep the tie threshold.
