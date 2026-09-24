@@ -10,10 +10,9 @@
 In order of what the numbers say costs the most. Scores for every step go through
 `jevcut bench` on both v2 labelers ([BENCHMARKS.md](BENCHMARKS.md)).
 
-- [ ] **1. Scan recall.** The scan anchors only 52–58% of labeled moments, even on Lemonfox
-      transcripts; an unanchored moment is a guaranteed miss. Diagnose per missed moment
-      first (window said "no moment", or said yes but spent its rounds on neighbours), then
-      fix the cause that dominates.
+- [x] **1. Scan recall.** Every window stopped on the 3-round cap, never on
+      `contains_moment`. Cap raised to 6: moments never anchored 24 → 13 (v2 A), recall
+      0.38 → 0.54 on Lemonfox transcripts, precision −2–4 points, ~2.5x the requests.
 - [ ] **2. Lemonfox by default** when `LEMONFOX_API_KEY` is set, local Whisper otherwise.
       It raised recall on all four label sets (~$0.17 per hour of media).
 - [ ] **3. A screen question.** After ads, the hard negatives the gate lets through are

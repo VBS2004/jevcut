@@ -35,6 +35,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | opening-choice | `f093bdd` | Opening is one Choice over all candidate openings marked in the transcript. |
 | promotion-gate | `b82d3d2` | Finished clips that are a sponsor read, an ad or a self-plug are dropped: one promotion Noul per shipped clip. |
 | lemonfox-asr | `1d10bc3` | Same pipeline as promotion-gate, on Lemonfox transcripts (hosted Whisper with punctuation and speaker labels) instead of local Whisper small. |
+| six-rounds | `f4b2d45` | Scan windows take up to 6 anchors instead of 3 (on Lemonfox transcripts); contains_moment never stopped a window, so the cap did. |
 
 ## Scores
 
@@ -48,6 +49,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | opening-choice | 82 | 18 | **5** | 0.30 | 0.32 (0.14) | 0.28 | 1.8s | 4.6s | 0.10 | 41s (42s) | 1,050 |
 | promotion-gate | 78 | 18 | **5** | 0.32 | 0.32 (0.13) | 0.28 | 1.8s | 4.6s | 0.06 | 39s (42s) | 1,141 |
 | lemonfox-asr | 120 | 21 | **5** | 0.26 | 0.38 (0.17) | 0.24 | 1.2s | 4.4s | 0.07 | 45s (42s) | 1,477 |
+| six-rounds | 177 | 30 | **10** | 0.24 | 0.54 (0.25) | 0.33 | 1.1s | 4.3s | 0.07 | 44s (42s) | 2,646 |
 
 ### Against v2 B (`eval/labels-v2-b`)
 
@@ -59,6 +61,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | opening-choice | 82 | 16 | **6** | 0.32 | 0.28 (0.13) | 0.38 | 2.0s | 4.2s | 0.04 | 41s (40s) | 1,050 |
 | promotion-gate | 78 | 16 | **6** | 0.33 | 0.28 (0.12) | 0.38 | 2.0s | 4.2s | 0.01 | 39s (40s) | 1,141 |
 | lemonfox-asr | 120 | 26 | **9** | 0.29 | 0.46 (0.16) | 0.35 | 1.9s | 0.4s | 0.06 | 45s (40s) | 1,477 |
+| six-rounds | 177 | 32 | **11** | 0.26 | 0.56 (0.24) | 0.34 | 1.9s | 0.6s | 0.06 | 44s (40s) | 2,646 |
 
 ### Against v1 A (`eval/labels`)
 
@@ -70,6 +73,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | opening-choice | 82 | 14 | **8** | 0.33 | 0.21 (0.14) | 0.57 | 0.0s | 5.5s | 0.10 | 41s (54s) | 1,050 |
 | promotion-gate | 78 | 14 | **8** | 0.35 | 0.21 (0.13) | 0.57 | 0.0s | 5.5s | 0.08 | 39s (54s) | 1,141 |
 | lemonfox-asr | 120 | 25 | **13** | 0.33 | 0.38 (0.19) | 0.52 | 0.4s | 3.9s | 0.12 | 45s (54s) | 1,477 |
+| six-rounds | 177 | 34 | **20** | 0.29 | 0.52 (0.27) | 0.59 | 0.3s | 5.1s | 0.13 | 44s (54s) | 2,646 |
 
 ### Against v1 B (`eval/labels-b`)
 
@@ -81,3 +85,4 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | opening-choice | 82 | 17 | **10** | 0.30 | 0.30 (0.14) | 0.59 | 0.0s | 4.2s | 0.10 | 41s (55s) | 1,050 |
 | promotion-gate | 78 | 17 | **10** | 0.32 | 0.30 (0.13) | 0.59 | 0.0s | 4.2s | 0.06 | 39s (55s) | 1,141 |
 | lemonfox-asr | 120 | 25 | **9** | 0.28 | 0.45 (0.19) | 0.36 | 0.4s | 4.2s | 0.10 | 45s (55s) | 1,477 |
+| six-rounds | 177 | 32 | **13** | 0.25 | 0.57 (0.26) | 0.41 | 0.4s | 5.1s | 0.10 | 44s (55s) | 2,646 |

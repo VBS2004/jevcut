@@ -1,0 +1,7 @@
+{
+  "order": 7,
+  "name": "six-rounds",
+  "what": "Scan windows take up to 6 anchors instead of 3 (on Lemonfox transcripts); contains_moment never stopped a window, so the cap did.",
+  "commit": "f4b2d45",
+  "gate_requests": 2646
+}

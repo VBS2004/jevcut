@@ -558,6 +558,44 @@ That re-scoring changes one conclusion. Counting matched clips with *both* edges
   transcript (166 vs 138) and more of them ship (120 clips vs 78). Gate requests rise
   with them, 1,141 → 1,477.
 
+### The scan's round cap (2026-09-24)
+
+Half the labeled moments never got an anchor, on either transcript, so no later stage
+could find them. Replaying every scan window from cache with each round recorded
+([`eval/experiments/scan_misses.py`](eval/experiments/scan_misses.py)): **every window
+stopped on the round cap** -- 54 of 54 on Whisper small, 65 of 66 on Lemonfox -- never on
+`contains_moment`, whose median was 0.93, 0.91 and 0.88 over the three rounds (issue 005
+had seen it rise, not fall). The unanchored moments were the ones the cap cut off (26-27)
+or ones a neighbour's anchor landed beside (24-31), and their lines drew only 3-6% of the
+first round's vote: real moments, just not a window's top three.
+
+Raising the cap, replayed from cache after one extra scan (~200 requests):
+
+| rounds per window | anchors per hour | labeled moments anchored (A / B) | hard negatives anchored (A) |
+| --- | --- | --- | --- |
+| 3 | 36 | 52% / 58% | 19 of 39 |
+| 4 | 46 | 61% / 61% | 20 |
+| 5 | 57 | 71% / 67% | 22 |
+| 6 | 65 | 71% / 70% | 24 |
+
+Denser anchors catch more by chance too -- a random 40s stretch holds one of 65 anchors
+an hour about half the time -- so the test is end to end. At 6, on Lemonfox transcripts:
+
+| | recall (chance) v2 A | v2 B | fully right clips A / B / v1 A / v1 B | precision v2 A / B |
+| --- | --- | --- | --- | --- |
+| 3 rounds | 0.38 (0.17) | 0.46 (0.16) | 5 / 9 / 13 / 9 | 0.26 / 0.29 |
+| 6 rounds | 0.54 (0.25) | 0.56 (0.24) | 10 / 11 / 20 / 13 | 0.24 / 0.26 |
+
+- **Kept, as the default.** Recall rises faster than chance does, fully right clips
+  roughly double against A, the share on hard negatives does not move, and precision
+  gives up 2-4 points: the gate does the rejecting, as the decision log planned.
+- **Moments never anchored: 24 → 13 (A), 21 → 13 (B).** What is left splits evenly
+  between the scan (13) and the search and gate (12-13), so the next win is no longer in
+  one place.
+- **Cost:** 2,646 gate requests and ~400 scan requests for the set, ~660 per hour of
+  media -- about 2.5x, and roughly what per-sentence dense scoring was estimated at.
+  177 clips for 4.6 hours means ranking decides what a person sees first.
+
 ## What would let building resume
 
 Either:
