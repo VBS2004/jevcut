@@ -120,6 +120,8 @@ uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out 
 
 # score every labeled video's run against its labels (eval/labels, issue 011); no API calls
 uv run jevcut eval --note "what changed"
+# how much two independent labelers agree -- the noise floor any boundary error sits on
+uv run jevcut agree eval/labels eval/labels-b
 
 # the stages one at a time
 uv run jevcut cuts t.json --out c.json

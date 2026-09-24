@@ -7,7 +7,16 @@ import json
 import pytest
 
 from jevcut.edl import Clip, write_edl
-from jevcut.evaluate import chance_recall, edl_for, iou, match, score_set, score_video, summary
+from jevcut.evaluate import (
+    agreement,
+    chance_recall,
+    edl_for,
+    iou,
+    match,
+    score_set,
+    score_video,
+    summary,
+)
 
 
 def _clip(t0: float, t1: float, n: int = 1) -> Clip:
@@ -123,3 +132,17 @@ def test_the_set_finds_runs_by_media_name_and_skips_missing(tmp_path):
     scores, skipped = score_set(labels)
     assert len(scores) == 1 and scores[0].matched == 1
     assert len(skipped) == 1 and "xyz.json" in skipped[0]
+
+
+def test_two_labelers_agreement_is_the_noise_floor():
+    a = _label()
+    b = _label()
+    b["clips"] = [
+        {"id": "x", "start": 103, "start_range": [103, 103], "end": 150, "end_range": [150, 150]},
+        {"id": "y", "start": 500, "start_range": [500, 500], "end": 540, "end_range": [540, 540]},
+        {"id": "z", "start": 700, "start_range": [700, 700], "end": 740, "end_range": [740, 740]},
+    ]
+    r = agreement(a, b)
+    assert (r["a"], r["b"], r["matched"]) == (2, 3, 1)
+    assert r["agree_a"] == 0.5
+    assert r["start_deltas"] == [3] and r["end_deltas"] == [0]

@@ -207,3 +207,25 @@ def summary(scores: list[VideoScore]) -> dict:
         "start_err_median": _median(starts),
         "end_err_median": _median(ends),
     }
+
+
+def agreement(a: dict, b: dict) -> dict:
+    """How far two independent labelers of one video agree: the noise floor (issue 011).
+
+    Their required clips are matched one to one like predictions (IoU > 0.5). ``agree_a``
+    and ``agree_b`` are the share of each labeler's clips the other also picked, and the
+    edge deltas are over matched pairs: a system cannot be asked to put an edge closer to
+    a label than a second careful labeler does.
+    """
+    ga = [(c["start"], c["end"]) for c in a["clips"]]
+    gb = [(c["start"], c["end"]) for c in b["clips"]]
+    pairs = match(ga, gb)
+    return {
+        "a": len(ga),
+        "b": len(gb),
+        "matched": len(pairs),
+        "agree_a": len(pairs) / len(ga) if ga else 0.0,
+        "agree_b": len(pairs) / len(gb) if gb else 0.0,
+        "start_deltas": [abs(ga[i][0] - gb[j][0]) for i, j in pairs],
+        "end_deltas": [abs(ga[i][1] - gb[j][1]) for i, j in pairs],
+    }

@@ -347,6 +347,47 @@ def cmd_eval(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_agree(args: argparse.Namespace) -> int:
+    """Two labelers of the same videos, compared: the noise floor (011). No API calls."""
+    import statistics
+
+    from jevcut import evaluate
+
+    rows, starts, ends = [], [], []
+    for path_a in sorted(Path(args.a).glob("*.json")):
+        path_b = Path(args.b) / path_a.name
+        if not path_b.exists():
+            print(f"  skip {path_a.name}: no second label")
+            continue
+        la, lb = json.loads(path_a.read_text()), json.loads(path_b.read_text())
+        r = evaluate.agreement(la, lb)
+        starts += r["start_deltas"]
+        ends += r["end_deltas"]
+        rows.append(r)
+        med = f"{statistics.median(r['start_deltas']):.1f}s" if r["start_deltas"] else "-"
+        print(
+            f"{path_a.stem:12} {la['video'].get('genre', '')[:30]:30} "
+            f"A {r['a']:>2} B {r['b']:>2} "
+            f"both {r['matched']:>2}  A-in-B {r['agree_a']:.2f}  B-in-A {r['agree_b']:.2f}  "
+            f"start-delta {med}"
+        )
+    if not rows:
+        return 1
+
+    def q(xs: list[float], p: float) -> str:
+        return f"{sorted(xs)[min(len(xs) - 1, int(p * len(xs)))]:.1f}s" if xs else "-"
+
+    a_total, b_total = sum(r["a"] for r in rows), sum(r["b"] for r in rows)
+    both = sum(r["matched"] for r in rows)
+    print(
+        f"\nALL  A {a_total}  B {b_total}  both {both}  "
+        f"A-in-B {both / a_total:.2f}  B-in-A {both / b_total:.2f}"
+    )
+    print(f"start delta: median {q(starts, 0.5)}  p90 {q(starts, 0.9)}")
+    print(f"end delta:   median {q(ends, 0.5)}  p90 {q(ends, 0.9)}")
+    return 0
+
+
 def cmd_smoke(args: argparse.Namespace) -> int:
     """One live Noul against the API. Confirms key, model pinning and tracing."""
     from typesafe_sdk import Noul, NoulCriteria
@@ -482,6 +523,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--note", default="", help="what changed, recorded in results.csv")
     p.set_defaults(func=cmd_eval)
+
+    p = sub.add_parser("agree", help="compare two labelers of the same videos: the noise floor")
+    p.add_argument("a", nargs="?", default="eval/labels")
+    p.add_argument("b", nargs="?", default="eval/labels-b")
+    p.set_defaults(func=cmd_agree)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")
     p.add_argument("--text", default="And that's exactly why he refused to sign it.")
