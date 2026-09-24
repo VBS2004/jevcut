@@ -409,6 +409,72 @@ labeled again from scratch against it, by two new blind labelers (`eval/labels-v
     the true sentence start sits inside an ASR line with no `sentence_end` before it.
     Whether `large-v3` recovers them is the next measurement.
 
+### The opening as one Choice (2026-09-24)
+
+If each opening scored alone is noise-bound, ask a relative question instead: mark every
+candidate opening in the transcript around the moment (renumbered from `C00`, 20s of
+context past the anchor) and let one Choice pick the mark to come in on
+([`eval/experiments/opening_choice.py`](eval/experiments/opening_choice.py)). That is the
+Pass D shape, which lost to a tuned constant on AMI topic starts; this is clip starts,
+labeled twice, with a floor of 0.0s.
+
+**The opening alone**, same anchors and candidates, current rule replayed from cache.
+Starts in range:
+
+| labels | strongest hook among clean | Choice, "prefer the later mark" | Choice, no tiebreak |
+| --- | --- | --- | --- |
+| v2 A (44) | 13 | 15-17 | 17 |
+| v2 B (41) | 15 | 14-17 | 19 |
+| v1 A (64) | 28 | 21 | 30 |
+| v1 B (63) | 20 | 18 | 27 |
+
+- The first wording ended "of two marks that work equally well, prefer the later one".
+  It hugged the anchor -- 58 of 138 picks took the last mark before it, 46 the one
+  before that -- and ran late 26 to 6. Without the tiebreak it wins on all four label
+  sets, and median start error halves (v2: 18.4 → 8.2s, 13.9 → 8.0s). It still leans
+  late (22 to 8).
+- Three runs of the first wording without the cache gave 15/14, 16/15 and 17/17: answer
+  variance is about ±2 starts here, which the no-tiebreak margin (+4, +4, +2, +7) clears.
+
+**The whole pipeline** with the Choice as the opening (`search.py`), all 8 videos re-cut:
+
+| opening | labels | predicted | hit | P | R | in range | start err | clip length (labels) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| strongest hook | v2 A | 100 | 22 | 0.29 | 0.39 | 0.05 | 6.9s | 49s (42s) |
+| Choice | v2 A | 82 | 18 | 0.30 | 0.32 | 0.11 | 1.8s | 41s (42s) |
+| strongest hook | v2 B | 100 | 20 | 0.29 | 0.35 | 0.15 | 4.7s | 49s (40s) |
+| Choice | v2 B | 82 | 16 | 0.32 | 0.28 | 0.25 | 2.0s | 41s (40s) |
+| strongest hook | v1 A | 100 | 26 | 0.38 | 0.39 | 0.08 | 4.7s | 49s (54s) |
+| Choice | v1 A | 82 | 14 | 0.33 | 0.21 | 0.21 | 0.0s | 41s (54s) |
+| strongest hook | v1 B | 100 | 23 | 0.32 | 0.41 | 0.22 | 1.5s | 49s (55s) |
+| Choice | v1 B | 82 | 17 | 0.30 | 0.30 | 0.47 | 0.0s | 41s (55s) |
+
+- **Edges: better on every label set.** Both-edges-in-range doubles or better; median
+  start error falls to 0-2s; clips now run as long as the v2 labels (41s vs 40-42s), and
+  ends stop running late (v2 A: 10 late → 1).
+- **Recall: lower,** by 4 matches on each v2 set and more on v1, whose longer labels a
+  shorter clip overlaps less. Fewer clips ship (82 vs 100): 35 of 47 drops are the final
+  gate calling the Choice's opening mid-thought.
+- **The veto is right more often than not.** On labeled moments, openings it vetoed were
+  in range 23% of the time, openings it passed 50%. So it stays.
+- **Retrying the runner-up on a veto was tried and cut.** Taking the Choice's
+  second-weighted mark after a start veto shipped 12 more clips and ~100 more requests
+  for 0-2 more hits per label set, with precision slightly down.
+- **Cost halves:** 1,050 gate requests for the set against 2,017, ~7 per anchor against
+  ~15 -- one Choice replaces ~9 opening judgments.
+- **Kept**, as the trade the spec asks for: clips whose edges are right more than twice
+  as often, at the length the rubric asks for, for a recall cost of about 4 of ~56
+  labeled moments. Recall is now the thing to win back -- through the scan and the gate,
+  not by loosening the edges.
+
+**`large-v3` does not fix the missing openings.** Transcribed on the GPU (int8, ~1 min per
+10 min of audio) for 7 of 8 videos and checked the fair way -- of the labeled edges that
+`small` has no real boundary within 1s of, how many does `large-v3` have? It recovers 13
+of 38 missed starts but loses 19 of the 103 `small` had: 69% coverage against 73%. The
+labels were timed on `small`'s words, which favours it, but not by enough to make
+`large-v3` a clear win. The missing-punctuation hole stays open; the transcript model is
+not the lever.
+
 ## What would let building resume
 
 Either:
