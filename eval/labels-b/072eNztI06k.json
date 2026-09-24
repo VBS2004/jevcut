@@ -1,0 +1,124 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=072eNztI06k",
+    "title": "You Can Learn AI Agent Memory Layers | Graph RAG, Vector DB, SQLite, Hermes, Waku",
+    "channel": "Sean's AI Stories",
+    "genre": "technical tutorial",
+    "duration_s": 1825.82,
+    "sha256_prefix": "8da1209e3ab96b92",
+    "local_path": "eval/media/sean-agent-memory.mp4"
+  },
+  "protocol": {
+    "status": "second independent labeler (B), for the noise floor",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "retire-dont-delete-memories",
+      "start": 449.8,
+      "start_range": [
+        449.8,
+        457.5
+      ],
+      "end": 518.3,
+      "end_range": [
+        513.7,
+        518.3
+      ],
+      "why": "How to maintain agent memory: add/delete/overwrite/no-op, or 'retire', which invalidates an old fact with a time range instead of deleting it (1,000 stars in 25 days, then 1.3k). The concrete example makes it land.",
+      "over_band": false
+    },
+    {
+      "id": "agent-dreaming",
+      "start": 539.2,
+      "start_range": [
+        539.2,
+        539.5
+      ],
+      "end": 584.5,
+      "end_range": [
+        576.3,
+        584.5
+      ],
+      "why": "'Reflect' and dreaming: when the agent is idle, schedule a job to merge duplicates and drop stale memories, like a post-processing pass. It stands alone apart from a 'last but not least' opener.",
+      "over_band": false
+    },
+    {
+      "id": "vector-stores-explained",
+      "start": 811.5,
+      "start_range": [
+        811.5,
+        812.0
+      ],
+      "end": 863.4,
+      "end_range": [
+        857.8,
+        863.4
+      ],
+      "why": "Plain explanation of vector stores: words are embedded as high-dimensional numbers, found by similarity search (food near apple and sausages), and maintained by upsert/delete.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "why-agents-need-memory",
+      "start": 1.2,
+      "start_range": [
+        1.2,
+        1.2
+      ],
+      "end": 53.2,
+      "end_range": [
+        53.2,
+        58.1
+      ],
+      "why": "Opener: LLM calls carry no long-term memory, so ChatGPT and Claude Code built memory systems; then the procedural/semantic/episodic pillars. A channel intro and the Waku pitch are mixed in.",
+      "over_band": false
+    },
+    {
+      "id": "build-semantic-memory",
+      "start": 679.8,
+      "start_range": [
+        679.8,
+        680.2
+      ],
+      "end": 748.1,
+      "end_range": [
+        726.7,
+        748.1
+      ],
+      "why": "How semantic memory gets built: log conversations to SQLite, consolidate every 5-10 turns with a cheap model, distill into memory.md; ends on 'memories are the most valuable asset of any agent harness'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 88.8,
+      "end": 135.4,
+      "why": "Repo plug (1.3k stars, pip install) that turns into an on-screen 'what's on my calendar' demo."
+    },
+    {
+      "start": 612.0,
+      "end": 638.0,
+      "why": "Funny moment (his Hermes agent talks like Pikachu, says 'Pikapi'), but it narrates a file on screen and makes no point."
+    },
+    {
+      "start": 1405.9,
+      "end": 1460.7,
+      "why": "Arena results read off the dashboard (4.6 s for SQLite, 7.5 s for LangMem, Zep still seeding): numbers with no standalone point."
+    },
+    {
+      "start": 1732.4,
+      "end": 1764.1,
+      "why": "Sounds like a verdict (graph memory may be overkill), but it's a reaction to the on-screen Zep graph ('this is doing its job')."
+    },
+    {
+      "start": 1793.4,
+      "end": 1803.8,
+      "why": "Direct callout ('Zep team, please fix speed'): only makes sense after the demo."
+    }
+  ]
+}

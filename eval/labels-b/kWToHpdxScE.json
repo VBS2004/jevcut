@@ -1,0 +1,104 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=kWToHpdxScE",
+    "title": "Open Source, Faster Jev is HERE",
+    "channel": "CoderOne",
+    "genre": "screen-recorded tutorial with opinion",
+    "duration_s": 781.94,
+    "sha256_prefix": "cdbf4e117c4b219f",
+    "local_path": "eval/media/coderone-jev.mp4"
+  },
+  "protocol": {
+    "status": "second independent labeler (B), for the noise floor",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "what-is-a-system-one-model",
+      "start": 27.8,
+      "start_range": [
+        27.8,
+        28.5
+      ],
+      "end": 62.4,
+      "end_range": [
+        62.4,
+        68.3
+      ],
+      "why": "Clear explainer: Leia is a Jev-style System One model that outputs typed classification decisions instead of text, in under ~33 ms. Ending on the sub-33ms point also works.",
+      "over_band": false
+    },
+    {
+      "id": "open-source-clone-in-days",
+      "start": 378.5,
+      "start_range": [
+        378.5,
+        379.0
+      ],
+      "end": 431.9,
+      "end_range": [
+        422.3,
+        431.9
+      ],
+      "why": "Hot take: Jev took three years in stealth and an open-weights clone appeared within a week, so decision models won't stay closed. Can end at 'we love that' or after 'run it inside your computer'.",
+      "over_band": false
+    },
+    {
+      "id": "system-one-vs-system-two",
+      "start": 469.5,
+      "start_range": [
+        469.5,
+        474.2
+      ],
+      "end": 511.8,
+      "end_range": [
+        511.8,
+        537.1
+      ],
+      "why": "Self-contained explanation of System 1 vs System 2 (Thinking Fast and Slow) and why LLMs are System 2 while Jev/Leia are System 1. Can start at the question or at 'Long story short'; can run on through the System 1 examples to 537.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "book-a-flight-for-a-fraction-of-a-cent",
+      "start": 111.0,
+      "start_range": [
+        111.0,
+        111.5
+      ],
+      "end": 137.7,
+      "end_range": [
+        137.7,
+        138.0
+      ],
+      "why": "Surprising fact that stands up from the words alone: browser-use plus Jev booked a flight search in 7 seconds for about $0.004. It is short and partly narrates an on-screen demo, so accept it but don't insist.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 27.8,
+      "why": "Energetic cold open with numbers (30 decisions/sec, length 140) but it narrates the snake game on screen ('as you can clearly see in here')."
+    },
+    {
+      "start": 303.4,
+      "end": 339.7,
+      "why": "'Watch this, it's gonna be so fast': play-by-play of the live flight-booking demo; nothing lands without the video."
+    },
+    {
+      "start": 626.0,
+      "end": 711.7,
+      "why": "Playground demo with a fun hook (is a hamburger a sandwich, 94% vs 6%), but it is read off the screen ('in here') and depends on the visible criteria and JSON."
+    },
+    {
+      "start": 722.7,
+      "end": 763.0,
+      "why": "Reads results off an on-screen email-classification demo (94% confidence, 39 ms, 'three times faster'): numbers without a standalone point."
+    }
+  ]
+}

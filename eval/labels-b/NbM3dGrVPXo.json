@@ -1,0 +1,229 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=NbM3dGrVPXo",
+    "title": "SCROLLING RUINED MY ABILITY TO THINK. the neuroscience of brainrot & how to fix it",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 984.8,
+    "sha256_prefix": "4accdf4562b9a0c6",
+    "local_path": "eval/media/olga-brainrot.mp4"
+  },
+  "protocol": {
+    "status": "second independent labeler (B), for the noise floor",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "summarize-last-video-challenge",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.3
+      ],
+      "end": 39.6,
+      "end_range": [
+        39.6,
+        47.3
+      ],
+      "why": "Cold-open challenge: summarise the last video you watched in five sentences. You probably can't, not from bad memory but because an effortless information economy rewired how you process. Can end on 'symptom, not the cause'.",
+      "over_band": false
+    },
+    {
+      "id": "fluency-illusion",
+      "start": 65.3,
+      "start_range": [
+        65.1,
+        65.5
+      ],
+      "end": 101.8,
+      "end_range": [
+        101.6,
+        102.2
+      ],
+      "why": "Defines the fluency illusion: when material flows and the lingo is familiar, the brain mistakes that smoothness for understanding. A clean named-concept explanation.",
+      "over_band": false
+    },
+    {
+      "id": "dopamine-ten-year-old",
+      "start": 105.3,
+      "start_range": [
+        105.1,
+        105.5
+      ],
+      "end": 166.2,
+      "end_range": [
+        157.9,
+        166.4
+      ],
+      "why": "A test for yourself: you've heard 'dopamine' a hundred times, a curious 10-year-old asks how it actually motivates you, and you freeze, because you know the fact but not the mechanism. Relatable and self-contained; the previous line ('catch the illusion') refers back, so start at 'Think about a field'.",
+      "over_band": false
+    },
+    {
+      "id": "frictionless-media",
+      "start": 457.9,
+      "start_range": [
+        457.7,
+        458.1
+      ],
+      "end": 514.7,
+      "end_range": [
+        506.6,
+        514.9
+      ],
+      "why": "Hot take: the whole media landscape is designed to be frictionless: Netflix spoon-feeds plots, news becomes 30-second summaries, bestsellers let you turn your brain off. Starts right after the sponsor read.",
+      "over_band": false
+    },
+    {
+      "id": "shallow-engagement-practice",
+      "start": 518.0,
+      "start_range": [
+        517.8,
+        518.2
+      ],
+      "end": 556.6,
+      "end_range": [
+        556.4,
+        556.8
+      ],
+      "why": "Years of effortless content mean years of practising shallow engagement; neurons that fire together wire together, so deep engagement weakens like an unused muscle. Starts after 'here's why it gets worse if you don't address it', which points back.",
+      "over_band": false
+    },
+    {
+      "id": "generation-effect",
+      "start": 649.0,
+      "start_range": [
+        648.8,
+        652.8
+      ],
+      "end": 682.3,
+      "end_range": [
+        669.8,
+        682.5
+      ],
+      "why": "Fix #2: the generation effect. You learn far more deeply by producing your own thoughts than by receiving someone else's, which is why schools assign opinion essays. Can start at 'Fix number two, produce' or at 'There is something called the generation effect'.",
+      "over_band": false
+    },
+    {
+      "id": "default-mode-network",
+      "start": 796.1,
+      "start_range": [
+        795.9,
+        801.3
+      ],
+      "end": 869.2,
+      "end_range": [
+        838.9,
+        869.4
+      ],
+      "why": "Why doing nothing matters: the default mode network is active when you're not taking in input, consolidating memories and connecting ideas (hence shower thoughts), and your phone suppresses it. The end range is wide because stopping at the shower line also lands.",
+      "over_band": false
+    },
+    {
+      "id": "what-brainrot-really-is",
+      "start": 899.9,
+      "start_range": [
+        899.7,
+        900.1
+      ],
+      "end": 954.4,
+      "end_range": [
+        954.2,
+        954.6
+      ],
+      "why": "Closing thesis: you've consumed documentaries, books and headlines, but does any of it connect? Brain rot is being the most informed humans in history and unable to turn it into understanding. Complete on its own.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "surface-vs-deep-processing",
+      "start": 207.0,
+      "start_range": [
+        206.8,
+        212.5
+      ],
+      "end": 275.0,
+      "end_range": [
+        268.6,
+        287.0
+      ],
+      "why": "Surface processing (knowing broccoli is good for you) versus deep processing (being able to defend why), with the inflation-video example. A clear explanation, but the opening 'aside from this fluency illusion' leans on the previous section.",
+      "over_band": false
+    },
+    {
+      "id": "dense-book-discomfort",
+      "start": 557.1,
+      "start_range": [
+        556.9,
+        557.3
+      ],
+      "end": 597.6,
+      "end_range": [
+        588.3,
+        597.8
+      ],
+      "why": "Can you retrain your brain? Yes, but it will feel effortful; a dense book isn't too hard for you, you've just fallen out of the habit. Good, but its first line restates the previous point.",
+      "over_band": false
+    },
+    {
+      "id": "fix-seek-friction",
+      "start": 604.0,
+      "start_range": [
+        603.8,
+        604.2
+      ],
+      "end": 649.0,
+      "end_range": [
+        643.6,
+        649.2
+      ],
+      "why": "Fix #1, seek friction: deliberately consume things that make you reread a paragraph three times; that effort is when the deep circuits fire. Decent advice clip, weaker than the others.",
+      "over_band": false
+    },
+    {
+      "id": "eliot-and-brainrot",
+      "start": 869.6,
+      "start_range": [
+        869.4,
+        869.8
+      ],
+      "end": 954.4,
+      "end_range": [
+        954.2,
+        954.6
+      ],
+      "why": "The T.S. Eliot quote ('where is the knowledge we have lost in information?') leading into the closing brain-rot thesis. Better than the tight version but about 85s.",
+      "over_band": true
+    }
+  ],
+  "negatives": [
+    {
+      "start": 47.5,
+      "end": 64.3,
+      "why": "The 'by the end of this video you're going to know exactly what the cause is and how to fix it' promise. Energetic, but a teaser for the rest of the video."
+    },
+    {
+      "start": 186.3,
+      "end": 206.6,
+      "why": "'The easier information is to consume, the more your brain lies to you'. A strong claim whose support is in the previous minute, and it ends 'we'll come back to that in a minute'."
+    },
+    {
+      "start": 358.1,
+      "end": 456.4,
+      "why": "The sponsor read (Superhuman Mail). It opens with a natural-sounding 'this is why I've become intentional about my mental energy' segue."
+    },
+    {
+      "start": 682.8,
+      "end": 696.4,
+      "why": "'Write five sentences about what you learned in this video, right in the comments'. A call to comment dressed up as a use of the generation effect."
+    },
+    {
+      "start": 705.5,
+      "end": 724.0,
+      "why": "'Remember that challenge at the beginning of the video? That was me activating the generation effect in you'. A callback that only works if you watched the opening."
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=uw61C_qbgNg",
+    "title": "Psychology of Charisma: How To Actually Make People Like You",
+    "channel": "PsychToons",
+    "genre": "narrated animated explainer",
+    "duration_s": 920.08,
+    "sha256_prefix": "1bf393d9187637ae",
+    "local_path": "eval/media/psychtoons-charisma.mp4"
+  },
+  "protocol": {
+    "status": "second independent labeler (B), for the noise floor",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "charisma-aimed-at-wrong-target",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.0
+      ],
+      "end": 57.5,
+      "end_range": [
+        50.2,
+        57.5
+      ],
+      "why": "Cold-open thesis: standard charisma advice treats it as a signal you transmit, but charisma is what people feel about themselves around you. Can end on that line or on the 'instrument nobody is listening to' kicker.",
+      "over_band": false
+    },
+    {
+      "id": "influence-vs-affability",
+      "start": 81.2,
+      "start_range": [
+        75.1,
+        81.2
+      ],
+      "end": 144.1,
+      "end_range": [
+        139.4,
+        144.1
+      ],
+      "why": "The Toronto study splits charisma into influence and affability; all popular advice trains influence, which without affability reads as intensity. Can open on 'Let's start by naming the thing properly'.",
+      "over_band": false
+    },
+    {
+      "id": "you-do-not-generate-liking",
+      "start": 150.7,
+      "start_range": [
+        144.6,
+        150.7
+      ],
+      "end": 208.5,
+      "end_range": [
+        203.3,
+        208.5
+      ],
+      "why": "Reis and Shaver's perceived partner responsiveness (understanding, validation, caring): nothing on the list is about you, so you create the conditions for liking. Can open on the question 'what is affability made of?'.",
+      "over_band": false
+    },
+    {
+      "id": "warmth-before-competence",
+      "start": 214.7,
+      "start_range": [
+        214.7,
+        215.0
+      ],
+      "end": 277.3,
+      "end_range": [
+        272.9,
+        277.3
+      ],
+      "why": "Fiske's warmth vs competence: warmth is judged first because the ancestral question was 'are you going to hurt me?', so brightness gets you looked at and warmth draws people in.",
+      "over_band": false
+    },
+    {
+      "id": "busy-not-boring",
+      "start": 322.9,
+      "start_range": [
+        322.9,
+        323.0
+      ],
+      "end": 350.9,
+      "end_range": [
+        350.9,
+        351.0
+      ],
+      "why": "Tight, punchy point: the harder you try to be liked the worse you get, because self-monitoring takes attention off the other person. 'You are not failing because you are boring. You are failing because you are busy.'",
+      "over_band": false
+    },
+    {
+      "id": "the-liking-gap",
+      "start": 356.5,
+      "start_range": [
+        356.5,
+        357.0
+      ],
+      "end": 412.1,
+      "end_range": [
+        389.4,
+        412.1
+      ],
+      "why": "Boothby's liking-gap study: people underestimate how much they're liked because they grade their own performance. Can end on the finding or run on through 'the full shape of the trap'.",
+      "over_band": false
+    },
+    {
+      "id": "law-ask-the-second-question",
+      "start": 481.1,
+      "start_range": [
+        481.1,
+        482.6
+      ],
+      "end": 536.2,
+      "end_range": [
+        528.4,
+        536.2
+      ],
+      "why": "Follow-up questions predict being liked (speed-dating data); 'two people taking turns waiting' vs actually staying on what they said. Drop the bare 'Law 1.' at the start.",
+      "over_band": false
+    },
+    {
+      "id": "beautiful-mess-effect",
+      "start": 688.2,
+      "start_range": [
+        688.2,
+        690.7
+      ],
+      "end": 743.4,
+      "end_range": [
+        743.4,
+        743.8
+      ],
+      "why": "Beautiful mess effect: we read our own vulnerability as weakness and others' as courage, so one honest sentence first makes it safe for the other person. Complete and quotable.",
+      "over_band": false
+    },
+    {
+      "id": "show-up-again",
+      "start": 745.1,
+      "start_range": [
+        745.1,
+        746.2
+      ],
+      "end": 799.7,
+      "end_range": [
+        784.7,
+        799.7
+      ],
+      "why": "Moreland and Beach's lecture-hall study: the women who were simply present more often were liked more, without saying a word, so liking is built by frequency. Can end at 'built by frequency' or after the practical tips.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "why-everyone-auditions",
+      "start": 277.6,
+      "start_range": [
+        277.6,
+        278.0
+      ],
+      "end": 350.9,
+      "end_range": [
+        350.9,
+        351.0
+      ],
+      "why": "Longer version that runs through the training argument (school, interviews, social media teach you to audition) into 'busy, not boring'. Good, but 'get this wrong' leans on the prior section.",
+      "over_band": false
+    },
+    {
+      "id": "confidence-is-an-output",
+      "start": 414.0,
+      "start_range": [
+        414.0,
+        414.5
+      ],
+      "end": 476.9,
+      "end_range": [
+        439.1,
+        476.9
+      ],
+      "why": "'Just be confident' fails because confidence is an output, not an input; Antonakis showed charisma behaviours can be trained. Works as a short 25s cut or with the study.",
+      "over_band": false
+    },
+    {
+      "id": "lead-with-warmth-not-credentials",
+      "start": 537.6,
+      "start_range": [
+        537.6,
+        537.8
+      ],
+      "end": 587.5,
+      "end_range": [
+        587.5,
+        587.6
+      ],
+      "why": "Practical law with a strong closing line ('Competence introduced first is judged; after warmth, admired'). Opens with 'Remember what Fiske found', a light callback.",
+      "over_band": false
+    },
+    {
+      "id": "say-the-specific-thing",
+      "start": 589.1,
+      "start_range": [
+        589.1,
+        591.0
+      ],
+      "end": 636.8,
+      "end_range": [
+        636.8,
+        636.9
+      ],
+      "why": "Genuine specific compliments land better and feel less awkward than people predict (Zhao and Epley); 'nice shirt is noise'. Ends before 'Law 4' inside the same sentence.",
+      "over_band": false
+    },
+    {
+      "id": "handle-their-good-news",
+      "start": 638.0,
+      "start_range": [
+        638.0,
+        640.2
+      ],
+      "end": 686.7,
+      "end_range": [
+        686.7,
+        687.0
+      ],
+      "why": "Capitalization research: how you respond to good news matters as much as support in bad times; expand the moment instead of 'congrats' and a change of subject.",
+      "over_band": false
+    },
+    {
+      "id": "attention-is-generosity",
+      "start": 805.1,
+      "start_range": [
+        805.1,
+        836.9
+      ],
+      "end": 869.7,
+      "end_range": [
+        869.7,
+        869.8
+      ],
+      "why": "Closing monologue: charisma becomes a by-product of where your attention goes; Simone Weil on attention as generosity. It can start at either 805 or 836; the 805 start is inside the band.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 57.5,
+      "end": 74.7,
+      "why": "Channel intro ('Welcome back to PsychToons... six laws... backed by real research'): a promise, not content."
+    },
+    {
+      "start": 869.7,
+      "end": 887.4,
+      "why": "Comment prompt that lists all six laws by name; sounds like a summary but only works if you saw them."
+    },
+    {
+      "start": 887.7,
+      "end": 898.4,
+      "why": "Quotable 'people already like you more than you think' line, but it's an 11s callback to the liking gap and the outro's lead-in."
+    },
+    {
+      "start": 898.4,
+      "end": 920.1,
+      "why": "Like / share / subscribe outro."
+    }
+  ]
+}

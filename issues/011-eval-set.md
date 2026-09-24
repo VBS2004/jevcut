@@ -6,7 +6,7 @@
 | **Depends on** | 009 |
 | **Blocks** | 012, 003's recall check |
 | **Size** | XL (humans are the bottleneck) |
-| **Status** | **Pilot** — 8 videos in `eval/labels/` (7 genres, one multi-speaker podcast and one panel), each drafted by one labeler (Claude; seven drafted blind, CoderOne not) and awaiting one human review. Not the 40-video, two-labeler set: no noise floor yet. |
+| **Status** | **Pilot** — 8 videos, 7 genres (one multi-speaker podcast, one panel), labeled twice: `eval/labels/` (A; seven blind, CoderOne not) and `eval/labels-b/` (B; all blind). Noise floor from `jevcut agree`: the labelers share 68–80% of moments, start delta 0.0s p50 / 0.1s p90 (RESEARCH.md). Both labelers are the same model, so that floor is a lower bound; no human review yet. Not the 40-video set. |
 
 ## Why
 

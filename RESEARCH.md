@@ -337,6 +337,30 @@ opening, judged as the finished clip. Same labels, same scorer:
 - Cost: ~2,000 gate requests for 8 videos (≈4.5 hours of media) vs a few hundred; the
   debate lost 80 requests to provider overload and was scored on what survived.
 
+### The noise floor, and what it says about the edges (2026-09-24)
+
+A second labeler (B) labeled all eight videos blind -- transcripts only, never opening
+labeler A's files or any jevcut output -- into `eval/labels-b/`. `jevcut agree`:
+
+| | A's clips | B's clips | both | A's found by B | B's found by A | start delta p50 / p90 | end delta p50 / p90 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| all 8 | 66 | 56 | 45 | 0.68 | 0.80 | 0.0s / 0.1s | 0.0s / 5.9s |
+
+- **Which moments: two careful labelers share about 70-80%.** That is roughly the ceiling
+  for recall against either one; jevcut's 0.41 is about half of it.
+- **Where they start: the same sentence, almost always.** On the 45 shared moments the
+  start delta is 0 at the median and 0.1s at p90. jevcut's matched starts are in range 8
+  of 27 times with an 8s median error, so **its edges are genuinely wrong, not the task
+  being fuzzy** -- the gap the next change has to close.
+- **Robust to the labeler.** Scored against B instead of A, the search run gives
+  precision 0.34 (A: 0.40), recall 0.39 (0.41), chance 0.18 (0.19), in-range 0.27
+  (0.11), on a negative 0.05 (0.12). Selection numbers barely move; the edge number is
+  small-sample either way.
+- **Caveat: both labelers are the same model** reading the same transcript, so they snap
+  to the same sentence boundaries more readily than two humans would. Treat 0.0s as a
+  lower bound on disagreement, not the human floor; one human review pass would bound it
+  from the other side.
+
 ## What would let building resume
 
 Either:
