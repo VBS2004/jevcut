@@ -475,6 +475,37 @@ labels were timed on `small`'s words, which favours it, but not by enough to mak
 `large-v3` a clear win. The missing-punctuation hole stays open; the transcript model is
 not the lever.
 
+### The gate, judged on the labelers' own clips (2026-09-24)
+
+Every rubric-v2 clip, also_ok and hard negative, cut from the transcript on its labeled
+word times and judged exactly as a finished clip is
+([`eval/experiments/gate_on_labels.py`](eval/experiments/gate_on_labels.py), 253 requests):
+
+| | labeler A | labeler B |
+| --- | --- | --- |
+| required clips the gate passes | 53 / 56 (95%) | 52 / 57 (91%) |
+| also_ok it passes | 25 / 28 (89%) | 30 / 35 (86%) |
+| hard negatives it passes | 18 / 39 (46%) | 19 / 38 (50%) |
+
+Separation, clip over negative (AUC; 0.5 is none): `standalone` 0.79 / 0.74,
+`needs_the_room` 0.75 / 0.79, `dangling_reference` 0.75 / 0.67, `payoff` 0.75 / 0.73,
+`hook` 0.71 / 0.63, `starts_mid_thought` 0.70 / 0.64, `ends_mid_thought` 0.63 / 0.59.
+
+- **At the right edges the gate passes good clips.** Its failures on labeled clips are
+  a handful of borderline ends. So the recall lost to start vetoes after the opening
+  Choice is the gate reading openings that really are wrong, not a miscalibrated
+  question -- the earlier "half of labeled starts judged unclean" came from short probe
+  clips that stopped at the anchor, not from the clip itself.
+- **It cannot reject what it has no question for.** Of the 18 negatives it passes (A),
+  six are sponsor reads or plugs that open like part of the argument, and most of the
+  rest depend on the screen: numbers read off a chart, narration of a live demo.
+  `needs_the_room` covers the audience; nothing covers an ad or the screen, though the
+  rubric names both. Shipped clips rarely land on these (on-negative 0.10 / 0.04), but
+  an ad shipped as a clip is the most visible failure there is.
+- **Recall is lost mainly in the scan.** Of the labeled clips jevcut misses, 23 of 38 (A)
+  and 27 of 41 (B) never had an anchor inside them; the search and gate lose the rest.
+  Winning recall back starts at Pass C, not at the gate.
+
 ## What would let building resume
 
 Either:
