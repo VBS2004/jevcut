@@ -9,7 +9,7 @@ transcript text, with all arithmetic, timing and rendering in code.
 
 Status: **research MVP — runs end to end on real video.** `jevcut run talk.mp4` turns a
 talk into ranked, rendered clips: cut points (003), Pass C anchors
-(005), boundaries set in code, the clip gate with widen/tighten repair (007), composite
+(005), a boundary search where code lists candidate edges and the clip gate judges each (007), composite
 ranking (008), EDL and ffmpeg render (009), and a response cache for reproducible runs
 (004). Validated on two FOSDEM videos, a solo talk and a panel; a human rated the solo
 talk's output. Thresholds are measured on those two videos only and are not calibrated —
@@ -38,14 +38,16 @@ problem**, and boundaries are where existing Jev-based tools are weakest too:
 
 ## What jevcut does differently
 
-1. **Boundaries are set in code, not by a model.** Code enumerates every plausible cut
-   (sentence end, speech pause ≥350ms, speaker change), snaps the clip to a sentence
-   boundary and aligns the edges into the measured silence — no request, no latency, no
-   cost. *This started as the opposite claim.* Six experiments later, a tuned constant
-   offset kept matching or beating a `Choice` over cut points on every boundary task we
-   could measure, so the claim changed to match the evidence. The reasoning is in
-   [RESEARCH.md](RESEARCH.md), and the experiments are committed in
-   [`eval/experiments/`](eval/experiments/) for anyone who wants to disagree with them.
+1. **Code lists the edges; Jev judges the clips they make.** Code enumerates every
+   plausible cut (sentence end, speech pause ≥350ms, speaker change) and never lets a
+   model name a timestamp. *This took two tries.* First Jev was to pick a cut from a
+   `Choice` — a tuned constant offset kept matching it. Then code placed and repaired the
+   clip by rule — on eight labeled videos that dropped 57% of moments for a ragged edge.
+   Now code offers every real opening and ending as a candidate and Jev judges the clip
+   each would make: recall on the pilot set went 0.23 → 0.41. Edges are still the weak
+   point (few land inside a labeler's acceptable range), and the numbers are in
+   [RESEARCH.md](RESEARCH.md), with the early experiments in
+   [`eval/experiments/`](eval/experiments/) for anyone who wants to disagree.
 
    **Jev is spent where arithmetic cannot compete even in principle:** whether a moment is
    worth clipping, whether the clip stands alone, whether the payoff lands inside the cut.
@@ -57,7 +59,7 @@ problem**, and boundaries are where existing Jev-based tools are weakest too:
 
 3. **An explicit standalone gate — now the main event.** Dedicated Nouls for the failure
    modes that actually kill clips: starts mid-thought, dangling pronoun, payoff never
-   lands. A clip that fails the gate is widened or dropped — never shipped. Under-clip on
+   lands. Every candidate edge is judged; a clip no candidate can make pass is dropped — never shipped. Under-clip on
    purpose. **No open-source clipper we read has any output check at all** — autoclip asks
    its model for self-containment as a scoring criterion and never verifies the clip it
    cut. See [docs/PRIOR-ART.md](docs/PRIOR-ART.md).

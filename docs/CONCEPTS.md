@@ -16,11 +16,11 @@ options is the start?"** is answerable, and that was the original design:
 > Code maps the label back to a timestamp.
 
 That still holds for the anchor: Jev picks the `L018` a moment is about. For boundaries
-it went one step further. Once the options are enumerated, code picks among them as well
-as Jev did, so code does it ([RESEARCH.md](../RESEARCH.md)), and Jev's job is judging the
-text that ends up inside the clip.
+it holds in a different shape: code enumerates the candidate openings and endings, and
+rather than choosing a label from a list, Jev reads the clip each candidate would make
+and judges it; code keeps the best ([RESEARCH.md](../RESEARCH.md) has why, measured).
 
-The model never sees a number. Code never invents a boundary — it only picks from the
+The model never sees a number. Code never invents a boundary — it only offers the
 enumerated ones.
 
 ## The three IDs
@@ -28,7 +28,7 @@ enumerated ones.
 | ID | What it is | Who picks it |
 | --- | --- | --- |
 | `L018` | a **sentence** — one addressable line of transcript | Pass C picks one as the *anchor*: the quotable line |
-| `C03` | a **cut point** — one candidate place to cut | **code** picks the start and stop (`boundaries.py`: snap, clamp, silence-align), then the gate widens or tightens by whole cut points. Pass D was going to choose them; arithmetic kept winning that job, see [RESEARCH.md](../RESEARCH.md) |
+| `C03` | a **cut point** — one candidate place to cut | **code lists, Jev judges**: the boundary search (`search.py`) judges a clip for each candidate opening and ending at a real boundary and keeps the best; `boundaries.py` aligns the rendered edge into the silence. Pass D was going to have Jev pick the mark outright; arithmetic kept winning that, see [RESEARCH.md](../RESEARCH.md) |
 | — | a **region** — the slice of transcript sent in one request | built by code around an anchor |
 
 Sentence IDs come from the
@@ -104,17 +104,17 @@ C04 ->  69.70s  (sentence_end)
 C05 ->  74.30s  (speaker_change)
 ```
 
-Code picks a mark for each edge of the clip — say `C03` — looks up 67.25s, moves the edge
-into the silence around it, and hands that to ffmpeg. Jev never sees these marks: it judges
-the clip text that falls between them. (Pass D was going to have Jev pick the mark;
-arithmetic kept winning that job — see [RESEARCH.md](../RESEARCH.md).)
+The search offers marks as candidate edges; for each, Jev judges the clip text that would
+fall between them, and code keeps the best — say `C03` — looks up 67.25s, moves the edge
+into the silence around it, and hands that to ffmpeg. Jev never sees the marks
+themselves, only the clips they would make.
 
 ### Why the marker list is the most important output in the project
 
 Look at the example again: **there is no marker between `L013` and `L014`.** So no clip
 can ever start on "And we had no backoff on the client side." Not because anything judged
-it a bad start — because it is not on the list. Placing, widening and tightening all move
-between marks, never between them.
+it a bad start — because it is not on the list. The boundary search only ever offers
+marks as candidates, never the space between them.
 
 > Nothing can choose a boundary that was omitted.
 
@@ -144,12 +144,13 @@ which cut points exist around an anchor — and so which boundaries a clip *coul
 ## Anchors
 
 An **anchor** is the single line a viewer would quote — the sentence a moment is actually
-*about*. Pass C finds them cheaply across the whole video; code places a clip around each
-one, and only those clips go to the gate.
+*about*. Pass C finds them cheaply across the whole video; only around those anchors does
+the boundary search spend requests judging candidate clips.
 
 An anchor is not a boundary. It is a pointer at where a moment lives, which is a much
 easier judgment than where it begins and ends, and it is why the cascade is cheap: finding
-anchors costs a few requests per 80 sentences, and only the survivors get the gate.
+anchors costs a few requests per 80 sentences, and only the survivors get the ~15
+requests of the boundary search.
 
 ## Putting it together
 
@@ -160,11 +161,9 @@ cut points   «C00» ... «C03» ... «C07» ...           (003)
                               │
 Pass C       anchor = L018, kind = story             (005)
                               │
-boundaries   start = C03, end = C09 — code           boundaries.py
+search       each opening mark judged, then each      search.py (007)
+             ending: start = C03, end = C09
                               │
-Pass E       ship, widen, tighten or drop            (007)
-                              │  ▲ widen/tighten moves an edge one mark, then asks again
-                              ▼
 Pass F       rank by hook and payoff                 (008)
                               │
 code         C03 -> 67.25s, C09 -> 96.40s            → ffmpeg (009)

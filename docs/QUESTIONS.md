@@ -171,15 +171,15 @@ there.** This section used to carry a full copy, the copy drifted, and for two d
 showed a version that rejected every clip of real speech. What belongs here is what each
 question is for and why it is worded the way it is.
 
-| question | type | asks | on failure |
+| question | type | asks | role in the boundary search |
 | --- | --- | --- | --- |
-| `needs_the_room` | Noul | does the point depend on the live **audience** rather than on what the speakers say | drop (final cut only) |
-| `starts_mid_thought` | Noul | does the opening depend on something the viewer was not given | widen start |
-| `dangling_reference` | Noul | does it turn on something the viewer cannot identify from the clip alone | widen start |
-| `ends_mid_thought` | Noul | does it stop before the point it was making arrives | widen end |
-| `standalone` | Noul | would a viewer who has seen nothing else follow it | widen both |
-| `hook` | Score 0–3 | how well the opening holds attention | ranking; guards trims |
-| `payoff` | Score 0–2 | does it deliver what the opening sets up | ranking; bottom level widens end |
+| `needs_the_room` | Noul | does the point depend on the live **audience** rather than on what the speakers say | fails the finished clip |
+| `starts_mid_thought` | Noul | does the opening depend on something the viewer was not given | chooses the opening |
+| `dangling_reference` | Noul | does it turn on something the viewer cannot identify from the clip alone | chooses the opening |
+| `ends_mid_thought` | Noul | does it stop before the point it was making arrives | chooses the ending |
+| `standalone` | Noul | would a viewer who has seen nothing else follow it | fails the finished clip |
+| `hook` | Score 0–3 | how well the opening holds attention | picks among clean openings; ranking |
+| `payoff` | Score 0–2 | does it deliver what the opening sets up | picks among passing endings; ranking |
 
 ### What changed, and why
 

@@ -17,7 +17,7 @@ input — so the model never touches media.
 | Diarization | **not built** — measured as unnecessary for v1 (see [RESEARCH.md](../RESEARCH.md)) |
 | Shot changes, silence gaps, loudness | code (ffmpeg / PySceneDetect) |
 | Enumerating candidate cut points | code |
-| Choosing the start and stop cut points | **code** — changed 2026-09-22; was Jev (Pass D) |
+| Choosing the start and stop cut points | **code lists, Jev judges** — the boundary search (2026-09-24); was code by rule, before that Jev (Pass D) |
 | "Is this a moment?" / "does it stand alone?" / "does it land?" | **Jev** |
 | Durations, overlap resolution, ranking weights, thresholds | code |
 | Rendering, captions, aspect crop | code (ffmpeg) |
@@ -44,14 +44,12 @@ a timestamp in code. Cut point IDs work the same way for boundaries.
 ## VOD pipeline
 
 ```
- media ──▶ [A] transcribe ──▶ [B] cut points ──▶ [C] coarse scan ──▶ [D] boundaries ──▶ [E] verify ──▶ [F] rank ──▶ [G] render
-            code                code              JEV (cheap)        code               JEV            code        code
-                                                                          ▲                 │
-                                                                          └─ widen/tighten ─┘
+ media ──▶ [A] transcribe ──▶ [B] cut points ──▶ [C] coarse scan ──▶ [D+E] boundary search ──▶ [F] rank ──▶ [G] render
+            code                code              JEV (cheap)        code lists, JEV judges       code        code
 ```
 
-[D] and [E] loop: the gate's verdict moves an edge by whole cut points and the clip is
-verified again.
+[D] and [E] are one step: code lists candidate openings and endings at real sentence
+boundaries, the gate judges each candidate as a clip, and code keeps the best.
 
 ### C. Coarse scan — find anchors *(Jev, up to 3 requests per window)*
 
@@ -78,20 +76,29 @@ Iterate with the winning stretch removed, up to **3 anchors per window**, stoppi
 (Removal-and-repeat is the sponsor-detection loop.) The last window ends on the last
 sentence at full size, so its winner competed against as many lines as any other.
 
-### D. Boundaries — *code only* (was: Jev, 1 request per anchor)
+### D. Boundaries — *code lists, Jev judges* (`search.py`)
 
-**Changed 2026-09-22.** Pass D was going to be a Choice over the enumerated cut points.
-Across six experiments a tuned constant offset matched or beat that Choice on every
-boundary task we could measure, so boundaries moved into code and Jev moved to judging
-clips instead. Issue 006 is off the critical path; the reasoning is in
-[RESEARCH.md](../RESEARCH.md).
+**Twice changed.** Pass D was going to be a Choice over the enumerated cut points; across
+six experiments a tuned constant offset matched or beat it, so on 2026-09-22 boundaries
+moved into code: place the anchor a third of the way in, snap to cut points, then widen
+or tighten one cut point at a time on the gate's verdict. On the pilot eval set that
+dropped 79 of 138 anchors, 74 for a mid-thought edge — the rule assumed where a moment
+starts, and the repair could only move a too-early start further back. So on 2026-09-24
+placement and repair were replaced by a search (RESEARCH.md has both measurements):
 
-`boundaries.place()`: put the anchor about a third of the way into the clip, snap each
-edge to a cut point (preferring kinds that make good boundaries — a `pause` can fall
-mid-sentence, so it ranks last), clamp into the duration band by moving the end first,
-and align the rendered edges into the surrounding silence. No request.
+1. **Opening.** Every real boundary — sentence end, speaker change, the transcript's
+   edges; never a `pause`, which can fall mid-sentence — from as far back as the band
+   allows up to the anchor. Each is judged on a short clip from there through the anchor.
+   Among openings clean on `starts_mid_thought` and `dangling_reference` the strongest
+   `hook` wins, ties to the tighter one.
+2. **Ending.** From that opening, every real boundary after the anchor that keeps the
+   clip in the band, judged as the finished clip. Among those passing the full gate the
+   strongest `payoff` wins, ties to the tighter one. Its judgment is the final gate.
 
-### E. Verify — the clip gate *(Jev, 1+ requests per candidate clip)*
+No thresholds of its own. A failed request skips that candidate rather than the video.
+The rendered edges are then aligned into the surrounding silence (`boundaries.py`).
+
+### E. Verify — the clip gate *(Jev, one request per candidate; ~15 per anchor)*
 
 The state is the exact clip text and nothing else — no title, no surrounding
 transcript — because that is the condition the viewer will be in.
@@ -101,17 +108,17 @@ rationale is in [QUESTIONS.md](QUESTIONS.md#pass-e--the-clip-gate).
 
 | question | type | role |
 | --- | --- | --- |
-| `needs_the_room` | Noul | **drop** — the point depends on the live audience, not the speakers. Judged only on the final cut |
-| `starts_mid_thought`, `dangling_reference` | Noul | **repair** — widen the start |
-| `ends_mid_thought` | Noul | **repair** — widen the end |
-| `standalone` | Noul | **repair** — widen both, when nothing more specific failed |
-| `hook` | Score | ranking; guards start-side trims |
-| `payoff` | Score | ranking; guards end-side trims; bottom level ⇒ widen the end |
+| `needs_the_room` | Noul | **drop** — the point depends on the live audience, not the speakers. Checked on each finished clip |
+| `starts_mid_thought`, `dangling_reference` | Noul | **choose the opening** — a start is clean when both are low |
+| `ends_mid_thought` | Noul | **choose the ending** — must pass on the finished clip |
+| `standalone` | Noul | must pass on the finished clip |
+| `hook` | Score | picks among clean openings; ranking |
+| `payoff` | Score | picks among passing endings; ranking; bottom level fails the clip |
 
-It runs as a loop, not a single pass: widen on a low bar (0.5) for up to three
-attempts, then judge on a high bar (0.75); a clip that passes is then **tightened** one
-cut point at a time, keeping each trim only if it still passes and neither `hook` nor
-`payoff` drops. All thresholds are measured on two videos only — placeholders for 014.
+The same question set judges every candidate the search lists (§D): the start questions
+choose the opening, the rest choose the ending and pass or fail the finished clip. An
+opening counts as clean below 0.5; a finished clip passes below 0.75 on the mid-thought
+and dangling questions. All thresholds are placeholders for 014.
 
 A `worth_clipping` question was deleted 2026-09-23: flattest of eight questions across 38
 clips and never once fired, because it asked the model to combine `hook` and `payoff`,
@@ -122,13 +129,13 @@ which the ranking already does in code.
 - **Ranking:** composite `0.625·hook + 0.375·payoff`, each normalised to 0–1, best first.
 - **Overlap resolution:** after boundaries are placed, clips sharing >40% of their span
   (IoU) keep the higher composite. Overlap between clips that each stand alone is fine.
-- **Duration:** the band is enforced by `place()` and by the widen/tighten loop, never
-  by re-asking the model.
+- **Duration:** the band bounds which candidates the search lists, so no clip is trimmed
+  or padded to fit afterwards.
 
-The original plan said never trim to fit; the loop now does trim, because a human judged
-a 65s clip ten seconds too long. The guard is what makes that safe: an unguarded trim
-cut *"That guy, Terrence, is always talking about open source"* down to *"That's the
-culture of this organization"* — both passed the gate, only one was a clip.
+`hook` choosing the opening is the lesson of an earlier trim loop: a shorter clip that
+still passed cut *"That guy, Terrence, is always talking about open source"* down to
+*"That's the culture of this organization"* — both passed the gate, only one was a clip.
+Passing is the floor; the scores pick among the clips that clear it.
 
 ## Live mode
 
@@ -138,7 +145,7 @@ is about buying the boundary quality back.
 
 ```
  stream ──▶ streaming ASR ──▶ ring buffer (90s) ──▶ tick every 4s ──▶ trigger ──▶ retro-start ──▶ record ──▶ (optional) VOD tighten
-                              code                  JEV Noul          code FSM     JEV Choice      code        [D]+[E] loop
+                              code                  JEV Noul          code FSM     JEV Choice      code        [D+E] search
 ```
 
 **Not built, and planned before the VOD finding.** On VOD, code beat a Choice over cut
@@ -158,7 +165,7 @@ constant — so measure it rather than assume either way.
   this exact problem — its audio mode eats the first seconds of the read. The ring buffer
   is the fix.
 - **Tail.** On exit, one `end_cut` Choice over cut points since the trigger.
-- **Tighten (optional).** Once the segment is recorded it's a VOD: run the [D]+[E] loop on it for a
+- **Tighten (optional).** Once the segment is recorded it's a VOD: run the boundary search on it for a
   frame-tight cut. Live gives you a clip in ~5s with a soft tail; the tighten pass gives
   you the good cut a minute later. Ship both.
 
@@ -166,15 +173,15 @@ constant — so measure it rather than assume either way.
 
 | | requests | why |
 | --- | --- | --- |
-| Pass C | up to 3 per 80-sentence window (asked again after each anchor); windows overlap by 60s | measured 15 and 18 per video |
-| Boundaries | 0 | code |
-| Pass E | 1–7 per candidate clip | one verify, up to 3 widens, up to 3 tightens; measured 35–73 per video |
-| **VOD total** | **~50–90 per video** | vs ~600/hour for per-sentence dense scoring |
+| Pass C | up to 3 per 80-sentence window (asked again after each anchor); windows overlap by 60s | 160 for the pilot set, ~34 per hour of media |
+| Boundary search + gate | ~15 per anchor, openings then endings | 2,017 for the pilot set, ~435 per hour |
+| **VOD total** | **~470 per hour of media** | vs ~600/hour for per-sentence dense scoring |
 | Live | ~900/hr | one tick per 4s, plus ~2 per triggered clip (planned, not measured) |
 
-Measured on the two test videos (~335 and ~430 sentences, 5 and 6 windows). Their durations were not
-recorded, so there is no per-hour VOD figure yet; 018 adds it. The planned ~32/hour
-assumed one gate request per clip — the widen/tighten loop is most of the difference.
+Measured on the pilot eval set: 8 videos, 4.6 hours of media, 138 anchors (2026-09-24).
+The planned ~32/hour assumed one gate request per clip; the search spends ~15 per anchor
+because it judges every candidate edge instead of repairing one placed clip. Still well
+inside the rate limit, and cheap: a few cents per hour of media.
 
 Against a 1,200 req/min limit, VOD backfill is free and live costs 15 req/min per stream —
 so roughly 70 concurrent streams before the account limit binds. That, not the token bill,
