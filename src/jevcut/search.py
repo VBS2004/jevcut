@@ -9,11 +9,12 @@ in RESEARCH.md ("Baseline on the pilot eval set").
 The search assumes neither. For each anchor:
 
 1. **Start.** Every real sentence boundary from as far back as the band allows up to the
-   anchor becomes a candidate opening. Each is judged on a short clip from there through
-   the anchor; the start questions decide. Among openings clean on both
-   ``starts_mid_thought`` and ``dangling_reference``, the strongest ``hook`` wins, ties to
-   the later (tighter) start. With none clean, the least bad one goes forward and the
-   final gate decides.
+   anchor becomes a candidate opening. All of them are marked in the transcript around
+   the moment and one Choice picks the mark to come in on: the line that grabs, keeping
+   the setup the moment needs. It replaced judging each opening alone and keeping the
+   strongest ``hook`` among the clean ones -- relative beats absolute here, and it costs
+   one request instead of ~9 (RESEARCH.md, "The opening as one Choice"). The final gate
+   still judges the start of the finished clip.
 2. **End.** From that start, every real boundary after the anchor that keeps the clip in
    the band is judged as the finished clip. Among those that pass the full gate, the
    earliest one clean on ``ends_mid_thought`` wins: the shortest clip that finishes its
@@ -28,13 +29,18 @@ from __future__ import annotations
 
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from jevcut import gate as gate_mod
 from jevcut.boundaries import CUT_PREFERENCE, Boundary, align_end, align_start
 from jevcut.client import JevClient
 from jevcut.config import Config
-from jevcut.models import CutPoint, Transcript
+from jevcut.models import CutPoint, Sentence, Transcript
+from jevcut.questions import opening_questions
+from jevcut.render import cut_id, render_markers
+
+#: Transcript shown past the anchor, so the Choice can read what the moment is building to.
+OPENING_CONTEXT_AFTER_S = 20.0
 
 log = logging.getLogger(__name__)
 
@@ -90,6 +96,43 @@ def _judge_all(
         return list(pool.map(one, spans))
 
 
+def openings(real: list[CutPoint], anchor, config: Config) -> list[tuple[CutPoint, CutPoint]]:
+    """Every candidate opening for ``anchor``, each paired with the nearest ending that
+    makes a short clip through the anchor inside the band -- enough for the start
+    questions to read the opening in context."""
+    low, high = config.duration_band_s
+    spans = []
+    for s in [c for c in real if anchor.t1 - high <= c.t_start <= anchor.t0]:
+        ends = [c for c in real if c.t_end >= max(anchor.t1, s.t_start + low)]
+        e = min(ends, key=lambda c: c.t_end, default=None)
+        if e is not None and e.t_end - s.t_start <= high:
+            spans.append((s, e))
+    return spans
+
+
+def choose_opening(
+    client: JevClient,
+    transcript: Transcript,
+    spans: list[tuple[CutPoint, CutPoint]],
+    anchor: Sentence,
+) -> CutPoint | None:
+    """One Choice over every candidate opening, marked in place and renumbered from C00.
+    None when the request fails or answers off the list."""
+    marks = {cut_id(i): start for i, (start, _) in enumerate(spans)}
+    shown = [replace(start, id=mark) for mark, start in marks.items()]
+    sentences = transcript.between(spans[0][0].t_start - 0.01, anchor.t1 + OPENING_CONTEXT_AFTER_S)
+    try:
+        result = client.ask(
+            {"region": {"text": render_markers(sentences, shown), "moment": anchor.text}},
+            opening_questions(list(marks)),
+            pass_name="opening",
+        )
+    except Exception as exc:  # noqa: BLE001 - reported as a drop, never a crash
+        log.warning("opening request failed for %s: %s", anchor.id, exc)
+        return None
+    return marks.get(result.answers["opening"].choice)
+
+
 def search(
     client: JevClient,
     transcript: Transcript,
@@ -98,7 +141,6 @@ def search(
     config: Config | None = None,
 ) -> SearchResult:
     config = config or Config()
-    low, high = config.duration_band_s
     anchor = transcript.by_id(anchor_id)
     real = _real(cuts)
 
@@ -106,52 +148,53 @@ def search(
         return SearchResult(None, None, gate_mod.Verdict(gate_mod.DROP, [reason]), **counts)
 
     # -- 1. the opening ------------------------------------------------------------------
-    starts = [c for c in real if anchor.t1 - high <= c.t_start <= anchor.t0]
-    spans = []
-    for s in starts:
-        # A short clip from this opening through the anchor: enough for the start
-        # questions to read the opening in context, and inside the band.
-        ends = [c for c in real if c.t_end >= max(anchor.t1, s.t_start + low)]
-        e = min(ends, key=lambda c: c.t_end, default=None)
-        if e is not None and e.t_end - s.t_start <= high:
-            spans.append((s, e))
+    spans = openings(real, anchor, config)
     if not spans:
         return no("no opening fits the duration band")
+    start = choose_opening(client, transcript, spans, anchor)
+    if start is None:
+        return no("gate unavailable", requests=1, failed=1)
+    # The final gate still reads the start of the finished clip, and its veto is kept:
+    # openings it vetoed were in a labeler's range half as often as ones it passed.
+    # Retrying the Choice's runner-up on a veto was tried and cut -- 12 more clips on the
+    # pilot set, 0-2 more hits per label set (RESEARCH.md).
+    result = _finish(client, transcript, real, anchor, start, config)
+    result.requests += 1
+    return result
 
-    judged = _judge_all(client, transcript, spans, config)
-    requests, failed = len(spans), sum(j is None for j in judged)
-    opened = [(span, j) for span, j in zip(spans, judged, strict=True) if j is not None]
-    if not opened:
-        return no("gate unavailable", requests=requests, failed=failed)
 
-    def start_badness(j: gate_mod.Judgment) -> float:
-        return max(j.nouls.get("starts_mid_thought", 0.0), j.nouls.get("dangling_reference", 0.0))
-
-    clean = [(span, j) for span, j in opened if start_badness(j) < config.repair_threshold]
-    if clean:
-        (start, _), _ = max(clean, key=lambda sj: (sj[1].scores.get("hook", 0.0), sj[0][0].t_start))
-    else:
-        (start, _), _ = min(opened, key=lambda sj: (start_badness(sj[1]), -sj[0][0].t_start))
-
-    # -- 2. the ending -------------------------------------------------------------------
+def _finish(
+    client: JevClient,
+    transcript: Transcript,
+    real: list[CutPoint],
+    anchor: Sentence,
+    start: CutPoint,
+    config: Config,
+) -> SearchResult:
+    """-- 2. the ending: every real boundary that keeps the clip in the band, judged as
+    the finished clip from ``start``."""
+    low, high = config.duration_band_s
     ends = [c for c in real if c.t_end >= anchor.t1 and low <= c.t_end - start.t_start <= high]
     if not ends:
-        return no("no ending fits the duration band", requests=requests, failed=failed)
+        return SearchResult(
+            None, None, gate_mod.Verdict(gate_mod.DROP, ["no ending fits the duration band"])
+        )
     spans = [(start, e) for e in ends]
     judged = _judge_all(client, transcript, spans, config)
-    requests += len(spans)
-    failed += sum(j is None for j in judged)
+    requests, failed = len(spans), sum(j is None for j in judged)
     finished = [(span, j) for span, j in zip(spans, judged, strict=True) if j is not None]
     if not finished:
-        return no("gate unavailable", requests=requests, failed=failed)
+        return SearchResult(
+            None, None, gate_mod.Verdict(gate_mod.DROP, ["gate unavailable"]), requests, failed
+        )
 
     passing = [(span, j) for span, j in finished if gate_mod.verdict(j, config).ok]
     if passing:
         # The shortest clip that finishes the thought: the earliest ending clean on
-        # ``ends_mid_thought`` by the same bar the opening is held to. Not the strongest
-        # payoff -- payoff tends to rise with more material, so picking it drifted every
-        # clip long. Not merely the earliest *passing* one either: the gate's own bar is
-        # looser, and the earliest pass was often the setup with its answer cut off.
+        # ``ends_mid_thought`` below the repair bar. Not the strongest payoff -- payoff
+        # tends to rise with more material, so picking it drifted every clip long. Not
+        # merely the earliest *passing* one either: the gate's own bar is looser, and the
+        # earliest pass was often the setup with its answer cut off.
         def end_badness(j: gate_mod.Judgment) -> float:
             return j.nouls.get("ends_mid_thought", 0.0)
 

@@ -15,10 +15,11 @@ options is the start?"** is answerable, and that was the original design:
 > Code enumerates every plausible boundary and labels it. Jev picks a label.
 > Code maps the label back to a timestamp.
 
-That still holds for the anchor: Jev picks the `L018` a moment is about. For boundaries
-it holds in a different shape: code enumerates the candidate openings and endings, and
-rather than choosing a label from a list, Jev reads the clip each candidate would make
-and judges it; code keeps the best ([RESEARCH.md](../RESEARCH.md) has why, measured).
+That still holds for the anchor: Jev picks the `L018` a moment is about. It holds for the
+opening too: code marks every candidate opening in the transcript and Jev picks one mark.
+For the ending it holds in a different shape: rather than choosing a label from a list,
+Jev reads the clip each candidate ending would make and judges it; code keeps the
+shortest that finishes ([RESEARCH.md](../RESEARCH.md) has why, measured).
 
 The model never sees a number. Code never invents a boundary — it only offers the
 enumerated ones.
@@ -28,7 +29,7 @@ enumerated ones.
 | ID | What it is | Who picks it |
 | --- | --- | --- |
 | `L018` | a **sentence** — one addressable line of transcript | Pass C picks one as the *anchor*: the quotable line |
-| `C03` | a **cut point** — one candidate place to cut | **code lists, Jev judges**: the boundary search (`search.py`) judges a clip for each candidate opening and ending at a real boundary and keeps the best; `boundaries.py` aligns the rendered edge into the silence. Pass D was going to have Jev pick the mark outright; arithmetic kept winning that, see [RESEARCH.md](../RESEARCH.md) |
+| `C03` | a **cut point** — one candidate place to cut | **code lists, Jev picks and judges**: the boundary search (`search.py`) has one Choice pick the opening among the real boundaries, then judges a clip for each candidate ending and keeps the shortest that finishes; `boundaries.py` aligns the rendered edge into the silence. Pass D was going to have Jev pick the mark outright; arithmetic kept winning that, see [RESEARCH.md](../RESEARCH.md) |
 | — | a **region** — the slice of transcript sent in one request | built by code around an anchor |
 
 Sentence IDs come from the
@@ -104,10 +105,11 @@ C04 ->  69.70s  (sentence_end)
 C05 ->  74.30s  (speaker_change)
 ```
 
-The search offers marks as candidate edges; for each, Jev judges the clip text that would
-fall between them, and code keeps the best — say `C03` — looks up 67.25s, moves the edge
-into the silence around it, and hands that to ffmpeg. Jev never sees the marks
-themselves, only the clips they would make.
+The search offers marks as candidate edges. For the opening, Jev sees exactly this — the
+marks in place, renumbered from `C00` — and picks one, say `C03`; code looks up 67.25s,
+moves the edge into the silence around it, and hands that to ffmpeg. For the ending, Jev
+judges the clip text each candidate mark would make and code keeps the shortest that
+finishes.
 
 ### Why the marker list is the most important output in the project
 
@@ -137,9 +139,11 @@ markers **renumbered locally from `C00`** — the example above is one. It was b
 state for a Pass D request, with two escape options (`before_this_region`,
 `after_this_region`) for a moment that runs past its edges.
 
-Nothing in the clip pipeline builds one now: boundaries are code, and the gate's state is
-the clip text alone. `jevcut region` still prints one, and it is the quickest way to see
-which cut points exist around an anchor — and so which boundaries a clip *could* have.
+The opening Choice builds a narrower one: only the real-boundary openings the band
+allows before the anchor are marked, and it runs 20s past the anchor rather than 90s
+either side. The gate's state is still the clip text alone. `jevcut region` prints the
+full form, and it is the quickest way to see which cut points exist around an anchor —
+and so which boundaries a clip *could* have.
 
 ## Anchors
 
@@ -149,7 +153,7 @@ the boundary search spend requests judging candidate clips.
 
 An anchor is not a boundary. It is a pointer at where a moment lives, which is a much
 easier judgment than where it begins and ends, and it is why the cascade is cheap: finding
-anchors costs a few requests per 80 sentences, and only the survivors get the ~15
+anchors costs a few requests per 80 sentences, and only the survivors get the ~7
 requests of the boundary search.
 
 ## Putting it together
@@ -161,8 +165,8 @@ cut points   «C00» ... «C03» ... «C07» ...           (003)
                               │
 Pass C       anchor = L018, kind = story             (005)
                               │
-search       each opening mark judged, then each      search.py (007)
-             ending: start = C03, end = C09
+search       one Choice picks the opening mark,       search.py (007)
+             each ending judged: start = C03, end = C09
                               │
 Pass F       rank by hook and payoff                 (008)
                               │

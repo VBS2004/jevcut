@@ -88,9 +88,11 @@ placement and repair were replaced by a search (RESEARCH.md has both measurement
 
 1. **Opening.** Every real boundary — sentence end, speaker change, the transcript's
    edges; never a `pause`, which can fall mid-sentence — from as far back as the band
-   allows up to the anchor. Each is judged on a short clip from there through the anchor.
-   Among openings clean on `starts_mid_thought` and `dangling_reference` the strongest
-   `hook` wins, ties to the tighter one.
+   allows up to the anchor. All of them are marked in the transcript around the moment
+   and one `opening` Choice picks where to come in: the line that grabs, keeping the setup
+   the moment needs. It replaced judging each opening alone and keeping the strongest
+   `hook` among the clean ones, which let per-candidate noise pick the start
+   ([QUESTIONS.md](QUESTIONS.md#the-opening--one-choice-per-anchor), RESEARCH.md).
 2. **Ending.** From that opening, every real boundary after the anchor that keeps the
    clip in the band, judged as the finished clip. Among those passing the full gate the
    earliest one clean on `ends_mid_thought` wins -- the shortest clip that finishes its
@@ -100,7 +102,7 @@ placement and repair were replaced by a search (RESEARCH.md has both measurement
 No thresholds of its own. A failed request skips that candidate rather than the video.
 The rendered edges are then aligned into the surrounding silence (`boundaries.py`).
 
-### E. Verify — the clip gate *(Jev, one request per candidate; ~15 per anchor)*
+### E. Verify — the clip gate *(Jev, one request per candidate ending; ~7 per anchor)*
 
 The state is the exact clip text and nothing else — no title, no surrounding
 transcript — because that is the condition the viewer will be in.
@@ -111,16 +113,16 @@ rationale is in [QUESTIONS.md](QUESTIONS.md#pass-e--the-clip-gate).
 | question | type | role |
 | --- | --- | --- |
 | `needs_the_room` | Noul | **drop** — the point depends on the live audience, not the speakers. Checked on each finished clip |
-| `starts_mid_thought`, `dangling_reference` | Noul | **choose the opening** — a start is clean when both are low |
+| `starts_mid_thought`, `dangling_reference` | Noul | must pass on the finished clip — the veto on the Choice's opening |
 | `ends_mid_thought` | Noul | **choose the ending** — must pass on the finished clip |
 | `standalone` | Noul | must pass on the finished clip |
-| `hook` | Score | picks among clean openings; ranking |
+| `hook` | Score | ranking |
 | `payoff` | Score | ranking; bottom level fails the clip |
 
-The same question set judges every candidate the search lists (§D): the start questions
-choose the opening, the rest choose the ending and pass or fail the finished clip. An
-opening counts as clean below 0.5; a finished clip passes below 0.75 on the mid-thought
-and dangling questions. All thresholds are placeholders for 014.
+The same question set judges every candidate ending the search lists (§D): it chooses the
+ending and passes or fails the finished clip, start included. An ending counts as clean
+below 0.5; a finished clip passes below 0.75 on the mid-thought and dangling questions.
+All thresholds are placeholders for 014.
 
 A `worth_clipping` question was deleted 2026-09-23: flattest of eight questions across 38
 clips and never once fired, because it asked the model to combine `hook` and `payoff`,
@@ -176,13 +178,14 @@ constant — so measure it rather than assume either way.
 | | requests | why |
 | --- | --- | --- |
 | Pass C | up to 3 per 80-sentence window (asked again after each anchor); windows overlap by 60s | 160 for the pilot set, ~34 per hour of media |
-| Boundary search + gate | ~15 per anchor, openings then endings | 2,017 for the pilot set, ~435 per hour |
-| **VOD total** | **~470 per hour of media** | vs ~600/hour for per-sentence dense scoring |
+| Boundary search + gate | ~7 per anchor: one opening Choice, then the endings | 1,050 for the pilot set, ~230 per hour |
+| **VOD total** | **~265 per hour of media** | vs ~600/hour for per-sentence dense scoring |
 | Live | ~900/hr | one tick per 4s, plus ~2 per triggered clip (planned, not measured) |
 
 Measured on the pilot eval set: 8 videos, 4.6 hours of media, 138 anchors (2026-09-24).
-The planned ~32/hour assumed one gate request per clip; the search spends ~15 per anchor
-because it judges every candidate edge instead of repairing one placed clip. Still well
+The planned ~32/hour assumed one gate request per clip; the search spends ~7 per anchor
+because it judges every candidate ending instead of repairing one placed clip. Judging
+every opening too cost ~15 per anchor until one Choice replaced it. Still well
 inside the rate limit, and cheap: a few cents per hour of media.
 
 Against a 1,200 req/min limit, VOD backfill is free and live costs 15 req/min per stream —

@@ -63,6 +63,33 @@ def scan_questions(line_ids: list[str]) -> dict:
     }
 
 
+def opening_questions(mark_ids: list[str]) -> dict:
+    """The boundary search's opening. One request per anchor: every candidate opening at
+    once, marked in the transcript around the moment, and a Choice among the marks.
+
+    It replaced judging each opening alone and keeping the strongest `hook` among the
+    clean ones, which scored ~9 candidates independently and let noise of 0.1-0.15 on a
+    0-3 scale pick the start. Relative by construction, this lands more labeled starts in
+    range on all four label sets (RESEARCH.md, "The opening as one Choice"). A tiebreak
+    toward the later mark was tried and cut: it pushed picks onto the anchor line itself.
+    """
+    return {
+        "opening": Choice(
+            instructions=(
+                "`region.text` is a stretch of transcript with candidate start points "
+                "marked «C00», «C01», and so on. A short clip for a social feed is being "
+                "cut around the line `region.moment`. At which mark should the clip start? "
+                "Come in on the line that grabs attention -- the claim, the question, the "
+                "image, the surprising fact -- not on the run-up to it. But keep any setup "
+                "the moment needs: someone who has seen nothing before the cut must still "
+                "follow it."
+            ),
+            # The marks are in the state; like `anchor`, the options need no description.
+            criteria=dict.fromkeys(mark_ids),
+        ),
+    }
+
+
 def verify_questions() -> dict:
     """Pass E. One request per candidate clip, seven questions over the clip text alone.
 

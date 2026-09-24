@@ -90,6 +90,8 @@ several lines from losing to one louder line because its vote was split.
 ## Pass D — boundary refinement
 
 > **Off the critical path since 2026-09-22.** Boundaries are set in code now (`boundaries.py`); a tuned constant matched or beat this Choice on every boundary task measured. Kept as the spec for 006 in case the gate ever shows the code boundaries are what is wrong with the clips. See [RESEARCH.md](../RESEARCH.md).
+>
+> **The start half came back on 2026-09-24**, in a different shape: `opening` below, one Choice over the search's real-boundary openings, measured against two labelers. The end half, the escapes and the speculative Nouls have not.
 
 State: anchor ±90s, cut points inlined as `«C07»` between sentences.
 
@@ -157,6 +159,33 @@ and re-ask** instead of silently accepting a truncated clip.
 
 ---
 
+## The opening — one Choice per anchor
+
+State: the transcript from the earliest candidate opening to 20s past the anchor, every
+candidate marked in place and renumbered from `C00`, plus the anchor line as the moment.
+
+```python
+{"region": {"text": "L039| …  «C00» L040| …  «C01» L041| … L042| …", "moment": "…"}}
+```
+
+| question | type | asks | role in the boundary search |
+| --- | --- | --- | --- |
+| `opening` | Choice over the marks | at which mark should a short clip around the moment start: on the line that grabs, keeping the setup it needs | picks the opening |
+
+Wording in `src/jevcut/questions.py` → `opening_questions()`.
+
+- **Why a Choice, when Pass D's lost.** Pass D was measured against topic starts in
+  meetings, with no second labeler. Against clip starts labeled twice, judging each
+  opening alone (strongest `hook` among the clean) was noise-bound: the right start was
+  usually top three on `hook`, within 0.1-0.15 of the best, and the cleanliness filter
+  discarded it about half the time. A Choice sees every candidate at once, so it only
+  has to rank them. It landed more starts in range on all four label sets (RESEARCH.md).
+- **"Prefer the later mark" was tried and cut.** It pushed picks onto the anchor line
+  itself: 58 of 138 took the last mark. The picks still lean late without it, which is
+  the open problem, not a wording to tune here.
+
+---
+
 ## Pass E — the clip gate
 
 State: **the cut clip text and nothing else.** No title, no surrounding transcript. The
@@ -174,11 +203,11 @@ question is for and why it is worded the way it is.
 | question | type | asks | role in the boundary search |
 | --- | --- | --- | --- |
 | `needs_the_room` | Noul | does the point depend on the live **audience** rather than on what the speakers say | fails the finished clip |
-| `starts_mid_thought` | Noul | does the opening depend on something the viewer was not given | chooses the opening |
-| `dangling_reference` | Noul | does it turn on something the viewer cannot identify from the clip alone | chooses the opening |
+| `starts_mid_thought` | Noul | does the opening depend on something the viewer was not given | fails the finished clip |
+| `dangling_reference` | Noul | does it turn on something the viewer cannot identify from the clip alone | fails the finished clip |
 | `ends_mid_thought` | Noul | does it stop before the point it was making arrives | chooses the ending |
 | `standalone` | Noul | would a viewer who has seen nothing else follow it | fails the finished clip |
-| `hook` | Score 0–3 | how well the opening holds attention | picks among clean openings; ranking |
+| `hook` | Score 0–3 | how well the opening holds attention | ranking |
 | `payoff` | Score 0–2 | does it deliver what the opening sets up | ranking; bottom level fails the clip |
 
 ### What changed, and why
