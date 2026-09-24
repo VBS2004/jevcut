@@ -468,9 +468,9 @@ Starts in range:
   not by loosening the edges.
 
 **`large-v3` does not fix the missing openings.** Transcribed on the GPU (int8, ~1 min per
-10 min of audio) for 7 of 8 videos and checked the fair way -- of the labeled edges that
-`small` has no real boundary within 1s of, how many does `large-v3` have? It recovers 13
-of 38 missed starts but loses 19 of the 103 `small` had: 69% coverage against 73%. The
+10 min of audio) for all 8 videos and checked the fair way -- of the labeled starts that
+`small` has no real boundary within 1s of, how many does `large-v3` have? It recovers 15
+of 44 missed starts but loses 27 of the 132 `small` had: 68% coverage against 75%. The
 labels were timed on `small`'s words, which favours it, but not by enough to make
 `large-v3` a clear win. The missing-punctuation hole stays open; the transcript model is
 not the lever.
