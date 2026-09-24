@@ -1,0 +1,240 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=uw61C_qbgNg",
+    "title": "Psychology of Charisma: How To Actually Make People Like You",
+    "channel": "PsychToons",
+    "genre": "narrated animated explainer",
+    "duration_s": 921.4,
+    "sha256_prefix": "1bf393d9187637ae",
+    "local_path": "eval/media/psychtoons-charisma.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "wrong-target",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        4.3
+      ],
+      "end": 50.2,
+      "end_range": [
+        50.2,
+        57.5
+      ],
+      "why": "Cold open: 'everything you've been taught about charisma is aimed at the wrong target'; the payoff is 'charisma is not something people see in you, it is something they feel about themselves with you' (50.2). The 'tuning an instrument nobody is listening to' line (57.5) is an acceptable later end.",
+      "over_band": false
+    },
+    {
+      "id": "warmth-judged-first",
+      "start": 214.7,
+      "start_range": [
+        214.7,
+        214.7
+      ],
+      "end": 251.8,
+      "end_range": [
+        248.3,
+        277.3
+      ],
+      "why": "Fiske's warmth/competence finding, hooked on the study; lands on 'are you going to hurt me? Intent came before ability, because intent decided whether you survived' (251.8). Two ends work: the heat-vs-brightness line ending 'still be cold to stand next to' (277.3) is a longer acceptable end.",
+      "over_band": false
+    },
+    {
+      "id": "busy-not-boring",
+      "start": 322.9,
+      "start_range": [
+        318.0,
+        322.9
+      ],
+      "end": 350.9,
+      "end_range": [
+        350.9,
+        350.9
+      ],
+      "why": "Opens on 'The harder you try to be liked, the worse you get at it'; self-monitoring steals attention from the other person; lands on 'You are not failing because you are boring. You are failing because you are busy.'",
+      "over_band": false
+    },
+    {
+      "id": "liking-gap",
+      "start": 356.5,
+      "start_range": [
+        356.5,
+        356.5
+      ],
+      "end": 389.4,
+      "end_range": [
+        389.4,
+        389.4
+      ],
+      "why": "Boothby 2018 study: people systematically underestimate how much they are liked (the liking gap); payoff is why: they were grading their own performance, harshly (389.4).",
+      "over_band": false
+    },
+    {
+      "id": "second-question",
+      "start": 481.1,
+      "start_range": [
+        479.5,
+        482.6
+      ],
+      "end": 528.4,
+      "end_range": [
+        518.1,
+        536.2
+      ],
+      "why": "Law 1, 'Ask the second question': follow-up questions drive liking; 'two people taking turns waiting'; lands on the speed-dating data (more follow-ups, more second dates, 528.4). 'I was still listening after you finished' (518.1) is an acceptable earlier end.",
+      "over_band": false
+    },
+    {
+      "id": "specific-compliment",
+      "start": 589.1,
+      "start_range": [
+        587.5,
+        591.0
+      ],
+      "end": 636.8,
+      "end_range": [
+        636.8,
+        636.8
+      ],
+      "why": "Law 3, 'Say the specific thing out loud': Zhao & Epley found people underestimate how good compliments feel; 'nice shirt is noise', a specific compliment 'nobody else could have given them' is why it works. Ends before 'Law 4' inside the same printed line.",
+      "over_band": false
+    },
+    {
+      "id": "good-news",
+      "start": 638.2,
+      "start_range": [
+        636.8,
+        638.2
+      ],
+      "end": 686.7,
+      "end_range": [
+        683.6,
+        686.7
+      ],
+      "why": "Law 4, 'handle their good news properly' (starts inside the line after 'Law for'): capitalization research, the deflating 'that's nice, congrats' vs asking for the story; lands on 'People remember exactly who let them be happy out loud.'",
+      "over_band": false
+    },
+    {
+      "id": "beautiful-mess",
+      "start": 688.2,
+      "start_range": [
+        687.2,
+        690.7
+      ],
+      "end": 721.9,
+      "end_range": [
+        711.2,
+        743.4
+      ],
+      "why": "Law 5, 'be the first one to be slightly unpolished': the beautiful mess effect, own vulnerability read as weakness, others' as courage; lands on 'it is a known distortion' (721.9). Two ends work: stopping at 'courage' (711.2) or running through the 'one honest sentence... the other person exhales' practical payoff (743.4).",
+      "over_band": false
+    },
+    {
+      "id": "mere-exposure",
+      "start": 745.1,
+      "start_range": [
+        744.0,
+        746.2
+      ],
+      "end": 778.8,
+      "end_range": [
+        776.6,
+        784.7
+      ],
+      "why": "Law 6, 'Show up again': Moreland & Beach's four women who never spoke but attended class more were rated warmer; lands on 'No words. Just repetition.' (778.8); 'It is built by frequency' (784.7) is an acceptable later end.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "confidence-is-output",
+      "start": 414.0,
+      "start_range": [
+        414.0,
+        419.5
+      ],
+      "end": 439.1,
+      "end_range": [
+        436.7,
+        439.1
+      ],
+      "why": "Kills 'just be confident': confidence is an output, not an input; it arrives after competence. Short and self-contained.",
+      "over_band": false
+    },
+    {
+      "id": "responsiveness",
+      "start": 150.7,
+      "start_range": [
+        150.7,
+        150.7
+      ],
+      "end": 208.5,
+      "end_range": [
+        203.3,
+        208.5
+      ],
+      "why": "Reis & Shaver's perceived partner responsiveness (understanding, validation, caring); payoff: 'You do not generate liking. You create the conditions in which somebody else generates it.' Solid but more lecture-like.",
+      "over_band": false
+    },
+    {
+      "id": "warmth-before-credentials",
+      "start": 537.6,
+      "start_range": [
+        536.6,
+        545.7
+      ],
+      "end": 587.5,
+      "end_range": [
+        587.5,
+        587.5
+      ],
+      "why": "Law 2, lead with warmth not credentials; lands on 'Competence introduced first is judged. Competence introduced after warmth is admired.' Leans on 'Remember what Fiske found', so optional.",
+      "over_band": false
+    },
+    {
+      "id": "attention-generosity",
+      "start": 836.9,
+      "start_range": [
+        836.9,
+        836.9
+      ],
+      "end": 869.7,
+      "end_range": [
+        869.7,
+        869.7
+      ],
+      "why": "Closing reflection with the Simone Weil quote: attention is the rarest form of generosity; 'You have just been spending all of it on yourself.' 'All of this' leans on the video, so optional.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 57.5,
+      "end": 74.7,
+      "why": "Channel intro and agenda ('Welcome back... six laws... all backed by real research')."
+    },
+    {
+      "start": 800.1,
+      "end": 836.3,
+      "why": "Summary of what happens after practicing 'these six'; sounds uplifting but depends on the laws listed earlier."
+    },
+    {
+      "start": 869.7,
+      "end": 898.4,
+      "why": "Recaps the six laws for a comment prompt, then a liking-gap callback whose support came eight minutes earlier."
+    },
+    {
+      "start": 898.4,
+      "end": 917.7,
+      "why": "Like/share/subscribe ask dressed as 'send it to that friend who is convinced they are bad at this'."
+    }
+  ]
+}

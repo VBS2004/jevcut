@@ -1,0 +1,120 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=YayPX1nXR7o",
+    "title": "5GHz 8 Elite Extreme Gen 6 vs A20 Pro vs Dimensity 9600 Pro - Who's Actually Faster?",
+    "channel": "Trakin Tech English",
+    "genre": "tech benchmark review",
+    "duration_s": 477.6,
+    "sha256_prefix": "006929614ada5856",
+    "local_path": "eval/media/trakin-chips.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "5ghz-not-fastest-geekbench",
+      "start": 201.2,
+      "start_range": [
+        198.6,
+        201.2
+      ],
+      "end": 237.3,
+      "end_range": [
+        237.3,
+        237.3
+      ],
+      "why": "Geekbench 6: Snapdragon, Dimensity and A20 Pro scores spoken aloud, A20 Pro leads single core and multi-core is within touching distance -- lands on 'despite the 5GHz fastest clock speed on a mobile CPU, it's technically not the fastest'. The point is stated verbally, not only on screen.",
+      "over_band": false
+    },
+    {
+      "id": "ray-tracing-trails",
+      "start": 297.6,
+      "start_range": [
+        284.6,
+        297.6
+      ],
+      "end": 334.5,
+      "end_range": [
+        334.5,
+        343.1
+      ],
+      "why": "Hook: the 8 Elite Extreme Gen 6 trails its competitors in ray tracing; he asked Qualcomm why, and they said Solar Bay Extreme isn't representative -- 'there's not a single game out there that replicates that on phone today'. Starting at 284.6 includes the spoken fps numbers and also works; ending at 343.1 adds his agreement that RT on phones is overkill.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "packaging-moves-memory",
+      "start": 147.0,
+      "start_range": [
+        147.0,
+        147.0
+      ],
+      "end": 174.5,
+      "end_range": [
+        169.8,
+        183.2
+      ],
+      "why": "Why the Extreme outperforms the regular Elite with the same cores: offset package-on-package moves memory off the SoC so heat is pulled away better -- 'you've seen this before? Yes, with Apple's A20 Pro'. Opens on 'remember when I said', which restates its own setup.",
+      "over_band": false
+    },
+    {
+      "id": "neural-fusion-over-ray-tracing",
+      "start": 339.9,
+      "start_range": [
+        334.7,
+        339.9
+      ],
+      "end": 376.3,
+      "end_range": [
+        367.3,
+        376.3
+      ],
+      "why": "Hot take that mobile games don't need this level of ray tracing; what they need is what Qualcomm bets on, Adreno Neural Fusion (super resolution, frame generation), demoed in Silver Palace.",
+      "over_band": false
+    },
+    {
+      "id": "verdict-not-the-fastest",
+      "start": 397.1,
+      "start_range": [
+        397.1,
+        397.1
+      ],
+      "end": 425.0,
+      "end_range": [
+        425.0,
+        442.8
+      ],
+      "why": "Verdict: 5GHz is a milestone, 'does that make it the fastest CPU? Not at the moment' -- fastest single core is still Apple, then the upgrades he likes. Summary of the video; 442.8 ends on 'ray tracing can wait'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 50.7,
+      "why": "Cold open: jokes about the name and teases 5GHz vs A20 Pro, but promises the benchmarks instead of giving them, then runs into the channel intro."
+    },
+    {
+      "start": 115.8,
+      "end": 146.7,
+      "why": "Architecture comparison with a subscribe-button gag, then core counts and clock speeds read off a spec sheet: numbers without a point."
+    },
+    {
+      "start": 263.5,
+      "end": 284.2,
+      "why": "Steel Nomad Lite fps numbers: a chart read aloud; the raster conclusion is a clause tacked on the end."
+    },
+    {
+      "start": 450.8,
+      "end": 468.3,
+      "why": "'By the way I completely forgot': Xiaomi and Motorola launch list and sign-off."
+    }
+  ]
+}

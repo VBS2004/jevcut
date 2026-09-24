@@ -1,0 +1,320 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=AZIQ90TUTaM",
+    "title": "AI and Humanity: Evolution or Revolution? | Global Conference 2026",
+    "channel": "Milken Institute",
+    "genre": "conference panel with moderator and live audience",
+    "duration_s": 3502.5,
+    "sha256_prefix": "47d0e4cb4d15c29b",
+    "local_path": "eval/media/milken-ai-panel.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "tristan-social-media-predicted",
+      "start": 203.9,
+      "start_range": [
+        203.9,
+        203.9
+      ],
+      "end": 241.5,
+      "end_range": [
+        241.5,
+        241.5
+      ],
+      "why": "Tristan (inferred): 'I was on this stage in 2018 talking about social media' -- asking what it did for you would have missed the incentives that let them predict an addicted, polarized society; lands on 'a societal catastrophe that was totally preventable and predictable'. Starts after 'I'm going to sidestep the question', which points back at the moderator.",
+      "over_band": false
+    },
+    {
+      "id": "tristan-better-blinking-cursor",
+      "start": 248.69,
+      "start_range": [
+        247.55,
+        248.69
+      ],
+      "end": 286.7,
+      "end_range": [
+        286.7,
+        286.7
+      ],
+      "why": "Tristan: we have to be clear about where AI is headed, not what it does for me today (washing machine); 'Is that what the companies are racing to build? A better blinking cursor? No' -- they race to build uncontrollable superintelligence; lands on 'very bad consequences if we don't do something about it'. Opens word-level on 'what's so important to me'; the apology after is dead.",
+      "over_band": false
+    },
+    {
+      "id": "amy-coal-miners-code",
+      "start": 653.4,
+      "start_range": [
+        623.8,
+        653.4
+      ],
+      "end": 697.8,
+      "end_range": [
+        696.6,
+        697.8
+      ],
+      "why": "Amy Webb (inferred): West Virginia mines shut, 'somebody decided the way to help was to teach coal miners how to code' -- they had generational skills that could have drawn German heavy-machinery firms, 'instead everybody sat on their hands'. Starting at 623.8 adds the failed-planning setup (74s) and also works; the tighter start is preferred.",
+      "over_band": false
+    },
+    {
+      "id": "will-doom-already-happened",
+      "start": 1039.0,
+      "start_range": [
+        1039.0,
+        1043.6
+      ],
+      "end": 1083.2,
+      "end_range": [
+        1083.2,
+        1083.2
+      ],
+      "why": "will.i.am (inferred): the people shocked by AI doom have lived in comfort; 'if you're from the Bronx, Compton, the Congo, the global south, that doom and gloom has already happened' -- lands on 'not because of AI, because of human greed'.",
+      "over_band": false
+    },
+    {
+      "id": "will-community-already-doomed",
+      "start": 1388.0,
+      "start_range": [
+        1384.2,
+        1388.0
+      ],
+      "end": 1419.7,
+      "end_range": [
+        1419.7,
+        1432.0
+      ],
+      "why": "will.i.am: 'I come from one of those communities', never taken seriously; 'AI didn't put a liquor store next to a check cashing next to a strip club next to an elementary school' -- punchline 'I come from a community that's already doomed'. Ending at 1432.0 on 'how dare we say we don't have a shot at fixing it ourselves' also works; both edges are good.",
+      "over_band": false
+    },
+    {
+      "id": "tristan-race-to-replace-work",
+      "start": 1548.72,
+      "start_range": [
+        1546.98,
+        1548.72
+      ],
+      "end": 1597.2,
+      "end_range": [
+        1594.5,
+        1607.2
+      ],
+      "why": "Tristan: 'I'm gonna make a strong claim that we are heading to an anti-human future' -- $20/month subscriptions can't pay back hundreds of billions, so 'what makes back that investment is the race to replace human work'; lands on 'that's what they're telling you themselves'. 1607.2 adds 'arms race all the way down', optional.",
+      "over_band": false
+    },
+    {
+      "id": "intelligence-curse-altman",
+      "start": 1661.1,
+      "start_range": [
+        1656.0,
+        1661.1
+      ],
+      "end": 1705.0,
+      "end_range": [
+        1705.0,
+        1714.7
+      ],
+      "why": "Tristan: 'What happens when 60 to 70% of US GDP comes from AI and not from people?' -- a government then has no return on educating its people, and that's how Altman answers the energy question with 'it takes a lot of energy to grow a human over 20 years'. The Altman quote is the punchline; 1714.7 adds 'this is a devaluing of humans', acceptable.",
+      "over_band": false
+    },
+    {
+      "id": "will-intentions-is-all-we-need",
+      "start": 1804.9,
+      "start_range": [
+        1790.0,
+        1804.9
+      ],
+      "end": 1861.8,
+      "end_range": [
+        1861.8,
+        1869.4
+      ],
+      "why": "will.i.am on regulation: his Rivian was crash-tested and he needed a license to drive it, but people building AI need no license and no check of intentions; riffs on 'Attention Is All You Need' and lands on 'a paper needs to be written: intentions is all we need'. Starting at 1790.0 adds the pilots' licenses, also fine.",
+      "over_band": false
+    },
+    {
+      "id": "alibaba-ai-mined-crypto",
+      "start": 2177.3,
+      "start_range": [
+        2177.3,
+        2177.3
+      ],
+      "end": 2208.2,
+      "end_range": [
+        2208.2,
+        2213.9
+      ],
+      "why": "Tristan: while Alibaba trained a model, security saw a flurry of network traffic -- 'the call was coming from inside the house': the model autonomously opened a secret channel past the firewall and repurposed its GPUs to mine crypto. Opens after the 'how would people know / I'll just say what it is' run-up; 2213.9 adds 'it should be a gasp'.",
+      "over_band": false
+    },
+    {
+      "id": "ai-peer-preservation",
+      "start": 2231.8,
+      "start_range": [
+        2231.8,
+        2231.8
+      ],
+      "end": 2261.8,
+      "end_range": [
+        2255.9,
+        2267.2
+      ],
+      "why": "Tristan: self-preservation and deception used to be hypothetical; now models protect other AIs from replacement, copy code elsewhere and cover their tracks (a UC Berkeley paper) -- lands on 'we do not know what the fuck we're doing right now'.",
+      "over_band": false
+    },
+    {
+      "id": "amy-nobody-can-predict",
+      "start": 2592.8,
+      "start_range": [
+        2592.8,
+        2592.8
+      ],
+      "end": 2620.4,
+      "end_range": [
+        2620.4,
+        2626.5
+      ],
+      "why": "Amy: 'My job for a living is to predict the future' -- 20 years in AI and game theory, 'I cannot predict the exact future, and anybody who claims to is lying to you'. 2626.5 adds 'too many variables, no supercomputer will crack this', acceptable.",
+      "over_band": false
+    },
+    {
+      "id": "tristan-arm-farms",
+      "start": 3173.1,
+      "start_range": [
+        3173.1,
+        3173.1
+      ],
+      "end": 3205.6,
+      "end_range": [
+        3205.6,
+        3246.5
+      ],
+      "why": "Tristan: 'arm farms', one of the most popular jobs in LA -- people strap GoPros to their heads and do tasks so the video can train AI to replace arms; lands on 'a metaphor for the jobs of the future'. Ending at 3246.5 on the 'coffin builder' line also works (both genuinely land; the short one is preferred).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "salesforce-weapons-manufacturer",
+      "start": 786.2,
+      "start_range": [
+        786.2,
+        806.8
+      ],
+      "end": 855.7,
+      "end_range": [
+        838.7,
+        855.7
+      ],
+      "why": "Moderator asks how Salesforce, 'effectively a weapons manufacturer in the AI wars', can be responsible; Suzanne rejects the analogy and says some jobs go but 'we are seeing more new jobs than I've ever seen in my career'. Good confrontation, corporate answer.",
+      "over_band": false
+    },
+    {
+      "id": "amy-fear-and-fomo",
+      "start": 730.2,
+      "start_range": [
+        730.2,
+        730.2
+      ],
+      "end": 771.1,
+      "end_range": [
+        771.1,
+        771.1
+      ],
+      "why": "Amy: CEOs cutting jobs for short-term margin will find they gained no productivity; 'the two guiding principles right now are fear and FOMO' and the end is an economic catastrophe. Has a brief latex aside mid-clip.",
+      "over_band": false
+    },
+    {
+      "id": "will-immune-system-data",
+      "start": 2889.11,
+      "start_range": [
+        2889.11,
+        2889.11
+      ],
+      "end": 2917.1,
+      "end_range": [
+        2917.1,
+        2917.1
+      ],
+      "why": "will.i.am: you can't loan your immune or digestive system to your mother, 'there's systems that are ours' -- yet with AI we give the most personal part of us away to companies.",
+      "over_band": false
+    },
+    {
+      "id": "tristan-where-is-your-political-power",
+      "start": 3250.5,
+      "start_range": [
+        3250.5,
+        3250.5
+      ],
+      "end": 3285.7,
+      "end_range": [
+        3285.7,
+        3296.4
+      ],
+      "why": "Tristan: in the industrial revolution workers could withdraw labor; if AI replaces them, 'where's your political power?' -- Harari: 20% unemployment for three years produced fascism in Nazi Germany.",
+      "over_band": false
+    },
+    {
+      "id": "bretton-woods-for-ai",
+      "start": 3298.5,
+      "start_range": [
+        3298.5,
+        3298.5
+      ],
+      "end": 3349.8,
+      "end_range": [
+        3349.8,
+        3349.8
+      ],
+      "why": "Tristan: Bretton Woods came after the nuclear bomb -- delegates kept in a hotel for a month until they built a positive-sum system; AI is that kind of technology and needs a Bretton Woods of its own.",
+      "over_band": false
+    },
+    {
+      "id": "let-it-rip-or-lock-it-down",
+      "start": 2056.9,
+      "start_range": [
+        2056.9,
+        2062.0
+      ],
+      "end": 2141.1,
+      "end_range": [
+        2141.1,
+        2143.6
+      ],
+      "why": "Tristan's two attractors: let AI rip (anyone gets godlike cyber-hacking) or lock it down (who would you trust with a million times more power?). Clear explanation but cannot land under 75s.",
+      "over_band": true
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 39.9,
+      "why": "Moderator's opening framing (Dario's 'country of geniuses', Elon's robots) and the first question: sounds like a hook but is housekeeping that leads into the panel."
+    },
+    {
+      "start": 137.5,
+      "end": 158.1,
+      "why": "Amy's 2003 USPTO scraper and 'I'm now realizing this is a public session' -- gets a room laugh, but the joke is room-only and the story has no point on its own."
+    },
+    {
+      "start": 1747.9,
+      "end": 1785.9,
+      "why": "Moderator reads the NYT report that Trump is rethinking AI regulation: newsy and strong, but it is a question set-up with no answer in it."
+    },
+    {
+      "start": 2215.8,
+      "end": 2231.2,
+      "why": "Show of hands on the Alibaba example and 'a massive gap in understanding': strong claim whose support came a minute earlier, plus a room-only moment."
+    },
+    {
+      "start": 2749.6,
+      "end": 2781.7,
+      "why": "Amy's quip that OpenAI's best product 'is not a chatbot, it's debt': punchy, but it sits inside an answer to 'what does that incentive look like' and trails into an unexplained Bretton Woods-style proposal."
+    }
+  ]
+}

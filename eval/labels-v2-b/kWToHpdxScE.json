@@ -1,0 +1,145 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=kWToHpdxScE",
+    "title": "Open Source, Faster Jev is HERE",
+    "channel": "CoderOne",
+    "genre": "screen-recorded tutorial with opinion",
+    "duration_s": 782.0,
+    "sha256_prefix": "cdbf4e117c4b219f",
+    "local_path": "eval/media/coderone-jev.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "flight-for-a-fraction-of-a-cent",
+      "start": 111.0,
+      "start_range": [
+        111.0,
+        111.0
+      ],
+      "end": 137.7,
+      "end_range": [
+        135.3,
+        137.7
+      ],
+      "why": "Someone used browser-use plus Jev (ASR: 'Jeff') to book flights; hook is the concrete use, payoff is 'the entire booking took seven seconds and cost $0.0039', closed by what it actually did (opens Google Flights, picks dates, finds cheapest). Opens on 'some other folks', a mild back-reference, but nothing needed is lost.",
+      "over_band": false
+    },
+    {
+      "id": "cloned-in-a-week",
+      "start": 378.5,
+      "start_range": [
+        378.5,
+        387.1
+      ],
+      "end": 422.3,
+      "end_range": [
+        416.1,
+        425.8
+      ],
+      "why": "Hot take: Leia is less accurate than Jev, but Jev took three years in stealth and an open-weights clone appeared within a week; lands on 'the future is bright for open source' at 422.3. Ending right on the 'cloned it in five days or a week' line (416.1) also works.",
+      "over_band": false
+    },
+    {
+      "id": "what-is-system-1",
+      "start": 469.5,
+      "start_range": [
+        469.5,
+        472.9
+      ],
+      "end": 511.8,
+      "end_range": [
+        511.8,
+        511.8
+      ],
+      "why": "Question hook 'what the heck is System 1?' answered via Thinking Fast and Slow: System 2 is slow/logical like today's LLMs, System 1 is fast/instinctive, which is where Jev and Leia come from. Stops before the long example list read off the screen.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "snake-intro",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.0
+      ],
+      "end": 68.3,
+      "end_range": [
+        62.4,
+        68.3
+      ],
+      "why": "Cold open: an AI playing Snake locally at ~30 decisions/sec, then what Leia is (a System 1 classification model, decisions in under 33 ms). Relies partly on the on-screen Snake game, hence also_ok.",
+      "over_band": false
+    },
+    {
+      "id": "what-people-build-with-jev",
+      "start": 68.5,
+      "start_range": [
+        68.5,
+        68.5
+      ],
+      "end": 137.7,
+      "end_range": [
+        135.3,
+        137.7
+      ],
+      "why": "Wider version of the flight clip: 'people have been doing all sorts of things with it' -- Mario in real time, lead scoring, then the 7-second $0.0039 flight booking. Mario bit leans on the screen and the lead-scoring bit is garbled.",
+      "over_band": false
+    },
+    {
+      "id": "claude-code-port",
+      "start": 201.4,
+      "start_range": [
+        201.4,
+        201.4
+      ],
+      "end": 248.3,
+      "end_range": [
+        248.3,
+        248.3
+      ],
+      "why": "Running open-weights Leia locally is faster than the Jev API; he asked Claude Code to port the demo to Leia and it one-shot it in a single session. Opens on 'But what's even cooler', a mild run-up.",
+      "over_band": false
+    },
+    {
+      "id": "is-a-hamburger-a-sandwich",
+      "start": 598.2,
+      "start_range": [
+        598.2,
+        605.5
+      ],
+      "end": 699.6,
+      "end_range": [
+        696.7,
+        699.6
+      ],
+      "why": "Playground walkthrough of how a Jev question works (state, question, criteria), answered with 'hamburger is a sandwich: 94% true' and 'avocado toast: 94% false'. Screen-shared and too long to cut under 75s without losing the setup.",
+      "over_band": true
+    }
+  ],
+  "negatives": [
+    {
+      "start": 303.4,
+      "end": 339.7,
+      "why": "'Watch this, it's gonna be so fast' -- live narration of the browser agent clicking through Google Flights; the point is entirely on screen."
+    },
+    {
+      "start": 722.7,
+      "end": 763.0,
+      "why": "Email-classification example read off the screen: 94% confidence, 39 ms, 'three times faster than Jev'. Numbers sound clippable but depend on the display."
+    },
+    {
+      "start": 137.7,
+      "end": 167.2,
+      "why": "'So yeah' list of Kev model sizes (9B, 4B, 0.8B, open weights) -- numbers and a strong 'it's so good', but a run-on list with no point of its own."
+    }
+  ]
+}

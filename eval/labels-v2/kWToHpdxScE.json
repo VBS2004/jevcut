@@ -1,0 +1,105 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=kWToHpdxScE",
+    "title": "Open Source, Faster Jev is HERE",
+    "channel": "CoderOne",
+    "genre": "screen-recorded tutorial with opinion",
+    "duration_s": 782.2,
+    "sha256_prefix": "cdbf4e117c4b219f",
+    "local_path": "eval/media/coderone-jev.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "snake-cold-open",
+      "start": 0.0,
+      "start_range": [
+        0.0,
+        0.0
+      ],
+      "end": 62.4,
+      "end_range": [
+        56.2,
+        68.3
+      ],
+      "why": "Cold open on an AI playing snake locally at ~30 decisions/s, then what the model is: an open Jev-like (ASR 'Jeff') System One classifier that returns structured decisions, not text; lands on 'gives you a decision in sub-milliseconds' (62.4). The snake footage is on screen but the spoken claims stand alone.",
+      "over_band": false
+    },
+    {
+      "id": "cloned-in-a-week",
+      "start": 378.5,
+      "start_range": [
+        378.5,
+        380.2
+      ],
+      "end": 416.1,
+      "end_range": [
+        416.1,
+        422.3
+      ],
+      "why": "Opinion: Leia is a bit less accurate than Jev, but Jev spent three years in stealth and people cloned it in about a week; lands on 'cloned it literally in like five days or a week' (416.1). 'The future is bright for open source' (422.3) is an acceptable later end.",
+      "over_band": false
+    },
+    {
+      "id": "what-is-system-one",
+      "start": 469.5,
+      "start_range": [
+        469.5,
+        470.7
+      ],
+      "end": 511.8,
+      "end_range": [
+        511.8,
+        511.8
+      ],
+      "why": "Opens on the question 'what the heck is System 1?'; Thinking Fast and Slow: System 1 fast/instinctive vs System 2 slow/deliberate (today's LLMs); lands on 'that's exactly where Jev/Leia... classification models come from.' Stops before the on-screen example lists.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "flight-in-seven-seconds",
+      "start": 111.2,
+      "start_range": [
+        111.0,
+        111.2
+      ],
+      "end": 137.7,
+      "end_range": [
+        135.3,
+        137.7
+      ],
+      "why": "Browser Use + Jev booked a flight search in seven seconds for $0.0039. Surprising fact, but opens on 'using it' (it = Jev) and is partly screen-shown, so optional.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 137.7,
+      "end": 167.2,
+      "why": "Hype ('the introduction of Jev is literally changing everything') running into a list of models and parameter counts; no standalone point."
+    },
+    {
+      "start": 263.7,
+      "end": 339.7,
+      "why": "Live flight-booking demo narration ('watch this, it's gonna be so fast'); the point is what is on screen."
+    },
+    {
+      "start": 672.2,
+      "end": 711.7,
+      "why": "Playground sandwich example with 94%/6% numbers read off the screen."
+    },
+    {
+      "start": 744.0,
+      "end": 763.0,
+      "why": "'Did all of that in 39 milliseconds, three times faster than Jev'; numbers from an on-screen demo whose setup came earlier."
+    }
+  ]
+}

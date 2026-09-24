@@ -526,8 +526,8 @@ def main(argv: list[str] | None = None) -> int:
     _render_flags(p)
     p.set_defaults(func=cmd_run)
 
-    p = sub.add_parser("eval", help="score runs against eval/labels (012); no API calls")
-    p.add_argument("labels", nargs="?", default="eval/labels")
+    p = sub.add_parser("eval", help="score runs against eval/labels-v2 (012); no API calls")
+    p.add_argument("labels", nargs="?", default="eval/labels-v2")
     p.add_argument(
         "--suffix", default="-clips", help="run dir is <media stem><suffix> (default -clips)"
     )
@@ -535,8 +535,8 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_eval)
 
     p = sub.add_parser("agree", help="compare two labelers of the same videos: the noise floor")
-    p.add_argument("a", nargs="?", default="eval/labels")
-    p.add_argument("b", nargs="?", default="eval/labels-b")
+    p.add_argument("a", nargs="?", default="eval/labels-v2")
+    p.add_argument("b", nargs="?", default="eval/labels-v2-b")
     p.set_defaults(func=cmd_agree)
 
     p = sub.add_parser("smoke", help="one live Noul against the API (001)")

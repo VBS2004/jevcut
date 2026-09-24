@@ -1,0 +1,105 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=072eNztI06k",
+    "title": "You Can Learn AI Agent Memory Layers | Graph RAG, Vector DB, SQLite, Hermes, Waku",
+    "channel": "Sean's AI Stories",
+    "genre": "technical tutorial",
+    "duration_s": 1826.4,
+    "sha256_prefix": "8da1209e3ab96b92",
+    "local_path": "eval/media/sean-agent-memory.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "retire-not-delete",
+      "start": 452.0,
+      "start_range": [
+        452.0,
+        468.2
+      ],
+      "end": 518.3,
+      "end_range": [
+        513.7,
+        518.3
+      ],
+      "why": "Four decisions for maintaining a memory store (add, delete, overwrite, no-op, retire); explains retiring vs deleting with the GitHub-stars example (1,000 stars in 25 days, then 1.3k) and lands on 'these contexts are still important for future tracing' (518.3). Two starts work: the '4 main ways of maintaining a memory system' framing (452.0) or directly at 'Or do we retire some information?' (468.2).",
+      "over_band": false
+    },
+    {
+      "id": "reflect-like-dreaming",
+      "start": 540.4,
+      "start_range": [
+        539.2,
+        540.4
+      ],
+      "end": 584.5,
+      "end_range": [
+        576.3,
+        584.5
+      ],
+      "why": "Reflect: merging duplicates and dropping stale memories, tied to Anthropic's 'dreaming' idea of consolidating while the agent is idle; lands on 'a post-mortem or post-process step to maintain the memory system' (584.5).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "consolidating-semantic-memory",
+      "start": 679.8,
+      "start_range": [
+        679.8,
+        680.1
+      ],
+      "end": 710.6,
+      "end_range": [
+        706.9,
+        710.6
+      ],
+      "why": "How semantic memory gets built: save every turn to a SQLite state.db, consolidate every 5-10 conversations with a cheap auxiliary model, distill facts into memory.md loaded in context. Clear, but harness-specific.",
+      "over_band": false
+    },
+    {
+      "id": "vector-store-explained",
+      "start": 811.5,
+      "start_range": [
+        811.5,
+        811.5
+      ],
+      "end": 857.8,
+      "end_range": [
+        857.8,
+        857.8
+      ],
+      "why": "Vector stores: embed words as high-dimensional numbers because computers only process numbers, then similarity search (food near apple, sausages). Clear explanation; leans slightly on 'as I mentioned earlier'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 88.8,
+      "end": 135.4,
+      "why": "Repo plug: 1.3k GitHub stars, pip install, 'you will have an agent like this'."
+    },
+    {
+      "start": 1430.4,
+      "end": 1460.7,
+      "why": "Arena results read off the screen: SQLite 4.6s and correct, mem0 faster, LangMem 7.5s; numbers without standalone meaning."
+    },
+    {
+      "start": 1732.4,
+      "end": 1764.1,
+      "why": "'Maybe graph memory is overkill, which is why Hermes keeps it simple'; sounds like a take but rests on the Zep demo on screen."
+    },
+    {
+      "start": 1793.4,
+      "end": 1803.8,
+      "why": "'Zep team, if you're watching, please fix speed'; energetic, but the support is the waiting shown minutes earlier."
+    }
+  ]
+}

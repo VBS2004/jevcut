@@ -1,0 +1,90 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=YayPX1nXR7o",
+    "title": "5GHz 8 Elite Extreme Gen 6 vs A20 Pro vs Dimensity 9600 Pro - Who's Actually Faster?",
+    "channel": "Trakin Tech English",
+    "genre": "tech benchmark review",
+    "duration_s": 478.0,
+    "sha256_prefix": "006929614ada5856",
+    "local_path": "eval/media/trakin-chips.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Whisper small transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "ray-tracing-reason",
+      "start": 297.6,
+      "start_range": [
+        289.6,
+        297.6
+      ],
+      "end": 334.5,
+      "end_range": [
+        334.5,
+        343.1
+      ],
+      "why": "Hook: Qualcomm's new flagship trails the A20 Pro and Dimensity in ray tracing; he asked Qualcomm why, and the answer (no phone game uses that kind of RT workload) lands at 334.5. Ending on his own take ('RT on phones is overkill', 343.1) also works. Opening a line earlier on the FPS numbers is acceptable.",
+      "over_band": false
+    },
+    {
+      "id": "5ghz-not-fastest",
+      "start": 201.2,
+      "start_range": [
+        201.2,
+        201.5
+      ],
+      "end": 237.3,
+      "end_range": [
+        237.3,
+        237.3
+      ],
+      "why": "Geekbench scores for the three chips, spoken rather than only shown, building to the answer to the video's question: despite the first 5GHz phone CPU, the Snapdragon is not the fastest. Payoff at 237.3. 'Let's talk about Geekbench 6 first' before it is run-up.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "offset-packaging",
+      "start": 147.0,
+      "start_range": [
+        147.0,
+        147.0
+      ],
+      "end": 174.5,
+      "end_range": [
+        169.8,
+        187.2
+      ],
+      "why": "Why the Extreme outperforms the regular Elite with the same cores: memory moved off the SoC so heat escapes better, and Apple did the same with the A20 Pro. The shortest landing (169.8) is under the band, so the preferred end is the Apple twist; ending after 'same idea... power efficient' (187.2) also works. Opens on 'remember when I said', but the line restates the claim itself.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.0,
+      "end": 31.4,
+      "why": "Cold-open teaser: the silly name and '5GHz doesn't make it the fastest', but the benchmarks that back it are minutes later; then the channel intro."
+    },
+    {
+      "start": 109.1,
+      "end": 146.7,
+      "why": "'All of them take completely different directions this year' sounds like a hook, but it is followed by a subscribe ask and a spec-sheet list of clock speeds."
+    },
+    {
+      "start": 263.5,
+      "end": 284.2,
+      "why": "Steel Nomad Lite FPS numbers read off the chart; the conclusion is a single clause."
+    },
+    {
+      "start": 450.8,
+      "end": 466.4,
+      "why": "'By the way, I forgot to tell you' phone-launch news tacked onto the outro; no point of its own."
+    }
+  ]
+}

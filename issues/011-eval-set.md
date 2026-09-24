@@ -6,7 +6,7 @@
 | **Depends on** | 009 |
 | **Blocks** | 012, 003's recall check |
 | **Size** | XL (humans are the bottleneck) |
-| **Status** | **Pilot** — 8 videos, 7 genres (one multi-speaker podcast, one panel), labeled twice: `eval/labels/` (A; seven blind, CoderOne not) and `eval/labels-b/` (B; all blind). Noise floor from `jevcut agree`: the labelers share 68–80% of moments, start delta 0.0s p50 / 0.1s p90 (RESEARCH.md). Both labelers are the same model, so that floor is a lower bound; no human review yet. Not the 40-video set. Being relabeled under rubric v2 ([eval/RUBRIC.md](../eval/RUBRIC.md): shortest cut that works, opening on its hook) into `eval/labels-v2/` and `eval/labels-v2-b/`, blind. |
+| **Status** | **Pilot** — 8 videos, 7 genres (one multi-speaker podcast, one panel). Current labels: rubric v2 ([eval/RUBRIC.md](../eval/RUBRIC.md): the shortest cut that works, opening on its hook), two blind labelers, `eval/labels-v2/` (A, 56 clips) and `eval/labels-v2-b/` (B, 57); they share 80% of moments, start delta 0.0s p50 / 0.0s p90, end 6.0s p90. v1 (`eval/labels/`, `eval/labels-b/`, the natural cut, 54s median) is kept for the earlier results in RESEARCH.md. All labelers are the same model, so the floor is a lower bound; no human review yet. Not the 40-video set. |
 
 ## Why
 
