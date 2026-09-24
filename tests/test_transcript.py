@@ -76,3 +76,21 @@ def test_no_cuda_wheels_is_not_an_error(monkeypatch):
 
     monkeypatch.setitem(sys.modules, "nvidia", None)  # makes `import nvidia` raise
     assert transcript._load_cuda_wheels() == 0
+
+
+def test_lemonfox_words_keep_punctuation_and_speakers_and_skip_untimed():
+    from jevcut.transcript import segment_words, words_from_lemonfox
+
+    data = {
+        "words": [
+            {"word": " Let", "start": 0.26, "end": 0.36, "speaker": "SPEAKER_00"},
+            {"word": "guess.", "start": 0.5, "end": 0.78, "speaker": "SPEAKER_00"},
+            {"word": "um", "speaker": "SPEAKER_00"},  # no timing: dropped, not guessed
+            {"word": "Right?", "start": 1.3, "end": 1.6, "speaker": "SPEAKER_01"},
+        ]
+    }
+    words = words_from_lemonfox(data)
+    assert [w.text for w in words] == ["Let", "guess.", "Right?"]
+    assert [w.speaker for w in words] == ["SPEAKER_00", "SPEAKER_00", "SPEAKER_01"]
+    # The full stop Whisper small tends to drop is what makes this two sentences.
+    assert [s.text for s in segment_words(words)] == ["Let guess.", "Right?"]

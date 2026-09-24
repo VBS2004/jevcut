@@ -111,6 +111,10 @@ uv run jevcut run talk.mp4 --language en --out clips/
 # optional, on run or clip: --vertical centre-crops to 9:16 at 1080x1920 (no face
 # tracking yet), --captions burns in word-level captions from the transcript
 uv run jevcut run talk.mp4 --language en --out clips/ --vertical --captions
+# the best-measured transcript is hosted: --model lemonfox (LEMONFOX_API_KEY in
+# .env.local; $0.50 per 3 hours of audio). It punctuates where Whisper small does not and
+# labels speakers, which raised recall on every label set (BENCHMARKS.md, lemonfox-asr)
+uv run jevcut run talk.mp4 --language en --out clips/ --model lemonfox
 
 # the same in two steps
 uv run jevcut transcribe talk.mp4 --model small --language en --out t.json

@@ -13,8 +13,8 @@ input — so the model never touches media.
 
 | Concern | Owner |
 | --- | --- |
-| ASR, word timestamps | code (faster-whisper) |
-| Diarization | **not built** — measured as unnecessary for v1 (see [RESEARCH.md](../RESEARCH.md)) |
+| ASR, word timestamps | code: local faster-whisper, or hosted Lemonfox (`--model lemonfox`, best measured: it punctuates, and recall rose on every label set) |
+| Diarization | **not built locally** — measured as unnecessary for v1 (see [RESEARCH.md](../RESEARCH.md)); Lemonfox's speaker labels arrive with its words and become speaker-change cuts |
 | Shot changes, silence gaps, loudness | code (ffmpeg / PySceneDetect) |
 | Enumerating candidate cut points | code |
 | Choosing the start and stop cut points | **code lists, Jev judges** — the boundary search (2026-09-24); was code by rule, before that Jev (Pass D) |

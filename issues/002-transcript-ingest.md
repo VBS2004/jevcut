@@ -5,7 +5,7 @@
 | **Milestone** | M0 Foundations |
 | **Depends on** | 001 |
 | **Blocks** | 003, 005 |
-| **Status** | **Done** (M0 branch) — `src/jevcut/transcript.py`, `tests/test_transcript.py` |
+| **Status** | **Done** (M0 branch) — `src/jevcut/transcript.py`, `tests/test_transcript.py`. Local faster-whisper, or hosted Lemonfox with `--model lemonfox` (2026-09-24): punctuation and speaker labels, recall up on every label set (RESEARCH.md) |
 | **Size** | M |
 
 ## Why

@@ -30,6 +30,7 @@ def _config(args: argparse.Namespace) -> Config:
 
 
 def cmd_transcribe(args: argparse.Namespace) -> int:
+    load_env()  # LEMONFOX_API_KEY, for --model lemonfox
     config = _config(args)
     transcript = ingest(
         args.input,
@@ -578,7 +579,9 @@ def main(argv: list[str] | None = None) -> int:
         "--model",
         default="base",
         help="whisper size: base is fast and error-prone, small/medium are better on "
-        "noisy stream audio. Cached per size, so changing it re-transcribes.",
+        "noisy stream audio. `lemonfox` is hosted Whisper with punctuation and speaker "
+        "labels (LEMONFOX_API_KEY; best measured). Cached per model, so changing it "
+        "re-transcribes.",
     )
     p.add_argument("--out")
     p.add_argument("--preview", type=int, default=0, help="print the first N rendered lines")
@@ -622,7 +625,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("input")
     p.add_argument("--out", help="output directory (default: clips/)")
     p.add_argument("--language", help="ISO code, e.g. en; see transcribe --help")
-    p.add_argument("--model", default="small", help="whisper size; see transcribe --help")
+    p.add_argument(
+        "--model", default="small", help="whisper size or `lemonfox`; see transcribe --help"
+    )
     p.add_argument(
         "--retranscribe", action="store_true", help="run ASR even if the transcript exists"
     )

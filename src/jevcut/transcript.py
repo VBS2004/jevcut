@@ -275,6 +275,13 @@ def transcribe_media(
         # every future run with no symptom beyond "transcript is empty".
         log.warning("ignoring empty ASR cache %s; re-transcribing", cache)
 
+    if model_size == LEMONFOX:
+        words = lemonfox_words(media, language)
+        if not words:
+            raise RuntimeError(f"Lemonfox returned no words for {media}.")
+        _write_words(cache, words)
+        return words
+
     try:
         from faster_whisper import WhisperModel
     except ImportError as exc:  # pragma: no cover - depends on optional extra
@@ -303,10 +310,120 @@ def transcribe_media(
             f"no_speech_threshold (currently {config.no_speech_threshold})."
         )
 
-    cache.write_text(
-        json.dumps([{"text": w.text, "t0": w.t0, "t1": w.t1} for w in words], indent=2)
-    )
+    _write_words(cache, words)
     return words
+
+
+def _write_words(path: Path, words: list[Word]) -> None:
+    rows = []
+    for w in words:
+        row = {"text": w.text, "t0": w.t0, "t1": w.t1}
+        if w.speaker:
+            row["speaker"] = w.speaker
+        rows.append(row)
+    path.write_text(json.dumps(rows, indent=2))
+
+
+#: The hosted option: `--model lemonfox`. Whisper behind an API, with punctuation that
+#: Whisper `small` drops and speaker labels that become speaker-change cuts. On the pilot
+#: set it put a real boundary at 78% of labeled starts against small's 75%, and raised
+#: recall on every label set (RESEARCH.md, "Lemonfox transcripts"). $0.50 per 3 hours of
+#: audio; needs LEMONFOX_API_KEY. Everything else stays local.
+LEMONFOX = "lemonfox"
+LEMONFOX_URL = "https://api.lemonfox.ai/v1/audio/transcriptions"
+LEMONFOX_TIMEOUT_S = 900.0  # a 97-minute debate took 112s; uploads are the slow part
+
+
+def lemonfox_words(media: str | Path, language: str | None = None) -> list[Word]:
+    """Transcribe with Lemonfox: word timings, punctuation and speaker labels.
+
+    The audio is sent, not the video: mono 16kHz Opus at 32kbps keeps a 97-minute file
+    near 23MB, well under the 100MB upload limit."""
+    import os
+    import subprocess
+    import tempfile
+    import urllib.error
+    import urllib.request
+    import uuid
+
+    key = os.environ.get("LEMONFOX_API_KEY")
+    if not key:
+        raise RuntimeError("LEMONFOX_API_KEY is not set (put it in .env.local).")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        audio = Path(tmp) / "audio.ogg"
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-loglevel",
+                "error",
+                "-y",
+                "-i",
+                str(media),
+                "-vn",
+                "-ac",
+                "1",
+                "-ar",
+                "16000",
+                "-c:a",
+                "libopus",
+                "-b:a",
+                "32k",
+                str(audio),
+            ],
+            check=True,
+        )
+        fields = {
+            "response_format": "verbose_json",
+            "timestamp_granularities[]": "word",
+            "speaker_labels": "true",
+        }
+        if language:
+            fields["language"] = language
+        boundary = uuid.uuid4().hex
+        body = b"".join(
+            f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode()
+            for k, v in fields.items()
+        )
+        body += (
+            (
+                f'--{boundary}\r\nContent-Disposition: form-data; name="file"; '
+                f'filename="audio.ogg"\r\nContent-Type: audio/ogg\r\n\r\n'
+            ).encode()
+            + audio.read_bytes()
+            + f"\r\n--{boundary}--\r\n".encode()
+        )
+
+    request = urllib.request.Request(
+        LEMONFOX_URL,
+        data=body,
+        headers={
+            "Authorization": f"Bearer {key}",
+            "Content-Type": f"multipart/form-data; boundary={boundary}",
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=LEMONFOX_TIMEOUT_S) as response:
+            data = json.loads(response.read())
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode(errors="replace")[:300]
+        raise RuntimeError(f"Lemonfox HTTP {exc.code}: {detail}") from exc
+    return words_from_lemonfox(data)
+
+
+def words_from_lemonfox(data: dict) -> list[Word]:
+    """Lemonfox's verbose_json -> words. A word without timings (rare: a token the aligner
+    could not place) is dropped rather than given a guessed time."""
+    return [
+        Word(
+            text=w["word"].strip(),
+            t0=float(w["start"]),
+            t1=float(w["end"]),
+            speaker=w.get("speaker"),
+        )
+        for w in data.get("words", [])
+        if w.get("word", "").strip() and "start" in w and "end" in w
+    ]
 
 
 def ingest(
