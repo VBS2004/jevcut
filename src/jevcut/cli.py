@@ -310,12 +310,15 @@ def cmd_eval(args: argparse.Namespace) -> int:
 
     def row(name: str, s: dict) -> str:
         err = s["start_err_median"]
+        dur, lab_dur = s["duration_median"], s["label_duration_median"]
         return (
             f"{name[:34]:34} {s['predicted']:>4} {s['labeled']:>4} "
             f"{s['matched']:>4} {s['acceptable']:>3}  "
             f"P {s['precision']:.2f}  R {s['recall']:.2f} (chance {s['chance_recall']:.2f})  "
             f"in-range {s['in_range_rate']:.2f}  on-negative {s['negative_rate']:.2f}  "
-            f"start-err {'-' if err is None else f'{err:.1f}s'}"
+            f"start-err {'-' if err is None else f'{err:.1f}s'}  "
+            f"length {'-' if dur is None else f'{dur:.0f}s'}"
+            f"/{'-' if lab_dur is None else f'{lab_dur:.0f}s'}"
         )
 
     print(f"{'':34} pred  lab  hit  ok")
@@ -335,14 +338,21 @@ def cmd_eval(args: argparse.Namespace) -> int:
     ).stdout.strip()
     out = Path("eval/results/results.csv")
     out.parent.mkdir(parents=True, exist_ok=True)
-    new = not out.exists()
-    with out.open("a", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["time", "git", "note", *total])
-        if new:
-            w.writeheader()
-        w.writerow(
-            {"time": time.strftime("%Y-%m-%d %H:%M"), "git": sha, "note": args.note, **total}
-        )
+    fields = ["time", "git", "note", *total]
+    rows = []
+    if out.exists():
+        with out.open(newline="") as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+            # Keep any column an older version wrote, so no past number is dropped.
+            fields = list(dict.fromkeys([*(reader.fieldnames or []), *fields]))
+    rows.append({"time": time.strftime("%Y-%m-%d %H:%M"), "git": sha, "note": args.note, **total})
+    # Rewritten whole rather than appended, so a column added later lines up with the
+    # rows written before it (left blank there) instead of shifting them.
+    with out.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fields, restval="")
+        w.writeheader()
+        w.writerows(rows)
     print(f"\nappended to {out}")
     return 0
 

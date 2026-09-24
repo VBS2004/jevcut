@@ -146,3 +146,12 @@ def test_two_labelers_agreement_is_the_noise_floor():
     assert (r["a"], r["b"], r["matched"]) == (2, 3, 1)
     assert r["agree_a"] == 0.5
     assert r["start_deltas"] == [3] and r["end_deltas"] == [0]
+
+
+def test_summary_reports_how_long_the_clips_run(tmp_path):
+    # "Short" is in the spec, so length is reported beside where the edges land.
+    edl = tmp_path / "edl.json"
+    write_edl([_clip(100, 130, 1), _clip(300, 350, 2), _clip(500, 520, 3)], edl)
+    s = summary([score_video(_label(), edl)])
+    assert s["duration_median"] == 30.0
+    assert s["label_duration_median"] == 45.0

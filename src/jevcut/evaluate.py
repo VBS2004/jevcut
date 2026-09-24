@@ -103,6 +103,10 @@ class VideoScore:
     chance_recall: float
     start_errors: list[float] = field(default_factory=list)
     end_errors: list[float] = field(default_factory=list)
+    #: Every predicted and every required clip's length. "Short" is part of the spec
+    #: (eval/RUBRIC.md), so how long the clips run is reported next to where they land.
+    durations: list[float] = field(default_factory=list)
+    label_durations: list[float] = field(default_factory=list)
     #: Label ids that no prediction matched, for reading the misses rather than counting.
     missed: list[str] = field(default_factory=list)
 
@@ -157,6 +161,8 @@ def score_video(label: dict, edl_path: str | Path) -> VideoScore:
         ),
         start_errors=[abs(predicted[i][0] - labeled[j][0]) for i, j in pairs],
         end_errors=[abs(predicted[i][1] - labeled[j][1]) for i, j in pairs],
+        durations=[p[1] - p[0] for p in predicted],
+        label_durations=[g[1] - g[0] for g in labeled],
         missed=[g["id"] for j, g in enumerate(gold) if j not in matched_labels],
     )
 
@@ -206,6 +212,8 @@ def summary(scores: list[VideoScore]) -> dict:
         "negative_rate": sum(s.on_negative for s in scores) / pred if pred else 0.0,
         "start_err_median": _median(starts),
         "end_err_median": _median(ends),
+        "duration_median": _median([d for s in scores for d in s.durations]),
+        "label_duration_median": _median([d for s in scores for d in s.label_durations]),
     }
 
 
