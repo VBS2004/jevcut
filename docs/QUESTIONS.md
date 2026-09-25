@@ -180,6 +180,11 @@ Wording in `src/jevcut/questions.py` → `opening_questions()`.
   usually top three on `hook`, within 0.1-0.15 of the best, and the cleanliness filter
   discarded it about half the time. A Choice sees every candidate at once, so it only
   has to rank them. It landed more starts in range on all four label sets (RESEARCH.md).
+- **The Choice ranks; the gate checks.** The pick is not final until the finished clip
+  is judged: an opening the gate reads as mid-thought, dangling, or with no hook gives way
+  to the Choice's next picks, judged against the same ending (`search._check_opening`).
+  Three rewordings of this question itself were tried on 38 videos and none moved the
+  worst starts (RESEARCH.md).
 - **"Prefer the later mark" was tried and cut.** It pushed picks onto the anchor line
   itself: 58 of 138 took the last mark. The picks still lean late without it, which is
   the open problem, not a wording to tune here.

@@ -93,6 +93,10 @@ placement and repair were replaced by a search (RESEARCH.md has both measurement
    the moment needs. It replaced judging each opening alone and keeping the strongest
    `hook` among the clean ones, which let per-candidate noise pick the start
    ([QUESTIONS.md](QUESTIONS.md#the-opening--one-choice-per-anchor), RESEARCH.md).
+   Once the ending is found, the finished clip's opening is checked: if it reads as
+   mid-thought or has no hook (below level 1: "housekeeping, hesitation, or a thought
+   already underway"), the Choice's next picks are judged against the same ending and the
+   first good one takes over -- one request each, only for clips that need it.
 2. **Ending.** From that opening, every real boundary after the anchor that keeps the
    clip in the band, judged as the finished clip. Among those passing the full gate the
    earliest one clean on `ends_mid_thought` wins -- the shortest clip that finishes its

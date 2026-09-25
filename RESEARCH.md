@@ -740,6 +740,32 @@ before, and twice a skipped hook. No single framing addresses all of them; the n
 should combine signals -- the Choice's top few marks, each checked on the finished clip for
 `hook` and `starts_mid_thought` -- rather than reword the one question again.
 
+### Shortlisting openings: the Choice ranks, the gate checks (2026-09-25)
+
+The Choice's top three openings, in its order, each judged as the finished clip from that
+mark to the clip's ending; the first that is clean at the start (below the repair bar)
+with a `hook` of at least level 1 wins -- level 0 of `hook` is "housekeeping, hesitation,
+or a thought already underway". Offline on 38 videos with endings held fixed
+([`eval/experiments/opening_shortlist.py`](eval/experiments/opening_shortlist.py)), then
+end to end with the check in the search, same anchors:
+
+| | fully right A / B | recall A / B | precision A / B | start p50 A / B | p90 A / B |
+| --- | --- | --- | --- | --- | --- |
+| current | 35 / 33 | 0.52 / 0.54 | 0.31 / 0.34 | 1.5 / 2.0s | 17.5 / 19.6s |
+| + shortlist check | **38 / 37** | **0.55 / 0.56** | **0.33 / 0.35** | **1.3 / 1.8s** | 17.8 / 19.3s |
+
+- **Kept.** Better on both labelers on every measure the spec is about. The check runs only
+  when the finished clip's opening fails it, so it costs ~4% more gate requests (4,745 for
+  the 38 videos).
+- **"Best hook among the clean ones"** in place of the Choice's order did worse (fully right
+  33 / 32), as judging openings by `hook` alone did before the Choice replaced it.
+- **Adding openings after the anchor on top** gave more fully right clips against A only
+  (42 vs 36 against B's 36) and worse worst starts; not kept.
+- **The tail does not move** (p90 within 0.3s, ~1 in 4 found clips 10s+ off). In 30 of the
+  48 far-off cases the right start is never a candidate -- the search offers openings only
+  up to the anchor, and the anchor sits in the thought before. That is the scan's anchor
+  choice, and it is where the tail has to be fixed.
+
 ## What would let building resume
 
 Either:

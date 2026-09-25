@@ -41,6 +41,12 @@ from jevcut.render import cut_id, render_markers
 
 #: Transcript shown past the anchor, so the Choice can read what the moment is building to.
 OPENING_CONTEXT_AFTER_S = 20.0
+#: How many of the Choice's openings, best first, the finished-clip check may walk.
+OPENING_SHORTLIST = 3
+#: The least `hook` an opening must have. Level 0 is, in the question's own words,
+#: "housekeeping, hesitation, or a thought already underway"; 1 is "states plainly what is
+#: about to be discussed". So this vetoes greetings and openings already mid-argument.
+OPENING_HOOK_FLOOR = 1.0
 
 log = logging.getLogger(__name__)
 
@@ -115,9 +121,10 @@ def choose_opening(
     transcript: Transcript,
     spans: list[tuple[CutPoint, CutPoint]],
     anchor: Sentence,
-) -> CutPoint | None:
+) -> list[CutPoint]:
     """One Choice over every candidate opening, marked in place and renumbered from C00.
-    None when the request fails or answers off the list."""
+    The openings come back best first, by the weight the Choice put on each; empty when
+    the request fails."""
     marks = {cut_id(i): start for i, (start, _) in enumerate(spans)}
     shown = [replace(start, id=mark) for mark, start in marks.items()]
     sentences = transcript.between(spans[0][0].t_start - 0.01, anchor.t1 + OPENING_CONTEXT_AFTER_S)
@@ -129,8 +136,57 @@ def choose_opening(
         )
     except Exception as exc:  # noqa: BLE001 - reported as a drop, never a crash
         log.warning("opening request failed for %s: %s", anchor.id, exc)
-        return None
-    return marks.get(result.answers["opening"].choice)
+        return []
+    answer = result.answers["opening"]
+    weight = dict(answer.probabilities or {})
+    weight[answer.choice] = float("inf")  # the pick leads even when no spread came back
+    return [marks[m] for m in sorted(marks, key=lambda m: -weight.get(m, 0.0))]
+
+
+def _good_opening(j: gate_mod.Judgment, config: Config) -> bool:
+    """Clean at the start by the repair bar, and a real hook."""
+    return (
+        j.nouls.get("starts_mid_thought", 0.0) < config.repair_threshold
+        and j.nouls.get("dangling_reference", 0.0) < config.repair_threshold
+        and j.scores.get("hook", 0.0) >= OPENING_HOOK_FLOOR
+    )
+
+
+def _check_opening(
+    client: JevClient,
+    transcript: Transcript,
+    real: list[CutPoint],
+    ranked: list[CutPoint],
+    result: SearchResult,
+    config: Config,
+) -> None:
+    """The Choice ranks openings well against each other but sometimes lands on a greeting,
+    a "But you're..." mid-argument, or the tail of the thought before -- failures the
+    gate's questions see plainly in a finished clip. So when the finished clip's opening
+    is not good, its next picks are judged against the same ending, and the first good
+    one takes over. One request each, and only for clips that need it.
+
+    On 38 videos this found more clips with both edges right on both labelers (35 -> 37,
+    33 -> 37) and raised recall; it does not move the far-off tail (RESEARCH.md,
+    "Shortlisting openings")."""
+    if result.judgment is None or _good_opening(result.judgment, config):
+        return
+    low, high = config.duration_band_s
+    end = next(c for c in real if c.id == result.boundary.end_cut)
+    for start in ranked[1:OPENING_SHORTLIST]:
+        if not low <= end.t_end - start.t_start <= high:
+            continue
+        result.requests += 1
+        try:
+            j = gate_mod.verify(client, _text(transcript, start.t_start, end.t_end), config)
+        except Exception as exc:  # noqa: BLE001 - a lost candidate is skipped
+            log.warning("opening check failed for %s: %s", start.id, exc)
+            result.failed += 1
+            continue
+        if _good_opening(j, config):
+            result.boundary, result.judgment = _boundary(start, end), j
+            result.verdict = gate_mod.verdict(j, config)
+            return
 
 
 def search(
@@ -151,15 +207,17 @@ def search(
     spans = openings(real, anchor, config)
     if not spans:
         return no("no opening fits the duration band")
-    start = choose_opening(client, transcript, spans, anchor)
-    if start is None:
+    ranked = choose_opening(client, transcript, spans, anchor)
+    if not ranked:
         return no("gate unavailable", requests=1, failed=1)
     # The final gate still reads the start of the finished clip, and its veto is kept:
-    # openings it vetoed were in a labeler's range half as often as ones it passed.
-    # Retrying the Choice's runner-up on a veto was tried and cut -- 12 more clips on the
-    # pilot set, 0-2 more hits per label set (RESEARCH.md).
-    result = _finish(client, transcript, real, anchor, start, config)
+    # openings it vetoed were in a labeler's range half as often as ones it passed. What
+    # changed is the retry: the runner-up is now judged against the ending already found
+    # (one request), not given a whole new ending search, which was tried and cut.
+    result = _finish(client, transcript, real, anchor, ranked[0], config)
     result.requests += 1
+    if result.boundary is not None:
+        _check_opening(client, transcript, real, ranked, result, config)
     if result.ok:
         _screen_promotion(client, transcript, result, config)
     return result
