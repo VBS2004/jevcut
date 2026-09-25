@@ -131,22 +131,23 @@ uv run ruff check .          # lint; the known findings are listed below
 uv run python scripts/check_docs.py   # do the docs still describe the code?
 
 # a real video, end to end -> ranked mp4s, an editable edl.json and index.html (a page
-# to watch them on, best first, with the scores that ranked them), all in clips/.
+# to watch them on, best first, with the scores that ranked them), all in clips/talk/.
 # At a terminal it shows live progress, every moment kept or dropped and why, a ranked
 # table and a run summary; piped, or with --plain, it prints one line per event
-# a second run reuses clips/transcript.json, so ASR runs once; Jev answers are cached
-uv run jevcut run talk.mp4 --language en --out clips/
+# a second run on the same video reuses its transcript, so ASR runs once (a transcript
+# made from a different video is never reused); Jev answers are cached
+uv run jevcut run talk.mp4 --language en
 # optional, on run or clip: --vertical centre-crops to 9:16 at 1080x1920 (no face
 # tracking yet), --captions burns in word-level captions from the transcript
-uv run jevcut run talk.mp4 --language en --out clips/ --vertical --captions
+uv run jevcut run talk.mp4 --language en --vertical --captions
 # the best-measured transcript is hosted: --model lemonfox (LEMONFOX_API_KEY in
 # .env.local; $0.50 per 3 hours of audio). It punctuates where Whisper small does not and
 # labels speakers, which raised recall on every label set (BENCHMARKS.md, lemonfox-asr)
-uv run jevcut run talk.mp4 --language en --out clips/ --model lemonfox
+uv run jevcut run talk.mp4 --language en --model lemonfox
 
 # the same in two steps
 uv run jevcut transcribe talk.mp4 --model small --language en --out t.json
-uv run jevcut clip t.json --media talk.mp4 --out clips/
+uv run jevcut clip t.json --media talk.mp4 --out clips/talk/
 
 # without ASR, from the synthetic fixture
 uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out t.json

@@ -228,7 +228,7 @@ def cmd_clip(args: argparse.Namespace) -> int:
         c.id, c.rank = f"clip{i:03d}", i
         c.scores["composite"] = round(composite(c.scores), 3)
 
-    out_dir = Path(args.out or "clips")
+    out_dir = Path(args.out or Path("clips") / Path(args.media or args.transcript).stem)
     out_dir.mkdir(parents=True, exist_ok=True)
     if not args.anchors:
         # So a re-run can pass --anchors and pay nothing for the scan again.
@@ -256,18 +256,39 @@ def cmd_clip(args: argparse.Namespace) -> int:
     return 0
 
 
+def _stale_transcript(path: Path, media: str) -> str | None:
+    """Why the transcript at ``path`` must not be reused for ``media``; None if it can be.
+
+    A transcript sitting in the output folder is not necessarily this video's: a folder
+    reused for another video, or a run killed mid-write, would otherwise have the new video
+    cut on the old one's words -- with no error, since it parses fine."""
+    if not path.exists():
+        return "no transcript yet"
+    try:
+        source = json.loads(path.read_text()).get("source", "")
+    except (ValueError, OSError):
+        return f"{path} is empty or unreadable"
+    if source and Path(source).resolve() != Path(media).resolve():
+        return f"{path} is for {source}, not {media}"
+    return None
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     """media -> clips in one command: transcribe, then clip, all into one directory."""
-    out_dir = Path(args.out or "clips")
+    # One folder per video by default, so runs on two videos never share a transcript.
+    out_dir = Path(args.out or Path("clips") / Path(args.input).stem)
     out_dir.mkdir(parents=True, exist_ok=True)
     transcript = out_dir / "transcript.json"
 
     # ASR is the slow step and the transcript does not depend on anything downstream, so
-    # an existing one is reused. Jev answers are not: those come from --cache, which keys
-    # on the exact questions, so a changed question is asked again rather than replayed.
-    if transcript.exists() and not args.retranscribe:
+    # this video's existing one is reused. Jev answers are not: those come from --cache,
+    # which keys on the exact questions, so a changed question is asked again.
+    stale = _stale_transcript(transcript, args.input)
+    if not stale and not args.retranscribe:
         print(f"reusing {transcript} (--retranscribe to run ASR again)")
     else:
+        if stale and transcript.exists():
+            print(f"transcribing again: {stale}")
         with reporter(args.plain).transcribing(args.input, args.model):
             status = cmd_transcribe(
                 argparse.Namespace(
@@ -635,13 +656,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("transcript")
     p.add_argument("--media", help="source video; without it only the EDL is written")
     p.add_argument("--anchors", help="reuse an anchors.json instead of scanning again")
-    p.add_argument("--out", help="output directory (default: clips/)")
+    p.add_argument("--out", help="output directory (default: clips/<video name>/)")
     _render_flags(p)
     p.set_defaults(func=cmd_clip)
 
     p = sub.add_parser("run", help="media -> ranked mp4s in one command (transcribe + clip)")
     p.add_argument("input")
-    p.add_argument("--out", help="output directory (default: clips/)")
+    p.add_argument("--out", help="output directory (default: clips/<video name>/)")
     p.add_argument("--language", help="ISO code, e.g. en; see transcribe --help")
     p.add_argument(
         "--model", default="small", help="whisper size or `lemonfox`; see transcribe --help"

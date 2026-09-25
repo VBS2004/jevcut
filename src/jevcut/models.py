@@ -8,6 +8,7 @@ sees a number it would have to reason about.
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
@@ -95,7 +96,12 @@ class Transcript:
         return [s for s in self.sentences if s.t1 >= t0 and s.t0 <= t1]
 
     def to_json(self, path: str | Path) -> None:
-        Path(path).write_text(json.dumps(self.to_dict(), indent=2, ensure_ascii=False))
+        """Written to a temporary file and renamed into place: a run killed mid-write leaves
+        the old transcript or none, never an empty file a later run would try to reuse."""
+        path = Path(path)
+        tmp = path.with_name(path.name + ".tmp")
+        tmp.write_text(json.dumps(self.to_dict(), indent=2, ensure_ascii=False))
+        os.replace(tmp, path)
 
     def to_dict(self) -> dict:
         return {
