@@ -1,26 +1,38 @@
 # jevcut
 
-Auto-clipping that picks **cut points**, not windows.
+Turn a long video into short clips that stand on their own — for Shorts, Reels, TikTok,
+or just a highlights reel. One command in, ranked mp4s out.
 
-Given a full video (or a live stream), jevcut finds the moments worth clipping and
-decides exactly where each clip should **start** and **stop** — using
-[Jev](https://docs.typesafe.ai/models.md), TypeSafe's System One model, as a judge over
-transcript text, with all arithmetic, timing and rendering in code.
+```bash
+uv run jevcut run talk.mp4 --model lemonfox
+```
 
-Status: **research MVP — runs end to end on real video.** `jevcut run talk.mp4` turns a
-talk into ranked, rendered clips: cut points (003), Pass C anchors
-(005), a boundary search where code lists candidate edges and the clip gate judges each (007), composite
-ranking (008), EDL and ffmpeg render (009), and a response cache for reproducible runs
-(004). Validated on two FOSDEM videos, a solo talk and a panel; a human rated the solo
-talk's output. Thresholds are measured on those two videos only and are not calibrated —
-that is 014. The research phase that changed the design is in [RESEARCH.md](RESEARCH.md);
-every measured version, scored side by side on the eval set, is in
-[BENCHMARKS.md](BENCHMARKS.md); see [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/).
+![jevcut cutting 62 clips out of a 97-minute podcast, live in the terminal](assets/demo.gif)
 
-**Scope: v1 clips verbal content** — podcasts, interviews, talks, panels, streams where
-people talk. The judge is Jev over transcript text, so a moment carrying no words (a crash,
-a scream, a stunt) is invisible to it by construction. That is a deliberate v1 boundary,
-not an oversight: see [issue 021](issues/021-event-clips.md).
+jevcut transcribes the video, finds the moments worth clipping, decides exactly where
+each one starts and stops, drops anything that doesn't stand alone or turns out to be an
+ad, and writes ranked mp4s plus a page to watch them on, best first.
+
+**What makes it different:** code lists every place a clip could start or end — sentence
+ends, pauses, speaker changes — and never lets a model name a timestamp. Jev
+([TypeSafe](https://docs.typesafe.ai/models.md)'s System One model) only ever judges the
+clip that one candidate edge would make, or picks among candidates code has already
+enumerated. See [What jevcut does differently](#what-jevcut-does-differently).
+
+**Measured, not asserted.** On 38 hand-labelled videos across 13 genres, jevcut beats
+five simpler approaches — scoring every sentence, fixed windows, padding the top sentence,
+and two that keep jevcut's own choice of moment but set the edges in code — on recall, on
+how often both edges land where a human would cut, and on precision. Full numbers in
+[BENCHMARKS.md](BENCHMARKS.md); why each result came out the way it did is in
+[RESEARCH.md](RESEARCH.md). It costs about 3¢ of Jev per hour of video
+([What it costs](#what-it-costs)); transcription is extra.
+
+**Scope: v1 clips verbal content** — podcasts, interviews, talks, panels, comedy, streams
+where people talk. The judge is Jev over transcript text, so a moment carrying no words
+(a crash, a scream, a stunt) is invisible to it by construction. That is a deliberate v1
+boundary, not an oversight: see [issue 021](issues/021-event-clips.md).
+
+See [ROADMAP.md](ROADMAP.md) and [`issues/`](issues/) for what's built and what's next.
 
 ---
 
