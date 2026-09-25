@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Auto-clipping that picks cut points, not windows."
 requires-python = ">=3.11"
 dependencies = [
+    "rich>=13",
     "typesafe-sdk>=0.5.7",
 ]
 

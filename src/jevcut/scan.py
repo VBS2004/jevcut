@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import logging
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -293,7 +294,12 @@ def dedupe(anchors: list[Anchor], config: Config | None = None) -> list[Anchor]:
     return sorted(kept, key=lambda a: a.t0)
 
 
-def scan(client: JevClient, transcript: Transcript, config: Config | None = None) -> ScanResult:
+def scan(
+    client: JevClient,
+    transcript: Transcript,
+    config: Config | None = None,
+    on_window: Callable[[int, int, int], None] | None = None,
+) -> ScanResult:
     """Every window in parallel, bounded by the account's request budget.
 
     Windows are independent, so one failing must not discard the others. ``pool.map``
@@ -302,6 +308,9 @@ def scan(client: JevClient, transcript: Transcript, config: Config | None = None
     all because the twenty-first hit a 5xx that outlived its retries. Failures are
     collected instead, and returned with the anchors so the caller can actually decide
     whether a partial scan is usable -- a log line alone left that promise unkeepable.
+
+    ``on_window(done, total, anchors_so_far)`` is called as each window finishes, for a
+    progress display; the count is before the cross-window dedupe.
     """
     config = config or Config()
     found = windows(transcript, config)
@@ -318,6 +327,8 @@ def scan(client: JevClient, transcript: Transcript, config: Config | None = None
             except Exception as exc:  # noqa: BLE001 - one window must not sink the scan
                 failures.append((window.id, exc))
                 log.warning("window %s failed: %s: %s", window.id, type(exc).__name__, exc)
+            if on_window:
+                on_window(sum(f.done() for f in futures), len(found), len(anchors))
 
     if failures:
         log.warning(

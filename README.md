@@ -131,7 +131,9 @@ uv run ruff check .          # lint; the known findings are listed below
 uv run python scripts/check_docs.py   # do the docs still describe the code?
 
 # a real video, end to end -> ranked mp4s, an editable edl.json and index.html (a page
-# to watch them on, best first, with the scores that ranked them), all in clips/
+# to watch them on, best first, with the scores that ranked them), all in clips/.
+# At a terminal it shows live progress, every moment kept or dropped and why, a ranked
+# table and a run summary; piped, or with --plain, it prints one line per event
 # a second run reuses clips/transcript.json, so ASR runs once; Jev answers are cached
 uv run jevcut run talk.mp4 --language en --out clips/
 # optional, on run or clip: --vertical centre-crops to 9:16 at 1080x1920 (no face

@@ -23,6 +23,7 @@ from jevcut.render import render_lines
 from jevcut.scan import read_scan, scan, windows, write_scan
 from jevcut.sheet import write_sheet
 from jevcut.transcript import ingest, sanity_check
+from jevcut.ui import reporter
 
 
 def _config(args: argparse.Namespace) -> Config:
@@ -153,26 +154,30 @@ def cmd_clip(args: argparse.Namespace) -> int:
         config.ending_batch = 0
     transcript = Transcript.from_json(args.transcript)
     found = cuts_mod.extract(transcript, config)
-    print(f"{len(transcript)} sentences, {len(found)} cut points")
+    ui = reporter(getattr(args, "plain", False))
+    ui.loaded(transcript, len(found), args.media)
 
+    scan_cost = 0.0
+    scan_requests = 0
     if args.anchors:
         result = read_scan(args.anchors)
-        print(f"{len(result.anchors)} anchors from {args.anchors}")
+        ui.anchors(len(result.anchors), source=args.anchors)
     else:
         with JevClient(config) as client:
-            result = scan(client, transcript, config)
-            print(f"{len(result.anchors)} anchors, {client.summary()['requests']} requests")
+            ui.scan_begin(len(windows(transcript, config)))
+            result = scan(client, transcript, config, on_window=ui.scan_window)
+            summary = client.summary()
+            scan_requests, scan_cost = summary["requests"], summary["cost_usd"] or 0.0
+            ui.anchors(len(result.anchors), requests=scan_requests)
     if not result.complete:
-        print(
-            f"INCOMPLETE SCAN: {result.windows_failed}/{result.windows_total} windows failed "
-            f"({result.coverage:.0%} covered). Clips below are a floor, not a result."
-        )
+        ui.incomplete(result.windows_failed, result.windows_total, result.coverage)
 
     def clip_text(b) -> str:
         return " ".join(sent.text for sent in transcript.between(b.t0, b.t1))
 
     clips: list[Clip] = []
     requests = failed = 0
+    ui.search_begin(len(result.anchors))
     with JevClient(config) as client:
         for anchor in result.anchors:
             # Code lists the openings and endings at real sentence boundaries; Jev judges
@@ -182,33 +187,33 @@ def cmd_clip(args: argparse.Namespace) -> int:
             requests += found_clip.requests
             failed += found_clip.failed
             if not found_clip.ok:
-                print(f"  {anchor.sentence_id}: dropped -- {', '.join(found_clip.verdict.reasons)}")
+                ui.dropped(anchor, found_clip.verdict.reasons)
                 continue
             b, judgment = found_clip.boundary, found_clip.judgment
 
-            clips.append(
-                Clip(
-                    id=f"clip{len(clips) + 1:03d}",
-                    anchor_id=anchor.sentence_id,
-                    kind=anchor.kind,
-                    t0=b.t0,
-                    t1=b.t1,
-                    render_t0=b.render_t0,
-                    render_t1=b.render_t1,
-                    start_cut=b.start_cut,
-                    end_cut=b.end_cut,
-                    text=clip_text(b),
-                    scores={
-                        "p_moment": anchor.p_moment,
-                        "anchor_confidence": anchor.anchor_confidence,
-                        **judgment.nouls,
-                        **judgment.scores,
-                    },
-                )
+            clip = Clip(
+                id=f"clip{len(clips) + 1:03d}",
+                anchor_id=anchor.sentence_id,
+                kind=anchor.kind,
+                t0=b.t0,
+                t1=b.t1,
+                render_t0=b.render_t0,
+                render_t1=b.render_t1,
+                start_cut=b.start_cut,
+                end_cut=b.end_cut,
+                text=clip_text(b),
+                scores={
+                    "p_moment": anchor.p_moment,
+                    "anchor_confidence": anchor.anchor_confidence,
+                    **judgment.nouls,
+                    **judgment.scores,
+                },
             )
-            print(f"  {anchor.sentence_id}: kept ({b.duration:.0f}s)")
+            clips.append(clip)
+            ui.kept(anchor, clip)
+        search_cost = client.summary()["cost_usd"] or 0.0
 
-    print(f"gate: {requests} requests" + (f", {failed} failed and skipped" if failed else ""))
+    ui.gate(requests, failed)
 
     # Boundaries move, so two anchors that were distinct can now cover the same ground.
     # This is the second dedupe; scan.dedupe already ran on the anchors themselves.
@@ -230,15 +235,10 @@ def cmd_clip(args: argparse.Namespace) -> int:
         write_scan(result, out_dir / "anchors.json")
     edl_path = out_dir / "edl.json"
     write_edl(kept, edl_path, source=args.media or "")
-    print(f"\n{len(kept)} clips -> {edl_path}")
-    for c in kept:
-        sc = c.scores
-        print(
-            f"  {c.id}  {sc['composite']:.2f}  {c.t0:7.1f}-{c.t1:7.1f}s ({c.duration:4.1f}s) "
-            f"hook {sc.get('hook', 0):.1f} payoff {sc.get('payoff', 0):.1f}  {c.text[:44]}"
-        )
+    ui.clips(kept, edl_path)
 
     if args.media:
+        ui.render_begin(len(kept))
         for c in kept:
             render_clip(
                 args.media,
@@ -247,11 +247,12 @@ def cmd_clip(args: argparse.Namespace) -> int:
                 vertical=args.vertical,
                 captions=transcript if args.captions else None,
             )
-        print(f"rendered {len(kept)} mp4s into {out_dir}/")
+            ui.rendered(c)
+        ui.render_done(len(kept), out_dir)
     else:
-        print("no --media, so nothing rendered; the EDL is enough to re-render later")
-    sheet = write_sheet(kept, out_dir / "index.html", source=args.media or "")
-    print(f"contact sheet -> {sheet}")
+        ui.no_render()
+    ui.sheet(write_sheet(kept, out_dir / "index.html", source=args.media or ""))
+    ui.finish(requests=scan_requests + requests, cost=scan_cost + search_cost, out_dir=out_dir)
     return 0
 
 
@@ -267,18 +268,19 @@ def cmd_run(args: argparse.Namespace) -> int:
     if transcript.exists() and not args.retranscribe:
         print(f"reusing {transcript} (--retranscribe to run ASR again)")
     else:
-        status = cmd_transcribe(
-            argparse.Namespace(
-                config=args.config,
-                input=args.input,
-                from_json=None,
-                reference=None,
-                model=args.model,
-                language=args.language,
-                out=str(transcript),
-                preview=0,
+        with reporter(args.plain).transcribing(args.input, args.model):
+            status = cmd_transcribe(
+                argparse.Namespace(
+                    config=args.config,
+                    input=args.input,
+                    from_json=None,
+                    reference=None,
+                    model=args.model,
+                    language=args.language,
+                    out=str(transcript),
+                    preview=0,
+                )
             )
-        )
         if status:
             return status
 
@@ -293,6 +295,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             vertical=args.vertical,
             captions=args.captions,
             all_endings=args.all_endings,
+            plain=args.plain,
         )
     )
 
@@ -558,6 +561,11 @@ def _render_flags(p: argparse.ArgumentParser) -> None:
         "--captions",
         action="store_true",
         help="burn in word-level captions from the transcript's word timings",
+    )
+    p.add_argument(
+        "--plain",
+        action="store_true",
+        help="one line per event instead of live progress (the default off a terminal)",
     )
     p.add_argument(
         "--all-endings",
