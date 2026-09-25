@@ -766,6 +766,28 @@ end to end with the check in the search, same anchors:
   up to the anchor, and the anchor sits in the thought before. That is the scan's anchor
   choice, and it is where the tail has to be fixed.
 
+### The ad check, with context (2026-09-25)
+
+A 97-minute Dwarkesh run shipped three pieces of sponsor reads (Jane Street twice,
+Antithesis), `promotion` 0.08-0.26. The question read the clip alone; it had caught every
+whole read, but these were cut from the middle, without "brought to you by" or the link.
+Tested on all 38 labeled videos ([`eval/experiments/promotion_context.py`](eval/experiments/promotion_context.py)):
+every labeled sponsor read or plug (64), the middle 30s of each (40), and every labeled
+real clip (545), asked alone and with the minute of transcript either side:
+
+| | n | clip alone | with context |
+| --- | --- | --- | --- |
+| whole reads and plugs | 64 | 94% | 94% |
+| middle 30s of a read | 40 | 50% | **82%** |
+| real clips flagged | 545 | 1 | **0** |
+
+Real clips peak at 0.41 and the hardest middles sit at 0.40-0.47, so the bar moved from
+0.5 to 0.35: 38 of 40 middles, one borderline real moment flagged (CoderOne's live model
+showcase). 0.3 would also have caught the third Dwarkesh piece and was not chosen for that.
+End to end on 38 videos: 31 clips dropped as promotion, none of the Jane Street or
+Antithesis pieces left, clips on a hard negative 11.5% → 10.7% (A) and 11.3% → 10.5% (B),
+one match lost (that showcase), everything else unchanged.
+
 ## What would let building resume
 
 Either:

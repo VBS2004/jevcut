@@ -99,9 +99,12 @@ class Config:
     # other clips is flagged (0.52), a moderator question that ends before anyone
     # answers. Evidence is thin -- four positives, two videos.
     needs_room_threshold: float = 0.5
-    #: Separated perfectly on the pilot set (17 of 17 ads above, 0 of 236 content texts;
-    #: content peaked at 0.05, ads at a 0.95 median), so the bar is not delicate.
-    promotion_threshold: float = 0.5
+    #: With context, on 38 videos: real clips peak at 0.41 and the hardest ad middles sit
+    #: at 0.40-0.47, so 0.5 missed 7 of 40 mid-read pieces. 0.35 catches 38 of 40 and flags
+    #: one borderline moment of 545 (a creator's live showcase of a new model): shipping an
+    #: ad costs more than losing that. 0.3 would also catch the run that prompted this, and
+    #: was not chosen for that reason.
+    promotion_threshold: float = 0.35
     #: Endings judged per round trip, in time order, until one passes clean (search.py).
     #: 1 saves the most requests (37% on the pilot set) but waits ~4 round trips per clip;
     #: 2 saves 31% at ~2.5; 0 judges every ending, which eval runs use (`--all-endings`) so

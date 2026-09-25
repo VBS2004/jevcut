@@ -43,7 +43,7 @@ class Chooser:
 
     def ask(self, state, questions, *, pass_name):
         if "promotion" in questions:  # the ad check on the finished clip
-            self.promo_asked = state["clip"]["text"]
+            self.promo_asked, self.promo_state = state["clip"]["text"], state
             return SimpleNamespace(answers={"promotion": SimpleNamespace(noul=self.ad)})
         self.asked.append((state, questions))
         if self.fail:
@@ -137,8 +137,13 @@ def test_an_ad_that_passes_every_other_question_is_dropped(talk, monkeypatch):
     result = search_mod.search(chooser, t, cuts, t.sentences[20].id, Config())
     assert not result.ok
     assert result.verdict.reasons == ["promotion"]
-    # Asked once, of the finished clip: it opens where the clip opens.
+    # Asked once, of the finished clip: it opens where the clip opens...
     assert chooser.promo_asked.startswith("this is sentence number 18 ")
+    # ...and it reads the transcript either side, where a sponsor read's "brought to you
+    # by" and its link sit when the clip is cut from the middle of one.
+    around = chooser.promo_state["around"]
+    assert around["before"].rstrip().endswith("sentence number 17 and it ends here.")
+    assert around["after"].startswith("this is sentence number 27 ")
 
 
 def test_a_mid_thought_opening_gives_way_to_the_next_pick_on_the_same_ending(talk, monkeypatch):

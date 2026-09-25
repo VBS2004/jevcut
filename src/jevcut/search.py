@@ -41,6 +41,9 @@ from jevcut.render import cut_id, render_markers
 
 #: Transcript shown past the anchor, so the Choice can read what the moment is building to.
 OPENING_CONTEXT_AFTER_S = 20.0
+#: Transcript the ad check reads either side of a clip: long enough to reach the "brought
+#: to you by" or the link from the middle of a typical 30-90s sponsor read.
+PROMOTION_CONTEXT_S = 60.0
 #: How many of the Choice's openings, best first, the finished-clip check may walk.
 OPENING_SHORTLIST = 3
 #: The least `hook` an opening must have. Level 0 is, in the question's own words,
@@ -229,10 +232,18 @@ def _screen_promotion(
     """One request on the finished clip: is it an ad? Sponsor reads open like part of the
     argument and pass every other question. A failed request ships the clip -- losing a
     real moment to a provider error is worse than the rare ad it might have caught."""
-    text = _text(transcript, result.boundary.t0, result.boundary.t1)
+    t0, t1 = result.boundary.t0, result.boundary.t1
+    state = {
+        "clip": {"text": _text(transcript, t0, t1)},
+        "around": {
+            # Strictly outside the clip: `between` counts a sentence touching its bound.
+            "before": _text(transcript, t0 - PROMOTION_CONTEXT_S, t0 - 0.01),
+            "after": _text(transcript, t1 + 0.01, t1 + PROMOTION_CONTEXT_S),
+        },
+    }
     result.requests += 1
     try:
-        answer = client.ask({"clip": {"text": text}}, promotion_questions(), pass_name="promotion")
+        answer = client.ask(state, promotion_questions(), pass_name="promotion")
     except Exception as exc:  # noqa: BLE001 - see the docstring
         log.warning("promotion request failed: %s", exc)
         result.failed += 1
