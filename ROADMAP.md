@@ -24,8 +24,9 @@ In order of what the numbers say costs the most. Scores for every step go throug
 - [ ] **4. Fix the openings' tail.** The opening Choice's misses are 15-21s off, worse than
       simple padding at p90. Tried 2026-09-25, neither kept: offering openings after the
       anchor, and rewording the Choice (RESEARCH.md). The far-off starts mostly follow a
-      scan anchor that closes the thought before. p90 over ~30 clips is set by the 3rd-worst
-      clip, so **grow the eval set first** (011 plans 40 videos) before tuning this further.
+      scan anchor that closes the thought before. The eval set is now 38 videos (~100 matched
+      clips per labeler), and the tail is still there (p90 17.5 / 19.6s vs dense 14.6 / 14.3s):
+      it is real, and measurable now.
 - [ ] **5. One human review pass** on two videos: every labeler so far is the same model,
       so the 0.0s start agreement is a lower bound.
 

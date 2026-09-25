@@ -686,6 +686,37 @@ it by wording on 8 videos would be tuning to those 3 clips. What would make it
 measurable is more videos; what the diagnosis points at is the anchor -- when the scan's
 line closes the thought before, every later step inherits it.
 
+### 013 on 38 videos (2026-09-25)
+
+Set 2 added 30 videos under 30 minutes from six channels (AI explainers, essays to camera,
+fast tech news, science documentary, screen-driven game news, stand-up comedy), labeled
+twice blind under rubric v2 ([eval/LABELING.md](eval/LABELING.md)). The labelers share
+83-86% of moments; starts 0.0s apart at the median, 2.3s at p90. jevcut is the six-round
+version, run once on the new videos with nothing changed for them. 405 clips per system,
+~100 matched per labeler. Full table: [eval/results/baselines.md](eval/results/baselines.md).
+
+| system | recall A / B | fully right A / B | precision A / B | start err p50 | p90 A / B |
+| --- | --- | --- | --- | --- | --- |
+| **jevcut** | **0.52 / 0.54** | **35 / 33** | **0.31 / 0.34** | **1.5 / 2.0s** | 17.5 / 19.6s |
+| dense | 0.44 / 0.43 | 7 / 8 | 0.26 / 0.27 | 5.9 / 6.2s | **14.6 / 14.3s** |
+| windows | 0.45 / 0.45 | 15 / 12 | 0.27 / 0.26 | 5.9 / 5.2s | 17.7 / 18.3s |
+| naive | 0.36 / 0.33 | 8 / 8 | 0.22 / 0.22 | 5.9 / 5.4s | 15.3 / 18.0s |
+| offset | 0.38 / 0.37 | 6 / 8 | 0.24 / 0.23 | 6.5 / 6.3s | 14.9 / 15.0s |
+| snap | 0.37 / 0.37 | 2 / 4 | 0.23 / 0.23 | 5.4 / 6.9s | 16.1 / 18.8s |
+
+- **It generalises.** On the 30 videos it was never developed on, recall is 0.51 / 0.54
+  against 0.54 / 0.56 on the pilot, and precision is higher (0.37 / 0.40). Two to five times
+  as many fully right clips as any baseline, a start typically 1.5-2s off against 5-7s.
+- **The tail is real, not noise.** With ~100 matched clips the p90 is the ~10th-worst start,
+  and jevcut still loses it to dense (14.6 / 14.3s) and offset (14.9 / 15.0s). 013 stays
+  open for exactly the reason the pilot gave.
+- **Not better everywhere.** On the five AI explainers (Caleb Writes Code) the fixed-window
+  baseline finds more moments against both labelers (0.53 vs 0.41, 0.39 vs 0.33). Single-video
+  genres are too small to read.
+- **Hard negatives are not solved.** 11-12% of jevcut's clips sit on one, level with the best
+  baseline (snap, 11-14%). The screen-driven game news is where it shows; the unbuilt
+  "depends on the screen" question (checklist step 3) is the lever.
+
 ## What would let building resume
 
 Either:
