@@ -180,6 +180,11 @@ Wording in `src/jevcut/questions.py` → `opening_questions()`.
   usually top three on `hook`, within 0.1-0.15 of the best, and the cleanliness filter
   discarded it about half the time. A Choice sees every candidate at once, so it only
   has to rank them. It landed more starts in range on all four label sets (RESEARCH.md).
+- **The Choice ranks; the gate checks.** The pick is not final until the finished clip
+  is judged: an opening the gate reads as mid-thought, dangling, or with no hook gives way
+  to the Choice's next picks, judged against the same ending (`search._check_opening`).
+  Three rewordings of this question itself were tried on 38 videos and none moved the
+  worst starts (RESEARCH.md).
 - **"Prefer the later mark" was tried and cut.** It pushed picks onto the anchor line
   itself: 58 of 138 took the last mark. The picks still lean late without it, which is
   the open problem, not a wording to tune here.
@@ -188,23 +193,36 @@ Wording in `src/jevcut/questions.py` → `opening_questions()`.
 
 ## The ad check — one Noul per shipped clip
 
-State: the finished clip's text, as for the gate. Asked once, after the search has picked
-both edges, so it costs one request per clip rather than one per candidate ending.
+State: the finished clip's text, plus the minute of transcript before and after it.
+Asked once, after the search has picked both edges, so it costs one request per clip
+rather than one per candidate ending.
+
+```python
+{"clip": {"text": "…the exact words inside the cut…"},
+ "around": {"before": "…the 60s before…", "after": "…the 60s after…"}}
+```
 
 | question | type | asks | role |
 | --- | --- | --- | --- |
-| `promotion` | Noul | is the clip a sponsor read, an ad, or the speaker plugging something of their own, rather than the discussion itself | drops the clip |
+| `promotion` | Noul | is the clip part of a sponsor read, an ad, or the speaker plugging something of their own, judged with the transcript around it | drops the clip at 0.35 |
 
 Wording in `src/jevcut/questions.py` → `promotion_questions()`.
 
 - **Why it exists.** Judged on the labelers' own texts, the gate passed half the hard
   negatives, and a third of those were sponsor reads and plugs: written to open like part
-  of the argument, they read as self-contained, hooky and paid off, so no other question
-  can see them.
-- **Spread-tested before wiring in** ([`eval/experiments/promotion_question.py`](../eval/experiments/promotion_question.py)),
-  on all 253 rubric-v2 texts: it fired on 17 of 17 promotions (median 0.95) and on none of
-  the 236 content texts (none above 0.05), product reviews included. The `false`
-  criterion says outright that naming, praising or reviewing a product is still content.
+  of the argument, they read as self-contained, hooky and paid off.
+- **Why it sees the surrounding transcript.** The first version read the clip alone and
+  caught every *whole* sponsor read -- but jevcut cuts from the middle of a segment, and a
+  read without its "brought to you by" and its link reads like content: a 97-minute run
+  shipped three such pieces. On all 38 labeled videos
+  ([`eval/experiments/promotion_context.py`](../eval/experiments/promotion_context.py)),
+  giving it the minute either side raised mid-read catches from 50% to 82% at the old 0.5
+  bar, with none of 545 real clips flagged.
+- **Why 0.35.** Real clips peak at 0.41; the hardest ad middles sit at 0.40-0.47. At 0.35
+  it catches 38 of 40 and flags one borderline moment (a creator's live showcase of a new
+  model). An ad shipped as a clip costs more. The `false` criterion says outright that
+  naming, praising or reviewing a product is content, and so is a clip an ad merely
+  borders.
 - A failed request ships the clip: losing a real moment to a provider error costs more
   than the rare ad it might have caught.
 

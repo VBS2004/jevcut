@@ -1,0 +1,135 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=7r4ikZHm9AI",
+    "title": "Anthropic researchers are quitting... and now we know why",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 376.07,
+    "sha256_prefix": "0b272679a19d8309",
+    "local_path": "eval/media/fireship-7r4ikZHm9AI.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "researcher-quits-before-vesting",
+      "start": 0.2,
+      "start_range": [
+        0.2,
+        0.2
+      ],
+      "end": 46.5,
+      "end_range": [
+        42.0,
+        46.5
+      ],
+      "why": "Cold open. Hook: a 27-year-old researcher quit Anthropic before his shares vested; he accuses OpenAI and Anthropic of 'gambling with our lives', 170M views, and a colleague still at Anthropic replies 'Yeah, he's right' and puts AI doom odds above 10% in a decade. Payoff is the 10% line (46.5); ending on 'Yeah, he's right' (42.0) also lands, so the end range spans both. L008 moves on to the report.",
+      "over_band": false
+    },
+    {
+      "id": "shiny-hunters-claude-on-claude",
+      "start": 133.7,
+      "start_range": [
+        133.7,
+        133.8
+      ],
+      "end": 174.9,
+      "end_range": [
+        164.4,
+        174.9
+      ],
+      "why": "Opens by naming the group: 'another hacking group that loves Claude is Shiny Hunters' (the 'another' is light and self-explaining). They used Claude to mass-decompile 1.8M Android APKs for hard-coded keys, and the keys they wanted most were Claude and OpenAI keys. Two working ends: the meta twist (164.4) or the 'Claude on Claude violence' joke (174.9); preferred is the joke, which caps the added failed pre-release heist.",
+      "over_band": false
+    },
+    {
+      "id": "optimist-georgia-guidestones",
+      "start": 254.2,
+      "start_range": [
+        254.2,
+        254.2
+      ],
+      "end": 281.7,
+      "end_range": [
+        279.5,
+        281.7
+      ],
+      "why": "Comedy bit. Hook: 'I'm an optimist, willing to bet a million dollars humanity won't be extinct in 10 years' (a bet no one can collect). Escalates to humanity kept under 500 million per the Georgia Guidestones, 'instructions for ASI', which somebody blew up, so ASI won't know what to do. Punchline 279.5, button 'The bombing is under investigation' 281.7.",
+      "over_band": false
+    },
+    {
+      "id": "yudkowsky-made-of-atoms",
+      "start": 281.9,
+      "start_range": [
+        281.9,
+        281.9
+      ],
+      "end": 315.1,
+      "end_range": [
+        315.1,
+        315.1
+      ],
+      "why": "Self-contained explanation of Yudkowsky's argument: a smarter system hides its hand, plays nice, waits for robots and bio labs, a utopia (with a herpes joke), then the lights go out. Payoff is the quote 'AI doesn't love you or hate you, you're just made of atoms it could use for something else' (315.1). L054 is the sponsor segue.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "russian-chinese-agent-malware",
+      "start": 96.6,
+      "start_range": [
+        96.6,
+        96.6
+      ],
+      "end": 133.5,
+      "end_range": [
+        133.5,
+        133.5
+      ],
+      "why": "Midnight Blizzard's Claude Code loop that rewrites malware when antivirus flags it ('touch some snow' joke), then two Chinese undergrads running an autonomous zero-day foundry. Lively and self-explaining, but it is two report items in a row, with no single payoff. L017 ('Let's start by taking a look...') is a run-up, so it is left out.",
+      "over_band": false
+    },
+    {
+      "id": "distillation-irony",
+      "start": 208.0,
+      "start_range": [
+        208.0,
+        208.0
+      ],
+      "end": 248.8,
+      "end_range": [
+        237.9,
+        248.8
+      ],
+      "why": "'By far the most horrendous use of Claude was distillation': Alibaba steals Claude's outputs, which Claude stole from books and bloggers. Then the accusations against DeepSeek, Alibaba and Moonshot, and the footnote that none of it ran on frontier models. The joke comes first and the rest is facts, so an editor could take it or leave it.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 55.7,
+      "end": 67.5,
+      "why": "The 'In today's video' teaser and the Code Report intro."
+    },
+    {
+      "start": 67.6,
+      "end": 90.4,
+      "why": "GPT-2 aside and the report's list of seven misuse 'flavors': an outline that sets up the next few minutes but has no payoff of its own."
+    },
+    {
+      "start": 185.7,
+      "end": 207.7,
+      "why": "Bio-weapon section, with the 'chicken chicken gonna kill you virus' joke: tempting, but it hangs off 'the scariest section' of the report and is too thin to stand alone."
+    },
+    {
+      "start": 319.4,
+      "end": 369.8,
+      "why": "Macroscope sponsor read, including the 'either really good or those customers are fucked' joke."
+    }
+  ]
+}

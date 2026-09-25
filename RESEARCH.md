@@ -654,6 +654,140 @@ method: [eval/results/baselines.md](eval/results/baselines.md).
   (checklist step 4), and 013 stays open until it passes.
 - 8 videos and 177 clips per system, one pass, AI labelers only; 013 asks for 40 videos.
 
+### The openings' tail: two fixes tried, neither kept (2026-09-25)
+
+About one found clip in five starts 10s or more from the labeled start -- the tail that
+fails 013's p90 bar. Replaying every found clip's opening Choice from cache
+([`eval/experiments/opening_misses.py`](eval/experiments/opening_misses.py)):
+
+- **9 of the 13 far-off starts were never on offer.** 8 belonged to clips the labelers
+  started 4-23s *after* the anchor line, and the search offered openings only up to it.
+- **Fix 1: offer openings up to 20s after the anchor**, the stretch the Choice already
+  reads. The right start was then on offer in 12 of 15 far-off cases -- and the Choice
+  ranked it ~7th with ~1% of the vote. The question said to cut "around the line
+  `region.moment`", so when the scan's anchor was the close of the thought before, the
+  Choice kept that line and opened before it: doing what it was asked.
+- **Fix 2: reword it** -- the flagged line only points near the moment and may end the
+  thought before; where does the moment begin? Replayed on the Choice alone, it put more
+  starts in range on all four label sets (16 → 18, 17 → 21, 23 → 25, 23 → 25). End to end
+  on the six-round run, against it:
+
+| | both edges right (A / B / v1 A / v1 B) | recall v2 A / B | p90 start error | starts 10s+ off |
+| --- | --- | --- | --- | --- |
+| six rounds (kept) | 10 / 11 / 20 / 13 | 0.54 / 0.56 | 16.7 / 19.1 / 17.8 / 21.2s | 6 / 7 / 5 / 6 |
+| + openings after the anchor | 11 / 12 / 19 / 14 | 0.54 / 0.58 | 18.6 / 19.2 / 24.7 / 23.6s | 6 / 9 / 10 / 7 |
+| + the reworded question | 13 / 12 / 18 / 15 | 0.59 / 0.56 | 15.8 / 19.2 / 19.1 / 18.1s | 6 / 9 / 7 / 6 |
+
+**Neither kept.** A few more fully right clips on three sets, but the tail -- the target --
+did not move, and the far-off count rose (24 → 28 over the four sets). **The p90 itself
+is not a stable target at this size:** over ~30 matched clips it is set by about the
+third-worst clip, so one clip changes it by several seconds, as these rows show. Chasing
+it by wording on 8 videos would be tuning to those 3 clips. What would make it
+measurable is more videos; what the diagnosis points at is the anchor -- when the scan's
+line closes the thought before, every later step inherits it.
+
+### 013 on 38 videos (2026-09-25)
+
+Set 2 added 30 videos under 30 minutes from six channels (AI explainers, essays to camera,
+fast tech news, science documentary, screen-driven game news, stand-up comedy), labeled
+twice blind under rubric v2 ([eval/LABELING.md](eval/LABELING.md)). The labelers share
+83-86% of moments; starts 0.0s apart at the median, 2.3s at p90. jevcut is the six-round
+version, run once on the new videos with nothing changed for them. 405 clips per system,
+~100 matched per labeler. Full table: [eval/results/baselines.md](eval/results/baselines.md).
+
+| system | recall A / B | fully right A / B | precision A / B | start err p50 | p90 A / B |
+| --- | --- | --- | --- | --- | --- |
+| **jevcut** | **0.52 / 0.54** | **35 / 33** | **0.31 / 0.34** | **1.5 / 2.0s** | 17.5 / 19.6s |
+| dense | 0.44 / 0.43 | 7 / 8 | 0.26 / 0.27 | 5.9 / 6.2s | **14.6 / 14.3s** |
+| windows | 0.45 / 0.45 | 15 / 12 | 0.27 / 0.26 | 5.9 / 5.2s | 17.7 / 18.3s |
+| naive | 0.36 / 0.33 | 8 / 8 | 0.22 / 0.22 | 5.9 / 5.4s | 15.3 / 18.0s |
+| offset | 0.38 / 0.37 | 6 / 8 | 0.24 / 0.23 | 6.5 / 6.3s | 14.9 / 15.0s |
+| snap | 0.37 / 0.37 | 2 / 4 | 0.23 / 0.23 | 5.4 / 6.9s | 16.1 / 18.8s |
+
+- **It generalises.** On the 30 videos it was never developed on, recall is 0.51 / 0.54
+  against 0.54 / 0.56 on the pilot, and precision is higher (0.37 / 0.40). Two to five times
+  as many fully right clips as any baseline, a start typically 1.5-2s off against 5-7s.
+- **The tail is real, not noise.** With ~100 matched clips the p90 is the ~10th-worst start,
+  and jevcut still loses it to dense (14.6 / 14.3s) and offset (14.9 / 15.0s). 013 stays
+  open for exactly the reason the pilot gave.
+- **Not better everywhere.** On the five AI explainers (Caleb Writes Code) the fixed-window
+  baseline finds more moments against both labelers (0.53 vs 0.41, 0.39 vs 0.33). Single-video
+  genres are too small to read.
+- **Hard negatives are not solved.** 11-12% of jevcut's clips sit on one, level with the best
+  baseline (snap, 11-14%). The screen-driven game news is where it shows; the unbuilt
+  "depends on the screen" question (checklist step 3) is the lever.
+
+### The openings' tail on 38 videos: three framings tried, none kept (2026-09-25)
+
+About one found clip in four starts 10s+ off (23 of 97, 25 of 106). Of 48 far-off starts, 31
+open early -- the labeled clip starts 1-26s *after* the anchor line -- and 17 skip a setup
+16-59s long. Re-tested on the full set, and measured on the worst starts:
+
+| opening | fully right A / B | p90 start A / B | starts 10s+ off A / B |
+| --- | --- | --- | --- |
+| current: one Choice before the anchor | 35 / 33 | 17.5 / 19.6s | 23 / 25 |
+| + openings after the anchor, anchor as "a pointer" | 39 / 31 | 20.1 / 20.2s | 28 / 29 |
+| chosen from the ending, no anchor at all ([`reopen_from_end.py`](eval/experiments/reopen_from_end.py)) | 28 / 28 | 22.7 / 20.6s | 25 / 30 |
+
+Without the anchor the Choice reaches back for long setups (clips 41 → 56s). **None kept.**
+The anchor-relative and end-relative picks disagree on half the clips, and disagreement
+flags 17 of ~24 far-off starts -- but a third of disagreeing clips are fine, so dropping them
+would halve recall to remove 17 bad starts.
+
+Read by eye, 5 of 6 sampled far-off starts are genuinely wrong, and wrong in different ways:
+the channel's greeting, a "But you're talking..." mid-argument, the tail of the comedy bit
+before, and twice a skipped hook. No single framing addresses all of them; the next attempt
+should combine signals -- the Choice's top few marks, each checked on the finished clip for
+`hook` and `starts_mid_thought` -- rather than reword the one question again.
+
+### Shortlisting openings: the Choice ranks, the gate checks (2026-09-25)
+
+The Choice's top three openings, in its order, each judged as the finished clip from that
+mark to the clip's ending; the first that is clean at the start (below the repair bar)
+with a `hook` of at least level 1 wins -- level 0 of `hook` is "housekeeping, hesitation,
+or a thought already underway". Offline on 38 videos with endings held fixed
+([`eval/experiments/opening_shortlist.py`](eval/experiments/opening_shortlist.py)), then
+end to end with the check in the search, same anchors:
+
+| | fully right A / B | recall A / B | precision A / B | start p50 A / B | p90 A / B |
+| --- | --- | --- | --- | --- | --- |
+| current | 35 / 33 | 0.52 / 0.54 | 0.31 / 0.34 | 1.5 / 2.0s | 17.5 / 19.6s |
+| + shortlist check | **38 / 37** | **0.55 / 0.56** | **0.33 / 0.35** | **1.3 / 1.8s** | 17.8 / 19.3s |
+
+- **Kept.** Better on both labelers on every measure the spec is about. The check runs only
+  when the finished clip's opening fails it, so it costs ~4% more gate requests (4,745 for
+  the 38 videos).
+- **"Best hook among the clean ones"** in place of the Choice's order did worse (fully right
+  33 / 32), as judging openings by `hook` alone did before the Choice replaced it.
+- **Adding openings after the anchor on top** gave more fully right clips against A only
+  (42 vs 36 against B's 36) and worse worst starts; not kept.
+- **The tail does not move** (p90 within 0.3s, ~1 in 4 found clips 10s+ off). In 30 of the
+  48 far-off cases the right start is never a candidate -- the search offers openings only
+  up to the anchor, and the anchor sits in the thought before. That is the scan's anchor
+  choice, and it is where the tail has to be fixed.
+
+### The ad check, with context (2026-09-25)
+
+A 97-minute Dwarkesh run shipped three pieces of sponsor reads (Jane Street twice,
+Antithesis), `promotion` 0.08-0.26. The question read the clip alone; it had caught every
+whole read, but these were cut from the middle, without "brought to you by" or the link.
+Tested on all 38 labeled videos ([`eval/experiments/promotion_context.py`](eval/experiments/promotion_context.py)):
+every labeled sponsor read or plug (64), the middle 30s of each (40), and every labeled
+real clip (545), asked alone and with the minute of transcript either side:
+
+| | n | clip alone | with context |
+| --- | --- | --- | --- |
+| whole reads and plugs | 64 | 94% | 94% |
+| middle 30s of a read | 40 | 50% | **82%** |
+| real clips flagged | 545 | 1 | **0** |
+
+Real clips peak at 0.41 and the hardest middles sit at 0.40-0.47, so the bar moved from
+0.5 to 0.35: 38 of 40 middles, one borderline real moment flagged (CoderOne's live model
+showcase). 0.3 would also have caught the third Dwarkesh piece and was not chosen for that.
+End to end on 38 videos: 31 clips dropped as promotion, none of the Jane Street or
+Antithesis pieces left, clips on a hard negative 11.5% → 10.7% (A) and 11.3% → 10.5% (B),
+one match lost (that showcase), everything else unchanged.
+
 ## What would let building resume
 
 Either:

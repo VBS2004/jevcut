@@ -1,0 +1,120 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=iuZPTE5qsJY",
+    "title": "The summer Math fell to the machines...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 333.76,
+    "sha256_prefix": "fdaf7999ef7abfab",
+    "local_path": "eval/media/fireship-iuZPTE5qsJY.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "ai-killed-math-problems",
+      "start": 0.1,
+      "start_range": [
+        0.1,
+        12.5
+      ],
+      "end": 52.3,
+      "end_range": [
+        34.0,
+        52.3
+      ],
+      "why": "Cold open. Developers were told AI would make them obsolete and are doing fine; 'our mathematician friends may not be so lucky', since in three weeks AI killed more open math problems than humans did in a decade: an 87-year-old conjecture disproven during the World Cup final, and a 30-year-old one that fell to four prompts. Payoff: Terence Tao (the Rocket Power joke) warning of a crisis in the foundations of mathematics (52.3). Starting at 12.5 also works (40s, it loses the developer contrast), and ending at 34.0 after the second example also lands. The preferred cut keeps both.",
+      "over_band": false
+    },
+    {
+      "id": "jacobian-conjecture-disproved",
+      "start": 102.0,
+      "start_range": [
+        102.0,
+        102.0
+      ],
+      "end": 144.6,
+      "end_range": [
+        144.6,
+        144.6
+      ],
+      "why": "Opens on the soccer / European air-conditioning joke, then a mathematician posted a counterexample disproving the Jacobian conjecture. A plain-English explanation: if the derivative checks out everywhere, the whole function should be reversible; so obviously true since 1939 it made Smale's list of the hardest problems. Payoff: 'That is until [he] did last month with some help from Fable' (144.6, which is inside L023, before 'and just two days later').",
+      "over_band": false
+    },
+    {
+      "id": "riemann-on-a-jog",
+      "start": 244.8,
+      "start_range": [
+        243.6,
+        244.8
+      ],
+      "end": 307.0,
+      "end_range": [
+        307.0,
+        313.9
+      ],
+      "why": "Hook: Anthropic says one of its unreleased models made progress on the Riemann hypothesis, the 167-year-old Millennium Prize problem. The twist: it wasn't a mathematician but Jarred Sumner of Bun, on a jog; Claude gave 650 wrong ideas, then 60 sub-agents ran for a day and a half and raised the fraction that provably satisfies the hypothesis from 41% to 67% (307.0). The latest end is the validation line (313.9). Start on 'Anthropic' to drop 'So just last week'.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "delivery-routing-conjecture",
+      "start": 144.7,
+      "start_range": [
+        144.7,
+        144.7
+      ],
+      "end": 184.7,
+      "end_range": [
+        184.7,
+        184.7
+      ],
+      "why": "A 30-year-old graph theory conjecture explained as delivery routing; a researcher told GPT 5.6 to 'make a breakthrough' and it returned a 7-node, 9-edge counterexample (184.7). A clean explanation, but it opens mid-sentence on 'and just two days later it happened again', which points back to the previous story.",
+      "over_band": false
+    },
+    {
+      "id": "sphere-packing-bullying",
+      "start": 198.5,
+      "start_range": [
+        198.5,
+        198.5
+      ],
+      "end": 226.9,
+      "end_range": [
+        226.9,
+        226.9
+      ],
+      "why": "'OpenAI got in on the bullying': its next model solved ten open problems with Lean certificates, the famous one being how tightly you can cram identical balls into a space (the 'some of you have thought about this a lot' joke), a bound unmoved since 1978 until now. Short, and 'got in on' leans slightly on earlier stories.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 52.5,
+      "end": 62.4,
+      "why": "'In today's video' teaser and the Code Report intro."
+    },
+    {
+      "start": 62.6,
+      "end": 101.8,
+      "why": "Timeline recap: the IMO a year ago ('competition math is the leetcode of math'), May's Erd\u0151s result, the Leiden Declaration 'politely ignored'. Jokes and facts, but it is a run-up with no payoff, plus garbled lines (L013-L016)."
+    },
+    {
+      "start": 184.8,
+      "end": 198.3,
+      "why": "'It's not just the pros': a PhD student and an amateur knocking out problems, with the amateur's claim cut off mid-sentence. It sounds like a big fact but does not land."
+    },
+    {
+      "start": 314.0,
+      "end": 327.8,
+      "why": "Railway sponsor read ('refuse to waste your time with a full ad')."
+    }
+  ]
+}

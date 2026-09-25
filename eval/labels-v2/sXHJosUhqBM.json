@@ -1,0 +1,140 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=sXHJosUhqBM",
+    "title": "WHY NOTHING FEELS INTERESTING ANYMORE (and how to fix it with neuroscience)",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 640.221,
+    "sha256_prefix": "f26c06f9c17ea386",
+    "local_path": "eval/media/olga-sXHJosUhqBM.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "curiosity-hijacked",
+      "start": 35.1,
+      "start_range": [
+        35.1,
+        35.1
+      ],
+      "end": 75.0,
+      "end_range": [
+        72.3,
+        75.0
+      ],
+      "why": "Hook: 'people think they have lost their curiosity, but that is not true.' Binge-watching and scrolling is your curiosity system doing its job; it's the same dopamine system that drives scientists and artists -- theirs is aimed at things that enrich them, yours has been hijacked by things that drain you (75.0).",
+      "over_band": false
+    },
+    {
+      "id": "dopamine-tolerance",
+      "start": 239.14,
+      "start_range": [
+        238.48,
+        246.2
+      ],
+      "end": 326.3,
+      "end_range": [
+        326.3,
+        326.3
+      ],
+      "why": "How scrolling flattens the world: an hour of scrolling hits the dopamine system hundreds of times without recovery; the brain compensates by cutting receptors, so the baseline drops, books and conversations feel dull, and only algorithmic feeds still spike high enough -- 'which is why it's so hard to stop scrolling, even though it keeps leaving you empty' (326.3). No tighter cut keeps both cause and effect; 'from here to somewhere here' (270-288) is a gesture but the words carry it. Leading 'Again,' dropped.",
+      "over_band": true
+    },
+    {
+      "id": "exercise-restores-dopamine",
+      "start": 532.4,
+      "start_range": [
+        532.4,
+        532.4
+      ],
+      "end": 562.0,
+      "end_range": [
+        558.2,
+        562.0
+      ],
+      "why": "Hook: 'if there's one thing neuroscience is unanimous on, it's that exercise is the most powerful tool for restoring your dopamine system' -- more production, more receptor sensitivity, more natural motivation and curiosity; even 30 minutes of walking a day is a start (562.0). Skips the 'step number two' label before it.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "curiosity-is-hunger",
+      "start": 77.02,
+      "start_range": [
+        76.7,
+        77.02
+      ],
+      "end": 114.3,
+      "end_range": [
+        114.3,
+        114.3
+      ],
+      "why": "Curiosity as mental hunger: the brain detects a gap between what it knows and wants to know (the shocking headline you can't scroll past), because it treats information as essential for survival. Clear explanation but a mild hook; must end before the 'why does it only want junk?' question it can't answer.",
+      "over_band": false
+    },
+    {
+      "id": "feeds-flatten-the-world",
+      "start": 288.64,
+      "start_range": [
+        288.52,
+        288.64
+      ],
+      "end": 326.3,
+      "end_range": [
+        326.3,
+        326.3
+      ],
+      "why": "In-band slice of dopamine-tolerance: with a less dopamine-receptive brain the world feels flat, only algorithmic feeds still register, which is why it's hard to stop scrolling. Opens on 'since your curiosity runs on dopamine, and now that your brain is less receptive', leaning on the mechanism before it.",
+      "over_band": false
+    },
+    {
+      "id": "instagram-in-the-browser",
+      "start": 482.98,
+      "start_range": [
+        482.82,
+        482.98
+      ],
+      "end": 529.0,
+      "end_range": [
+        529.0,
+        529.0
+      ],
+      "why": "Personal friction trick: delete the apps when feeds get overstimulating, keep Instagram only in the browser for messages, where reels are too clunky to watch.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.3,
+      "end": 34.8,
+      "why": "Cold-open hook ('a neurological shift has stolen your curiosity') then name, credentials and 'in this video': intro."
+    },
+    {
+      "start": 114.6,
+      "end": 133.5,
+      "why": "Tempting question ('why does it only want junk?') whose answer ('one chemical: dopamine') takes three more minutes to explain."
+    },
+    {
+      "start": 134.0,
+      "end": 142.8,
+      "why": "'I know you've heard so much about dopamine, please stick with me': housekeeping."
+    },
+    {
+      "start": 270.1,
+      "end": 288.0,
+      "why": "'Your baseline falls from here to somewhere here': narrating a hand gesture/on-screen graphic."
+    },
+    {
+      "start": 590.8,
+      "end": 619.5,
+      "why": "Closing summary with quotable lines ('you lack the dopamine to act on it', 'being interested is being interesting')."
+    }
+  ]
+}

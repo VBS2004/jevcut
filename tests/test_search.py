@@ -43,7 +43,7 @@ class Chooser:
 
     def ask(self, state, questions, *, pass_name):
         if "promotion" in questions:  # the ad check on the finished clip
-            self.promo_asked = state["clip"]["text"]
+            self.promo_asked, self.promo_state = state["clip"]["text"], state
             return SimpleNamespace(answers={"promotion": SimpleNamespace(noul=self.ad)})
         self.asked.append((state, questions))
         if self.fail:
@@ -137,8 +137,43 @@ def test_an_ad_that_passes_every_other_question_is_dropped(talk, monkeypatch):
     result = search_mod.search(chooser, t, cuts, t.sentences[20].id, Config())
     assert not result.ok
     assert result.verdict.reasons == ["promotion"]
-    # Asked once, of the finished clip: it opens where the clip opens.
+    # Asked once, of the finished clip: it opens where the clip opens...
     assert chooser.promo_asked.startswith("this is sentence number 18 ")
+    # ...and it reads the transcript either side, where a sponsor read's "brought to you
+    # by" and its link sit when the clip is cut from the middle of one.
+    around = chooser.promo_state["around"]
+    assert around["before"].rstrip().endswith("sentence number 17 and it ends here.")
+    assert around["after"].startswith("this is sentence number 27 ")
+
+
+def test_a_mid_thought_opening_gives_way_to_the_next_pick_on_the_same_ending(talk, monkeypatch):
+    t, cuts = talk
+    verify, calls = _judge(thought_starts=18, lands_at=26)
+    monkeypatch.setattr(search_mod.gate_mod, "verify", verify)
+    # The Choice prefers 16, which reads as mid-thought; 18 is its next pick.
+    result = search_mod.search(Chooser(16, then=18), t, cuts, t.sentences[20].id, Config())
+    assert result.ok
+    assert result.boundary.t0 == pytest.approx(t.sentences[18].t0, abs=0.01)
+    # One more request, against the ending the search already found (where the payoff lands).
+    assert result.boundary.t1 == pytest.approx(t.sentences[26].t1, abs=0.01)
+    assert calls[-1] == (18, 26)
+
+
+def test_an_opening_with_no_hook_gives_way_too(talk, monkeypatch):
+    t, cuts = talk
+    verify, _ = _judge(thought_starts=18, lands_at=26)
+
+    def flat_at_16(client, text, config=None):
+        j = verify(client, text, config)
+        first, _ = _span(text)
+        if first == 16:  # clean, but housekeeping: level 0 of hook
+            j.nouls["starts_mid_thought"] = 0.1
+            j.scores["hook"] = 0.3
+        return j
+
+    monkeypatch.setattr(search_mod.gate_mod, "verify", flat_at_16)
+    result = search_mod.search(Chooser(16, then=18), t, cuts, t.sentences[20].id, Config())
+    assert result.boundary.t0 == pytest.approx(t.sentences[18].t0, abs=0.01)
 
 
 def test_the_ending_is_where_the_payoff_lands(talk, monkeypatch):

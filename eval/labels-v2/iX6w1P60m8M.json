@@ -1,0 +1,43 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=iX6w1P60m8M", "title": "The Real Reason We Should Revive Extinct Animals", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 949.21, "sha256_prefix": "6e63f6e039a08cac",
+            "local_path": "eval/media/cleo-iX6w1P60m8M.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "bucardo-cloned-and-lost", "start": 165.0, "start_range": [144.7, 165.0], "end": 226.3, "end_range": [226.3, 228.4],
+     "why": "Story: cloning an extinct animal needs a whole living cell (nucleus swapped into an egg); by 2000 one bucardo was left, biologists froze its tissue, and in 2003 a cloned baby bucardo was born -- with a malformed lung, and it didn't survive (226.3). Opening on the Jurassic Park mosquito line (144.7) is a stronger hook but runs ~82s; both edges work.", "over_band": false},
+    {"id": "not-really-dire-wolves", "start": 345.4, "start_range": [345.4, 345.4], "end": 386.3, "end_range": [386.3, 410.0],
+     "why": "Hot take: people online pointed out the 'dire wolves' are really genetically modified gray wolves -- but that was intentional; the project's scientist wants the fewest edits possible because every change risks something unpredicted and he wants healthy animals (386.3). Continuing to 'they're trying to de-extinct what the animal did' (410.0) also works; say both. Opens past 'In fact,'. Speaker change to the scientist at 367.0 inferred from text.", "over_band": false},
+    {"id": "sixth-extinction-same-tools", "start": 508.7, "start_range": [508.7, 508.7], "end": 539.9, "end_range": [539.9, 546.2],
+     "why": "Claim with a turn: five mass extinctions in Earth's history and many scientists say we're in a sixth, caused by us, which hits our food and homes -- but the same tools built to bring back extinct animals can keep animals from going extinct (539.9); naming it 'genetic rescue' (546.2) is acceptable. Starts right after the sponsor read.", "over_band": false},
+    {"id": "ferrets-all-first-cousins", "start": 546.4, "start_range": [546.4, 546.4], "end": 605.0, "end_range": [601.3, 605.0],
+     "why": "Surprising fact and fix: every black-footed ferret alive today is a first cousin; the population nearly vanished in 1979 and now has a tiny gene pool (bottleneck), so scientists sequence DNA from a hundred-year-old museum specimen and edit it into living ferrets.", "over_band": false},
+    {"id": "quoll-one-letter", "start": 605.3, "start_range": [605.3, 605.3], "end": 650.1, "end_range": [650.1, 661.4],
+     "why": "Explanation: the northern quoll may be extinct in the wild within ten years because it eats toxic invasive cane toads, and a single letter of genetic code decides whether it dies or is resistant -- introduce that one change and save a species (650.1). 'There are projects to do this on coral reefs' (661.4) is an acceptable longer end.", "over_band": false},
+    {"id": "why-bring-back-the-tiger", "start": 662.3, "start_range": [662.3, 668.6], "end": 721.2, "end_range": [721.2, 730.0],
+     "why": "Question and answer: why de-extinct at all? Killing the Tasmanian tiger removed Tasmania's only apex predator -- wallabies and kangaroos exploded, shrubs and birds suffered, Tasmanian devils spread a face cancer predators used to cull -- a butterfly effect, so some say the only way to rebalance the ecosystem is to put the tiger back (721.2).", "over_band": false},
+    {"id": "animals-remember-thylacine", "start": 776.7, "start_range": [776.7, 776.7], "end": 805.5, "end_range": [805.5, 805.5],
+     "why": "What happens when you drop a predator back into an environment after a century? Researchers took replica thylacines into the bush: the prey animals ignore a fox or a goat, but see a thylacine and 'they are out of it' (805.5). Speaker switches to a researcher at ~781.8, inferred from text.", "over_band": false},
+    {"id": "instincts-like-a-cat", "start": 805.6, "start_range": [805.6, 807.6], "end": 846.3, "end_range": [846.3, 849.4],
+     "why": "Debate: would a revived thylacine know how to be a predator? One expert doubts it'll ever be in the wild; advocates say behaviour is hardwired -- house cats fed biscuits for generations still pounce the moment a mouse runs by (846.3). 'We don't really know until we try, and they're trying' (849.4) is an acceptable end. Multiple speakers inferred from text.", "over_band": false},
+    {"id": "de-extinction-is-conservation", "start": 905.3, "start_range": [888.8, 905.3], "end": 940.8, "end_range": [940.8, 940.8],
+     "why": "Closing take: the most optimistic part isn't bringing back animals from the past but using this science to keep today's animals healthy -- 'de-extinction science is conservation science'; the real debate isn't what's a dire wolf, it's what responsibility we have to the world we created (940.8).", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "quagga-backbreeding", "start": 74.3, "start_range": [74.3, 74.3], "end": 123.5, "end_range": [123.5, 123.5],
+     "why": "'Imagine you're a mad scientist ... here's the recipe': breed close living relatives back toward the extinct animal, as with the quagga zebra, hunted out by 1883 and already brought back in a version. Leaves the 'three paths' framing open and shows a toy on screen.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 0.5, "end": 55.2, "why": "Cold open: 1933 footage of the last Tasmanian tiger ('look at this') and a tease that the real story is something else -- screen narration plus a promise."},
+    {"start": 410.3, "end": 507.6, "why": "'A distraction from the real huge-if-true use ... but first, let me show you something' into the phone-case sponsor read."},
+    {"start": 730.1, "end": 761.1, "why": "'They're following the recipe', 'this is the closest living animal', 99.9% identical, 'wait, 0.1 percent?' -- leans on the recipe framing and an on-screen animal."},
+    {"start": 761.2, "end": 776.2, "why": "'Did we not learn our lesson from Jurassic Park?' -- a string of questions with no answer in the stretch."}
+  ]
+}

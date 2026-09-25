@@ -1,0 +1,40 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=yWgHx0HE8m8", "title": "Something's Happening to the Ozone Hole", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 981.25, "sha256_prefix": "631ac0a59b22ff21",
+            "local_path": "eval/media/cleo-yWgHx0HE8m8.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "alternate-world", "start": 37.2, "start_range": [37.0, 37.4], "end": 75.1, "end_range": [75.1, 81.8],
+     "why": "Counterfactual: opens on the massive hole over Antarctica, then 'if we hadn't done anything, today we'd be living in an alternate world' -- hole over the whole planet by 2040, sunburn in five minutes. Payoff 'that wasn't by accident. It was a choice.' at 75.1; the 'two choices ... for the better' line to 81.8 is acceptable but adds a teaser. Earlier L004 'And in 1985, it...' opens on a pronoun, and L011 needs L010 for its 'it'.", "over_band": false},
+    {"id": "dinner-party-pause", "start": 436.1, "start_range": [436.0, 446.4], "end": 504.1, "end_range": [504.1, 512.7],
+     "why": "Story: 'If you time traveled back to the 1950s, this place of peace and science was almost a war zone' -- Cold War land grab, geophysicists at a dinner party ask the superpowers to pause claiming land for 18 months. Payoff 'this proposal actually works' at 504.1; naming the IGY to 512.7 is acceptable. Starting on 'It's the middle of the Cold War' (446.3) also works.", "over_band": false},
+    {"id": "heartbeat-of-planet", "start": 532.2, "start_range": [532.0, 532.4], "end": 563.7, "end_range": [555.8, 572.0],
+     "why": "Explanation: sea ice freezing and melting around Antarctica pushes out salt that drives global currents; 'the currents in California and India and Australia are all decided in Antarctica ... that's why scientists call it the heartbeat of the planet ... the center of the world'. Lands at 555.8-563.7; the size comparison to 572 is acceptable. L137 'You can see this...' opens on a pointer, so start after it.", "over_band": false},
+    {"id": "fresh-water-sea-level", "start": 585.7, "start_range": [585.5, 585.9], "end": 608.4, "end_range": [603.7, 608.4],
+     "why": "Surprising fact: 'Antarctica has a scary amount of water tied up in its ice' -- 91% of the world's fresh water, 60 m of sea level if it melted, 'well, there goes my home'. A bit under 25s; the preceding line opens on 'They' (the IGY scientists), so it cannot start earlier cleanly.", "over_band": false},
+    {"id": "montreal-protocol-works", "start": 712.7, "start_range": [712.5, 713.0], "end": 784.9, "end_range": [784.9, 791.3],
+     "why": "Explanation and story: Solomon's team finds everyday chemicals destroying ozone, the world signs the Montreal Protocol (she was under the ozone hole in Antarctica when it was signed, 'the last one to know'), substitutes are found, and 'it's working, we're actually seeing the ozone layer recover' at 784.9. Long but one arc; speakers inferred from text (Cleo asks, Solomon answers).", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "no-time-zone", "start": 208.9, "start_range": [208.9, 216.5], "end": 250.2, "end_range": [250.2, 250.2],
+     "why": "Antarctica facts: fewer than 5,000 people allowed, no one owns it, the sun never sets, no official time zone so researchers use the time zone of whoever feeds them. Ends on 'supply base' mid-line before the wind bit. A list of facts rather than one point.", "over_band": false},
+    {"id": "sketchy-trip", "start": 146.7, "start_range": [146.5, 146.9], "end": 189.8, "end_range": [189.8, 189.8],
+     "why": "'Getting to Antarctica is a little sketchy': the Drake Passage, 800 shipwrecks, or a plane whose runway is made of ice. Travel vlog, but it has a hook and a payoff line.", "over_band": false},
+    {"id": "next-generation-choice", "start": 933.8, "start_range": [933.6, 934.0], "end": 965.6, "end_range": [965.6, 965.6],
+     "why": "Rallying close: grandparents signed the Antarctic Treaty, parents the Montreal Protocol, 'are we really going to be the generation that doesn't work together?' Names both precedents, but 'the next problem' was set up earlier, so acceptable not insisted on.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 5.3, "end": 21.6, "why": "Cold-open hook ('scaling a glacier to show you a view most people can never see') that only introduces the video."},
+    {"start": 253.9, "end": 268.2, "why": "The wind pushing her backward on the ice: 'look at this', a moment shown on screen."},
+    {"start": 340.8, "end": 360.5, "why": "Teaser: 'what she was about to discover would forever change the lives of everyone' -- the answer comes six minutes later."},
+    {"start": 376.7, "end": 433.8, "why": "Mercury sponsor read, woven into the snow-blindness sunglasses bit."},
+    {"start": 818.2, "end": 863.5, "why": "The Blue Rivers: drinking glacial meltwater on camera, 'man, that's good' -- a visual moment, not a point."}
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=UuqSy1jPSUw",
+    "title": "The most expensive software bug in history...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 318.74,
+    "sha256_prefix": "8defe4b1bdec8aab",
+    "local_path": "eval/media/fireship-UuqSy1jPSUw.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "duct-tape-440-million",
+      "start": 20.6,
+      "start_range": [
+        20.4,
+        20.6
+      ],
+      "end": 48.0,
+      "end_range": [
+        48.0,
+        48.0
+      ],
+      "why": "Hook: 'even before AI, software has always been held together with duct tape and the poverty of open-source maintainers.' Then the example: Knight Capital, 10% of all US stock trading, lost $440M in about 45 minutes and was sold for parts four months later (48.0). Starts on 'sometimes' to drop the leading 'But'. The recent-incidents list before it (L000-L002) is its own run-up, not needed.",
+      "over_band": false
+    },
+    {
+      "id": "power-peg-feature-flag",
+      "start": 141.0,
+      "start_range": [
+        141.0,
+        141.0
+      ],
+      "end": 213.0,
+      "end_range": [
+        213.0,
+        213.0
+      ],
+      "why": "The bug itself, tight enough for the band. Hook: 'deep in the codebase was an old feature flag that hadn't been used since 2003, but it was never deleted.' It triggered Power Peg, a test that buys aggressively; engineers reused the flag for new code, deployed by hand to eight servers, and only seven got the update. Payoff: the eighth server woke Power Peg from its nine-year hibernation, 'buying high and selling low' (213.0). 72s. 'At the time' and 'SMARS' are light references that the clip explains.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "power-peg-full-disaster",
+      "start": 141.0,
+      "start_range": [
+        141.0,
+        141.0
+      ],
+      "end": 242.8,
+      "end_range": [
+        242.8,
+        256.3
+      ],
+      "why": "Same story carried through the panic: they rolled back the seven healthy servers, so all eight ran Power Peg, and 45 minutes later they owned a $7B position. It is the full payoff but cannot fit 75s; the tightest cut ends on the $7B line, and the $440M / 75% drop lines (256.3) are the latest acceptable end.",
+      "over_band": true
+    }
+  ],
+  "negatives": [
+    {
+      "start": 48.1,
+      "end": 59.3,
+      "why": "'In today's video... lose $10 million in a minute with this one weird trick' teaser plus the Code Report intro."
+    },
+    {
+      "start": 102.2,
+      "end": 140.9,
+      "why": "NYSE Retail Liquidity Program backstory ending in 'Just kidding, they did it in the most lazy way possible': a sarcastic line whose point needs Knight's business model from before, and it sets up the bug that comes next."
+    },
+    {
+      "start": 256.6,
+      "end": 269.7,
+      "why": "Aftermath (acquired by its competitor, absorbed in 2017) and the sarcastic 'we definitely learned our lesson', which is the sponsor segue."
+    },
+    {
+      "start": 269.8,
+      "end": 313.2,
+      "why": "Hyperagent sponsor read, which opens on a relatable joke about open-source maintainers drowning in daylight-savings issues."
+    }
+  ]
+}

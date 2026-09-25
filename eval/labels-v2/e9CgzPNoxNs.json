@@ -1,0 +1,33 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=e9CgzPNoxNs",
+            "title": "HUGE The Witcher 3 Remastered UPDATES - Gameplay Enhancements, Steam Deck Details",
+            "channel": "Cult of Mush", "genre": "game news and deals, screen-driven",
+            "duration_s": 657.4, "sha256_prefix": "06ec87657a6da2f4",
+            "local_path": "eval/media/mush-e9CgzPNoxNs.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "free-remaster-goodwill", "start": 519.1, "start_range": [512.0, 519.2], "end": 544.4, "end_range": [544.4, 551.0],
+     "why": "Business take: the free Witcher 3 remaster won't make CDPR money on paper, but it earns 'the unquantifiable metric of goodwill' - people replay it, like it, then pre-order Songs of the Past and buy Witcher 4. Payoff: 'that's one of those things so many other publishers get wrong because it's all about making money in a vacuum' (544.4). Open on 'while Witcher Three, on paper, this remaster...' (dropping 'And'); opening a sentence earlier on 'I think this will be a good study on doing something that builds a lot of goodwill' (512.0) also works. ~25s.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "free-but-dont-get-it-twisted", "start": 410.6, "start_range": [410.5, 413.9], "end": 477.6, "end_range": [472.6, 477.6],
+     "why": "Earlier, longer take on the same point: the update is free but 'don't get it twisted' - it puts the game back in the news cycle and reaches people who were 10 when it came out and backlog buyers who paid $3.99; CDPR won't get your money off this, 'they will be getting your money off Songs of the Past... Witcher Four' (472.6). Works on its own but the goodwill clip says it tighter.", "over_band": false},
+    {"id": "bandits-bought-at-399", "start": 18.9, "start_range": [18.8, 19.0], "end": 37.8, "end_range": [37.8, 64.8],
+     "why": "Surprising deal fact: the people 'making out like the bandits' bought base Witcher 3 for $3.99 and now get the remaster plus all DLC free on September 29. Under 25s at its tightest (37.8); can run on through GOG raising the sale price to $24.99 and prices drifting back down (64.8) to reach the band, though that tail is a second point.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 103.8, "end": 177.0, "why": "Next-gen update vs remaster, largely reading the executive producer's quote ('I'm talking about the animation... the gameplay'); article narration."},
+    {"start": 220.0, "end": 268.5, "why": "Combat changes read as a feature list (smoother animations, targeting, dynamic camera) with a brief 'camera gets jarring' aside; screen narration."},
+    {"start": 287.7, "end": 371.2, "why": "Long feature list read off screen: finishers, signs, transmog, QoL, textures, path tracing, DLSS 4.5."},
+    {"start": 373.9, "end": 407.8, "why": "Steam Deck / Switch 2 speculation ('CDPR are wizards at optimization') with no landing."},
+    {"start": 556.9, "end": 596.9, "why": "Restates the goodwill point (shareholders, 'amplifying the success') after it has landed."},
+    {"start": 622.3, "end": 657.4, "why": "Bell-notification plea after the outro."}
+  ]
+}

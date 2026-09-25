@@ -1,0 +1,135 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=noPuRPDiY6k",
+    "title": "AGI, are we there yet..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 555.165896,
+    "sha256_prefix": "a0e22d3928d727e8",
+    "local_path": "eval/media/caleb-noPuRPDiY6k.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "agi-not-human-brain",
+      "start": 9.2,
+      "start_range": [
+        0.1,
+        9.2
+      ],
+      "end": 50.0,
+      "end_range": [
+        50.0,
+        50.0
+      ],
+      "why": "Hook: 'is AGI even possible at all?' Penrose's 1980s claim that understanding is non-algorithmic; today's architectures don't resemble the brain; conclusion (50.0): if we're close to AGI, it doesn't require reproducing human intelligence's mechanism. Opening on the CEO line at 0.1 also works.",
+      "over_band": false
+    },
+    {
+      "id": "chollet-not-agi",
+      "start": 151.8,
+      "start_range": [
+        151.8,
+        151.8
+      ],
+      "end": 181.6,
+      "end_range": [
+        181.6,
+        181.6
+      ],
+      "why": "Chollet's view: AGI means acquiring skills in novel situations; models are trained for months and frozen at inference, so by his definition we haven't reached AGI (181.6). Short and self-contained.",
+      "over_band": false
+    },
+    {
+      "id": "harness-does-the-learning",
+      "start": 191.3,
+      "start_range": [
+        185.8,
+        191.3
+      ],
+      "end": 226.3,
+      "end_range": [
+        226.3,
+        255.5
+      ],
+      "why": "Hook: Astra hits 99.9% on ARC-AGI-3 without learning anything, and the reason is the harness. Harness manages context, memory, execution, error recovery; payoff at 226.3: those are elements of intelligence the model layer alone lacks. Ending at 255.5 (harness outsources hard parts to handwritten code; model+harness shows early signs of AGI) also works as the fuller take; both edges genuinely work. 185.8 adds what ARC-AGI measures.",
+      "over_band": false
+    },
+    {
+      "id": "arbitrary-tasks-weak-argument",
+      "start": 353.8,
+      "start_range": [
+        341.4,
+        353.8
+      ],
+      "end": 397.9,
+      "end_range": [
+        397.9,
+        406.8
+      ],
+      "why": "ANI vs AGI (Tim Urban's framework): general intelligence isn't a pile of narrow skills, so listing tasks AGI can't do is a weak argument; payoff at 397.9: we could have AGI while underperforming narrow AI on some tasks. 406.8 adds the 'transfer and adapt' reason. 341.4 opens on the Tim Urban blog instead.",
+      "over_band": false
+    },
+    {
+      "id": "agi-economic-narrative",
+      "start": 432.7,
+      "start_range": [
+        432.7,
+        432.7
+      ],
+      "end": 483.1,
+      "end_range": [
+        483.1,
+        496.8
+      ],
+      "why": "Hook: Dario calls AGI a marketing term, then ironically offers 'a country of geniuses in a data center, whatever that means'. Turns to: scientific or not, AGI carries huge economic weight; CEOs promise it in 5-10 years; two AI winters came from overpromising; payoff at 483.1: AGI is now an economic narrative, not just a hypothesis. 496.8 adds what it shapes (funding, valuations, data centers, hiring).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "jensen-nvidia-chips",
+      "start": 497.0,
+      "start_range": [
+        497.0,
+        497.0
+      ],
+      "end": 522.4,
+      "end_range": [
+        522.4,
+        522.4
+      ],
+      "why": "Companies define AGI differently so they'll reach it at different moments, like Jensen saying OpenAI achieved AGI 'using NVIDIA chips. Emphasis on using NVIDIA chips' (joke lands ~512.4, mid-sentence); ends on the sentence's close about managing expectations. Short and opens on 'So'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 125.9,
+      "end": 149.2,
+      "why": "LeCun 'LLMs are dead' and his LinkedIn comment 'like this' on screen; framing for the two axes, no payoff here."
+    },
+    {
+      "start": 255.6,
+      "end": 284.2,
+      "why": "Bitter lesson and Boris Cherny's 10-20% figure; opens on 'this certainly brings back to' and leans on the preceding harness argument."
+    },
+    {
+      "start": 284.3,
+      "end": 341.1,
+      "why": "Sponsor read (Micro Center)."
+    },
+    {
+      "start": 535.8,
+      "end": 555.2,
+      "why": "Closing concern that the first AGI may be less capable than existing models; a strong claim resting on the ANI/AGI argument minutes earlier, and cut off by the video's end."
+    }
+  ]
+}

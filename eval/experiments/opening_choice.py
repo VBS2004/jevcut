@@ -51,6 +51,19 @@ INSTRUCTIONS = (
 )
 # Variant b: the same without the tiebreak, after variant a came out late 26 to 6.
 INSTRUCTIONS_B = INSTRUCTIONS.rsplit(" Of two marks", 1)[0]
+# Variant c: the flagged line is a pointer, not a line the clip must contain. With openings
+# offered after the anchor, b still put 1% on the right start in 12 of 15 far-off misses:
+# told to cut "around" the line, it kept a line that closed the previous thought.
+INSTRUCTIONS_C = (
+    "`region.text` is a stretch of transcript with candidate start points marked "
+    "«C00», «C01», and so on. The line `region.moment` was flagged as part of a moment "
+    "worth clipping for a social feed, but it only points near the moment: the moment "
+    "may begin before it, at it, or after it, and the flagged line may even be the end "
+    "of the thought before. At which mark does that moment begin? Come in on the line "
+    "that grabs attention -- the claim, the question, the image, the surprising fact -- "
+    "not on the run-up to it. But keep any setup the moment needs: someone who has seen "
+    "nothing before the cut must still follow it."
+)
 AFTER_S = 20.0  # context past the anchor, so the moment's point is readable
 
 
@@ -58,7 +71,9 @@ def region(transcript, spans, anchor):
     """Candidates renumbered locally from C00, rendered in their transcript."""
     marks = [replace(s, id=cut_id(i)) for i, (s, _) in enumerate(spans)]
     t0 = spans[0][0].t_start - 0.01
-    sentences = transcript.between(t0, anchor.t1 + AFTER_S)
+    # As the pipeline does: read on past the last candidate, which may be after the anchor.
+    last = max(anchor.t1, spans[-1][0].t_start)
+    sentences = transcript.between(t0, last + AFTER_S)
     return render_markers(sentences, marks), {m.id: s for m, (s, _) in zip(marks, spans)}
 
 
@@ -137,5 +152,6 @@ def main(label_dirs: list[str], instructions: str = INSTRUCTIONS) -> None:
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    variant = INSTRUCTIONS_B if args[:1] == ["--b"] else INSTRUCTIONS
-    main([a for a in args if a != "--b"] or ["eval/labels-v2", "eval/labels-v2-b"], variant)
+    variants = {"--b": INSTRUCTIONS_B, "--c": INSTRUCTIONS_C}
+    variant = variants.get(args[0], INSTRUCTIONS) if args else INSTRUCTIONS
+    main([a for a in args if a not in variants] or ["eval/labels-v2", "eval/labels-v2-b"], variant)

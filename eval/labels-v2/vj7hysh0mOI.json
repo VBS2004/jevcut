@@ -1,0 +1,104 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=vj7hysh0mOI",
+    "title": "Jev explained in 7min..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 431.36,
+    "sha256_prefix": "f0b9e7567b2a464f",
+    "local_path": "eval/media/caleb-vj7hysh0mOI.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "workflow-automation-schism",
+      "start": 43.26,
+      "start_range": [
+        42.98,
+        43.36
+      ],
+      "end": 81.82,
+      "end_range": [
+        81.82,
+        108.7
+      ],
+      "why": "Hook: 'one area that always felt short was workflow automation' -- even Astra and Fable can't cross that threshold. TypeSafe's claim: frontier models are optimized for the wrong thing (human preference, verifiable reward), which doesn't carry over when decisions must be quick under uncertainty; lands at 81.8. Two endings both work: the later one (108.7, L011-L013) adds the sharper 'forcing chat/agent models into automation is fundamentally wrong', at the cost of partly restating.",
+      "over_band": false
+    },
+    {
+      "id": "speed-not-depth",
+      "start": 108.78,
+      "start_range": [
+        108.78,
+        108.9
+      ],
+      "end": 162.32,
+      "end_range": [
+        162.32,
+        176.62
+      ],
+      "why": "Hook: the Jev projects people show off are about speed of execution, not depth of understanding. Current LLMs can do the same tasks, just not at 70-500ms, because autoregressive decoding is token-by-token while Jev does parallel sampling and typed probabilistic decisions; lands at 162.3. The 'so it's less about capability than optimization' wrap-up to 176.6 is acceptable but restates the hook.",
+      "over_band": false
+    },
+    {
+      "id": "back-to-logic-gates",
+      "start": 254.42,
+      "start_range": [
+        254.42,
+        254.5
+      ],
+      "end": 308.84,
+      "end_range": [
+        308.84,
+        309.0
+      ],
+      "why": "Hook: unlike LLMs that take an instruction and answer in text, Jev takes structured input and returns a probability distribution -- 'okay, what do I do with this?' Answer: three primitives (choice, score, yes/no) that software builds on; payoff line 'it almost feels like we're back to logic gates and registers'. One 'looks something like this' screen reference at ~268 but the point is spoken.",
+      "over_band": false
+    },
+    {
+      "id": "not-novel-just-horizontal",
+      "start": 394.04,
+      "start_range": [
+        374.32,
+        394.18
+      ],
+      "end": 431.34,
+      "end_range": [
+        431.34,
+        431.4
+      ],
+      "why": "Closing hot take: the Jev news is about use cases growing horizontally, not novelty -- narrow specialized models existed before generative AI took over the narrative, and it's a net positive to build models optimized for the right constraints. Starts at 'how I process this' (drops 'So'). Two starts genuinely work: 374.3 adds the supporting evidence (TypeSafe hasn't disclosed RLCD; someone on Reddit built a similar 421M-param BERT model) for a 57s clip; preferred is the shorter one, which stands on its own.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [],
+  "negatives": [
+    {
+      "start": 0.1,
+      "end": 42.8,
+      "why": "Strong opening line ('Jev makes us question how we optimize LLMs') but followed by generic history of chat/coding optimization and the 'AI stack' pressure; the point doesn't arrive until the workflow-automation claim at 43s."
+    },
+    {
+      "start": 180.4,
+      "end": 254.2,
+      "why": "Sponsor read (Junie CLI from JetBrains): benchmark score, plan mode, discount."
+    },
+    {
+      "start": 309.1,
+      "end": 326.0,
+      "why": "Plant-sorting example narrated off the screen ('this long list of plants')."
+    },
+    {
+      "start": 326.4,
+      "end": 374.2,
+      "why": "Pareto-frontier chart narration ('this section here'): model names and positions read off a plot."
+    }
+  ]
+}

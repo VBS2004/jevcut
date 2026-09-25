@@ -22,12 +22,20 @@ In order of what the numbers say costs the most. Scores for every step go throug
       clips, precision and median start error; **not passed** on `start_err_p90` (its
       start misses are large). [eval/results/baselines.md](eval/results/baselines.md)
 - [ ] **4. Fix the openings' tail.** The opening Choice's misses are 15-21s off, worse than
-      simple padding at p90, and it still starts late more often than early. This is what
-      stands between jevcut and 013's ship criterion; score on both labelers.
+      simple padding at p90. Tried 2026-09-25, neither kept: offering openings after the
+      anchor, and rewording the Choice (RESEARCH.md). The far-off starts mostly follow a
+      scan anchor that closes the thought before. The eval set is now 38 videos (~100 matched
+      clips per labeler), and the tail is still there (p90 17.5 / 19.6s vs dense 14.6 / 14.3s):
+      it is real, and measurable now.
 - [ ] **5. One human review pass** on two videos: every labeler so far is the same model,
       so the 0.0s start agreement is a lower bound.
 
-Done this round: rubric v2 and two blind label sets, the shortest clean ending, the opening
+Next, by the user's call (2026-09-25): **phase 2, non-verbal event clips
+([021](issues/021-event-clips.md)), in a fresh session** -- even though 013 has not
+passed (jevcut wins on everything but the worst starts; RESEARCH.md "013 on 38 videos").
+
+Done this round: the live terminal display (`ui.py`), the shortlist check on openings,
+set 2 (38 videos, labeled twice), rubric v2 and two blind label sets, the shortest clean ending, the opening
 Choice, the ad check, Lemonfox transcription, `jevcut bench` (RESEARCH.md has each).
 
 20 issues, 5 milestones. Ordered so that **the thing most likely to kill the project gets

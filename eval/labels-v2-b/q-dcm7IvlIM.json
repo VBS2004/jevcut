@@ -1,0 +1,155 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=q-dcm7IvlIM",
+    "title": "HOW TO BECOME DISGUSTINGLY DISCIPLINED (with neuroscience)",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 671.289,
+    "sha256_prefix": "941701430d1570a0",
+    "local_path": "eval/media/olga-q-dcm7IvlIM.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "novelty-then-fade",
+      "start": 104.1,
+      "start_range": [
+        104.1,
+        104.1
+      ],
+      "end": 147.1,
+      "end_range": [
+        147.1,
+        152.2
+      ],
+      "why": "Evolutionary hook: new things could be opportunities (berry bush, new path); those motivated to investigate survived, which is why starting something new feels so exciting. Then after a few classes the brain has mapped it, releases less dopamine, you feel less motivated (147.1 / 152.2 'less motivated to do it'). Cut before 'which is how we enter phase two'. 'A few dance classes' is a generic example, not a dangling pointer.",
+      "over_band": false
+    },
+    {
+      "id": "the-dip-is-a-filter",
+      "start": 220.22,
+      "start_range": [
+        220.2,
+        236.8
+      ],
+      "end": 270.4,
+      "end_range": [
+        265.5,
+        270.4
+      ],
+      "why": "Hook: 'every single person who has ever gotten good at anything has overcome that same exact dip... they didn't read it as a signal to quit.' Seth Godin: the dip is not a problem, it is a filter; payoff 'if anyone could get through the dip, there'd be nothing special about the people who do' (270.4). Opening on Godin (236.8) is also a working, shorter cut; both edges genuinely work.",
+      "over_band": false
+    },
+    {
+      "id": "lazy-is-a-label",
+      "start": 383.38,
+      "start_range": [
+        380.4,
+        383.4
+      ],
+      "end": 420.8,
+      "end_range": [
+        418.1,
+        420.8
+      ],
+      "why": "Opens mid-sentence on the clean clause 'when you're in the dip, your brain starts creating stories and telling you lies' (skipping 'a very important thing we have to know is that'). First lie 'I am too lazy': you weren't lazy in week one buying equipment and watching tutorials at midnight. Payoff: 'lazy is just a character judgment for a neurochemical state' (418.1) / 'a useless label' (420.8).",
+      "over_band": false
+    },
+    {
+      "id": "serial-dater-lie",
+      "start": 454.28,
+      "start_range": [
+        454.2,
+        454.3
+      ],
+      "end": 500.5,
+      "end_range": [
+        497.2,
+        500.5
+      ],
+      "why": "The 'I'll start something new instead' lie, via the serial dater who leaves every relationship when the honeymoon ends. Payoff: what replaces the honeymoon is much better, but you only find out if you stay and commit (500.5). Opens on 'the third lie is' - list-framed but the lie is stated in full.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "dopamine-novelty-dance",
+      "start": 78.4,
+      "start_range": [
+        78.4,
+        78.4
+      ],
+      "end": 129.7,
+      "end_range": [
+        129.7,
+        129.7
+      ],
+      "why": "Longer alternative for the novelty point: 'your brain releases the most dopamine for novel, unexpectedly rewarding activities', through the dance studio and evolutionary reason to 'why starting something new feels so exciting'. Refers to 'the honeymoon phase', so second choice.",
+      "over_band": false
+    },
+    {
+      "id": "not-for-me-lie",
+      "start": 421.0,
+      "start_range": [
+        421.0,
+        421.0
+      ],
+      "end": 453.8,
+      "end_range": [
+        453.8,
+        453.8
+      ],
+      "why": "Second lie, 'this is not for me': we decide something isn't for us exactly when it's hardest and motivation is lowest. Works alone, list-framed.",
+      "over_band": false
+    },
+    {
+      "id": "shrink-the-commitment",
+      "start": 310.7,
+      "start_range": [
+        307.3,
+        310.7
+      ],
+      "end": 352.6,
+      "end_range": [
+        352.6,
+        352.6
+      ],
+      "why": "Shrink the behavior during the dip; lands on 'a terrible workout you actually did is infinitely better than a perfect workout you skipped'. Leans on 'the dip'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.2,
+      "end": 31.7,
+      "why": "Cold-open hook ('it is not because you're lazy') into the channel intro."
+    },
+    {
+      "start": 32.0,
+      "end": 49.4,
+      "why": "Promise of 'three phases' you'll recognize in everything you've quit; the payoff is spread over the next three minutes."
+    },
+    {
+      "start": 161.1,
+      "end": 197.2,
+      "why": "Her YouTube-channel dip anecdote; depends on the phase framing and ends on 'phase three, the routine'."
+    },
+    {
+      "start": 519.4,
+      "end": 615.9,
+      "why": "Brilliant sponsor read including an on-screen tutor demo."
+    },
+    {
+      "start": 616.0,
+      "end": 646.3,
+      "why": "Outro summary: 'the people who finish things aren't people who never feel the dip' - quotable, but restates the video."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=7r4ikZHm9AI",
+    "title": "Anthropic researchers are quitting... and now we know why",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 376.07,
+    "sha256_prefix": "0b272679a19d8309",
+    "local_path": "eval/media/fireship-7r4ikZHm9AI.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "researcher-quits-before-vesting",
+      "start": 0.2,
+      "start_range": [
+        0.2,
+        0.2
+      ],
+      "end": 30.9,
+      "end_range": [
+        30.9,
+        46.5
+      ],
+      "why": "Cold-open story. Hook: a 27-year-old researcher quit Anthropic before his shares vested; LinkedIn humblebrag contrast; payoff lands when he accuses OpenAI and Anthropic of 'gambling with our lives' (30.9). Ending after the colleague's 'yeah he's right' and the >10%-in-a-decade odds (46.5) also works -- a stronger kicker but a second beat -- so the end range genuinely spans both; shorter preferred.",
+      "over_band": false
+    },
+    {
+      "id": "shiny-hunters-claude-on-claude",
+      "start": 133.7,
+      "start_range": [
+        133.7,
+        133.7
+      ],
+      "end": 174.9,
+      "end_range": [
+        164.4,
+        174.9
+      ],
+      "why": "Hacking group Shiny Hunters uses Claude to decompile 1.8M Android APKs and mine vibe-coded apps for hard-coded API keys; the irony that the keys they wanted most were Claude/OpenAI keys lands at 164.4, and the bit's punchline 'we need to put a stop to this Claude on Claude violence' at 174.9. Opens on 'But another hacking group that loves Claude' -- a light connective, but the line names the group and the premise, so no later start works.",
+      "over_band": false
+    },
+    {
+      "id": "georgia-guidestones-bet",
+      "start": 254.2,
+      "start_range": [
+        254.2,
+        254.2
+      ],
+      "end": 281.7,
+      "end_range": [
+        279.5,
+        281.7
+      ],
+      "why": "Comedy bit. Hook: 'I'm an optimist, I'll bet a million dollars humanity won't be extinct in 10 years'; setup: humanity will instead be kept under 500 million per the Georgia Guidestones, 'obviously' instructions for ASI; punchline: somebody blew them up so ASI won't know what to do (279.5), button 'The bombing is under investigation' (281.7).",
+      "over_band": false
+    },
+    {
+      "id": "yudkowsky-made-of-atoms",
+      "start": 281.9,
+      "start_range": [
+        281.9,
+        281.9
+      ],
+      "end": 315.1,
+      "end_range": [
+        315.1,
+        319.1
+      ],
+      "why": "Yudkowsky's argument from 'If Anyone Builds It, Everyone Dies': a smarter system plays nice, passes evals, waits for us to build robots and bio labs, a brief utopia ('cure cancer, AIDS, and my herpes'), then the lights go out -- 'AI doesn't love you or hate you, you're just made of atoms it could use for something else' (315.1). The 'That's a terrifying idea, but AI hasn't killed us yet' line (319.1) is an acceptable button before the sponsor turn. Opening 'not nearly as optimistic as I am' reads fine without the previous bit.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "russian-chinese-claude-malware",
+      "start": 96.6,
+      "start_range": [
+        96.6,
+        96.6
+      ],
+      "end": 133.5,
+      "end_range": [
+        133.5,
+        133.5
+      ],
+      "why": "Two misuse examples from Anthropic's threat report: Midnight Blizzard's agents auto-rewrite flagged malware (babushka's basement joke), then two Chinese undergrads run an autonomous zero-day foundry. Surprising facts, but a list of examples without a single payoff; acceptable, not insisted on.",
+      "over_band": false
+    },
+    {
+      "id": "distillation-irony",
+      "start": 208.0,
+      "start_range": [
+        208.0,
+        208.0
+      ],
+      "end": 237.9,
+      "end_range": [
+        237.9,
+        237.9
+      ],
+      "why": "'The most horrendous use of Claude was distillation... which ironically Claude stole from books and bloggers', then DeepSeek/Alibaba/Moonshot accusations with numbers. Joke is up front; the rest is report detail, so an editor might take it but would not insist.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 55.7,
+      "end": 90.4,
+      "why": "Intro ('In today's video', date, Code Report) into the list of seven misuse categories -- energetic but a table of contents."
+    },
+    {
+      "start": 185.7,
+      "end": 207.7,
+      "why": "Gain-of-function 'chicken chicken gonna kill you virus' and kill drones: a scary claim and a gag name, but two quick list items with no payoff; ~22s."
+    },
+    {
+      "start": 238.2,
+      "end": 253.9,
+      "why": "Footnote that distillation didn't run on Fable/Mythos so safeguards improve, then 'none matters if we're all dead in 10 years' -- depends on the distillation section and the cold open's 10-year odds."
+    },
+    {
+      "start": 319.4,
+      "end": 369.8,
+      "why": "Macroscope sponsor read, including the tempting 'either really good or those customers are fucked' joke."
+    }
+  ]
+}

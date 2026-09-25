@@ -1,0 +1,110 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=7DncQnIjZmA",
+    "title": "OpenAI solving Navier-Stokes explained..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 656.01,
+    "sha256_prefix": "7d643ec80b5db735",
+    "local_path": "eval/media/caleb-7DncQnIjZmA.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "navier-stokes-million-dollar-question",
+      "start": 215.98,
+      "start_range": [
+        215.76,
+        216.1
+      ],
+      "end": 274.78,
+      "end_range": [
+        274.78,
+        291.2
+      ],
+      "why": "Hook: the OpenAI Navier-Stokes controversy isn't because the equation is flawed -- it works in engineering, but it's never been proven to work in all conditions: 'literally the million-dollar question', open for decades. States the problem (always smooth in 3D, or a blow-up?), two ways to settle it, and lands at 274.8: OpenAI claims the second, a counterexample where the equation blows up. Later end (291.2, 75.2s) adds 10,000 agents / 130B tokens and 'sets precedent'; one 'as you can see' screen aside at ~254.",
+      "over_band": false
+    },
+    {
+      "id": "who-gets-the-credit",
+      "start": 601.0,
+      "start_range": [
+        579.64,
+        601.1
+      ],
+      "end": 652.1,
+      "end_range": [
+        652.1,
+        652.2
+      ],
+      "why": "Hook: rumor that OpenAI is already moving past Navier-Stokes to other Millennium Prize problems. Makes us rethink human credit; the prize rules only allow a person or group of people, not an AI agent; payoff question at 652.1: between compute-rich labs doing the work and institutions giving direction, who deserves the attribution? Two starts both work: 579.6 opens on the stronger 'who will have the means to make scientific discoveries -- companies running 10,000 agents?' (72.5s); 593.4 on 'the world is full of unsolved questions' also fine. Preferred is the shortest.",
+      "over_band": false
+    },
+    {
+      "id": "why-openai-cheated",
+      "start": 428.02,
+      "start_range": [
+        427.92,
+        428.1
+      ],
+      "end": 521.54,
+      "end_range": [
+        521.54,
+        521.6
+      ],
+      "why": "Hook: 'to understand why researchers are claiming that OpenAI cheated...' Story: Euler's version ignores viscosity; Buckmaster (with Anthropic's Alpoglu) spent a year and found a *forced* blow-up; OpenAI heard, threw compute at the same problem and found an unforced one in 50 hours with 100 agents; payoff: plagiarism rumors because the approach was so similar. Can't land in 75s without losing the forced/unforced setup the punchline needs.",
+      "over_band": true
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "solid-vs-fluid",
+      "start": 0.14,
+      "start_range": [
+        0.14,
+        0.3
+      ],
+      "end": 88.74,
+      "end_range": [
+        83.94,
+        88.74
+      ],
+      "why": "Cold open on F=ma tied to OpenAI's Navier-Stokes claim; elevator worked example; solids move as one body, water doesn't; applying Newton's second law to fluid gives Navier-Stokes (ends before 'looks something like this'). Clear explainer but the elevator arithmetic makes it long.",
+      "over_band": true
+    }
+  ],
+  "negatives": [
+    {
+      "start": 96.4,
+      "end": 198.5,
+      "why": "Equation components read off the screen ('as you can see', 'this side of the equation'); the garden-hose and funnel examples sound clippable but annotate an on-screen formula."
+    },
+    {
+      "start": 291.4,
+      "end": 321.1,
+      "why": "'Underlying this entire scandal around OpenAI alleged cheating...' -- a thesis about compute and discovery stated before the scandal has been explained, then segues into the sponsor."
+    },
+    {
+      "start": 321.2,
+      "end": 385.5,
+      "why": "Sponsor read (Incogni)."
+    },
+    {
+      "start": 385.7,
+      "end": 415.4,
+      "why": "Counterexample visual ('visually it looks something like this', spiral vortex, 'like a tornado'): describes the on-screen render."
+    },
+    {
+      "start": 522.1,
+      "end": 571.4,
+      "why": "Text-message drama (88 hours, offer to drop Alpoglu's name, peeking at Codex history): juicy, but opens 'OpenAI went further than this' and assumes the Buckmaster story already told."
+    }
+  ]
+}

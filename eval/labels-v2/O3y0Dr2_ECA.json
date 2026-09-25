@@ -1,0 +1,41 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=O3y0Dr2_ECA", "title": "Trevor Noah: What Happens When You're Mean to Fast Food Workers", "channel": "Trevor Noah",
+            "genre": "stand-up comedy", "duration_s": 811.98, "sha256_prefix": "91ebf5e4bf7fdf94",
+            "local_path": "eval/media/trevor-O3y0Dr2_ECA.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "township-vs-suburb-dogs", "start": 0.3, "start_range": [0.3, 0.3], "end": 36.5, "end_range": [36.5, 39.8],
+     "why": "Hook: 'why dogs in the township bark different to dogs in the suburbs'. Suburb dogs march at the gates with poise; township dogs, skinny mixed breeds, 'bark like they're complaining about government' -- payoff at 36.5.", "over_band": false},
+    {"id": "apartheid-as-scapegoat", "start": 146.0, "start_range": [145.7, 146.0], "end": 170.7, "end_range": [170.3, 172.3],
+     "why": "Hook: 'some people are bastardizing apartheid... using it as a scapegoat for everything' (skip 'Because'). Act-out of a minister caught stealing 200 million blaming apartheid -- 'No, you stole... That's what happened. You stole.' Stop before 'They just bastardize the thing' restates it.", "over_band": false},
+    {"id": "bee-oscar-pistorius-blades", "start": 238.24, "start_range": [223.3, 238.24], "end": 294.5, "end_range": [290.7, 294.5],
+     "why": "Hook: 'Think of black people in this country like Oscar Pistorius' -- everyone born with legs, apartheid came, no legs; apartheid ends and people say 'okay, black people, walk'; BEE is our blades, and 'like Oscar says, it's not supposed to give you an advantage, it just gets you to the same place.' Opening at 223.3 ('BEE aims to equalize') also works and helps viewers who don't know BEE, 15s longer.", "over_band": false},
+    {"id": "checkers-till-closes-no-complaint", "start": 435.2, "start_range": [434.1, 435.2], "end": 484.0, "end_range": [484.0, 484.0],
+     "why": "Hook: 'Black people don't know how to complain.' A guy waits 20 minutes for one brown bread at Checkers, the cashier drops the 'closed' sign, he just stands there muttering -- someone asks 'Do you have a problem?', 'No, it's fine.' Payoff at 484.0.", "over_band": false},
+    {"id": "drive-through-judgment-window", "start": 731.3, "start_range": [731.3, 731.3], "end": 778.2, "end_range": [778.2, 810.5],
+     "why": "The title moment. Hook: 'Do you never ask yourself... there's the window where you order and the window where you pick up, but in between... that's where they judge you.' The worker who just did a 12-hour shift calls the order back: 'six-piece chicken McNuggets... super size number one, special order' -- kitchen losing their minds. Payoff lands at 'Special order' (778.2); the kicker 'driving away like a legend... can taste the beef' (810.5) is a second working ending, 32s longer.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "checkers-white-lady-kung-fu", "start": 435.2, "start_range": [434.1, 435.2], "end": 527.4, "end_range": [524.7, 527.4],
+     "why": "The Checkers bit continued through the contrast: white people 'will never let that happen', block the sign 'like a kung fu master', demand the manager, and the guy at the back cheers 'tell them, missus'. Stronger contrast but 92s.", "over_band": true},
+    {"id": "park-through-giant-guy", "start": 571.8, "start_range": [558.6, 571.8], "end": 615.7, "end_range": [615.7, 645.0],
+     "why": "Huge buff guy at a McDonald's at 2am, 'so big he had extra muscles in the back seat', tells the worker 'next time make it a drive-through and not a park-through'. Lands on that line; can run to his forced 'say sorry' exchange (645.0). Setup for the title moment, but works on its own.", "over_band": false},
+    {"id": "just-get-over-apartheid", "start": 177.7, "start_range": [177.7, 177.7], "end": 205.8, "end_range": [205.8, 213.8],
+     "why": "White people on radio saying 'twenty bloody years, get over it'; 'you don't just get over apartheid... black people aren't going to go apartheid, woo, over it.' A hot take with a light punchline.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 57.7, "end": 78.1, "why": "'Half Swiss, half Xhosa... a Swiss toquelette' -- mumbled wordplay that relies on knowing his background."},
+    {"start": 82.2, "end": 112.3, "why": "'South Africa is 18 years old, old enough to drink now' -- rambling run-up with one small laugh."},
+    {"start": 344.5, "end": 365.7, "why": "Apartheid-era 'Fricky, where's the money?' act-out -- garbled accent work inside the 'crime isn't a colour thing' argument; does not land alone."},
+    {"start": 369.9, "end": 393.0, "why": "'Tenderpreneurs made their blades longer... tender blades' -- big laugh, but a callback to the Oscar Pistorius analogy 80s earlier."},
+    {"start": 532.0, "end": 554.4, "why": "'Black people will teach you when to complain... you can't always be Hulk' -- transitional wrap of the Checkers bit, no payoff."},
+    {"start": 682.7, "end": 707.4, "why": "'One of the best displays of complaining I've ever seen... ten out of ten' -- reaction to the previous scene, needs it."}
+  ]
+}

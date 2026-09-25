@@ -1,0 +1,90 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=Y5rSSvXfL4g",
+    "title": "5 open source tools that replaced my $320/mo AI stack...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 325.68,
+    "sha256_prefix": "ef49be2faba61a78",
+    "local_path": "eval/media/fireship-Y5rSSvXfL4g.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "ai-subscriptions-quit-alcohol",
+      "start": 0.2,
+      "start_range": [
+        0.2,
+        0.2
+      ],
+      "end": 26.8,
+      "end_range": [
+        26.8,
+        36.3
+      ],
+      "why": "Comedy cold open: 'I did some math and it made me realize how broken the world is' -- Cursor $20, Claude Max $100, GPT Pro $100, Gemini Ultra $100... the AI addiction got so expensive he had to quit alcohol, US alcohol sales are at historic lows, 'big AI is the one to blame' (26.8). Adding 'that was my wake-up call... now self-host the ultimate AI stack' (36.3) resolves it too but turns into the video's premise; shorter preferred.",
+      "over_band": false
+    },
+    {
+      "id": "horsetinder-matchmaking",
+      "start": 229.7,
+      "start_range": [
+        224.6,
+        229.7
+      ],
+      "end": 254.7,
+      "end_range": [
+        254.7,
+        261.0
+      ],
+      "why": "Comedy bit riding on a tool: Diffy's visual workflow powers a fake app, Horsetinder, whose LLM explains matches -- punchline 'Thunder and Butternuts are a 94% match because they both enjoy trail rides and biting children' (254.7); 'whenever a horse swipes right' (261.0) is an acceptable second button. Could open a sentence earlier on 'now it's time to build an actual app that'll make us rich' (224.6). Part of it narrates an on-screen workflow, but the joke is spoken and stands alone.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "headroom-center-a-div",
+      "start": 157.6,
+      "start_range": [
+        150.8,
+        157.6
+      ],
+      "end": 190.1,
+      "end_range": [
+        190.1,
+        190.1
+      ],
+      "why": "'You ask AI to center a div, it reads 50,000 lines of package-lock, evaporates an Olympic pool of water, just to realize it needs Tailwind' -- then what Headroom does and its reversible compression. Good hook, but the back half is a product explanation; acceptable, not insisted on.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 50.9,
+      "end": 100.9,
+      "why": "Ollama section: 'Docker for LLMs', 'works even after your credit card is declined', 'top tier slop' -- jokes sprinkled on a product walkthrough."
+    },
+    {
+      "start": 101.1,
+      "end": 150.3,
+      "why": "Nine Router and its fallback tiers -- a feature tour, opens on 'a solution to this'."
+    },
+    {
+      "start": 190.1,
+      "end": 220.7,
+      "why": "Hostinger sponsor read, set up as the answer to 'where do I deploy all this stuff?'."
+    },
+    {
+      "start": 261.0,
+      "end": 298.9,
+      "why": "OpenHands: 'a tool that allows you to fire yourself' is a strong line, but the rest is a SWE-bench/product description with no payoff."
+    }
+  ]
+}

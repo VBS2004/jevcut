@@ -1,0 +1,38 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=Sd3uWyZm_LQ", "title": "Trump vs. Kim Jong Un Was Already a Comedy Routine | Trevor Noah", "channel": "Trevor Noah",
+            "genre": "stand-up comedy", "duration_s": 495.93, "sha256_prefix": "647503e3a25b2f18",
+            "local_path": "eval/media/trevor-Sd3uWyZm_LQ.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "kim-calls-trump-psychopath", "start": 0.1, "start_range": [0.1, 0.1], "end": 27.3, "end_range": [25.8, 27.3],
+     "why": "Opens on the hook 'Kim Jong Un up against Donald Trump... you don't know who the crazy person is'; Kim's statement calling Trump a psychopath, and Trevor's impression of Kim going 'guys, I'm wild, but I can't... this guy' is the payoff. Stop before 'And Donald is crazy' turns to the South Africans bit.", "over_band": false},
+    {"id": "zuma-chess-team-cabinet", "start": 99.1, "start_range": [99.1, 103.9], "end": 125.1, "end_range": [125.1, 127.0],
+     "why": "Hook 'We think our politicians are stupid' / 'Jacob Zuma is smart': head of ANC intelligence, started the chess team on Robben Island -- 'that's why he's so good with moving the cabinet around... because he's a horse. Check.' Payoff is 'Check.' Starting at 103.9 is tighter but under 25s and loses the premise.", "over_band": false},
+    {"id": "trump-healthcare-pageant-answer", "start": 148.3, "start_range": [140.4, 148.3], "end": 204.5, "end_range": [202.6, 204.5],
+     "why": "Hook: Trump answers questions 'like he's a contestant in one of his own beauty pageants'; then the healthcare-question impression ('the best coverage, all the coverage... it's just gonna work, folks... we're gonna do all the things healthy with the money') ending on the pageant callback 'And also, thank you.' Can open 8s earlier on 'Donald Trump has no clue about any policy whatsoever'.", "over_band": false},
+    {"id": "fire-and-fury-tokyo-drift", "start": 237.1, "start_range": [237.1, 244.7], "end": 264.7, "end_range": [264.7, 271.3],
+     "why": "Trump getting ready to launch a nuclear weapon: 'Fire and fury. Fury and fire. Fast and furious. Tokyo Drift, like no one's ever seen.' Payoff lands on 'like no one's ever seen'; 'This guy's gonna blow up the world, people' is an acceptable tag. Opening at 244.7 ('Now he's getting ready to start a war') is tighter but runs ~20s.", "over_band": false},
+    {"id": "melania-cyberbullying", "start": 358.16, "start_range": [344.4, 358.16], "end": 398.9, "end_range": [398.9, 402.0],
+     "why": "Melania picks cyberbullying as her first-lady platform ('People on the Twitter who are saying the bad things, we need to stop them') -> 'Do you know your husband, lady?' The irony lands without the theory, so open on 'Melania Trump came out' (word time, skipping 'For instance'); opening at 344.4 on the theory that they throw shade at each other in speeches also works and is 14s longer.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "zuma-master-tactician-stefano", "start": 52.0, "start_range": [52.0, 53.9], "end": 90.1, "end_range": [90.1, 93.0],
+     "why": "People get fooled by Zuma's giggling cute vibe, but he's a master tactician who keeps surviving no-confidence votes -- 'he's the Stefano DiMera of this game... like sands through the hourglass, so are the days of our lives.' Works, but leans on South African politics and a soap reference.", "over_band": false},
+    {"id": "trump-melania-speech-war", "start": 402.6, "start_range": [402.6, 405.6], "end": 493.8, "end_range": [493.8, 495.9],
+     "why": "The act-out of Donald and Melania's fight ('I'm the best at worst'), then dueling speeches: he attacks immigrants, 'Your move, Melania', she attacks men grabbing women -> 'you guys need to sort your shit out at home, man.' Tightest cut is 91s, and its first line ('she was doing it on purpose') leans on the cyberbullying speech before it, so accept, don't insist.", "over_band": true}
+  ],
+  "negatives": [
+    {"start": 28.8, "end": 50.6, "why": "South Africans asking if Trump is really that stupid, 'is he stupid like Malema?' -- setup for the Zuma material with no payoff of its own."},
+    {"start": 129.1, "end": 147.0, "why": "'He may not know how to read, but he knows what he's talking about' gets a laugh, but it is a Zuma/Trump comparison that is only run-up to the healthcare impression."},
+    {"start": 216.5, "end": 236.4, "why": "'Mexico's gonna pay for it' / 'we might build your wall, but we ain't paying for it' -- a quick, thin wall joke, ~20s, no real build."},
+    {"start": 276.0, "end": 289.3, "why": "'Say what you want about Jacob Zuma, he knows his policy' -- restates the earlier point, no new payoff."},
+    {"start": 290.3, "end": 333.2, "why": "Zuma 'knows how to handle his ladies', then Melania slapping Trump's hand away -- describes a news video and trails off ('they're having a horrible time') without a punchline."}
+  ]
+}

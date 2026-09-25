@@ -1,0 +1,31 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=e9CgzPNoxNs", "title": "HUGE The Witcher 3 Remastered UPDATES - Gameplay Enhancements, Steam Deck Details", "channel": "Cult of Mush",
+            "genre": "game news and deals, screen-driven", "duration_s": 657.4, "sha256_prefix": "06ec87657a6da2f4",
+            "local_path": "eval/media/mush-e9CgzPNoxNs.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "free-remaster-goodwill", "start": 519.1, "start_range": [519.1, 519.2], "end": 551.0, "end_range": [551.0, 561.3],
+     "why": "Take: the Witcher 3 remaster won't make CDPR much money on paper, but they'll 'make money on the unquantifiable metric of goodwill' -- people replay it, love it, pre-order Songs of the Past, buy Witcher 4. Payoff: other publishers get this wrong because it's 'all about making money in a vacuum' and don't see the benefits of goodwill (551.0). The Shift Up / Game Science aside to 561.3 is acceptable but adds little.", "over_band": false},
+    {"id": "three-99-buyers-win", "start": 4.6, "start_range": [4.6, 4.7], "end": 37.8, "end_range": [37.8, 47.6],
+     "why": "Surprising fact: the Witcher 3 Wild Hunt Remaster (Sept 29) is a free upgrade for owners, so the people making out like bandits are those who bought the base game for $3.99 on sale and now get the remaster with all DLC free. Opens on 'welcome to a glaze session for Witcher 3 Wild Hunt Remaster' (the game has to be named; L002 opens on 'it'). Lands at 37.8; running on to 'GOG ran a sale and the price point was 24.99' (47.6) also works as a contrast.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "free-but-dont-get-it-twisted", "start": 410.6, "start_range": [410.6, 410.7], "end": 472.6, "end_range": [472.6, 477.6],
+     "why": "Same business point as the goodwill clip from the other side: 'while this update is free, don't get it twisted' -- it puts the game back in the news cycle, reaches people now in their 20s and backlog owners who paid $3.99, and 'they will be getting your money off Songs of the Past... off Witcher 4.' Works alone but overlaps the preferred clip; 'this update' leans slightly on the title.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 220.0, "end": 268.5, "why": "Combat changes read from the announcement (animations, targeting, gap closing, dynamic camera) with a light 'camera gets jarring with many enemies' aside; sounds like an opinion segment but is mostly the list."},
+    {"start": 287.7, "end": 371.2, "why": "Feature list read aloud: finishers, signs, transmog, QoL, looting rework, photo mode, textures, path tracing, DLSS 4.5."},
+    {"start": 131.1, "end": 177.0, "why": "Quote from CDPR's executive producer read off the screen (next-gen update vs remaster, 'I'm talking about the animation...'); quotable but it's the article, and ends on 'I'll go over those in a bit'."},
+    {"start": 381.2, "end": 407.8, "why": "'CDPR are wizards when it comes to optimization' Switch 2 / Steam Deck speculation; a strong line with no payoff."},
+    {"start": 597.0, "end": 621.8, "why": "Wrap-up: 50-70 hours, DLC, 'Death March, buckle up', sign-off."},
+    {"start": 622.3, "end": 657.4, "why": "Post-roll call to hit the bell notification."}
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=gQmPD4I62rU",
+    "title": "Opus 5.5 vs GPT-6 is racing to the bottom..?",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 456.41,
+    "sha256_prefix": "4a9c196caf717665",
+    "local_path": "eval/media/caleb-gQmPD4I62rU.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "cheaper-but-is-it-really",
+      "start": 0.08,
+      "start_range": [
+        0.08,
+        0.2
+      ],
+      "end": 71.02,
+      "end_range": [
+        71.02,
+        76.2
+      ],
+      "why": "Hook: Opus 5.5 costs 40% of Fable 5.5 and GPT-6 Soul/Luna cost 50% less -- intelligence keeps getting cheaper. 'But is it really?' Opus dominates the cost Pareto frontier, but on the token-efficiency frontier GPT-6 does more with fewer tokens; payoff at 71.0: GPT-6 is more token efficient than Opus 5.5. 76.2 adds the label 'a tension between cost-efficient and token-efficient'. Several chart asides ('this dotted line here', 'as you can see') but the argument is spoken.",
+      "over_band": false
+    },
+    {
+      "id": "api-vs-subscription",
+      "start": 259.34,
+      "start_range": [
+        259.14,
+        259.5
+      ],
+      "end": 308.18,
+      "end_range": [
+        308.18,
+        333.52
+      ],
+      "why": "Hook as a question: from the consumer side, doesn't only cost matter, since Anthropic is cheaper per token -- 'right? Not quite.' API vs subscription split (OpenAI revenue mostly subscription, Anthropic mostly API); answer at 308.2: subscriptions are metered by tokens, API by cost. Two endings work: 333.5 spells out that user experience then depends on how token-hungry the model is (74s).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "who-pays-for-wasted-tokens",
+      "start": 333.72,
+      "start_range": [
+        333.72,
+        333.8
+      ],
+      "end": 373.6,
+      "end_range": [
+        373.6,
+        373.6
+      ],
+      "why": "Labs subsidize tokens at their discretion; the real tension is who pays for the inefficient tokens -- API users directly, subscribers are insulated; so token efficiency is a hedge against price competition. Works, but assumes the API-vs-subscription setup just before.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 76.3,
+      "end": 139.7,
+      "why": "3D plot of Opus 5.5 across cost/token/intelligence ('what you're seeing here', plateau at ~53): chart narration."
+    },
+    {
+      "start": 139.8,
+      "end": 202.1,
+      "why": "GPT-6 Soul/Luna/Astra trajectories on the same 3D plot, ending in a teaser question answered after the sponsor."
+    },
+    {
+      "start": 204.1,
+      "end": 258.9,
+      "why": "Sponsor read (Hyperagent travel-planning demo)."
+    },
+    {
+      "start": 373.8,
+      "end": 392.3,
+      "why": "Other labs 'fighting in the cost axes, especially DeepSeek, as you can see': list of labs over a chart."
+    },
+    {
+      "start": 392.6,
+      "end": 439.0,
+      "why": "Closing thesis (falling cost doesn't mean more efficient underneath) delivered over quarter-by-quarter Pareto charts; the claim's support came minutes earlier."
+    }
+  ]
+}

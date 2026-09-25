@@ -1,0 +1,32 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=YIBT09ptnSI", "title": "NEW STEAM Updates and FEATURES REVEALED!", "channel": "Cult of Mush",
+            "genre": "game news and deals, screen-driven", "duration_s": 535.0, "sha256_prefix": "90d047a13c0561a6",
+            "local_path": "eval/media/mush-YIBT09ptnSI.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "ff16-thirty-seconds-then-lag", "start": 260.3, "start_range": [260.3, 260.4], "end": 286.7, "end_range": [286.7, 286.7],
+     "why": "Short comic anecdote. Hook: 'I remember playing Final Fantasy 16 on my Deck streamed from my desktop' (dropping the leading 'But'); good for 30 seconds, 'oh wow, it looks good', then latency, lag, input delay, 'na na na'. Payoff: 'even the tiniest fraction of input delay, your boy can notice it, and it's game breaking.' The 'might not be game breaking for everybody' after is a hedge.", "over_band": false},
+    {"id": "stutter-worse-than-30fps", "start": 292.6, "start_range": [292.6, 305.1], "end": 327.0, "end_range": [325.5, 328.0],
+     "why": "Hot take: the two things that break a game for him are input delay and stuttering; even a micro stutter every minute or two is infuriating, and 'I would rather a game run at 30 FPS than play at 60 FPS that stutters.' Opens on 'to me, the two biggest things that are game breaking' (dropping 'But'); starting at 'It's ridiculous how many games stutter' (305.1) also works. Lands on the 30-vs-60 line / 'I think that stuff is game breaking'.", "over_band": false},
+    {"id": "remote-play-always-garbage", "start": 197.3, "start_range": [197.3, 197.4], "end": 252.9, "end_range": [242.1, 252.9],
+     "why": "Personal take: 'Remote play experiences for me have always been garbage', game streaming in general garbage, 'your boy ain't gonna pay a premium' for fast internet, OnLive a decade ago, then Steam Deck in the same room as his PC still lagging. Lands on 'man, this isn't how I want to play games, it's not my cup of tea' (252.9); ending on the same-room latency line (242.1) also works. The FF16 anecdote that follows is its own clip.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "best-console-dashboards", "start": 440.5, "start_range": [411.9, 440.5], "end": 457.8, "end_range": [457.8, 457.8],
+     "why": "Opinion: Big Picture's aesthetic is one of the best dashboards in gaming; ranks PS5 first, Big Picture second, Xbox third, Switch clean too. Short (17s) unless opened on 'Big Art mode, I think, is pretty cool' (411.9), which adds the Valve-bridging-PC-and-console context. Mild, so not insisted on.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 58.0, "end": 172.4, "why": "Reading Valve's PyroWave post off the screen: bandwidth, latency, YUV 4:4:4, HDR, bitrate slider. Numbers and specs, no point of his own."},
+    {"start": 352.6, "end": 411.4, "why": "'Here's something I personally am really excited for' then the Steam beta patch notes read aloud (Big Art mode, screensavers, bug fixes)."},
+    {"start": 466.8, "end": 491.6, "why": "Recap of both updates, restating 'remote play never has been worthwhile for me' without the story."},
+    {"start": 0.3, "end": 48.6, "why": "Intro and agenda for the video."},
+    {"start": 499.9, "end": 535.0, "why": "Post-roll call to hit the bell notification."}
+  ]
+}

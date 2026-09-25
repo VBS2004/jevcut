@@ -1,0 +1,150 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=i-nT8aV1BKw",
+    "title": "WHY SMART PEOPLE OVERTHINK EVERYTHING (and how to stop)",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 814.788,
+    "sha256_prefix": "96871c3e1d55085c",
+    "local_path": "eval/media/olga-i-nT8aV1BKw.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "why-brain-overthinks",
+      "start": 101.26,
+      "start_range": [
+        101.04,
+        101.26
+      ],
+      "end": 138.3,
+      "end_range": [
+        127.1,
+        152.7
+      ],
+      "why": "Opens on the question 'if overthinking is not helping, why does our brain keep doing it instead of just taking action?' (leading 'So' dropped). Answer: acting means facing uncertainty, the brain treats uncertainty as a threat, even though acting is the only thing that resolves it (138.3). 127.1 ('our brain hates that uncertainty') already answers; running on through the 'it offers you a deal: research a little bit more' bit to 152.7 is a vivid dramatization of the same point, so both edges are acceptable.",
+      "over_band": false
+    },
+    {
+      "id": "zeigarnik-open-tabs",
+      "start": 220.42,
+      "start_range": [
+        220.3,
+        220.42
+      ],
+      "end": 284.0,
+      "end_range": [
+        277.5,
+        284.0
+      ],
+      "why": "Hook: 'there's a phenomenon in psychology called the Zeigarnik effect' -- every unfinished task is an open tab in your brain. Unanswered-email example; payoff is why it keeps nagging: it's the brain's way of making sure important things don't get forgotten (284.0). 277.5 (end of the email example) also works.",
+      "over_band": false
+    },
+    {
+      "id": "a-plan-is-enough",
+      "start": 309.8,
+      "start_range": [
+        309.8,
+        309.8
+      ],
+      "end": 340.3,
+      "end_range": [
+        340.3,
+        340.3
+      ],
+      "why": "Hook: 'you might think you have to make every decision, finish every task... but no.' Baumeister & Masicampo: the brain doesn't need the task done, just a specific plan; when subjects wrote one, their intrusive thoughts stopped (340.3). Not opened on the preceding 'how do we close these tabs?' because 'these tabs' points back. Next line ('the first exit from the certainty loop') is the next segment.",
+      "over_band": false
+    },
+    {
+      "id": "the-replayer",
+      "start": 570.3,
+      "start_range": [
+        568.16,
+        570.3
+      ],
+      "end": 610.6,
+      "end_range": [
+        610.6,
+        610.6
+      ],
+      "why": "Relatable type: 'imagine you had a conversation three days ago and you're still thinking about it' -- replaying what you should have said. Lands on 'you're definitely the replayer' (610.6). Starting on 'Number one is the replayer' (568.16) also OK; it only adds the list label.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "certainty-loop-avoidance",
+      "start": 152.9,
+      "start_range": [
+        152.9,
+        152.9
+      ],
+      "end": 215.0,
+      "end_range": [
+        204.9,
+        215.0
+      ],
+      "why": "The 'certainty loop' (uncertainty -> overthinking -> temporary relief -> uncertainty returns) plus Borkovec: overthinking functions as emotional avoidance. Opens on 'And your mind creates...', a little run-on from the previous answer, so accepted rather than insisted on.",
+      "over_band": false
+    },
+    {
+      "id": "a-plan-plus-brain-dump",
+      "start": 309.8,
+      "start_range": [
+        309.8,
+        309.8
+      ],
+      "end": 375.8,
+      "end_range": [
+        374.8,
+        375.8
+      ],
+      "why": "Same research as a-plan-is-enough, run on through the practical brain dump (write every open tab, then a concrete next step). Longer; mentions 'certainty loop' jargon mid-clip.",
+      "over_band": false
+    },
+    {
+      "id": "act-for-evidence",
+      "start": 476.6,
+      "start_range": [
+        476.6,
+        476.6
+      ],
+      "end": 501.5,
+      "end_range": [
+        493.9,
+        501.5
+      ],
+      "why": "'The certainty loop makes you a promise... you will never analyze your way into knowing whether your business idea is going to succeed' -- you have to do it to find out. Short and uses the video's jargon, but self-explaining.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.2,
+      "end": 38.0,
+      "why": "Cold-open hook ('there is nothing wrong with you') straight into 'in this video' and credentials: intro."
+    },
+    {
+      "start": 38.5,
+      "end": 56.9,
+      "why": "Strong claim ('you're just way too smart' framing is a misconception) whose rebuttal only comes a minute later after the YouTube example and the uncertainty answer."
+    },
+    {
+      "start": 376.0,
+      "end": 445.9,
+      "why": "Sponsor read (Paperlike) that opens sounding like a brain-dump tip."
+    },
+    {
+      "start": 736.9,
+      "end": 776.0,
+      "why": "Channel update: graduating, moving to San Francisco, apartment hunt. Personal and lively but not a point."
+    }
+  ]
+}

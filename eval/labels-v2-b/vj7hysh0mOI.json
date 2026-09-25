@@ -1,0 +1,104 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=vj7hysh0mOI",
+    "title": "Jev explained in 7min..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 431.357098,
+    "sha256_prefix": "f0b9e7567b2a464f",
+    "local_path": "eval/media/caleb-vj7hysh0mOI.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "automation-schism",
+      "start": 43.0,
+      "start_range": [
+        43.0,
+        43.0
+      ],
+      "end": 81.8,
+      "end_range": [
+        81.8,
+        108.7
+      ],
+      "why": "Why frontier LLMs fall short at workflow automation. Hook: 'one area that always felt short ... was workflow automation' (the next line's 'here' needs it, so no later start). Payoff lands at 81.8: TypeSafe's claim that optimizing for human preference and verifiable reward doesn't carry over to quick decisions under uncertainty. Ending at 108.7 (after 'forcing a chat/agent model into automation is fundamentally wrong') also works, restating it more bluntly; hence the wide end range.",
+      "over_band": false
+    },
+    {
+      "id": "speed-not-depth",
+      "start": 108.8,
+      "start_range": [
+        108.8,
+        108.8
+      ],
+      "end": 162.3,
+      "end_range": [
+        154.3,
+        176.6
+      ],
+      "why": "Hot take: the Jev demos show off speed, not depth of understanding. LLMs can functionally do the same tasks but can't hit 70-500ms because autoregressive decoding is sequential; Jev is built for parallel sampling and typed probabilistic decisions (162.3). 154.3 already lands the latency point; 176.6 adds a 'so it's less about...' summary.",
+      "over_band": false
+    },
+    {
+      "id": "primitives-logic-gates",
+      "start": 254.4,
+      "start_range": [
+        254.4,
+        254.4
+      ],
+      "end": 308.8,
+      "end_range": [
+        308.8,
+        308.8
+      ],
+      "why": "Explains how using Jev differs from an LLM: structured in, probability distribution out, 'okay, what do I do with this?', the three primitives (choice, score, yes/no), payoff on 'it feels like we're back to logic gates and registers' (308.8). One 'looks something like this' screen reference, but the point is spoken.",
+      "over_band": false
+    },
+    {
+      "id": "horizontal-not-novel",
+      "start": 393.8,
+      "start_range": [
+        374.3,
+        393.8
+      ],
+      "end": 431.3,
+      "end_range": [
+        431.3,
+        431.3
+      ],
+      "why": "Closing opinion: the news is about use cases growing horizontally, not Jev's novelty; narrow specialized models predate generative AI, and it's healthy to stop brute-forcing one foundation model for every task. Opening at 374.3 (TypeSafe hasn't disclosed RLCD; someone on Reddit built a similar 421M BERT model) adds the evidence for 'not novel' and is also acceptable; 393.8 is the tighter hook.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [],
+  "negatives": [
+    {
+      "start": 0.1,
+      "end": 42.8,
+      "why": "Video intro: strong opening line about Jev, then a history-of-optimization run-up whose payoff only comes after 43s."
+    },
+    {
+      "start": 180.4,
+      "end": 254.2,
+      "why": "Sponsor read (Junie CLI), with leaderboard and plan-mode screen narration."
+    },
+    {
+      "start": 309.1,
+      "end": 320.8,
+      "why": "Plant-sorting demo narrated from the screen ('this long list')."
+    },
+    {
+      "start": 326.4,
+      "end": 374.2,
+      "why": "Pareto frontier chart read aloud ('in this section here'); hopeful but depends on the chart."
+    }
+  ]
+}

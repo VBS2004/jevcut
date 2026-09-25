@@ -6,6 +6,7 @@
 | **Depends on** | 014 |
 | **Blocks** | — |
 | **Size** | M |
+| **Status** | **Partly built.** The CLI runs end to end (`jevcut run`, `clip`, `eval`, `bench`); `src/jevcut/ui.py` (2026-09-25) shows live progress, the moments kept and dropped, a ranked clip table and a run summary at a terminal, and plain lines elsewhere or with `--plain`. Content presets are not built. |
 
 ## Why
 

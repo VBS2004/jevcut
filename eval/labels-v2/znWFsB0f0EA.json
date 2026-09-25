@@ -1,0 +1,36 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=znWFsB0f0EA", "title": "Zero Gravity Is Weirder Than You Think (Bonus Episode)", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 666.85, "sha256_prefix": "67e5a0a243281b28",
+            "local_path": "eval/media/cleo-znWFsB0f0EA.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "blood-sucking-sleeping-bag", "start": 117.1, "start_range": [117.1, 117.1], "end": 167.5, "end_range": [167.5, 178.9],
+     "why": "Explanation: a sleeping bag that sucks your blood away from your brain -- on Earth gravity pulls blood down, in space it doesn't, and astronauts say it feels like hanging slightly upside down; the bag's negative pressure pulls blood away from the brain so your insides feel normal gravity (167.5). Her in-bag reaction to 'Oh, this feels nice' (178.9) is acceptable. Opens past 'Starting with this.'", "over_band": false},
+    {"id": "treadmill-900kg", "start": 250.1, "start_range": [250.1, 250.1], "end": 290.6, "end_range": [290.6, 304.4],
+     "why": "Surprising fact: astronauts must work out 2.5 hours a day or lose bone and muscle; the ISS treadmill, bike and weight machine take up space and shake the station, so the treadmill sits on ~900 kg of damping -- 'we had to send all of that stuff into space for a treadmill' (290.6). Continuing to the answer, smaller machines and 'space Pilates' (304.4), also works.", "over_band": false},
+    {"id": "first-astronaut-robot-leg", "start": 443.4, "start_range": [443.4, 443.4], "end": 500.7, "end_range": [497.5, 506.3],
+     "why": "Profile: John McFall, former trauma surgeon and Paralympic sprinter, is training to be the first astronaut with a robot leg; no amputee has lived on the space station, so he tests his prosthesis on a zero-g treadmill -- and he's already medically certified for a long-duration mission (500.7). McFall's lines (465.0-477.7, 487.4-490.7, 497.6-500.7) inferred from text. Opens past 'the next experiment might be my favorite'.", "over_band": false},
+    {"id": "sailing-on-sunlight", "start": 550.5, "start_range": [533.6, 550.5], "end": 580.9, "end_range": [580.9, 580.9],
+     "why": "Explanation: imagine a spacecraft with a giant sail pointed at the sun -- light carries momentum and pushes it along; in theory you could sail on other stars too, and real missions have proof photonic propulsion works (580.9). Opening on 'they're testing how we can use sunlight to move spacecraft' plus the rocket/ion comparison (533.6) is an acceptable longer cut (~47s).", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "how-the-zero-g-plane-works", "start": 68.4, "start_range": [68.4, 68.4], "end": 108.8, "end_range": [106.1, 108.8],
+     "why": "The parabolic flight: steep climb at double gravity, then ~22 seconds weightless ('All of my thoughts just left my head'), 31 times, scientists rushing experiments -- 'red light, green light, but with gravity'. Leans on an on-screen flight-path graphic.", "over_band": false},
+    {"id": "gravity-pants-brain-injury", "start": 193.7, "start_range": [193.7, 193.7], "end": 233.8, "end_range": [233.8, 233.8],
+     "why": "Turn the bag into 'gravity blood-sucking pants' for Moon and Mars -- and on Earth it might relieve brain swelling before doctors have to drill into the skull. Opens on 'the bag', so it needs the clip before it.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 1.6, "end": 43.4, "why": "Intro: 'scanning my brain inside a plane about to dive', 'five crazy science experiments' -- a tease and extended-cut framing."},
+    {"start": 327.3, "end": 380.2, "why": "Verticality test: strap on the cap, stick your face in this thing, hit the button -- procedure narrated on screen, no result."},
+    {"start": 380.3, "end": 440.0, "why": "Audible sponsor read ('this is my real phone home screen')."},
+    {"start": 587.6, "end": 603.0, "why": "'Inside here, they're using laser light... Oh, cool!' -- lab apparatus narrated on screen."},
+    {"start": 623.1, "end": 639.4, "why": "'How's it going?' -- results still pending, nothing lands."}
+  ]
+}

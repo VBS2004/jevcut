@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from jevcut import cli
 
 
@@ -34,18 +36,44 @@ def test_run_transcribes_then_clips_into_one_directory(tmp_path, monkeypatch):
     assert c.anchors is None  # a stale scan must not be replayed; --cache handles reuse
 
 
-def test_run_reuses_an_existing_transcript(tmp_path, monkeypatch):
+def test_run_reuses_this_videos_transcript(tmp_path, monkeypatch):
     calls = _record(monkeypatch)
-    (tmp_path / "transcript.json").write_text("{}")
+    (tmp_path / "transcript.json").write_text('{"source": "talk.mp4"}')
 
     assert cli.main(["run", "talk.mp4", "--out", str(tmp_path)]) == 0
     assert "transcribe" not in calls
     assert "clip" in calls
 
 
+def test_run_never_cuts_one_video_on_another_videos_transcript(tmp_path, monkeypatch, capsys):
+    calls = _record(monkeypatch)
+    (tmp_path / "transcript.json").write_text('{"source": "other-talk.mp4"}')
+
+    assert cli.main(["run", "talk.mp4", "--out", str(tmp_path)]) == 0
+    assert "transcribe" in calls
+    assert "is for other-talk.mp4, not talk.mp4" in capsys.readouterr().out
+
+
+def test_run_transcribes_again_over_an_empty_transcript(tmp_path, monkeypatch, capsys):
+    calls = _record(monkeypatch)
+    (tmp_path / "transcript.json").write_text("")  # a run killed mid-write, before the fix
+
+    assert cli.main(["run", "talk.mp4", "--out", str(tmp_path)]) == 0
+    assert "transcribe" in calls
+    assert "empty or unreadable" in capsys.readouterr().out
+
+
+def test_each_video_gets_its_own_folder_by_default(tmp_path, monkeypatch):
+    calls = _record(monkeypatch)
+    monkeypatch.chdir(tmp_path)
+
+    assert cli.main(["run", "media/talk.mp4"]) == 0
+    assert calls["clip"].out == str(Path("clips") / "talk")
+
+
 def test_run_retranscribe_forces_asr(tmp_path, monkeypatch):
     calls = _record(monkeypatch)
-    (tmp_path / "transcript.json").write_text("{}")
+    (tmp_path / "transcript.json").write_text('{"source": "talk.mp4"}')
 
     assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--retranscribe"]) == 0
     assert "transcribe" in calls
@@ -82,7 +110,6 @@ def test_run_passes_the_render_options_through_to_clip(tmp_path, monkeypatch):
     assert (calls["clip"].vertical, calls["clip"].captions) == (True, False)
     assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--captions"]) == 0
     assert (calls["clip"].vertical, calls["clip"].captions) == (False, True)
-
 
 
 def test_all_endings_is_off_by_default_and_run_passes_it_to_clip(tmp_path, monkeypatch):

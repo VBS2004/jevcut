@@ -1,0 +1,120 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=iuZPTE5qsJY",
+    "title": "The summer Math fell to the machines...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 333.76,
+    "sha256_prefix": "fdaf7999ef7abfab",
+    "local_path": "eval/media/fireship-iuZPTE5qsJY.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "ai-kills-open-math-problems",
+      "start": 0.1,
+      "start_range": [
+        0.1,
+        12.5
+      ],
+      "end": 34.0,
+      "end_range": [
+        34.0,
+        52.3
+      ],
+      "why": "Cold open: developers are doing fine despite AI doom, 'sadly our mathematician friends may not be so lucky' -- in three weeks AI killed more open math problems than humans did in a decade; an 87-year-old conjecture disproven during the World Cup final, a 30-year-old one to four prompts (34.0). Continuing to Terence Tao warning of a crisis in the foundations of mathematics (52.3) also works as a weightier kicker; the end range spans both, shorter preferred. Opening at 12.5 ('Sadly, our mathematician friends...') is acceptable but loses the contrast.",
+      "over_band": false
+    },
+    {
+      "id": "jacobian-conjecture-disproved",
+      "start": 102.0,
+      "start_range": [
+        102.0,
+        102.0
+      ],
+      "end": 144.6,
+      "end_range": [
+        144.6,
+        144.6
+      ],
+      "why": "A mathematician posts a counterexample disproving the Jacobian conjecture (soccer/air-conditioning joke up front), a plain-English explanation of the conjecture, why it sat on Smale's list since 1939 -- payoff: 'until [he] did last month with some help from Fable' (144.6, ending at the clause's comma before the next example).",
+      "over_band": false
+    },
+    {
+      "id": "jarred-sumner-riemann-jog",
+      "start": 243.6,
+      "start_range": [
+        243.6,
+        244.8
+      ],
+      "end": 307.0,
+      "end_range": [
+        307.0,
+        313.9
+      ],
+      "why": "Anthropic's model made progress on the Riemann hypothesis (167 years old, million-dollar bounty); the best part: it wasn't a mathematician but the creator of Bun on his jog, 650 wrong ideas, then 60 sub-agents, 31M tokens, and the fraction provably satisfying the hypothesis went from 41% to 67% (307.0). The validation line (313.9) is acceptable. 'fired back' nods to the OpenAI section but reads as rivalry without it; starting at 'Anthropic' (244.8) drops the 'So just last week' run-up.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "graph-conjecture-seven-nodes",
+      "start": 144.8,
+      "start_range": [
+        144.8,
+        147.6
+      ],
+      "end": 184.7,
+      "end_range": [
+        184.7,
+        184.7
+      ],
+      "why": "30-year-old graph-theory conjecture explained as delivery routing; a researcher told GPT to 'make a breakthrough' and it answered with a seven-node, nine-edge counterexample. Good surprising fact, but the only clean opening is 'just two days later it happened again', which points back -- acceptable, not insisted on.",
+      "over_band": false
+    },
+    {
+      "id": "openai-ten-open-problems",
+      "start": 198.5,
+      "start_range": [
+        198.5,
+        201.9
+      ],
+      "end": 226.9,
+      "end_range": [
+        226.9,
+        226.9
+      ],
+      "why": "OpenAI 'got in on the bullying': its next model solved ten open problems with Lean certificates; the ball-packing bound hadn't moved since 1978 until now, with a 'some of you have thought about balls a lot' joke. Opens on a run-up and is mostly a list; acceptable.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 52.5,
+      "end": 62.4,
+      "why": "Intro: 'In today's video...', date, Code Report."
+    },
+    {
+      "start": 62.6,
+      "end": 101.8,
+      "why": "Timeline recap: IMO results, the Erdős unit-distance disproof with what sounds like a played quote ('Couldn't believe it... trouble sleeping'), the Leiden Declaration 'politely ignored' joke -- lively but a chronology."
+    },
+    {
+      "start": 184.8,
+      "end": 198.3,
+      "why": "'It's not just the pros': a PhD student's six Erdős problems and an amateur -- truncated list items with no payoff."
+    },
+    {
+      "start": 314.0,
+      "end": 327.8,
+      "why": "Railway sponsor mention."
+    }
+  ]
+}

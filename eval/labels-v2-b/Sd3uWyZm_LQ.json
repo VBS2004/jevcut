@@ -1,0 +1,38 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=Sd3uWyZm_LQ",
+            "title": "Trump vs. Kim Jong Un Was Already a Comedy Routine | Trevor Noah",
+            "channel": "Trevor Noah", "genre": "stand-up comedy", "duration_s": 495.93,
+            "sha256_prefix": "647503e3a25b2f18", "local_path": "eval/media/trevor-Sd3uWyZm_LQ.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "kim-calls-trump-psychopath", "start": 0.1, "start_range": [0.0, 0.3], "end": 28.4, "end_range": [27.3, 28.6],
+     "why": "Hook is the opening line: Kim Jong Un vs Trump, 'you don't know who the crazy person is'. Kim's statement calling Trump a psychopath, acted out as Kim going 'guys, I'm wild, but... this guy'. Lands on 'And Donald is crazy.'; the next line starts the South Africans-ask-me tangent.", "over_band": false},
+    {"id": "zuma-stefano-dimera", "start": 52.0, "start_range": [51.5, 52.2], "end": 90.1, "end_range": [90.1, 94.0],
+     "why": "'People get tricked by Malema and Jacob Zuma... that cute vibe, always giggling. That guy is a master tactician' -- survived another no-confidence vote, he's the Stefano DiMera of Days of Our Lives. Payoff is the mirror bit, 'like sands through the hourglass, so are the days of our lives' (90.1). Earlier lines are the Malema exchange, which needs the South African Q&A before it.", "over_band": false},
+    {"id": "zuma-chess-team", "start": 99.1, "start_range": [99.1, 103.9], "end": 125.1, "end_range": [125.1, 128.5],
+     "why": "'We think our politicians are stupid... Jacob Zuma is smart': head of intelligence, started the chess team on Robben Island -- 'that's why he's so good with moving the cabinet around... because he's a horse. Check.' Ends on 'Check.' Starting at 103.9 ('Jacob Zuma is smart') also works but runs ~21s; 95.5 opens on 'that mistake', pointing back.", "over_band": false},
+    {"id": "trump-beauty-pageant-healthcare", "start": 148.3, "start_range": [140.4, 148.3], "end": 204.5, "end_range": [204.5, 208.0],
+     "why": "Hook: Trump answers questions 'like he's a contestant in one of his own beauty pageants'. Then the healthcare-question impression ('the best coverage, all the coverage... it's just gonna work, folks') ending on the pageant word salad 'South Africa and Iraq... all the things healthy with the money. And also, thank you.' -- the callback lands at 204.5. Opening at 140.4 ('no clue about any policy') is also fine.", "over_band": false},
+    {"id": "fire-and-fury-tokyo-drift", "start": 237.1, "start_range": [236.9, 237.3], "end": 264.7, "end_range": [264.7, 268.5],
+     "why": "'Donald Trump's just doing his own thing... getting ready to start a war, launch a nuclear weapon.' Impression: 'Fire and fury. Fury and fire. Fast and furious. Tokyo Drift, like no one's ever seen.' Ends on the Tokyo Drift line; 'This guy's gonna blow up the world' after it is a restatement.", "over_band": false},
+    {"id": "melania-cyberbullying", "start": 344.4, "start_range": [334.0, 344.4], "end": 398.9, "end_range": [398.9, 402.0],
+     "why": "Hook: every time Trump or Melania speak they're throwing shade at each other. Example: first ladies pick a cause, Michelle chose healthy meals, Melania chose fighting cyberbullying -- 'people on the Twitter who are saying the bad things'. Punchline 'Do you know your husband, lady?' (398.9). 334.0 ('I've had a theory... not in a happy relationship') is an acceptable longer open.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "trump-melania-speech-war", "start": 344.4, "start_range": [334.0, 344.4], "end": 493.8, "end_range": [493.8, 495.9],
+     "why": "The whole shade theory through the home-fight skit ('I'm the best at worst'), Trump's immigrants speech ('Your move, Melania'), her sexual-assault speech, ending 'you guys need to sort your shit out at home, man.' The skit only works after the cyberbullying setup, so the tightest cut is ~150s.", "over_band": true}
+  ],
+  "negatives": [
+    {"start": 28.8, "end": 50.6, "why": "South Africans asking 'is he that stupid?... like Malema and them?' -- a lead-in with no punch of its own, relying on a local reference."},
+    {"start": 276.0, "end": 289.3, "why": "'So I correct people all the time... he knows his policy' -- callback that restates the earlier Zuma-vs-Trump point."},
+    {"start": 290.3, "end": 333.2, "why": "Zuma 'knows how to handle his ladies' then Melania slapping Trump's hand away in public -- describes a news video, and 'of course they're fighting' is a thin payoff."},
+    {"start": 402.6, "end": 463.3, "why": "The Donald/Melania home-fight skit on its own: lively impressions, but 'she was doing it on purpose' points back to the cyberbullying speech it depends on."}
+  ]
+}

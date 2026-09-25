@@ -1,0 +1,120 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=8ji5vURIllM",
+    "title": "Why harness is SO expensive..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 578.896689,
+    "sha256_prefix": "e1edce205d020e6b",
+    "local_path": "eval/media/caleb-8ji5vURIllM.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "model-vs-harness-cost",
+      "start": 62.0,
+      "start_range": [
+        62.0,
+        62.0
+      ],
+      "end": 107.1,
+      "end_range": [
+        107.1,
+        107.1
+      ],
+      "why": "Claim: the cost of the model is not the cost of the harness around it. Chat is a thin harness; coding agents are a thick one; payoff 107.1: per Anthropic, agents or multi-agent systems cost 4-15x more.",
+      "over_band": false
+    },
+    {
+      "id": "harness-toll-gate",
+      "start": 107.2,
+      "start_range": [
+        107.2,
+        109.6
+      ],
+      "end": 166.1,
+      "end_range": [
+        163.2,
+        169.2
+      ],
+      "why": "Worked example: a 25-token prompt costs about a cent via the model, but 37 cents in Claude Code, ~30x; the harness adds 8k-30k tokens to every message, 'a toll gate' (163.2), and that overhead is the system prompt (166.1). Screen-shared, but every number is spoken.",
+      "over_band": false
+    },
+    {
+      "id": "prompt-cache-70-an-hour",
+      "start": 370.8,
+      "start_range": [
+        357.1,
+        370.8
+      ],
+      "end": 404.3,
+      "end_range": [
+        404.3,
+        415.2
+      ],
+      "why": "Surprising back-of-envelope: an H100 rents for ~$3/hr, can hold a 1M-token context, and 12 five-minute cache slots make ~$70/hr in caching revenue, 'which is huge' (404.3). 357.1 opens on Anthropic's one-hour cache pricing for context; 415.2 adds the quantization caveat.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "agentic-round-trips",
+      "start": 224.7,
+      "start_range": [
+        224.7,
+        224.7
+      ],
+      "end": 313.0,
+      "end_range": [
+        313.0,
+        313.0
+      ],
+      "why": "A prompt isn't sent once: the harness and model loop (check file, create file, write contents); long tasks mean many round trips, each carrying the system-prompt toll gate (313.0). A clear explanation but the step-by-step example makes it run over band.",
+      "over_band": true
+    },
+    {
+      "id": "subscription-walled-garden",
+      "start": 451.2,
+      "start_range": [
+        443.2,
+        451.2
+      ],
+      "end": 480.1,
+      "end_range": [
+        473.3,
+        480.1
+      ],
+      "why": "Vendors keep people in a walled garden by selling a subscription that covers the harness, so you don't panic mid-task over what the agent spends. Short; leads into the sponsor.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 28.6,
+      "end": 61.9,
+      "why": "Open models catching up by 6-18 months, list of models, 'taking up so much space in the leaderboard, as you can see'."
+    },
+    {
+      "start": 188.6,
+      "end": 212.1,
+      "why": "Per-harness price comparison (37c/11c/7c/2.5c): numbers read off the screen, 'the same prompt from earlier'."
+    },
+    {
+      "start": 416.9,
+      "end": 443.1,
+      "why": "Speculation on one-hour cache writes spilling to SSD; opens on 'the pricing model changes a bit' and depends on the preceding math."
+    },
+    {
+      "start": 515.8,
+      "end": 578.9,
+      "why": "Sponsor read (Cline Pass), posed as a question about vendor lock-in."
+    }
+  ]
+}

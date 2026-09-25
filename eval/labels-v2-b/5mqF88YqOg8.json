@@ -1,0 +1,42 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=5mqF88YqOg8",
+            "title": "Why Jacob Zuma is South Africa's Zulu Ninja Turtle | Trevor Noah",
+            "channel": "Trevor Noah", "genre": "stand-up comedy", "duration_s": 632.09,
+            "sha256_prefix": "f829412179594af9", "local_path": "eval/media/trevor-5mqF88YqOg8.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "zulu-ninja-turtle", "start": 34.5, "start_range": [27.8, 34.5], "end": 68.7, "end_range": [68.7, 74.0],
+     "why": "Hook: 'We got the cutest president in the world, and you guys don't respect him' -- the grin, like a kid in Jet magazine, 'he looks like a little Zulu Ninja Turtle... Leonardo, Raphael, Michelangelo, Jacob... Cowabunga' (68.7). Opening on 'I missed our president' (27.8) also works.", "over_band": false},
+    {"id": "youth-league-marches-over-painting", "start": 89.7, "start_range": [88.5, 89.7], "end": 122.6, "end_range": [122.6, 125.5],
+     "why": "Hook: an article by an American that just said 'ANC Youth League marches over painting'. Trevor pictures them marching for the arts: 'Picasso! We are sick and tired of postmodernistic impressionism. We demand more sketch art.' (122.6). Self-contained misdirect; what the painting actually was comes next.", "over_band": false},
+    {"id": "aides-tattletale-they-painted-you", "start": 214.2, "start_range": [212.7, 214.2], "end": 258.7, "end_range": [258.7, 273.3],
+     "why": "'Jacob Zuma did not complain once because he understands art. He's cultured' -- the guys around him ran to him like kids tattletaling: 'They painted you!' 'There's no paint on me. I'm fine.' 'No, a picture of you.' Chilled-out Zuma: 'I don't see anything wrong with this at all' (258.7), then a long giggle impression to 273.3 that's an acceptable later end.", "over_band": false},
+    {"id": "ready-for-the-spear", "start": 279.2, "start_range": [274.7, 279.2], "end": 332.1, "end_range": [332.1, 338.0],
+     "why": "'I wouldn't be shocked if Jacob is having the time of his life in the presidential bedroom' -- that many kids, that many wives; covered in body paint, Barry White playing, at the door of wife number two: 'Are you ready for the spear?' 'I'm not ready.' 'Ready or not, here I come.' (332.1). The innuendo lands without knowing the painting's name; 274.7 ('The giggling Casanova...') is an acceptable open.", "over_band": false},
+    {"id": "voetsek-in-new-york", "start": 362.8, "start_range": [357.9, 362.8], "end": 421.9, "end_range": [402.2, 421.9],
+     "why": "New York shoe shop: $3,000 shoes, Trevor says 'Ah, voetsek' (transcribed 'for tag'), explains 'in my culture it means thank you very much, but no', and the salesman adopts it -- 'Okay, voetsek.' Then a woman in the corner goes 'Woo! Hello!' -- 'I've never seen someone so happy to hear that word in my life.' (421.9). The woman is the kicker and tells a non-South African it's rude; ending on the salesman's 'Okay, voetsek' (402.2) also works.", "over_band": false},
+    {"id": "taco-truck-napkin", "start": 512.3, "start_range": [507.1, 512.3], "end": 571.6, "end_range": [571.6, 574.9],
+     "why": "Hook: the taco truck guy asks 'You want a napkin?' -- 'on our side of the world, a napkin is that thing babies wear to hold their shit.' He meant serviette. 'Why would I want a napkin?' 'For the mess afterwards... you never know with tacos, man. One minute you think you got it, then it's coming out.' (571.6). Opens mid-scene, but the question itself is the setup.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "youth-league-painting-reveal", "start": 89.7, "start_range": [88.5, 89.7], "end": 155.2, "end_range": [151.9, 155.2],
+     "why": "The Picasso misdirect plus the reveal: they were marching over the picture of the president, wind blowing 'where he'd have hair... just him, JZ and Mini Me. Although it wasn't that mini... well, not solid, but you know what I mean.' 65s.", "over_band": false},
+    {"id": "the-spear-not-the-pocket-knife", "start": 178.8, "start_range": [178.8, 182.5], "end": 211.7, "end_range": [208.0, 211.7],
+     "why": "'This picture, it's racist... It wasn't even that disrespectful. Even the name was strong: The Spear' -- symbol of the Zulu nation, Shaka, umkhonto we sizwe -- 'It's not like that guy called it the pocket knife. The spear, big and manly.' Needs some idea of what the painting showed.", "over_band": false},
+    {"id": "taco-truck-full-story", "start": 443.9, "start_range": [443.9, 443.9], "end": 623.5, "end_range": [623.5, 628.7],
+     "why": "The whole taco story: 'no Mexicans in South Africa, they never came over', the taco truck, the napkin misunderstanding escalating through squeezing it too tight and spraying the shirt, to 'I don't even want tacos. I just came for a coke.' (623.5). Can't land under ~180s.", "over_band": true}
+  ],
+  "negatives": [
+    {"start": 0.3, "end": 26.9, "why": "'Don't you laugh at my president? Damn you, people! I don't accept your laughter' -- mock outrage reacting to the room's laugh at a joke before the video starts."},
+    {"start": 159.0, "end": 177.0, "why": "'If it was me I'd be at the gallery every day posing, hello ladies, take a picture' -- acting out that leans on the painting's content, which a viewer never hears described."},
+    {"start": 339.0, "end": 362.0, "why": "'I hope I can hide at your houses after this... you miss so many things from South Africa, language is fundamental' -- aside and transition."},
+    {"start": 422.9, "end": 443.4, "why": "'They don't say orange, they say orange... New Orleans' -- the joke is purely in pronunciation, restates 'you miss your language', no payoff."}
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=YIBT09ptnSI",
+            "title": "NEW STEAM Updates and FEATURES REVEALED!",
+            "channel": "Cult of Mush", "genre": "game news and deals, screen-driven",
+            "duration_s": 535.0, "sha256_prefix": "90d047a13c0561a6",
+            "local_path": "eval/media/mush-YIBT09ptnSI.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "remote-play-always-garbage", "start": 197.3, "start_range": [197.3, 197.4], "end": 242.1, "end_range": [242.1, 252.9],
+     "why": "Personal story: 'Remote play experiences for me have always been garbage' (hook), with the 'your boy ain't gonna pay a premium for fast internet' aside and OnLive, landing on the Steam Deck anecdote: in the same room as his PC, trying to play from his bed, and it still lagged (242.1). Can also run to 'this isn't how I want to play games... not my cup of tea' (252.9). The earlier 'I'm gonna be real with you guys' / 'low IQ' run-up (175-197) is preamble.", "over_band": false},
+    {"id": "stutter-rather-30fps", "start": 292.6, "start_range": [292.4, 292.7], "end": 325.5, "end_range": [325.5, 327.0],
+     "why": "Hot take: the two game-breakers for him are input delay and stuttering; even a micro-stutter every minute or two is infuriating. Punchline: 'I would rather a game run at 30 FPS than play a game at 60 FPS that stutters every now and again.' Opens on 'to me, the two biggest things that are game breaking' (dropping 'But'). ~33s.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "dashboard-ranking", "start": 417.1, "start_range": [417.1, 417.2], "end": 457.8, "end_range": [446.6, 457.8],
+     "why": "Valve is bridging PC and console with Steam Machine and Deck; big picture is one of the best dashboards in gaming, ranked behind PS5 and ahead of Xbox. Mild opinion that leans on the Big Art mode shown on screen; acceptable, not essential.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 58.0, "end": 172.4, "why": "Reading Valve's PyroWave post off screen: bandwidth figures, 4:4:4, HDR, bitrate ranges. Numbers-heavy screen narration."},
+    {"start": 352.6, "end": 411.4, "why": "Reading the September 9 Steam client beta patch notes (Big Art mode, screensavers, bug fixes); screen narration though introduced with 'I'm really excited'."},
+    {"start": 4.2, "end": 43.7, "why": "Intro previewing the two updates; no payoff."},
+    {"start": 466.9, "end": 491.6, "why": "Wrap-up recap restating both updates and his remote play opinion."},
+    {"start": 499.9, "end": 535.0, "why": "Bell-notification plea after the outro."}
+  ]
+}

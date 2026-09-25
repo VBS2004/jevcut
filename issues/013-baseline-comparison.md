@@ -6,7 +6,7 @@
 | **Depends on** | 012 |
 | **Blocks** | M3 (this is the gate) |
 | **Size** | M |
-| **Status** | **Run on the pilot set, 2026-09-25: not passed.** jevcut beats all five baselines on recall, fully right clips, precision, median start error and the judged mid-thought rate, but loses on `start_err_p90` (16.7 / 19.1s vs dense 14.9 / 15.0s, naive 14.7 / 15.1s): its misses are large. Baselines 4 and 5 lose badly, so the boundary thesis holds. [eval/results/baselines.md](../eval/results/baselines.md), RESEARCH.md "Baselines (013)". 8 videos, not 40. |
+| **Status** | **Run on 38 videos, 2026-09-25: not passed.** jevcut beats all five baselines on recall (0.52 / 0.54 vs at best 0.45), clips with both edges right (35 / 33 vs at best 15 / 12), precision and median start error (1.5 / 2.0s vs 5-7s), and on the judged mid-thought rate, and holds up on the 30 videos it was not developed on. It loses on `start_err_p90` (17.5 / 19.6s vs dense 14.6 / 14.3s, offset 14.9 / 15.0s). Baselines 4 and 5 lose badly, so the boundary thesis holds. [eval/results/baselines.md](../eval/results/baselines.md), RESEARCH.md "013 on 38 videos". |
 
 ## Why
 
