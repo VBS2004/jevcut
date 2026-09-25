@@ -717,6 +717,29 @@ version, run once on the new videos with nothing changed for them. 405 clips per
   baseline (snap, 11-14%). The screen-driven game news is where it shows; the unbuilt
   "depends on the screen" question (checklist step 3) is the lever.
 
+### The openings' tail on 38 videos: three framings tried, none kept (2026-09-25)
+
+About one found clip in four starts 10s+ off (23 of 97, 25 of 106). Of 48 far-off starts, 31
+open early -- the labeled clip starts 1-26s *after* the anchor line -- and 17 skip a setup
+16-59s long. Re-tested on the full set, and measured on the worst starts:
+
+| opening | fully right A / B | p90 start A / B | starts 10s+ off A / B |
+| --- | --- | --- | --- |
+| current: one Choice before the anchor | 35 / 33 | 17.5 / 19.6s | 23 / 25 |
+| + openings after the anchor, anchor as "a pointer" | 39 / 31 | 20.1 / 20.2s | 28 / 29 |
+| chosen from the ending, no anchor at all ([`reopen_from_end.py`](eval/experiments/reopen_from_end.py)) | 28 / 28 | 22.7 / 20.6s | 25 / 30 |
+
+Without the anchor the Choice reaches back for long setups (clips 41 → 56s). **None kept.**
+The anchor-relative and end-relative picks disagree on half the clips, and disagreement
+flags 17 of ~24 far-off starts -- but a third of disagreeing clips are fine, so dropping them
+would halve recall to remove 17 bad starts.
+
+Read by eye, 5 of 6 sampled far-off starts are genuinely wrong, and wrong in different ways:
+the channel's greeting, a "But you're talking..." mid-argument, the tail of the comedy bit
+before, and twice a skipped hook. No single framing addresses all of them; the next attempt
+should combine signals -- the Choice's top few marks, each checked on the finished clip for
+`hook` and `starts_mid_thought` -- rather than reword the one question again.
+
 ## What would let building resume
 
 Either:
