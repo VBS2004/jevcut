@@ -3,6 +3,17 @@ name = "jevcut"
 version = "0.1.0"
 description = "Auto-clipping that picks cut points, not windows."
 requires-python = ">=3.11"
+license = { text = "MIT" }
+readme = "README.md"
+authors = [{ name = "Venkat Balaji S" }]
+keywords = [
+    "video clipping", "auto clipper", "short-form video", "podcast clips", "shorts",
+    "highlights", "transcript", "whisper", "llm", "jev", "typesafe",
+]
+
+[project.urls]
+Repository = "https://github.com/VBS2004/jevcut"
+Benchmarks = "https://github.com/VBS2004/jevcut/blob/master/BENCHMARKS.md"
 dependencies = [
     "rich>=13",
     "typesafe-sdk>=0.5.7",

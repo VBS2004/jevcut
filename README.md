@@ -200,3 +200,7 @@ reproduction for each defect. Worth reading before trusting any of this.
 
 Start with CONCEPTS: it defines the sentence IDs, cut points and regions that every other
 document uses without explaining.
+
+## License
+
+[MIT](LICENSE).
