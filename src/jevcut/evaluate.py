@@ -281,10 +281,15 @@ def snapshot(runs: list[Path], dest: str | Path, about: dict, suffix: str = "-cl
 
 
 def benchmarks(root: str | Path = BENCH_DIR) -> list[tuple[Path, dict]]:
-    """Every saved version, in the order they were measured."""
+    """Every saved version, in the order they were measured. Empty, not an error, before
+    the first `jevcut bench --snapshot` has ever run: cmd_bench calls this to number a new
+    snapshot before that snapshot's directory -- the first one -- exists."""
+    root = Path(root)
+    if not root.is_dir():
+        return []
     found = [
         (d, json.loads((d / "about.json").read_text()))
-        for d in Path(root).iterdir()
+        for d in root.iterdir()
         if (d / "about.json").exists()
     ]
     return sorted(found, key=lambda da: (da[1].get("order", 0), da[0].name))

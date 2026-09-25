@@ -423,10 +423,11 @@ def cmd_bench(args: argparse.Namespace) -> int:
         return "-" if x is None else f"{x:.1f}s"
 
     header = (
-        "| version | clips | hit | hit, both edges right | P | R (chance) | both edges in range "
-        "| start err | end err | on a negative | length (labels) | gate requests |"
+        "| version | videos | clips | hit | hit, both edges right | P | R (chance) "
+        "| both edges in range | start err | end err | on a negative | length (labels) "
+        "| gate requests |"
     )
-    rule = "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+    rule = "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
     sections = []
     for title, labels in BENCH_LABELS:
         lines = [f"### Against {title} (`{labels}`)", "", header, rule]
@@ -435,12 +436,12 @@ def cmd_bench(args: argparse.Namespace) -> int:
             s = evaluate.summary(scores)
             req = about.get("gate_requests")
             lines.append(
-                f"| {about['name']} | {s['predicted']} | {s['matched']} | "
+                f"| {about['name']} | {len(scores)} | {s['predicted']} | {s['matched']} | "
                 f"**{sum(v.in_range for v in scores)}** | "
                 f"{pct(s['precision'])} | {pct(s['recall'])} ({pct(s['chance_recall'])}) | "
                 f"{pct(s['in_range_rate'])} | {secs(s['start_err_median'])} | "
                 f"{secs(s['end_err_median'])} | {pct(s['negative_rate'])} | "
-                f"{s['duration_median']:.0f}s ({s['label_duration_median']:.0f}s) | "
+                f"{secs(s['duration_median'])} ({secs(s['label_duration_median'])}) | "
                 f"{'-' if req is None else f'{req:,}'} |"
             )
         sections.append("\n".join(lines))
@@ -472,6 +473,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 
 | column | meaning |
 | --- | --- |
+| videos | labeled videos this version has a run for -- compare counts, not rates, across rows |
 | clips / hit | clips shipped / labeled clips matched one-to-one (overlap IoU > 0.5) |
 | hit, both edges right | matched clips with start and end both inside the labeler's ranges |
 | P | share of shipped clips matching a labeled or also_ok clip |
@@ -480,7 +482,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | start / end err | median distance from the labeled edge, matched clips |
 | on a negative | share of shipped clips sitting mostly on a hard negative |
 | length (labels) | median shipped clip length (median labeled clip length) |
-| gate requests | Jev requests spent in the boundary search and gate, all 8 videos |
+| gate requests | Jev requests in the boundary search and gate, across the videos in `videos` |
 
 ## Versions
 

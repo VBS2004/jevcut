@@ -176,3 +176,9 @@ def test_a_snapshot_scores_like_the_run_it_was_taken_from(tmp_path, monkeypatch)
     kept, _ = score_set(tmp_path / "labels", edl_dir=dest)
     assert summary(live) == summary(kept)
     assert [a["name"] for _, a in benchmarks(tmp_path / "bench")] == ["v1"]
+
+
+def test_benchmarks_is_empty_not_an_error_before_the_first_snapshot(tmp_path):
+    from jevcut.evaluate import benchmarks
+
+    assert benchmarks(tmp_path / "eval" / "benchmarks") == []
