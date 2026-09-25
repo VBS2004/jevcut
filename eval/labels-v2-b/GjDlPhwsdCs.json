@@ -1,0 +1,41 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=GjDlPhwsdCs", "title": "The Massive Machine Hidden in the Deep Ocean", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 955.06, "sha256_prefix": "c6aadaf6a4cab957",
+            "local_path": "eval/media/cleo-GjDlPhwsdCs.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "signal-from-nowhere", "start": 1.2, "start_range": [1.2, 1.3], "end": 63.1, "end_range": [63.1, 69.9],
+     "why": "Mystery: 900 balls strung up off Sicily, a computer in an abandoned winery watching them; in 2023 something smaller than an electron set off a signal 30x more powerful than ever seen, telescopes swing to look and 'they find... nothing.' Lands on 'nothing' at 63.1; 'scientists are searching for answers' to 69.9 is acceptable. Cannot start at the 2023 line: it opens 'And ... they'.", "over_band": false},
+    {"id": "what-its-like-to-be-a-neutrino", "start": 119.0, "start_range": [119.0, 119.1], "end": 161.4, "end_range": [161.4, 173.9],
+     "why": "Analogy with a reveal: fly to the next star (40 trillion km, 75,000 years, 'a lot of space in space'); shrink to a tiny particle and solid rock is just as empty -- 'that is what it's like to be a neutrino'. Lands at 161.4; the millimeter-neutrino / human-as-galaxy scale line to 173.9 is acceptable. Starts right after the AT&T credit.", "over_band": false},
+    {"id": "iron-in-your-blood", "start": 309.8, "start_range": [309.8, 310.0], "end": 337.4, "end_range": [337.4, 355.2],
+     "why": "Surprising fact: every ~10 seconds a star somewhere goes supernova; these explosions make the silicon, oxygen and iron in planets and us -- 'the iron in your blood can be traced back to a supernova', lands at 337.4. Continuing to 'neutrinos are your messenger' (355.2) also works and adds the video's point, so both ends are acceptable. Starts after 'So, for example,'.", "over_band": false},
+    {"id": "faster-than-light-in-water", "start": 578.1, "start_range": [578.0, 578.2], "end": 625.3, "end_range": [625.3, 627.6],
+     "why": "Explanation: the neutrino hits a proton, making a particle that 'flies through the water faster than light'; nothing beats light in a vacuum but light slows in water, so the particle leaves a cone -- 'is it like a sonic boom?' 'exactly like a sonic boom', a flash of blue light instead of a boom. Lands at 625.3.", "over_band": false},
+    {"id": "blazar-2017", "start": 787.6, "start_range": [787.5, 787.7], "end": 820.6, "end_range": [818.0, 833.4],
+     "why": "Discovery story: in 2017 a neutrino tears through Antarctic ice, telescopes swing and find a blazar four billion light years away; only the neutrino confirmed it as a cosmic engine, source of heavy metals and cosmic rays. Lands at 818-820.6; 'the beginning of a whole new era in astronomy' to 833.4 also works.", "over_band": false},
+    {"id": "inside-hidden-galaxy", "start": 843.8, "start_range": [843.7, 843.9], "end": 869.8, "end_range": [869.8, 879.2],
+     "why": "Discovery: in 2022 IceCube found an active galaxy whose core was hidden by gas and dust; light couldn't escape, 'but neutrinos could, and did' -- the first look inside a cosmic engine light could never show us, at 869.8. The expert's 'watershed moment' quote to 879.2 is acceptable.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "neutrino-journey", "start": 509.1, "start_range": [509.0, 509.2], "end": 567.8, "end_range": [567.8, 567.8],
+     "why": "'From the little neutrino's perspective': born in a supernova, a dull billion years in a straight line, then by chance it hits 'some poor proton' in water off Sicily; 100 trillion through you a second, so statistically some hit. Charming, but what the hit produces comes in the next clip.", "over_band": false},
+    {"id": "earth-is-the-lens", "start": 697.2, "start_range": [697.0, 705.3], "end": 744.4, "end_range": [744.4, 744.4],
+     "why": "Filtering out bioluminescence and particles from above by looking only at what passed through the Earth: 'think of it as the back of a giant telescope, where the lens is the entire Earth'. Opens on 'this computer ... this special blue light', so acceptable, not insisted on.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 357.3, "end": 387.5, "why": "'How do you catch one? You build a very big and very crazy machine' -- the question is really answered minutes later."},
+    {"start": 418.2, "end": 465.0, "why": "Building a DOM by hand in the lab, 'pay attention to the air bubbles', 'he's checking my work': a room/demo moment."},
+    {"start": 472.0, "end": 482.8, "why": "Single-photon sensitivity, 'like hearing a single drop on a single leaf in a hurricane': vivid, but 'each one' points at the screen and it is a fragment."},
+    {"start": 767.9, "end": 779.9, "why": "'This is what KM3NeT sees, and this is what IceCube sees': narration of a graphic."},
+    {"start": 833.8, "end": 843.5, "why": "'Just look at this, nearly a thousand scientists on this paper': screen reference."},
+    {"start": 944.5, "end": 955.0, "why": "Subscribe call and AT&T sponsor credit."}
+  ]
+}

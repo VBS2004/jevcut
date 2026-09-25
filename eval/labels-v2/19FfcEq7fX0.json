@@ -1,0 +1,140 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=19FfcEq7fX0",
+    "title": "\"find your passion\" is bad advice. the science behind why & what to do instead",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 545.205,
+    "sha256_prefix": "1f5e51e94da7708a",
+    "local_path": "eval/media/olga-19FfcEq7fX0.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "passion-is-a-mindset",
+      "start": 76.66,
+      "start_range": [
+        76.52,
+        76.66
+      ],
+      "end": 111.3,
+      "end_range": [
+        111.3,
+        135.0
+      ],
+      "why": "Hook: in 2018 Stanford researchers (Dweck, Walton, O'Keefe) studied why people looking for their passion never find one: it's not a discovery problem, it's a mindset problem -- some believe passions are found, others that they're built with effort and time (111.3). Running on to 135.0 ('what you believe about passion predicts whether you end up finding one') also works but passes through a restatement as fixed vs growth theory. Leading 'So,' dropped.",
+      "over_band": false
+    },
+    {
+      "id": "if-this-were-my-passion",
+      "start": 135.1,
+      "start_range": [
+        135.1,
+        135.1
+      ],
+      "end": 167.8,
+      "end_range": [
+        165.7,
+        187.1
+      ],
+      "why": "Hook: people who believe passions are found expect 'boundless motivation' -- that it'll always be effortless. When the excitement fades their brain runs 'if this were really my passion, it wouldn't be so difficult', so they abandon it (167.8). Running on to 187.1 adds the contrast (people who believe passions are built expect difficulty); both edges work, shorter preferred.",
+      "over_band": false
+    },
+    {
+      "id": "make-a-pact",
+      "start": 353.38,
+      "start_range": [
+        353.38,
+        356.5
+      ],
+      "end": 400.0,
+      "end_range": [
+        398.2,
+        400.0
+      ],
+      "why": "Where most people go wrong: 'I want to become a YouTuber/writer' is an identity statement, so high-stakes the brain freezes. Instead make a pact (Anne-Laure Le Cunff, Tiny Experiments): a specific action for a specific duration -- 'I will write a thousand words every weekend for four weeks' (400.0). The YouTube pact that follows is a second example of the same thing. Opens on 'Step number two: run a tiny experiment', kept because 'this is where most people make a mistake' needs it.",
+      "over_band": false
+    },
+    {
+      "id": "one-passion-is-fiction",
+      "start": 482.0,
+      "start_range": [
+        482.0,
+        482.0
+      ],
+      "end": 512.4,
+      "end_range": [
+        512.4,
+        512.4
+      ],
+      "why": "Hot take: we hear stories of people obsessed with one instrument or sport, but that's rare; most of us have multiple passions over a life, so the pressure to find the one thing is 'mostly fiction' (512.4). Next line is the subscribe ask.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "passion-loop",
+      "start": 187.86,
+      "start_range": [
+        187.86,
+        187.86
+      ],
+      "end": 218.8,
+      "end_range": [
+        214.1,
+        218.8
+      ],
+      "why": "The passion loop (time -> progress -> care -> more time) and 'you're not bad at finding your passion; you've been told to find something that doesn't exist'. Opens on 'the way it works', which leans slightly on the previous line.",
+      "over_band": false
+    },
+    {
+      "id": "envy-is-a-signal",
+      "start": 320.02,
+      "start_range": [
+        320.02,
+        324.1
+      ],
+      "end": 345.1,
+      "end_range": [
+        340.1,
+        345.1
+      ],
+      "why": "'What am I envious of?' -- envy signals your genuine desires (a friend who quit to write full-time, a friend who makes art). Short and opens on a list label.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.4,
+      "end": 28.8,
+      "why": "Thesis hook ('passions are not found; they're built') then name, credentials and 'in this video': intro."
+    },
+    {
+      "start": 29.3,
+      "end": 76.3,
+      "why": "Personal story of not knowing her passion and envying a friend; it only sets up the Stanford research and has no payoff of its own."
+    },
+    {
+      "start": 287.0,
+      "end": 311.1,
+      "why": "Aside about AdSense refusing to monetize her channel; lively but off-topic."
+    },
+    {
+      "start": 411.7,
+      "end": 446.7,
+      "why": "Rules of a good pact (purposeful, actionable, continuous, trackable): a list that needs the pact defined first."
+    },
+    {
+      "start": 446.9,
+      "end": 481.8,
+      "why": "'Read the data' questions for the end of your pact; the quotable 'four weeks of a pact vs four years of thinking' depends on the pact setup."
+    }
+  ]
+}

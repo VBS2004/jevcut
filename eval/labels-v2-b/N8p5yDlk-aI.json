@@ -1,0 +1,32 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=N8p5yDlk-aI", "title": "ABSOLUTE BEST STEAM GAME DEALS FOR RICH PEOPLE!", "channel": "Cult of Mush",
+            "genre": "game news and deals, screen-driven", "duration_s": 806.6, "sha256_prefix": "dae346d152ed8885",
+            "local_path": "eval/media/mush-N8p5yDlk-aI.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "ac-shadows-pitchforks-down", "start": 274.9, "start_range": [274.9, 274.9], "end": 312.7, "end_range": [312.7, 318.7],
+     "why": "Comedy plus verdict. Hook: 'Assassin's Creed Shadows. All right, put the pitchforks down, I'm just the messenger, chill chill chill... everybody needs to relax.' Then: would I spend $28 on it? No. Is it as bad as people say? The discourse was a crap show, but 'the characters are absolute garbage, the story is absolute trash, the open world is gorgeous' (312.7). The 'if you're into content completion you'll have a good time' line (318.7) is an acceptable close; the later 'Ivar trash, Naoye trash' riff would push it past 75s and repeats the characters point.", "over_band": false},
+    {"id": "black-flag-edward-kenway", "start": 371.8, "start_range": [371.8, 375.8], "end": 408.9, "end_range": [407.5, 413.6],
+     "why": "Take: Black Flag Resynced is 'a whopping ten percent off' at $54, but Black Flag is the best Assassin's Creed ever; after Shadows' and Valhalla's garbage characters, 'when you have charisma machines like Edward Kenway, bro, how did Assassin's Creed fall off from a character standpoint this hard?' Opening on the sarcastic deal line or on 'AC Black Flag is one of the greatest AC games' (375.8) both work. Lands on the fall-off line / 'it is so crazy to me'.", "over_band": false},
+    {"id": "expedition-33-discourse", "start": 186.8, "start_range": [180.2, 186.8], "end": 248.6, "end_range": [246.0, 248.6],
+     "why": "Hot take: Expedition 33 was his co-GOTY, but 'I hate that the game got so big' the discourse devolved into 'you aren't real RPG fans, it's overrated'; 'I've been playing JRPGs since most of you weren't into video games -- all right, some of you are older than me'. Payoff: Metaphor and Expedition 33 can both be great games and coexist. Opens on 'Expedition 33 is a phenomenal game' (the game must be named; 'everybody knows how I feel about Expedition 33' at 180.2 also works). The reveal-date aside (189-198) is dead weight that can't be cut.", "over_band": false},
+    {"id": "sparking-zero-overpowered-yajirobe", "start": 671.3, "start_range": [671.3, 676.0], "end": 721.0, "end_range": [719.6, 729.0],
+     "why": "Take: 'I will give a shout to Dragon Ball Sparking Zero' -- people were disappointed, but as a Tenkaichi kid he never wanted a balanced competitive fighter; 'Yajirobe being insanely powerful was one of the funniest things ever, and then they ultimately patched it.' Lands on the Yajirobe line; 'I'm not looking for something incredibly well balanced out of a game like this' (729.0) is an acceptable restating close.", "over_band": false}
+  ],
+  "also_ok": [],
+  "negatives": [
+    {"start": 1.8, "end": 61.2, "why": "Intro: deals for 'ballers pulling up with the Lambo' bit and 'be selective spending over $20' advice; funny framing but it's the show's opener with no payoff."},
+    {"start": 61.4, "end": 137.4, "why": "Kingdom Hearts collection deal read off the store page ('all of that for thirty dollars... well, guess what'); lively but it's the deal and its contents list."},
+    {"start": 438.8, "end": 481.0, "why": "Star Ocean Second Story R price gripe ('why is it still $25?') plus a quick recommendation; a deal read."},
+    {"start": 482.6, "end": 528.8, "why": "Trails in the Sky 2nd chapter launch discount; 'highest-rated game of 2026, warms this dark heart' sounds like a closer but it's a deal shout-out."},
+    {"start": 529.2, "end": 588.8, "why": "Red Dead Redemption $25 for a 16-year-old game; deal commentary that trails off into playtime estimates."},
+    {"start": 617.4, "end": 669.8, "why": "Split Fiction deal: 'you'll need the rare commodity known as a friend' one-liner, then Hazelight praise and Friend's Pass details read as a pitch."}
+  ]
+}

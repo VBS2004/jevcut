@@ -1,0 +1,47 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=GjDlPhwsdCs", "title": "The Massive Machine Hidden in the Deep Ocean", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 955.06, "sha256_prefix": "c6aadaf6a4cab957",
+            "local_path": "eval/media/cleo-GjDlPhwsdCs.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "signal-and-nothing", "start": 1.2, "start_range": [1.2, 1.2], "end": 63.1, "end_range": [63.1, 63.1],
+     "why": "Cold-open mystery: 900 floating spheres strung off Sicily; in 2023 something smaller than an electron tore through at nearly light speed with a signal 30x stronger than ever seen; telescopes worldwide swing to look and find ... 'nothing.' Hook is the opening line; payoff is 'nothing' (63.1). Later starts open on 'them'/'they' pointing back.", "over_band": false},
+    {"id": "what-its-like-to-be-a-neutrino", "start": 119.0, "start_range": [119.0, 119.0], "end": 161.4, "end_range": [161.4, 161.4],
+     "why": "Thought experiment: fly to the next star, 40 trillion km, 75,000 years -- 'a lot of space in space'; shrink to a fundamental particle and atoms of solid rock are as empty as space between stars. Payoff: 'That is what it's like to be a neutrino.' Starts right after the AT&T sponsor line.", "over_band": false},
+    {"id": "xray-vision-for-the-universe", "start": 281.1, "start_range": [281.1, 281.1], "end": 308.7, "end_range": [308.7, 308.7],
+     "why": "Explanation: catch a neutrino and you can trace exactly where it came from and see inside what made it; like a doctor switching from visible light to X-rays to see bones. Payoff: 'catching neutrinos is like developing X-ray vision for our universe.' Earlier start needs the on-screen 'this one' comparison of three options.", "over_band": false},
+    {"id": "faster-than-light-in-water", "start": 578.1, "start_range": [578.1, 578.1], "end": 625.3, "end_range": [625.3, 627.6],
+     "why": "Explanation: a neutrino hits a proton, making a particle that flies through water faster than light; nothing beats light in vacuum, but light slows in water; Cleo asks 'is it like a sonic boom?' and the scientist says exactly -- instead of a boom, a flash of blue light. Speakers inferred from text. Payoff 625.3; 'That is what these sensors can see' (627.6) acceptable.", "over_band": false},
+    {"id": "2017-blazar", "start": 787.6, "start_range": [787.6, 787.6], "end": 818.0, "end_range": [818.0, 833.4],
+     "why": "Discovery story: in 2017 a neutrino set off IceCube, telescopes swung to a blazar 4 billion light years away, and only the neutrino confirmed it as a cosmic engine, the source of the heavy metals in us. Earliest landing 818.0; 'and a source of cosmic rays' (820.6) and 'the beginning of a whole new era in astronomy' (833.4) are both acceptable longer ends.", "over_band": false},
+    {"id": "inside-a-hidden-galaxy", "start": 843.8, "start_range": [843.8, 843.8], "end": 869.8, "end_range": [869.8, 872.9],
+     "why": "In 2022 IceCube found an active galaxy 50 million light years away whose core is hidden by gas and dust; light couldn't escape, 'but neutrinos could, and did' -- the first look inside a cosmic engine light could never show us (869.8).", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "ghost-particle", "start": 175.0, "start_range": [175.0, 175.0], "end": 197.2, "end_range": [194.0, 197.2],
+     "why": "Neutrinos are the 'ghost particle': they pass through stars, planets, walls, you -- a hundred trillion through your body every second; hold up your thumb. Strong fact but short (~22s) and opens on 'these particles'.", "over_band": false},
+    {"id": "supernova-messenger", "start": 309.8, "start_range": [309.8, 309.8], "end": 355.2, "end_range": [355.2, 355.2],
+     "why": "Every ~10 seconds a star goes supernova; the iron in your blood traces back to one; light can't get out of the core fast, so 'neutrinos are your messenger.' Opens past 'So, for example,'.", "over_band": false},
+    {"id": "how-do-you-catch-one", "start": 357.9, "start_range": [357.9, 357.9], "end": 387.5, "end_range": [387.5, 387.5],
+     "why": "Question and punchline: if neutrinos pass through everything they pass through detectors too -- how do you study something that never interacts with you? 'You build a very, very big and very crazy machine.' Lands as a line, explains nothing.", "over_band": false},
+    {"id": "neutrino-journey", "start": 509.1, "start_range": [509.1, 509.1], "end": 567.8, "end_range": [567.8, 567.8],
+     "why": "A neutrino's life told as a story: born in a supernova, a dull billion years in a straight line, then by chance it runs headfirst into some poor proton off Sicily -- unlikely, but a hundred trillion per second means some will.", "over_band": false},
+    {"id": "machines-extensions-of-us", "start": 902.4, "start_range": [902.4, 902.4], "end": 937.2, "end_range": [937.2, 937.2],
+     "why": "Closing reflection: what the effort says about us -- a former factory worker proud to build it; 'what are the machines we build, if not extensions of ourselves.' Speakers inferred.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 210.6, "end": 260.7, "why": "Three ways we study space; 'this one gets blocked ... this one gets tossed around' leans on on-screen graphics."},
+    {"start": 418.2, "end": 464.9, "why": "Building a DOM by hand, 'sign it', 'he's checking my work' -- narration of what is on screen."},
+    {"start": 472.0, "end": 490.9, "why": "Single-photon sensitivity and 'why are we trying to detect light? ... Wait, what?' -- the answer comes minutes later."},
+    {"start": 728.3, "end": 744.4, "why": "'Think about it as a giant telescope where the lens is the entire Earth' -- quotable, but the support (only looking at particles through the Earth) came just before."},
+    {"start": 757.0, "end": 774.6, "why": "'This is what KM3net sees, and this is what IceCube sees' -- chart read aloud."},
+    {"start": 833.8, "end": 843.5, "why": "'Just look at this, nearly a thousand scientists on this paper' -- screen narration."}
+  ]
+}

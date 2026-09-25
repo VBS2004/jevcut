@@ -1,0 +1,33 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=znWFsB0f0EA", "title": "Zero Gravity Is Weirder Than You Think (Bonus Episode)", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 666.85, "sha256_prefix": "67e5a0a243281b28",
+            "local_path": "eval/media/cleo-znWFsB0f0EA.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "how-zero-g-plane-works", "start": 68.4, "start_range": [68.3, 68.5], "end": 108.8, "end_range": [106.1, 108.8],
+     "why": "Explanation with a moment: the plane climbs steeply (double gravity), then dives and you're weightless for about 22 seconds -- 'oh my god, all of my thoughts just left my head' -- 31 times over, scientists rushing to run experiments each time, 'like red light, green light, but with gravity' (108.8). 'A path that looks like this' points at a graphic, but the words carry it.", "over_band": false},
+    {"id": "blood-sucking-sleeping-bag", "start": 117.1, "start_range": [117.0, 117.2], "end": 167.5, "end_range": [167.5, 193.5],
+     "why": "Explanation: 'a sleeping bag that sucks your blood away from your brain' -- without gravity blood stops draining from your head (astronauts say it feels like hanging slightly upside down), so the bag's negative pressure pulls blood down and your insides feel normal gravity (167.5). Her trying it, 'feels 100% like standing on Earth', to 193.5 is acceptable; the 'gravity blood-sucking pants' kicker at 206 would run ~89s. Starts after 'Starting with this.'", "over_band": false},
+    {"id": "space-treadmill-900kg", "start": 250.1, "start_range": [248.4, 250.2], "end": 290.6, "end_range": [290.6, 304.4],
+     "why": "Surprising fact: astronauts must work out two and a half hours a day or lose bone and muscle; the ISS machines shake the station, so the treadmill needs 900 kg of vibration isolation -- 'we had to send all of that stuff into space for a treadmill' (290.6). Continuing to the 'space Pilates' machine (304.4) is acceptable.", "over_band": false},
+    {"id": "robot-leg-astronaut", "start": 443.4, "start_range": [443.3, 443.5], "end": 500.7, "end_range": [497.5, 530.7],
+     "why": "Story: John McFall, former trauma surgeon and Paralympic sprinter, is training to be the first astronaut with a robot leg; no amputee has worked on the ISS, so he tests his prosthesis on a treadmill in zero g; he's met every requirement and is medically certified for a long-duration mission (500.7). The 'not before 2027' answer to 530.7 is acceptable. Speakers (Cleo, McFall, an engineer) inferred from text.", "over_band": false},
+    {"id": "sunlight-moves-spacecraft", "start": 533.6, "start_range": [533.5, 538.5], "end": 580.9, "end_range": [569.7, 580.9],
+     "why": "Explanation: using sunlight to move spacecraft -- rockets burn fuel or fire charged particles, but a sail catches light's momentum and gets pushed along, even by other stars; 'real missions have proof that this photonic propulsion can work' (580.9). Opening at 'Big picture, there are a couple ways to move things in space' (538.5) also works.", "over_band": false}
+  ],
+  "also_ok": [],
+  "negatives": [
+    {"start": 1.6, "end": 43.4, "why": "Intro: scanning her brain on a diving plane, 'five crazy science experiments' -- a teaser for the episode."},
+    {"start": 208.0, "end": 233.8, "why": "Brain-injury use on Earth ('drill a hole into your skull'): strong, but 'these' and 'this' point back to the bag explained a minute earlier."},
+    {"start": 327.3, "end": 380.2, "why": "Verticality EEG experiment: a walk-through of the cap, the screen and the button -- narration of the demo."},
+    {"start": 380.3, "end": 440.0, "why": "Audible sponsor read, opening 'let me show you something, this is my real phone home screen'."},
+    {"start": 589.3, "end": 603.0, "why": "Inside the light-sail rig: 'it shoots out here and hits a mirror ... oh, cool!' -- narration of the screen."}
+  ]
+}

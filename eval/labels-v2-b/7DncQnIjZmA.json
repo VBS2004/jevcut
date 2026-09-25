@@ -1,0 +1,109 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=7DncQnIjZmA",
+    "title": "OpenAI solving Navier-Stokes explained..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 656.010159,
+    "sha256_prefix": "7d643ec80b5db735",
+    "local_path": "eval/media/caleb-7DncQnIjZmA.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "fma-to-fluids",
+      "start": 0.1,
+      "start_range": [
+        0.1,
+        0.1
+      ],
+      "end": 83.9,
+      "end_range": [
+        83.9,
+        90.2
+      ],
+      "why": "Explainer: F=ma, an elevator worked example, then why fluids break the easy case (different parts move at different speeds and accelerations, all of which an equation must capture), landing at 83.9. 90.2 names the result as Navier-Stokes ('looks something like this'). The elevator example can't be skipped, so it runs over band.",
+      "over_band": true
+    },
+    {
+      "id": "million-dollar-question",
+      "start": 215.8,
+      "start_range": [
+        215.8,
+        215.8
+      ],
+      "end": 274.8,
+      "end_range": [
+        274.8,
+        291.2
+      ],
+      "why": "What the controversy is actually about: Navier-Stokes works in engineering but was never proven smooth in all conditions; 'prove' means a smoothness proof or a blow-up counterexample; payoff 274.8: OpenAI claims the counterexample. 282.3 adds 10,000 agents / 130B tokens, 291.2 'a big deal if true'; those extend without new payoff.",
+      "over_band": false
+    },
+    {
+      "id": "why-openai-cheated-claim",
+      "start": 427.9,
+      "start_range": [
+        427.9,
+        427.9
+      ],
+      "end": 521.5,
+      "end_range": [
+        521.5,
+        521.5
+      ],
+      "why": "Hook: 'to understand why researchers are claiming OpenAI cheated'. Euler's simpler equation ignores viscosity; Buckmaster (with an Anthropic researcher) spent a year on a forced blow-up; OpenAI poured compute on the same problem and found an unforced one in 50 hours with 100 agents; payoff 521.5: plagiarism rumors from the similar approach. Tightest working cut is over band.",
+      "over_band": true
+    },
+    {
+      "id": "who-gets-discoveries",
+      "start": 579.6,
+      "start_range": [
+        579.6,
+        579.6
+      ],
+      "end": 652.1,
+      "end_range": [
+        652.1,
+        656.0
+      ],
+      "why": "Opinion close. Hook: who will have the means to make scientific discoveries, the companies that can run 10,000 agents? OpenAI is reportedly moving on to other Millennium problems; the prize rules only allow a person or group to be awarded; payoff 652.1: who deserves the attribution? Near the top of the band, but the shorter start (625.3, 'Even looking at the documentation...') opens on a connective and loses the hook.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [],
+  "negatives": [
+    {
+      "start": 96.4,
+      "end": 151.4,
+      "why": "Equation components walkthrough and garden-hose example narrated against the equation on screen ('as you can see', 'this side of the equation')."
+    },
+    {
+      "start": 291.4,
+      "end": 321.1,
+      "why": "Preview of 'this entire scandal', cheating, compute disparity: a teaser whose support comes later."
+    },
+    {
+      "start": 321.2,
+      "end": 385.5,
+      "why": "Sponsor read (Incogni)."
+    },
+    {
+      "start": 385.7,
+      "end": 415.4,
+      "why": "Visual of OpenAI's counterexample vortex, narrated from the screen."
+    },
+    {
+      "start": 522.1,
+      "end": 557.6,
+      "why": "Buckmaster name-for-omission offer and text-message drama; dramatic but depends on who Buckmaster and Levent are from earlier."
+    }
+  ]
+}

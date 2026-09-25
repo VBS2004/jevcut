@@ -1,0 +1,135 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=noPuRPDiY6k",
+    "title": "AGI, are we there yet..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 555.17,
+    "sha256_prefix": "a0e22d3928d727e8",
+    "local_path": "eval/media/caleb-noPuRPDiY6k.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "agi-needs-no-brain",
+      "start": 0.12,
+      "start_range": [
+        0.12,
+        0.2
+      ],
+      "end": 50.0,
+      "end_range": [
+        50.0,
+        50.2
+      ],
+      "why": "Cold-open hook: tech CEOs say we have or are about to have AGI, yet nobody agrees what it is -- is it even possible? Penrose (1980s) said human understanding is non-algorithmic; but today's architectures only borrow neuroscience terms and don't resemble the brain. Payoff at 50.0: if we're close to AGI, it doesn't require reproducing the mechanism of human intelligence.",
+      "over_band": false
+    },
+    {
+      "id": "chollet-not-yet",
+      "start": 151.8,
+      "start_range": [
+        151.8,
+        151.9
+      ],
+      "end": 181.58,
+      "end_range": [
+        181.58,
+        181.7
+      ],
+      "why": "Hook: Francois Chollet says we haven't reached AGI. His test is whether a model can acquire skills in novel situations; Astra and Fable are trained for months and their intelligence is frozen during inference. Payoff: 'so by Francois's definition, we haven't reached AGI yet.' Tight 30s.",
+      "over_band": false
+    },
+    {
+      "id": "arc-agi-harness",
+      "start": 186.66,
+      "start_range": [
+        186.66,
+        186.8
+      ],
+      "end": 226.34,
+      "end_range": [
+        226.34,
+        255.46
+      ],
+      "why": "Hook: ARC-AGI measures learning on the fly, yet Astra hits 99.9% on ARC-AGI-3 without learning anything -- because of the harness (Astra scores very differently by harness). The harness manages context, memory, execution and error recovery: 'essential elements of intelligence we don't see in the model layer alone' (226.3). Two endings work: running to 255.5 adds the conclusion that model+harness shows early signs of AGI (69s).",
+      "over_band": false
+    },
+    {
+      "id": "tasks-it-cant-do-is-weak",
+      "start": 353.78,
+      "start_range": [
+        353.78,
+        353.9
+      ],
+      "end": 406.76,
+      "end_range": [
+        406.76,
+        421.28
+      ],
+      "why": "Explains ANI vs AGI (from Tim Urban): general intelligence isn't a pile of narrow skills, so 'measuring AGI by listing tasks it can't do is a weak argument' -- we could reach AGI while underperforming narrow AI, because generality is about transfer and adaptation (406.8). Opens on the ANI definition rather than 'one way to talk about...' / 'in his blog post'. Later end (421.3) adds what to measure instead; the bathroom/babysitting jab is a callback but reads fine.",
+      "over_band": false
+    },
+    {
+      "id": "agi-marketing-term",
+      "start": 432.74,
+      "start_range": [
+        432.74,
+        432.8
+      ],
+      "end": 483.06,
+      "end_range": [
+        483.06,
+        496.76
+      ],
+      "why": "Hook: 'Dario from Anthropic thinks AGI is just a marketing term' -- ironically followed by 'a country of geniuses in a data center, whatever that means' (joke). Turn: scientific or not, the term carries huge economic weight; CEOs promise it in 5-10 years and the two AI winters were overpromises; payoff at 483.1: AGI is no longer just a hypothesis but an economic narrative. Ending at 496.8 adds what it shapes (funding, valuations, data centers, hiring).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "agi-at-different-moments",
+      "start": 497.14,
+      "start_range": [
+        496.96,
+        497.2
+      ],
+      "end": 528.76,
+      "end_range": [
+        522.36,
+        528.76
+      ],
+      "why": "Because every company defines AGI differently, each 'reaches' it at a different moment -- Jensen says OpenAI achieved AGI with Astra 'using NVIDIA chips. Emphasis on using NVIDIA chips.' Ends on moving the goalpost repeating the cycle. Acceptable, but 'the same cycle' leans on the AI-winter point from earlier.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 125.9,
+      "end": 143.4,
+      "why": "Yann LeCun critique read off a LinkedIn post shown on screen ('comments like this'); tempting quote about fixing the bathroom but it's a screen read and setup for the two-axes framing."
+    },
+    {
+      "start": 255.6,
+      "end": 284.2,
+      "why": "Bitter-lesson / Boris Cherny 10-20% claim: opens 'this certainly brings back to...' and depends on the harness argument before it."
+    },
+    {
+      "start": 284.3,
+      "end": 341.1,
+      "why": "Sponsor read (Micro Center): RAM, PSUs, clearance sale, flash drive."
+    },
+    {
+      "start": 535.8,
+      "end": 555.2,
+      "why": "Closing claim that the first AGI may be less capable than existing narrow models: its support (ANI vs AGI) came two minutes earlier; alone it's an unsupported assertion."
+    }
+  ]
+}

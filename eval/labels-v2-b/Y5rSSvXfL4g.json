@@ -1,0 +1,130 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=Y5rSSvXfL4g",
+    "title": "5 open source tools that replaced my $320/mo AI stack...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 325.68,
+    "sha256_prefix": "ef49be2faba61a78",
+    "local_path": "eval/media/fireship-Y5rSSvXfL4g.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "ai-subscription-math",
+      "start": 0.2,
+      "start_range": [
+        0.2,
+        0.2
+      ],
+      "end": 26.8,
+      "end_range": [
+        24.8,
+        26.8
+      ],
+      "why": "Comedy bit. Hook: 'I did some math, and it made me realize how broken the world is': Cursor $20, Claude Max $100, GPT Pro, Gemini Ultra, forgotten API keys. The AI addiction got so expensive he had to quit alcohol, and US alcohol sales are at historic lows, so 'big AI is the one to blame' (26.8). L009 turns to the video's premise.",
+      "over_band": false
+    },
+    {
+      "id": "ollama-docker-for-llms",
+      "start": 50.9,
+      "start_range": [
+        50.9,
+        50.9
+      ],
+      "end": 87.2,
+      "end_range": [
+        87.2,
+        87.2
+      ],
+      "why": "Clear tool explanation: every AI stack needs a model, which usually means sending your code to a trillion-dollar corporation; Ollama is 'Docker for large language models'. Payoff: prompts stay private and inference is free, 'so the model keeps working even after your credit card is declined' (87.2). The opening 'The first tool we need to talk about' is a light run-up, but the next clause is the setup the joke needs. L022 starts the next problem.",
+      "over_band": false
+    },
+    {
+      "id": "headroom-center-a-div",
+      "start": 157.6,
+      "start_range": [
+        150.8,
+        157.6
+      ],
+      "end": 190.1,
+      "end_range": [
+        180.4,
+        190.1
+      ],
+      "why": "Hook: 'You ask AI to center a div, and it reads 50,000 lines of your package-lock JSON, evaporates an Olympic swimming pool of water, just to realize it needs Tailwind.' Then Headroom, which compresses tool output and logs before they become billable tokens (180.4), and is reversible because the compressed content stays cached locally (190.1). Preferred end 190.1, since ending at 180.4 runs just under 25s; both ends work. Starting at 150.8 ('if you're still eating billions of tokens...') also works.",
+      "over_band": false
+    },
+    {
+      "id": "horsetinder-matchmaking",
+      "start": 229.7,
+      "start_range": [
+        229.7,
+        229.7
+      ],
+      "end": 254.7,
+      "end_range": [
+        254.7,
+        261.0
+      ],
+      "why": "Comedy with a real explanation: Dify is a visual node builder, demonstrated on 'Horsetinder', where a workflow matches horses and an LLM explains why. Punchline: 'Thunder and Butternuts are a 94% match because they both enjoy trail rides and biting children' (254.7). The latest end adds that it is served as an API 'whenever a horse swipes right' (261.0).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "nine-router-fallback-tiers",
+      "start": 92.2,
+      "start_range": [
+        92.2,
+        92.2
+      ],
+      "end": 142.1,
+      "end_range": [
+        142.1,
+        150.3
+      ],
+      "why": "Problem (frontier models need a small data center, the 'top tier slop' joke) and fix: Nine Router, one local OpenAI-compatible endpoint with fallback tiers, so when you max out Claude Max it rolls over automatically (142.1). A solid explainer, but a product walkthrough with no sharp payoff; L024's 'solution to this' needs the problem line, so it starts at L023.",
+      "over_band": false
+    },
+    {
+      "id": "openhands-fire-yourself",
+      "start": 262.0,
+      "start_range": [
+        261.0,
+        262.0
+      ],
+      "end": 289.9,
+      "end_range": [
+        283.5,
+        289.9
+      ],
+      "why": "Hook: 'building apps as a human became outdated in Q2 2026 after the release of OpenHands, an open-source tool that allows you to fire yourself.' Then an autonomous agent, top on SWE-bench Verified: open GitHub issues and let it do the work (283.5), a command center of always-on agents (289.9). Short and pitch-like; the joke comes up front and the rest explains it.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 27.0,
+      "end": 50.8,
+      "why": "The 'wake-up call' premise, the 'In today's video' preview and the Code Report intro."
+    },
+    {
+      "start": 190.1,
+      "end": 220.7,
+      "why": "Hostinger sponsor read, opened by the tempting question 'where do I deploy all this stuff?'"
+    },
+    {
+      "start": 299.1,
+      "end": 318.2,
+      "why": "Wrap-up ('our own private AI stack', 'tip of the iceberg') that becomes the second sponsor call to action."
+    }
+  ]
+}

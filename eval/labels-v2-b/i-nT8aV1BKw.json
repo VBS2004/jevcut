@@ -1,0 +1,145 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=i-nT8aV1BKw",
+    "title": "WHY SMART PEOPLE OVERTHINK EVERYTHING (and how to stop)",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 814.788,
+    "sha256_prefix": "96871c3e1d55085c",
+    "local_path": "eval/media/olga-i-nT8aV1BKw.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "brain-hates-uncertainty",
+      "start": 101.26,
+      "start_range": [
+        101.0,
+        101.3
+      ],
+      "end": 138.3,
+      "end_range": [
+        127.1,
+        152.7
+      ],
+      "why": "Hook is the question 'if overthinking is not helping, why does our brain keep doing it instead of just taking action?' (skip the leading 'So'). Answer lands: taking action means facing uncertainty, which the brain treats as a real threat (138.3). Ending at 127.1 ('our brain hates that uncertainty') already answers; running on through the brain's 'deal' dramatization to 152.7 also works but adds colour, not payoff.",
+      "over_band": false
+    },
+    {
+      "id": "zeigarnik-open-tabs",
+      "start": 220.42,
+      "start_range": [
+        220.3,
+        220.7
+      ],
+      "end": 284.0,
+      "end_range": [
+        277.5,
+        284.0
+      ],
+      "why": "Zeigarnik effect: every unfinished task or unmade decision is an open browser tab in your head; the unanswered-email example makes it concrete. Payoff: it keeps running because it's the brain's way of making sure important things aren't forgotten (284.0). 277.5 ('never going to leave you until you reply') is the shortest acceptable end. Starts after 'So'.",
+      "over_band": false
+    },
+    {
+      "id": "plan-closes-the-tab",
+      "start": 309.8,
+      "start_range": [
+        307.0,
+        309.8
+      ],
+      "end": 340.3,
+      "end_range": [
+        340.3,
+        343.8
+      ],
+      "why": "Hook: 'you might think you have to make every decision, finish every task... but no.' Baumeister & Masicampo: the brain doesn't need the task done, just a written plan to resolve it; in their study intrusive thoughts stopped (340.3). Starting at 307.0 ('how do we actually close these tabs?') leans on the previous tab metaphor, so it is only the early edge of the range.",
+      "over_band": false
+    },
+    {
+      "id": "the-replayer",
+      "start": 570.3,
+      "start_range": [
+        568.2,
+        570.3
+      ],
+      "end": 610.6,
+      "end_range": [
+        609.3,
+        610.6
+      ],
+      "why": "Relatable type: 'imagine you had a conversation three days ago and you're still replaying it... maybe I said something wrong.' Lands on 'you're definitely the replayer.' Opening on 'Number one is the replayer' (568.2) is acceptable but list-framed.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "certainty-loop-avoidance",
+      "start": 153.16,
+      "start_range": [
+        152.9,
+        153.2
+      ],
+      "end": 215.0,
+      "end_range": [
+        204.9,
+        215.0
+      ],
+      "why": "Defines the 'certainty loop' (uncertain goal -> overthink -> temporary relief -> certainty never arrives), then Borkovec's finding that overthinking functions as emotional avoidance. Self-contained but a longer explanation; opens on 'your mind creates something I call a certainty loop'.",
+      "over_band": false
+    },
+    {
+      "id": "overplanner-overanalyzer",
+      "start": 635.1,
+      "start_range": [
+        635.1,
+        635.1
+      ],
+      "end": 675.9,
+      "end_range": [
+        675.9,
+        675.9
+      ],
+      "why": "Two overthinking types back to back; the overanalyzer ('this one is me') is the most dangerous because you genuinely feel productive. Opens list-framed ('Number three'), so acceptable, not insisted on.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.2,
+      "end": 38.0,
+      "why": "Cold-open hook ('there's a cycle of overthinking trying to protect you') straight into the channel intro; promises, doesn't pay off."
+    },
+    {
+      "start": 38.5,
+      "end": 88.6,
+      "why": "Misconception ('you're just too smart') and her YouTube-channel anecdote: sets up a question that is only answered after the cut."
+    },
+    {
+      "start": 369.0,
+      "end": 445.9,
+      "why": "Paperlike sponsor read, bridged from the brain-dump tip."
+    },
+    {
+      "start": 446.4,
+      "end": 501.5,
+      "why": "Fix two and three ('shrink the action', 'act for evidence'): lean on 'the loop' and 'the certainty loop' defined minutes earlier."
+    },
+    {
+      "start": 697.8,
+      "end": 730.3,
+      "why": "Closing disclaimer ('not something a YouTube video can fix') - a caveat on the whole video, not a point on its own."
+    },
+    {
+      "start": 736.9,
+      "end": 807.6,
+      "why": "Apartment-hunting update and subscribe ask."
+    }
+  ]
+}

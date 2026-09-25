@@ -1,0 +1,200 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=1IVONei5wz8",
+    "title": "5 TINY HABITS THAT MAKE YOU INSTANTLY LUCKIER (backed by psychology)",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 732.032,
+    "sha256_prefix": "888e3d452ce181aa",
+    "local_path": "eval/media/olga-1IVONei5wz8.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "wiseman-luck-school",
+      "start": 31.3,
+      "start_range": [
+        31.3,
+        31.3
+      ],
+      "end": 68.5,
+      "end_range": [
+        68.5,
+        72.7
+      ],
+      "why": "Richard Wiseman spent 10 years studying self-described lucky and unlucky people, found four behaviors, then built a school teaching them to unlucky people; after one month they reported better opportunities and felt luckier (68.5). 'I'm being 100% serious' (72.7) is the latest acceptable end.",
+      "over_band": false
+    },
+    {
+      "id": "two-women-coffee-shop",
+      "start": 118.8,
+      "start_range": [
+        118.8,
+        118.8
+      ],
+      "end": 151.2,
+      "end_range": [
+        151.2,
+        158.0
+      ],
+      "why": "Two women in the same coffee shop: one with headphones in, one asks a stranger about a book -> coffee -> friendship -> job referral six months later. Payoff: she got lucky because of her proactive behavior (151.2).",
+      "over_band": false
+    },
+    {
+      "id": "newspaper-experiment",
+      "start": 158.4,
+      "start_range": [
+        158.26,
+        158.4
+      ],
+      "end": 213.5,
+      "end_range": [
+        213.5,
+        213.5
+      ],
+      "why": "How Wiseman proved lucky people notice more: count photos in a newspaper; unlucky people took two minutes, lucky people seconds - why? A huge message on page two said 'stop counting, there are 43', and a later one offered 250 pounds. Lucky people saw both; unlucky people kept counting (213.5).",
+      "over_band": false
+    },
+    {
+      "id": "weak-ties-jobs",
+      "start": 284.5,
+      "start_range": [
+        284.5,
+        285.7
+      ],
+      "end": 313.2,
+      "end_range": [
+        310.4,
+        333.6
+      ],
+      "why": "Granovetter 1973: he expected people to find jobs through close friends and family, but over 80% did through someone they barely know - 'weak ties' (313.2). The surprising fact lands at 310.4; the 'why' (close ties share your opportunities, weak ties bridge to new ones) to 333.6 is also good - both edges genuinely work.",
+      "over_band": false
+    },
+    {
+      "id": "tina-seelig-hello",
+      "start": 353.5,
+      "start_range": [
+        353.4,
+        353.5
+      ],
+      "end": 396.6,
+      "end_range": [
+        392.9,
+        399.4
+      ],
+      "why": "Stanford professor Tina Seelig, about to sleep on a flight to Ecuador, says hello to a stranger instead; years of follow-ups later it becomes a bestselling book deal. Payoff: people call it luck, but she said hello to a stranger she could have ignored (396.6). 'about this' in the opener points to weak ties but the story stands alone.",
+      "over_band": false
+    },
+    {
+      "id": "gut-is-pattern-recognition",
+      "start": 457.74,
+      "start_range": [
+        457.7,
+        460.4
+      ],
+      "end": 489.3,
+      "end_range": [
+        489.3,
+        508.0
+      ],
+      "why": "'Gut instincts, intuition - that sounds like woo-woo... but there's real science': your unconscious processes far more than your conscious mind and signals a recognised pattern before you can say why (489.3). Adding 'most of us override it with overthinking' and the party example to 508.0 also works.",
+      "over_band": false
+    },
+    {
+      "id": "pygmalion-late-bloomers",
+      "start": 546.0,
+      "start_range": [
+        540.8,
+        546.0
+      ],
+      "end": 581.1,
+      "end_range": [
+        581.1,
+        581.1
+      ],
+      "why": "1968 Pygmalion experiment: teachers told random kids were 'late bloomers'; by year's end they outperformed peers because teachers gave them harder work and more attention. Payoff: 'the expectation changed the behavior, and the behavior changed the outcome' (581.1).",
+      "over_band": false
+    },
+    {
+      "id": "broken-leg-nurse",
+      "start": 629.0,
+      "start_range": [
+        629.0,
+        629.0
+      ],
+      "end": 672.2,
+      "end_range": [
+        671.0,
+        672.2
+      ],
+      "why": "Wiseman asks a lucky man in a leg cast if he still feels lucky; he says last time in hospital he met a nurse and they've been married 25 years. Then: unlucky people imagine how it could have been better, lucky people how it could have been worse - 'it could have been my neck' (671.0-672.2). The anecdote alone ends at 651.4, under the band.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "fortune-vs-luck",
+      "start": 74.8,
+      "start_range": [
+        73.2,
+        74.8
+      ],
+      "end": 97.9,
+      "end_range": [
+        97.9,
+        97.9
+      ],
+      "why": "Fortune is what happens to you; luck is what you do about it. Crisp but just under the band.",
+      "over_band": false
+    },
+    {
+      "id": "luck-diary-reprograms",
+      "start": 214.5,
+      "start_range": [
+        214.5,
+        214.5
+      ],
+      "end": 273.6,
+      "end_range": [
+        266.0,
+        273.6
+      ],
+      "why": "Luck diary: write down small good things nightly; 'this is not just gratitude journaling' - you're telling your brain what to track, so you notice more opportunities. Practice-shaped.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.1,
+      "end": 31.1,
+      "why": "Hook ('their luck is not random, it's a trainable skill') into the channel intro."
+    },
+    {
+      "start": 399.6,
+      "end": 434.4,
+      "why": "Weak-tie outreach practice; the quotable 'you cannot engineer good fortune' is a two-line button on the weak-ties section."
+    },
+    {
+      "start": 508.6,
+      "end": 535.0,
+      "why": "60-second rule practice; relies on the gut-instinct section before it."
+    },
+    {
+      "start": 600.5,
+      "end": 621.8,
+      "why": "Optimistic walking practice and 'bonus behavior' framing."
+    },
+    {
+      "start": 696.1,
+      "end": 732.0,
+      "why": "Wrap-up: 'luck surface area' restates the whole video."
+    }
+  ]
+}

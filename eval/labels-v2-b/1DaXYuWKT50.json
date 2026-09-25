@@ -1,0 +1,31 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=1DaXYuWKT50", "title": "The Ace Combat 8 Wings of Theve System Requirements are ABSOLUTELY INSANE", "channel": "Cult of Mush",
+            "genre": "game news and deals, screen-driven", "duration_s": 666.7, "sha256_prefix": "efc12101b0de06ec",
+            "local_path": "eval/media/mush-1DaXYuWKT50.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "sysreqs-useless-metric", "start": 29.2, "start_range": [27.7, 29.2], "end": 85.6, "end_range": [71.2, 99.0],
+     "why": "Hot take: 'PC system requirements are damn near a useless metric to assess how a PC game performs' -- no uniform tiers, devs don't test ('throw something at the wall, they'll figure it out on launch day'), then the proof: Danganronpa 2x2 lists an RTX 4070, 'that is a damn PSP game'. Preferred end on 'no reason why Danganronpa requires an RTX 4070' (85.6). Two other edges work: the 'they'll figure it out on launch day' joke (71.2) as the shortest, or after the Rayman 4080 example and 'there's actually no rhyme or reason' (99.0).", "over_band": false},
+    {"id": "sysreqs-have-regressed", "start": 424.4, "start_range": [421.2, 424.4], "end": 463.3, "end_range": [456.1, 468.3],
+     "why": "Take: 'I've been talking about two tiers of system requirements being stupid for a decade', and it's worse now with DLSS, frame gen and high-refresh players, so 'system requirements have literally regressed from a decade ago.' Opens on the decade line (or a beat earlier on 'having two tiers of system requirements is so stupid', 421.2, dropping the 'that's why' that points back). Lands on the regressed-because-DLSS-and-frame-gen line.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "target-audience-not-steam-survey", "start": 362.8, "start_range": [362.8, 368.9], "end": 418.7, "end_range": [404.9, 418.7],
+     "why": "Argument: why is medium settings upscaled to 1080p the recommended standard? Steam charts say most people are on 1080p, but a core game like Ace Combat targets players with better hardware, so recommended should be medium upscaled to 1440p. Coherent point but leans on the specs read earlier.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 1.7, "end": 27.1, "why": "Intro teaser: 'the most insane system requirements I've ever seen' with no specs or reasoning yet."},
+    {"start": 184.2, "end": 250.5, "why": "Minimum requirements read off the screen (i7 10700K, 2060, 1080p upscaled 30fps low) with a side note on console optimization."},
+    {"start": 252.4, "end": 324.4, "why": "Recommended requirements read aloud ('32 gigs', RTX 3070, 1080p upscaled, 60fps medium) with outrage; energetic but the point is the spec sheet on screen."},
+    {"start": 553.8, "end": 572.0, "why": "Closing restatement: 'these requirements are absurd... a 3070 playing at toaster resolutions'; punchy but 'these' points back to the spec sheet."},
+    {"start": 577.0, "end": 623.4, "why": "Post-outro rant ('clown show requirements', Control fake early access, 'vomit-inducing') restating the video's point with an inside reference."},
+    {"start": 631.5, "end": 666.7, "why": "Post-roll call to hit the bell notification."}
+  ]
+}

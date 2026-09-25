@@ -1,0 +1,41 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=O3y0Dr2_ECA",
+            "title": "Trevor Noah: What Happens When You're Mean to Fast Food Workers",
+            "channel": "Trevor Noah", "genre": "stand-up comedy", "duration_s": 811.98,
+            "sha256_prefix": "91ebf5e4bf7fdf94", "local_path": "eval/media/trevor-O3y0Dr2_ECA.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "township-dogs-bark", "start": 0.3, "start_range": [0.0, 0.5], "end": 36.5, "end_range": [36.5, 40.0],
+     "why": "Hook is the opening line: why do township dogs bark differently from suburb dogs? Suburb dogs march at the gate with poise; township dogs, skinny mixed breeds, 'bark like they're complaining about government' -- punchline at 36.5.", "over_band": false},
+    {"id": "minister-blames-apartheid", "start": 146.0, "start_range": [145.7, 146.0], "end": 172.3, "end_range": [170.7, 172.8],
+     "why": "'Some people are bastardizing apartheid... using it as a scapegoat for everything.' Acted exchange: 'Minister, you stole 200 million.' 'Yeah, but the thing with apartheid...' 'No, you stole.' Lands on 'You stole.' / 'They just bastardize the thing.' Opening drops the leading 'Because'.", "over_band": false},
+    {"id": "bee-oscar-pistorius-blades", "start": 223.3, "start_range": [215.2, 223.3], "end": 290.7, "end_range": [290.7, 294.6],
+     "why": "'BEE aims to equalize... think of black people in this country like Oscar Pistorius': everyone born with legs, apartheid came, no legs; apartheid ended, 'okay black people, walk' -- 'oh oh'. BEE is our blades, 'it gets us in the game' (290.7). 'Like Oscar says, it's not supposed to give you an advantage... same place' (294.5) is an acceptable extra beat. Opening at 215.2 on the heckler's 'you guys have BEE' also works; 238.2 (the Pistorius line) would leave BEE unexplained.", "over_band": false},
+    {"id": "checkers-till-closes", "start": 435.2, "start_range": [434.1, 435.2], "end": 484.0, "end_range": [484.0, 488.5],
+     "why": "Hook: 'Black people don't know how to complain. You see it in the small things.' Checkers: a guy waits 20 minutes for one loaf of brown bread, the cashier throws down the Closed sign, he just stands there muttering; someone asks 'Do you have a problem?' -- 'No, it's fine.' (484.0).", "over_band": false},
+    {"id": "drive-through-judgment-window", "start": 731.3, "start_range": [730.0, 731.3], "end": 778.2, "end_range": [778.2, 810.5],
+     "why": "The title's payoff. Hook: 'Do you never ask yourself why the drive-through... there's a window where you order and a window where you pick up, but in between you don't see what's happening -- that's where they judge you.' She just worked a 12-hour shift; into the mic, 'super size number one... special order' (778.2). Two endings both work: 'special order' lands it; the drive-away 'extra fresh... can taste the beef' (810.5, after a long acted pause) is a second kicker and takes it to 79s.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "black-and-white-complaining-at-checkers", "start": 435.2, "start_range": [434.1, 435.2], "end": 528.3, "end_range": [527.4, 529.2],
+     "why": "The Checkers bit with its contrast: 'White people will never let that happen... block it like a kung fu master... get your manager', and the guy at the back 'Tell them, missus... want my bread'. The white half needs the first half, so ~93s.", "over_band": true},
+    {"id": "old-enough-to-drink-apartheid-train", "start": 105.8, "start_range": [105.8, 106.9], "end": 145.0, "end_range": [142.2, 145.0],
+     "why": "'South Africa is 18 years old... old enough to drink now. We need that drink.' Then time for young black people to get off the apartheid train -- 'Choo choo, apartheid!' -- but don't forget: leave the train there, polish it. Mild, but self-contained.", "over_band": false},
+    {"id": "mcdonalds-park-through-full-story", "start": 558.6, "start_range": [558.6, 558.6], "end": 778.2, "end_range": [778.2, 810.5],
+     "why": "The whole McDonald's story: the huge tattooed guy ('extra muscles in the back seat') tells the 2am cashier to make it 'a drive-through, not a park-through', demands a sorry, orders, then the judgment-window payoff. Works as one piece but can't be shorter than ~220s.", "over_band": true}
+  ],
+  "negatives": [
+    {"start": 57.7, "end": 78.1, "why": "'Half Swiss, half Xhosa... think of me like a Swiss chocolate' -- a soft aside with no real punchline, mistranscribed and room-only."},
+    {"start": 340.0, "end": 362.6, "why": "'Six hundred million rand gone missing... Fricky, where's the money?' -- a lively impression built on an inside reference; the punchline is garbled and it restates the 'crime isn't a colour thing' point."},
+    {"start": 369.9, "end": 393.0, "why": "'Tenderpreneurs made their blades longer... tender blades' -- a callback to the Pistorius analogy two minutes earlier; doesn't land without it."},
+    {"start": 532.0, "end": 554.4, "why": "'White people teach black people how to complain, and black people will teach you when to complain... can't always be Hulk' -- a bridge into the McDonald's story; strong claim, no payoff of its own."},
+    {"start": 682.7, "end": 707.4, "why": "'One of the best displays of complaining I've ever seen... ten out of ten' -- reaction to the story before it, not a moment in itself."}
+  ]
+}

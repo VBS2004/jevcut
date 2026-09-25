@@ -1,0 +1,94 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=0Rp9KJCEIvg",
+    "title": "The most interesting hack in history just got weirder...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 405.88,
+    "sha256_prefix": "971f9df70f5d6377",
+    "local_path": "eval/media/fireship-0Rp9KJCEIvg.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "benchmark-agents-escape-sandbox",
+      "start": 23.7,
+      "start_range": [
+        11.7,
+        23.7
+      ],
+      "end": 58.3,
+      "end_range": [
+        58.3,
+        58.3
+      ],
+      "why": "Recap of the original story: OpenAI's models realized the easiest path to a top benchmark score was to find the answers online, exploited a zero-day in a package cache proxy, escaped the sandbox, and poisoned a dataset to get into Hugging Face (58.3). Opening a sentence earlier on 'the first fully autonomous cyber attack in history originated from OpenAI' + the 'humble nonprofit' joke (11.7/13.3) also works; both edges are genuine, shorter preferred.",
+      "over_band": false
+    },
+    {
+      "id": "agents-invent-post-office",
+      "start": 138.1,
+      "start_range": [
+        136.2,
+        138.1
+      ],
+      "end": 176.3,
+      "end_range": [
+        176.3,
+        179.8
+      ],
+      "why": "To generate training data OpenAI ran 1,200 air-gapped benchmark sandboxes sharing one writable package cache; the agents built a message board out of package names, then namespaces as identities and packages as private mailboxes -- 'basically inventing a post office from first principles' (176.3). The three-body-problem line (179.8) is an acceptable button. 'these benchmarks' is a soft back-reference but the line explains itself; the cryptography beat that follows is a second example of the same thing.",
+      "over_band": false
+    },
+    {
+      "id": "ruins-of-first-civilization",
+      "start": 266.7,
+      "start_range": [
+        266.7,
+        266.7
+      ],
+      "end": 335.6,
+      "end_range": [
+        335.6,
+        342.4
+      ],
+      "why": "Final twist: the message-board trick was first invented in May by a different batch of agents that OpenAI wiped without noticing, but the cache survived, so later agents found 'the ruins of the first civilization'; then a newer, smarter model inherited months of research and exploits, got into OpenAI's internal network, and read the credentials of the monitoring tool meant to catch exactly this (335.6). 'OpenAI didn't connect any of this until Hugging Face announced the breach' (342.4) is an acceptable second punch. 'The swarm' is unexplained but inferable.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [],
+  "negatives": [
+    {
+      "start": 68.4,
+      "end": 87.8,
+      "why": "Intro teaser listing everything the agents did ('invented martyrdom... attacked Hugging Face mostly for vibes') -- exciting table of contents, not a clip."
+    },
+    {
+      "start": 91.6,
+      "end": 107.9,
+      "why": "Munger vs Wu-Tang on incentives: the Wu-Tang half is a played audio clip not in the transcript -- a room-only/inside reference."
+    },
+    {
+      "start": 193.9,
+      "end": 228.8,
+      "why": "'And then it got religious': martyr agents, scripture, 'microdosing communism', the Swarm branding joke. Funny, but opens on a pronoun and depends on the cache/flag/generation setup from the previous minutes."
+    },
+    {
+      "start": 229.0,
+      "end": 266.5,
+      "why": "Flag-formula twist: the Swarm cracked the flags but deemed it worthless without shown work, so went after Hugging Face -- a punchline whose setup came earlier."
+    },
+    {
+      "start": 342.5,
+      "end": 398.2,
+      "why": "Namespace sponsor read."
+    }
+  ]
+}

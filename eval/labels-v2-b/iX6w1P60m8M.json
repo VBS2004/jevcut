@@ -1,0 +1,44 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=iX6w1P60m8M", "title": "The Real Reason We Should Revive Extinct Animals", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 949.21, "sha256_prefix": "6e63f6e039a08cac",
+            "local_path": "eval/media/cleo-iX6w1P60m8M.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "backbreeding-quagga", "start": 74.3, "start_range": [74.2, 74.4], "end": 123.5, "end_range": [123.5, 123.5],
+     "why": "Explanation: 'imagine you're a mad scientist and you want to bring back an extinct animal' -- path one, backbreed a close living relative (how wolves became dogs), and it worked for the quagga, a zebra hunted to extinction by 1883 and brought back in a version. Lands at 123.5; the 'but it's slow' caveat after it is a second point.", "over_band": false},
+    {"id": "bucardo-clone", "start": 144.7, "start_range": [144.6, 144.8], "end": 226.3, "end_range": [226.3, 226.3],
+     "why": "Story: Jurassic Park cloned from mosquito DNA, but real cloning needs a whole living cell; biologists froze tissue from the last bucardo, and in 2003 a baby bucardo was born -- 'unfortunately, the first clone had a malformed lung and didn't survive'. Lands on that twist. Needs the Jurassic Park open: the bucardo lines start 'People tried this', which points back. 82s, slightly over.", "over_band": true},
+    {"id": "not-really-dire-wolves", "start": 345.4, "start_range": [345.3, 345.5], "end": 410.0, "end_range": [410.0, 419.2],
+     "why": "Take: people online pointed out these aren't really dire wolves, just genetically modified gray wolves -- 'that was intentional'; the project's scientist (inferred from text) wants the fewest edits for healthy animals; they aren't de-extincting the exact animal, 'they're trying to de-extinct what the animal did' (410.0). The 'good headline but not technically accurate' line to 419.2 is acceptable. Starts after 'In fact,'.", "over_band": false},
+    {"id": "ferrets-are-first-cousins", "start": 546.4, "start_range": [546.3, 546.5], "end": 601.3, "end_range": [601.3, 605.0],
+     "why": "Surprising fact and fix: 'every living black-footed ferret alive today are first cousins. Yikes.' -- a genetic bottleneck leaves them vulnerable, so scientists take DNA from a hundred-year-old museum specimen and edit it into living ferrets. Lands at 601.3.", "over_band": false},
+    {"id": "quoll-cane-toad", "start": 605.3, "start_range": [605.3, 610.7], "end": 650.1, "end_range": [650.1, 650.1],
+     "why": "Story: the northern quoll will be extinct in the wild within ten years because it eats toxic invasive cane toads, but a single letter of genetic code makes it resistant; introducing that one change could save the species (650.1). Opens 'Another great example of using minimal gene editing to save a species', which also sets up the payoff; opening at 'the northern quoll' (610.7) is acceptable.", "over_band": false},
+    {"id": "why-bring-back-tasmanian-tiger", "start": 662.3, "start_range": [662.2, 668.6], "end": 721.2, "end_range": [713.1, 730.0],
+     "why": "Question and answer: 'Why are we trying to de-extinct animals at all?' Killing the Tasmanian tiger, the island's only apex predator, set off wallaby and kangaroo explosions and let a contagious face cancer spread among Tasmanian devils -- 'a butterfly effect rippling through the food chain', so some say the only way to rebalance is to put the tiger back (721.2).", "over_band": false},
+    {"id": "animals-remember-thylacine", "start": 776.7, "start_range": [776.6, 776.8], "end": 805.5, "end_range": [805.5, 805.5],
+     "why": "Surprising finding: 'what happens when you drop a predator back into an environment that hasn't seen it in decades?' A researcher (inferred) put replica thylacines in the bush: after 100+ years the animals still remember it -- foxes and goats they ignore, 'but if they see the thylacine, they are out of it'.", "over_band": false},
+    {"id": "instincts-house-cats", "start": 805.6, "start_range": [805.5, 805.7], "end": 846.3, "end_range": [846.3, 849.4],
+     "why": "Debate: would a revived thylacine know how to be a predator? A skeptic doubts it'll ever be wild; advocates say the behavior is hardwired -- house cats fed biscuits for hundreds of generations still pounce the moment a mouse runs by (846.3). Speakers inferred from text.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "sixth-extinction-optimism", "start": 508.7, "start_range": [508.6, 508.8], "end": 539.9, "end_range": [539.9, 546.2],
+     "why": "Five mass extinctions, a sixth now caused by us, 'this sucks for us' -- and the optimistic turn: the tools for bringing animals back can keep them from going extinct. Opens cleanly, but 'the tools we've been talking about' lean on earlier.", "over_band": false},
+    {"id": "conservation-science", "start": 905.3, "start_range": [905.2, 905.4], "end": 940.8, "end_range": [940.8, 940.8],
+     "why": "Closing take: the real huge-if-true part isn't bringing back animals but keeping today's healthy; 'de-extinction science is conservation science'; 'the real debate isn't what's a dire wolf, it's what responsibility we have to the world we created'. Its support came earlier.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 0.5, "end": 55.2, "why": "Cold open over 1933 footage ('look at this', 'you see this dog-looking animal') and a teaser that holds back its point."},
+    {"start": 55.5, "end": 67.7, "why": "News-clip montage: 'De-extinction. We can do this. It's no longer science fiction.'"},
+    {"start": 277.9, "end": 292.0, "why": "DNA-as-blocks graphic: 'this one tells me the shape of the skull, this one ear size' -- narration of the screen."},
+    {"start": 431.4, "end": 507.6, "why": "Phone-case sponsor read with an ocean-cleanup pitch."},
+    {"start": 737.1, "end": 761.1, "why": "'99.9 percent identical ... wait, 0.1 percent? That's actually a lot' -- tempting, but opens on 'this is the closest living animal' (screen) and is a step in the recipe."}
+  ]
+}

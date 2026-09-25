@@ -1,0 +1,36 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=cTHDtwh3bCg",
+            "title": "The Kid Who Changed My Mind About Parenting",
+            "channel": "Trevor Noah", "genre": "stand-up comedy", "duration_s": 415.36,
+            "sha256_prefix": "ba440dc768388811", "local_path": "eval/media/trevor-cTHDtwh3bCg.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "barbie-not-4d", "start": 0.2, "start_range": [0.0, 2.3], "end": 26.7, "end_range": [26.7, 29.5],
+     "why": "'I'll tell you a story': at the movies, a kid starts kicking his chair, the seat shakes -- 'Oh, is this a 4D movie?... No, man, Barbie's not 4D.' (26.7). A short setup and punchline before the Mikey story proper.", "over_band": false},
+    {"id": "mikey-sorry-about-that-man", "start": 39.7, "start_range": [29.9, 39.7], "end": 98.7, "end_range": [98.7, 102.2],
+     "why": "Trevor turns to the kid kicking his chair; the dad a seat away: 'What, Mikey? Are you kicking the man's chair?... Say sorry to the man.' Mikey looks at him and goes, like a grown man, 'Yeah, all right. You're good. Sorry about that, man. It won't happen again.' (98.7). Opening at 29.9 (he sees the little feet kicking) also works.", "over_band": false},
+    {"id": "dont-want-to-hit-my-kids", "start": 262.1, "start_range": [262.1, 266.9], "end": 288.6, "end_range": [288.6, 312.8],
+     "why": "Hook: 'Here's something I want you to understand: I do not want to ever hit my children... but I also don't want to raise a child who thinks it's impossible for this side of a hand to meet this side of a face.' (288.6). Two endings genuinely work: the second beat, 'I don't want to hit my kids. But I don't want them to know that I don't want to... a little tension in the house, just for control' (306.8-312.8), is an equal or bigger laugh; the earlier one is preferred as shorter.", "over_band": false},
+    {"id": "kid-calls-me-trevor", "start": 316.2, "start_range": [315.4, 316.2], "end": 345.7, "end_range": [340.7, 345.7],
+     "why": "Hook: 'I've just got some American kids who don't respect me at all. The house is chaos... Stop that! Are you listening to me?' -- 'Yes, Trevor.' 'Trevor, I'm Daddy... you call me Trevor?' (to 345.7). Self-contained; the South Africa teleport closer builds on it.", "over_band": false},
+    {"id": "teleport-to-load-shedding", "start": 316.2, "start_range": [315.4, 316.2], "end": 415.3, "end_range": [413.3, 415.3],
+     "why": "The same disrespectful-American-kid setup carried to the closer: he'd wish to be instantly teleported to South Africa with the kid -- 'What did you say, Trevor? Come here, buddy. You see the time? It's five to two. In five minutes the electricity is gonna cut, and when that happens... you're gonna know me.' (415.3). Overlaps kid-calls-me-trevor on purpose: a different, bigger payoff that needs the 'Trevor' setup, so it can't land under ~99s.", "over_band": true}
+  ],
+  "also_ok": [
+    {"id": "mikey-full-story", "start": 0.2, "start_range": [0.0, 2.3], "end": 222.5, "end_range": [222.5, 238.1],
+     "why": "The whole Mikey story: the chair-kicking, the fake apology, Trevor waiting for the South African consequence that never comes ('Time out'), the dad who doesn't know what to do, every South African trick, and Mikey: 'Shut up!' (222.5).", "over_band": true}
+  ],
+  "negatives": [
+    {"start": 48.2, "end": 73.4, "why": "'Why are you asking, Mikey? I just told you he's kicking my chair...' -- a rant that trails off into 'Anyway' with no punch."},
+    {"start": 111.9, "end": 157.3, "why": "'Keep kicking, Mikey... any moment now... you've been warned' then the dad's 'Time out' -- lively, but it depends on the South African expectation and the Mikey setup from earlier."},
+    {"start": 186.0, "end": 238.1, "why": "'He couldn't do anything, and Mikey knew it... every South African trick' -- opens on a pronoun pointing back, long acted silences, and the tag ('Pose') is unclear."},
+    {"start": 251.8, "end": 260.1, "why": "'That day terrified me in a way I wasn't ready for... not ready to have children like that' -- transition that points back to the story."}
+  ]
+}

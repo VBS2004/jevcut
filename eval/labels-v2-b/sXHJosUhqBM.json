@@ -1,0 +1,43 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=sXHJosUhqBM",
+            "title": "WHY NOTHING FEELS INTERESTING ANYMORE (and how to fix it with neuroscience)",
+            "channel": "Olga Loiek", "genre": "science essay to camera", "duration_s": 640.22,
+            "sha256_prefix": "f26c06f9c17ea386", "local_path": "eval/media/olga-sXHJosUhqBM.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "curiosity-not-lost-hijacked", "start": 35.1, "start_range": [35.1, 35.1], "end": 75.0, "end_range": [75.0, 76.4],
+     "why": "Hook: 'People think they have lost their curiosity, but that is not true.' Bingeing Netflix or scrolling TikTok is your curiosity system doing exactly its job -- the same dopamine system that drives scientists and artists -- 'but your curiosity has been hijacked. It has been captured by things that drain you.' (75.0).", "over_band": false},
+    {"id": "scrolling-cuts-dopamine-receptors", "start": 239.1, "start_range": [238.5, 239.1], "end": 269.7, "end_range": [269.7, 270.0],
+     "why": "Hook: 'When you scroll for an hour, you're hitting your dopamine system hundreds of times without giving it time to recover.' Your brain sees dopamine chronically elevated, thinks something's wrong, and reduces the number of dopamine receptors -- 'even if dopamine is present, less of it is going to get registered.' (269.7). Opening drops the leading 'Again,'.", "over_band": false},
+    {"id": "why-only-feeds-feel-interesting", "start": 288.5, "start_range": [288.5, 297.8], "end": 326.3, "end_range": [326.3, 326.3],
+     "why": "'Since your curiosity runs on dopamine, and now your brain is less receptive to it... the world starts feeling flat, conversations feel dull, books feel uninteresting.' Only algorithmic feeds engineered for maximum stimulation still spike it high enough -- 'which is why it's so hard to stop scrolling, even though it keeps leaving you empty.' (326.3). The next line restates it.", "over_band": false},
+    {"id": "dopamine-overload-symptoms", "start": 364.1, "start_range": [364.1, 368.8], "end": 422.0, "end_range": [407.2, 422.0],
+     "why": "'The symptoms of dopamine overload': you can't focus (within 90 seconds you reach for your phone -- 'maybe you're watching this video because you cannot focus'); nothing interesting to say (someone at dinner asks what you've been up to and your mind goes blank despite thousands of pieces of content); you stopped growing, more interesting five years ago (422.0). Ending after the dinner symptom (407.2) also works.", "over_band": false},
+    {"id": "dopamine-fast-rules", "start": 422.3, "start_range": [422.1, 428.0], "end": 482.4, "end_range": [476.3, 482.4],
+     "why": "'The good news is that it's completely reversible, and the fix is extremely simple': reset your dopamine with a one-to-seven-day fast -- cut the highest-stimulation behaviours (bingeing, algorithmic feeds, games), keep the rest of the internet, and add friction: phone in another room, notifications off, delete apps (482.4). 'It' refers back to the overload, but the fix is clear on its own; 428.0 ('step number one is reset your dopamine') is an alternative open.", "over_band": false},
+    {"id": "instagram-only-in-browser", "start": 482.8, "start_range": [482.8, 482.8], "end": 529.0, "end_range": [520.7, 529.0],
+     "why": "Her own habit: when social media gets overstimulating she deletes Instagram, TikTok and Twitter for a few weeks, but keeps Instagram in the computer browser to text friends -- because reels are so inconvenient there, 'you just don't really want to do it'; rule: messages yes, content no (529.0).", "over_band": false},
+    {"id": "exercise-restores-dopamine", "start": 532.4, "start_range": [529.6, 532.4], "end": 562.0, "end_range": [562.0, 562.0],
+     "why": "Hook: 'If there's one thing neuroscience is unanimous on, it's that exercise is the most powerful tool for restoring your dopamine system' -- raises production and receptor sensitivity, regular exercisers have more motivation and curiosity; 'even 30 minutes of walking a day, it's a great start.' (562.0). 529.6 ('step number two is move your body') is an acceptable open.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "scrolling-to-flat-world", "start": 239.1, "start_range": [238.5, 239.1], "end": 326.3, "end_range": [326.3, 326.3],
+     "why": "The whole mechanism in one piece: scrolling spikes dopamine, the brain cuts receptors, the baseline drops (a 'from here to here' hand gesture), and only feeds still feel interesting. 87s.", "over_band": true},
+    {"id": "being-interested-is-being-interesting", "start": 590.8, "start_range": [590.8, 590.8], "end": 619.5, "end_range": [619.5, 619.5],
+     "why": "Closer: 'You do not actually lack curiosity; you lack the dopamine to act on it.' Reset, move, go on a 20-minute rabbit hole -- 'being interested is being interesting.' A recap, but self-contained with a quotable last line.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 0.3, "end": 34.8, "why": "Cold open: a strong claim ('a neurological shift... has stolen your curiosity') followed by 'in this video I'll explain', her name and credentials -- an intro, the explanation comes minutes later."},
+    {"start": 114.6, "end": 142.8, "why": "'Why does it only want junk?... The answer comes down to one chemical, dopamine... stick with me on this one' -- raises the question, answers it three minutes later."},
+    {"start": 270.1, "end": 288.0, "why": "'Your dopamine baseline falls somewhere from here to somewhere here' -- depends on a hand gesture on screen."},
+    {"start": 343.5, "end": 367.7, "why": "'People with dopamine overload think they're lazy... a fixed mindset... it makes you feel unchangeable, which you, of course, are' -- a restated point ending on a slip, then housekeeping."},
+    {"start": 620.3, "end": 633.0, "why": "Thanks, subscribe, and a request for topic suggestions."}
+  ]
+}

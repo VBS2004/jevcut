@@ -1,0 +1,34 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=4S4HBz5vGP0",
+            "title": "Rockstar Just WENT AFTER Grand Theft Auto 6 MODDING and PC!",
+            "channel": "Cult of Mush", "genre": "game news and deals, screen-driven",
+            "duration_s": 669.4, "sha256_prefix": "b0aaab5f64f65bc6",
+            "local_path": "eval/media/mush-4S4HBz5vGP0.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "gta6-no-day-one-pc", "start": 51.5, "start_range": [50.2, 51.7], "end": 97.8, "end_range": [97.8, 122.0],
+     "why": "Rant: PC players always get the short end of the stick from Rockstar; PC has grown enormously since GTA V yet GTA 6 ships day one on Xbox, a much smaller market. Hook is the 'short end of the stick' claim (open on 'For a myriad of reasons', dropping 'However'). Payoff: 'You guys are gonna have it on Xbox. You can get a PC version ready.' Two endings genuinely work: that line (preferred, ~46s), or running on through 'they've never wanted to do it' and the GTA V / Red Dead 2 / GTA 4 / LA Noire list at 122.0, which caps it but is mostly a second pass.", "over_band": false},
+    {"id": "sony-free-exclusive", "start": 520.9, "start_range": [520.7, 521.0], "end": 560.2, "end_range": [552.8, 560.2],
+     "why": "Hot take: by skipping PC, Rockstar hands Sony a free pseudo-exclusive in GTA 6, since Xbox is irrelevant. Hook: 'what I hate more than anything...' Payoff: 'I don't think PlayStation's paying whatsoever... it's gonna come out regardless, just because they're not releasing the game on PC.' Shortest landing is 'handing PlayStation a free exclusive' (552.8). What follows (Xbox irrelevant, 'pushes PS5 consoles') restates.", "over_band": false},
+    {"id": "gta6-wont-fix-your-life", "start": 594.9, "start_range": [594.8, 595.0], "end": 626.1, "end_range": [626.0, 627.0],
+     "why": "Prediction played for a laugh: once GTA 6 is out there will be tweets and think pieces calling it overrated, because hype this big can never be met. Hook: 'I am also fully convinced...' Punchline: 'Even if it's the greatest game of all time, bro, it's not gonna fix your personal life. I'm sorry to say, it's a video game.' ~31s.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "fan-storylines-not-canon", "start": 146.1, "start_range": [145.9, 146.2], "end": 207.1, "end_range": [207.1, 230.7],
+     "why": "Rockstar's new mod rules ban fan storylines; Mush pushes back: who cares, it's not canon, and modded players are a drop in the bucket. Needs the rule read out as setup (opens on 'as noted on GameRant, Rockstar splits its new mod guidelines...'), so it's half narration of an article; acceptable, not essential. Ends on 'it's not canon' (207.1) or runs to 'drop in the bucket' / 'protective of their IP' (230.7).", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 3.8, "end": 50.1, "why": "Intro run-up: 'the general consensus... some of the best games in the history of gaming' sounds like a strong claim but only sets up the actual topic; no payoff."},
+    {"start": 349.7, "end": 395.4, "why": "Reading sections two and three of the mod guidelines off the article, with brief 'is that the biggest deal?' asides; screen narration."},
+    {"start": 401.7, "end": 428.2, "why": "Fourth-section monetization rule plus a quick 'that's when the game changes' reaction; opens on a list reference and the reaction is thin."},
+    {"start": 443.6, "end": 498.4, "why": "Rambling on whether Rockstar can enforce the rules against IP-crossover mods; no point lands, and it trails into the PC release topic."},
+    {"start": 634.2, "end": 669.4, "why": "Bell-notification plea after the outro."}
+  ]
+}

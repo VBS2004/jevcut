@@ -1,0 +1,42 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=p60I9LNHNxg", "title": "Why This Olympic Sport Bothers Physicists", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 975.80, "sha256_prefix": "319e1f08e6b22a2a",
+            "local_path": "eval/media/cleo-p60I9LNHNxg.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "gentlemans-sport", "start": 147.8, "start_range": [147.7, 147.9], "end": 167.6, "end_range": [167.6, 171.2],
+     "why": "Surprising fact: even in the Olympics curlers tally their own points and call their own fouls, shake hands, must compliment each other's shots, and the winners buy the first round of beers. Lands on the beers at 167.6. Under 25s, but it is complete.", "over_band": false},
+    {"id": "one-island-stones", "start": 183.4, "start_range": [179.8, 183.5], "end": 233.7, "end_range": [233.7, 241.1],
+     "why": "Surprising fact: every Olympic curling stone comes from one Scottish company and one island, a 60-million-year-old granite plug low in aluminum, giving a tight structure that is water and crack resistant (233.7); the $600-a-stone price to 241.1 is an acceptable kicker. 'Look at this thing! Almost 20 kilograms of granite' (179.8) is an acceptable earlier open.", "over_band": false},
+    {"id": "sweeping-melts-pebbles", "start": 364.8, "start_range": [364.7, 364.9], "end": 430.9, "end_range": [430.9, 430.9],
+     "why": "Explanation: the only Olympic sport where players manipulate the object after it's thrown; curling ice is deliberately pebbled, and hard sweeping melts the pebbles into a thin film of water so the stone slides up to three meters farther. Lands at 430.9. Some 'look at this ice' pointing, but the words carry it.", "over_band": false},
+    {"id": "broomgate", "start": 505.9, "start_range": [492.3, 506.0], "end": 579.9, "end_range": [579.9, 581.7],
+     "why": "Story: the 2015 broom scandal -- a directional-fabric broom so effective players compared it to a joystick and sweepers could steer bad throws, 22 teams agreed not to use it, then the World Curling Federation tested 50 brooms and made them illegal (579.9). Opening on 'in 2015, this broom started a massive scandal' (492.3) is the stronger hook but runs 88s; the 505.9 open ('During the 2015 curling season, a certain broom got really popular') fits the band.", "over_band": false},
+    {"id": "curls-the-wrong-way", "start": 611.7, "start_range": [611.6, 611.8], "end": 665.6, "end_range": [660.6, 665.6],
+     "why": "Physics mystery: the stone curls in the same direction it spins; a sliding glass curls the opposite way because of extra friction at the front -- normal physics -- but curling stones do the opposite, and 'we have been asking why for a hundred years' (665.6). The glass demo is on screen but narrated fully.", "over_band": false},
+    {"id": "da-vinci-curling-league", "start": 669.6, "start_range": [669.2, 669.7], "end": 703.8, "end_range": [703.8, 703.8],
+     "why": "Hot take plus joke: 'some people think curling is a new addition to the Olympics, but it is the most Olympic sport' -- in the first Winter Olympics in 1924, a stone from a Scottish bog dated 1511, so 'Da Vinci could have met up with his curling league after painting the Mona Lisa'. Lands on the joke.", "over_band": false},
+    {"id": "curling-and-alien-life", "start": 747.8, "start_range": [745.7, 747.9], "end": 787.3, "end_range": [780.7, 787.3],
+     "why": "Surprising link: finding alien life under the ice of two moons needs robots that drill or melt through 30 km of ice, and how a spinning robot interacts with ice 'is the same physics problem as in curling' -- 'not saying we need to solve curling to find aliens, but it's all connected'. An earlier open on 'it's not just about this game' (709.7) runs 78s.", "over_band": false},
+    {"id": "dont-be-the-cynic", "start": 916.1, "start_range": [914.8, 916.2], "end": 955.1, "end_range": [955.1, 955.1],
+     "why": "Take: why it bothers her when people mock curling -- 'it's lame to be the constant cynic ... you only see what's on the surface'; dig deeper and the strange is the most interesting; 'you just have to be willing to turn over those stones'. Lands on the pun.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "chess-on-ice", "start": 288.2, "start_range": [288.1, 288.3], "end": 312.6, "end_range": [312.6, 312.6],
+     "why": "Strategy primer: draws, takeouts and guards, 'this is why curling is sometimes called chess on ice'. Clear but a rules explainer.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 6.0, "end": 72.1, "why": "Intro teaser listing the video's topics (the island, the doping scandal, the physics mystery) with none of the answers."},
+    {"start": 98.7, "end": 147.4, "why": "Rules walk-through over the sheet: 'this is your field of play', 'you start here at the hat' -- narration of the screen."},
+    {"start": 256.7, "end": 285.1, "why": "Her attempts to throw: 'nope, nope, nope' -- funny on screen, nothing to get without it."},
+    {"start": 313.0, "end": 346.7, "why": "'Oh what a shot! The best shot I've ever seen' and the skip yelling: room-only moments."},
+    {"start": 797.3, "end": 901.9, "why": "The three theories for the curl: a strong explanation but 105s, and it leans on the glass-friction setup from three minutes earlier."}
+  ]
+}

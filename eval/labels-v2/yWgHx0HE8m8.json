@@ -1,0 +1,43 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=yWgHx0HE8m8", "title": "Something's Happening to the Ozone Hole", "channel": "Cleo Abram",
+            "genre": "science documentary", "duration_s": 981.25, "sha256_prefix": "631ac0a59b22ff21",
+            "local_path": "eval/media/cleo-yWgHx0HE8m8.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "ozone-alternate-world", "start": 37.2, "start_range": [37.2, 37.2], "end": 75.1, "end_range": [75.1, 81.8],
+     "why": "Counterfactual: a massive hole over Antarctica; had we done nothing, a hole over the North Pole, over the whole planet by 2040, sunburn in five minutes. Hook is 'Directly over Antarctica ... was a massive hole' (the 22.6 line opens on 'it', and 45.2 opens on 'it' too). Payoff lands on 'That wasn't by accident. It was a choice.' (75.1); 'two choices ... for the better' (81.8) is an acceptable longer end.", "over_band": false},
+    {"id": "no-time-zone", "start": 216.5, "start_range": [208.9, 216.5], "end": 250.2, "end_range": [250.2, 250.2],
+     "why": "Surprising facts about Antarctica: no one owns it, a treaty continent for peace and science; the sun never sets in summer; all time zones meet so there is none, and researchers pick the time zone of whoever feeds them. Hook 'No one owns Antarctica'; 208.9 ('Fewer than 5,000 people are allowed...') also works. Ends on 'their supply base,' before 'and to make things even more complicated' runs into the wind bit.", "over_band": false},
+    {"id": "cold-war-dinner-party", "start": 436.1, "start_range": [436.1, 446.3], "end": 504.1, "end_range": [504.1, 512.7],
+     "why": "Story: in the 1950s Antarctica was almost a Cold War war zone of overlapping claims; geophysicists at a dinner party ask the superpowers to pause claiming land for 18 months to study it -- and it works. Hook 'If you time traveled back to the 1950s, this incredible place ... was almost a war zone.' Payoff 'this proposal actually works' (504.1); naming it the IGY (512.7) is acceptable.", "over_band": false},
+    {"id": "heartbeat-of-the-planet", "start": 532.2, "start_range": [532.2, 532.2], "end": 572.0, "end_range": [555.8, 572.0],
+     "why": "Explanation: sea ice freezing around Antarctica pushes out salt that sinks and drives global currents -- currents in California, India, Australia are decided there, 'the heartbeat of the planet' -- and the continent is bigger than Europe or the US. Opens past 'You can see this if ... you flip it' (points back and at a map). Earliest landing is 'heartbeat of the planet' (555.8, ~24s, just under band); the size fact ending 'It's huge' (572.0) is preferred as in band. Both ends work.", "over_band": false},
+    {"id": "sea-level-60m", "start": 578.1, "start_range": [578.1, 585.7], "end": 608.4, "end_range": [606.7, 608.4],
+     "why": "Surprising fact: the ice averages over 2 km thick, holds ~91% of the world's fresh water, and melted would raise sea levels ~60 m -- 'All of this would be underwater. Well, there goes my home.' (the laugh is the payoff). Opens past 'They also learned...' (pronoun); 585.7 'Antarctica has a scary amount of water' is a tighter start (~23s).", "over_band": false},
+    {"id": "ozone-fixed", "start": 712.7, "start_range": [712.7, 712.7], "end": 784.9, "end_range": [784.9, 791.3],
+     "why": "Story of the fix: Dr. Solomon's team found an everyday chemical was destroying ozone; the world chose a different future; Solomon recalls being under the ozone hole in Antarctica when the Montreal Protocol was signed ('probably the last one to know'); every country signed, replacements were found, and 'it's working ... we're actually seeing the ozone layer recover' (784.9). Speakers inferred from text: Solomon speaks 738.4-757.8 and 772.7-780.4. Near the top of the band.", "over_band": false},
+    {"id": "which-generation", "start": 913.7, "start_range": [913.7, 913.7], "end": 965.6, "end_range": [961.1, 965.6],
+     "why": "Closing take: you may think the Antarctic Treaty could never be signed today, but 'the current future is not the future future'; our grandparents signed the Treaty, our parents the Montreal Protocol -- are we going to be the generation that doesn't work together? Self-contained because it re-states both precedents. Ends 'we're going to do it again' (965.6) or 'not if we have anything to say about it' (961.1).", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "ice-runway", "start": 146.7, "start_range": [146.7, 150.5], "end": 189.8, "end_range": [189.8, 189.8],
+     "why": "Getting to Antarctica is sketchy: the Drake Passage (three oceans collide, ~800 shipwrecks) or a plane that lands on a runway made of ice. Travelogue, but the ice-runway line is a payoff.", "over_band": false},
+    {"id": "montreal-it-works", "start": 758.1, "start_range": [758.1, 758.1], "end": 791.3, "end_range": [784.9, 791.3],
+     "why": "Shorter cut of the fix: every country signed the Montreal Protocol, substitutes were found, and the ozone layer is recovering. Leans on 'those chemicals' from before the cut, so the longer clip is preferred.", "over_band": false}
+  ],
+  "negatives": [
+    {"start": 88.3, "end": 101.2, "why": "Intro tease: 'you need to see this right now, because scientists say we need to make the next big choice' -- no payoff here."},
+    {"start": 253.9, "end": 268.2, "why": "Wind pushing her backward on the ice -- narration of what is on screen."},
+    {"start": 323.3, "end": 360.5, "why": "Solomon's team notices low ozone; 'what she was about to discover would forever change...' -- a tease whose answer comes six minutes later."},
+    {"start": 364.3, "end": 432.8, "why": "Snow blindness segues into the Mercury sponsor read."},
+    {"start": 636.0, "end": 660.9, "why": "Antarctic Treaty signed -- the payoff of the IGY story, but its setup ('they were figuring all of this out', the IGY) came minutes earlier."},
+    {"start": 818.2, "end": 863.5, "why": "Blue Rivers: 'this is unbelievably beautiful', drinking the meltwater -- on-screen moment, no standalone point."}
+  ]
+}

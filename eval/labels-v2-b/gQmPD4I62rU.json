@@ -1,0 +1,95 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=gQmPD4I62rU",
+    "title": "Opus 5.5 vs GPT-6 is racing to the bottom..?",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 456.411429,
+    "sha256_prefix": "4a9c196caf717665",
+    "local_path": "eval/media/caleb-gQmPD4I62rU.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "api-vs-subscription",
+      "start": 259.1,
+      "start_range": [
+        259.1,
+        259.1
+      ],
+      "end": 308.2,
+      "end_range": [
+        308.2,
+        333.5
+      ],
+      "why": "Hook: 'so what really matters is cost, since Anthropic is cheaper per token, right? Not quite.' API vs subscription split; OpenAI's revenue is mostly subscription and Anthropic's mostly API; payoff 308.2: subscriptions are metered by tokens, API by cost. 320.7 and 333.5 spell out the rolling window and 'user experience depends on how token-hungry the model is'. Opening line has a mild 'this' back-reference, but the question restates what it needs.",
+      "over_band": false
+    },
+    {
+      "id": "who-pays-for-wasted-tokens",
+      "start": 333.7,
+      "start_range": [
+        333.7,
+        333.7
+      ],
+      "end": 361.2,
+      "end_range": [
+        361.2,
+        373.6
+      ],
+      "why": "Labs subsidize token usage at their discretion; the real tension is who pays for inefficient tokens: API users pay directly, subscribers are insulated (361.2). 373.6 adds the conclusion that token efficiency hedges against falling prices.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "token-efficiency-frontier",
+      "start": 39.5,
+      "start_range": [
+        39.5,
+        39.5
+      ],
+      "end": 76.2,
+      "end_range": [
+        76.2,
+        76.2
+      ],
+      "why": "The Pareto frontier we don't look at is token efficiency: GPT-6 dominates token efficiency while Opus 5.5 wins on cost, a tension between cost- and token-efficient models. Partly chart reading and opens on 'But'.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.1,
+      "end": 38.9,
+      "why": "Strong opening ('cost of intelligence dropping... but is it really?') that turns into reading the Pareto chart ('this dotted line here', 'as you can see')."
+    },
+    {
+      "start": 76.3,
+      "end": 139.7,
+      "why": "3D cost/token/intelligence plot narrated from the screen."
+    },
+    {
+      "start": 139.8,
+      "end": 195.3,
+      "why": "GPT-6 Soul/Luna/Astra trajectories and intelligence-index numbers read off the plot."
+    },
+    {
+      "start": 204.1,
+      "end": 258.9,
+      "why": "Sponsor read (Hyperagent travel-planning demo)."
+    },
+    {
+      "start": 392.6,
+      "end": 439.0,
+      "why": "Closing thesis that cheaper doesn't mean more efficient, immediately shown via quarter-by-quarter Pareto charts ('as you can see')."
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=19FfcEq7fX0",
+    "title": "\"find your passion\" is bad advice. the science behind why & what to do instead",
+    "channel": "Olga Loiek",
+    "genre": "science essay to camera",
+    "duration_s": 545.205,
+    "sha256_prefix": "1f5e51e94da7708a",
+    "local_path": "eval/media/olga-19FfcEq7fX0.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "passion-mindset-study",
+      "start": 76.66,
+      "start_range": [
+        76.5,
+        76.7
+      ],
+      "end": 135.0,
+      "end_range": [
+        111.3,
+        135.0
+      ],
+      "why": "Hook: in 2018 three Stanford researchers (Dweck, Walton, O'Keefe) studied why people looking for their passion never find one: not a discovery problem, a mindset problem - passions are 'found' vs 'built', fixed vs growth theory of interest. Payoff: what you believe about passion predicts whether you find one (135.0). 111.3 (found vs built) is the shortest acceptable end. Skip the leading 'So,'.",
+      "over_band": false
+    },
+    {
+      "id": "if-this-were-my-passion",
+      "start": 135.1,
+      "start_range": [
+        135.1,
+        135.1
+      ],
+      "end": 167.8,
+      "end_range": [
+        167.8,
+        187.1
+      ],
+      "why": "People who think passions are found expect 'boundless motivation'; when it gets dull their brain runs 'if this were really my passion it wouldn't be so difficult' and they abandon it (167.8). Running on through the built-mindset contrast to 187.1 also works.",
+      "over_band": false
+    },
+    {
+      "id": "identity-vs-pact",
+      "start": 353.4,
+      "start_range": [
+        353.4,
+        356.6
+      ],
+      "end": 400.0,
+      "end_range": [
+        398.2,
+        411.5
+      ],
+      "why": "Mistake: saying 'I want to become a YouTuber / writer' - identity statements feel high stakes and your brain freezes. Instead Anne-Laure Le Cunff's 'pact': a specific action for a specific duration, 'I will write a thousand words every weekend for four weeks' (398.2-400.0). The YouTube pact example to 'That is a pact' (411.5) is the latest acceptable end. Opens on 'Step number two: run a tiny experiment' for context; 356.6 ('this is where most people make a mistake') also works.",
+      "over_band": false
+    },
+    {
+      "id": "one-passion-is-fiction",
+      "start": 481.96,
+      "start_range": [
+        481.9,
+        482.0
+      ],
+      "end": 512.4,
+      "end_range": [
+        512.4,
+        512.4
+      ],
+      "why": "Hot take: we hear stories of people obsessed with one instrument or sport, but that's rare; most of us have multiple passions over a life, so the pressure to find the one thing is 'mostly fiction' (512.4). Ends before the subscribe ask.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "searching-then-research",
+      "start": 29.3,
+      "start_range": [
+        29.3,
+        29.3
+      ],
+      "end": 95.6,
+      "end_range": [
+        95.6,
+        111.3
+      ],
+      "why": "Her story of never knowing her passion, being jealous of a friend's certainty, taking personality tests - until Stanford research showed it's a mindset problem, not a discovery problem. Story-shaped, a bit long.",
+      "over_band": false
+    },
+    {
+      "id": "envy-is-a-signal",
+      "start": 320.0,
+      "start_range": [
+        320.0,
+        324.1
+      ],
+      "end": 345.1,
+      "end_range": [
+        345.1,
+        348.0
+      ],
+      "why": "'What am I envious of?' Envy is a signal of genuine desires (friend who became a full-time writer). Short and list-framed ('Number two'), near the bottom of the band.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 0.4,
+      "end": 28.8,
+      "why": "Cold-open hook ('passions are not found; they're built') into the channel intro."
+    },
+    {
+      "start": 234.4,
+      "end": 259.7,
+      "why": "Write 20 interests; 'here's how my own list looks' reads the screen."
+    },
+    {
+      "start": 291.5,
+      "end": 311.1,
+      "why": "AdSense won't monetize her channel - tangent and a comment ask."
+    },
+    {
+      "start": 411.7,
+      "end": 446.7,
+      "why": "Rules of a good pact: needs the pact defined before."
+    },
+    {
+      "start": 446.9,
+      "end": 481.8,
+      "why": "Step three, read the data at the end of 'your pact' - depends on earlier steps; the '4 weeks vs 4 years' line alone is too short."
+    },
+    {
+      "start": 512.7,
+      "end": 545.2,
+      "why": "Subscribe and comment ask."
+    }
+  ]
+}

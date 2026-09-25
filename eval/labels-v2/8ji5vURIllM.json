@@ -1,0 +1,125 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=8ji5vURIllM",
+    "title": "Why harness is SO expensive..",
+    "channel": "Caleb Writes Code",
+    "genre": "AI explainer and opinion, partly screen-shared",
+    "duration_s": 578.9,
+    "sha256_prefix": "e1edce205d020e6b",
+    "local_path": "eval/media/caleb-8ji5vURIllM.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "model-cost-vs-harness-cost",
+      "start": 62.22,
+      "start_range": [
+        62.02,
+        62.3
+      ],
+      "end": 107.14,
+      "end_range": [
+        107.14,
+        107.2
+      ],
+      "why": "Hook: 'the cost of the model is very different than the cost of the harness that surrounds it' (drops 'But'). Chat is a thin harness; early adopters use thick ones (Claude Code, Cursor, Codex) where you work through the harness; payoff: per Anthropic, agents and multi-agent systems cost 4-15x more.",
+      "over_band": false
+    },
+    {
+      "id": "thirty-times-more",
+      "start": 107.24,
+      "start_range": [
+        107.24,
+        107.3
+      ],
+      "end": 163.18,
+      "end_range": [
+        163.18,
+        166.08
+      ],
+      "why": "Hook: a tiny 25-token prompt (create a file with the alphabet) costs about a cent at Opus 5 pricing -- the same prompt in Claude Code costs 37 cents, 'nearly 30 times more expensive right off the bat.' Payoff: harnesses add 8,000-30,000 tokens to every message, 'like a toll gate you have to pay to get to the model' (163.2); 166.1 adds that the overhead is the system prompt. Demo is on screen but every number is spoken.",
+      "over_band": false
+    },
+    {
+      "id": "prompt-caching-lucrative",
+      "start": 370.88,
+      "start_range": [
+        370.76,
+        370.9
+      ],
+      "end": 404.26,
+      "end_range": [
+        404.26,
+        415.24
+      ],
+      "why": "Hook: prompt caching could be lucrative from Anthropic's side. Back-of-envelope: an H100 rents for ~$3/hour, one 1M-token context fits on one card, 12 five-minute slots -> about $70/hour of caching revenue per H100, 'which is huge' (404.3). Later end adds the honest caveat (quantizing 1M context into 80GB).",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "agent-loop-back-and-forth",
+      "start": 224.86,
+      "start_range": [
+        224.68,
+        224.9
+      ],
+      "end": 284.3,
+      "end_range": [
+        284.3,
+        284.3
+      ],
+      "why": "Your prompt isn't sent once: the harness and model loop (check file exists, create it, write contents) until the model decides it's done -- 'a lot of back and forth for even a simple task.' Clear explanation, but its cost payoff (each round trip pays the toll gate) comes later and leans on earlier material.",
+      "over_band": false
+    },
+    {
+      "id": "subscription-walled-garden",
+      "start": 451.32,
+      "start_range": [
+        451.18,
+        451.4
+      ],
+      "end": 480.12,
+      "end_range": [
+        480.12,
+        480.12
+      ],
+      "why": "Vendors keep users in their walled garden by selling a subscription on the model layer and letting harnesses run under it, so you're not 'having an anxiety attack' over agent spend. A fine short take, but it is the run-up into the sponsor segment.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 28.6,
+      "end": 61.9,
+      "why": "Open vs closed model race with 'as you can see' leaderboard narration; setup, not the video's point."
+    },
+    {
+      "start": 188.6,
+      "end": 212.1,
+      "why": "Harness-by-harness prices (37c, 11c, 7c, 2.5c): numbers are tempting but it opens 'the same prompt from earlier' and is a readout."
+    },
+    {
+      "start": 348.3,
+      "end": 370.3,
+      "why": "Anthropic pricing page read off screen (cache pricing tiers, one-hour caching)."
+    },
+    {
+      "start": 416.9,
+      "end": 443.1,
+      "why": "One-hour cache speculation (spill to SSD, $10/M writes): depends on the H100 math just before and is guesswork."
+    },
+    {
+      "start": 515.8,
+      "end": 578.9,
+      "why": "Sponsor read (Kline Pass), including the 'what if you wanted a flexible subscription' setup."
+    }
+  ]
+}

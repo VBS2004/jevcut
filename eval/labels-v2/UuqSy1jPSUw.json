@@ -1,0 +1,80 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=UuqSy1jPSUw",
+    "title": "The most expensive software bug in history...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 318.74,
+    "sha256_prefix": "8defe4b1bdec8aab",
+    "local_path": "eval/media/fireship-UuqSy1jPSUw.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "knight-capital-powerpeg",
+      "start": 141.0,
+      "start_range": [
+        141.0,
+        141.0
+      ],
+      "end": 242.8,
+      "end_range": [
+        231.5,
+        256.3
+      ],
+      "why": "The whole bug story, which cannot land shorter: a dead 2003 feature flag triggering the aggressive-buying test function Power Peg was reused for the new Retail Liquidity Program; deployment by hand ('Pony Express') reached only 7 of 8 servers; the eighth woke up Power Peg; Knight rolled back the seven healthy servers so all eight ran it; payoff at 242.8: 45 minutes, 4 million trades, a $7B position. Every step is needed setup, so it runs ~102s (over band). 231.5 (the Power Peg name joke) is an acceptable earlier end; 256.3 adds the $440M loss after the Wizard Software aside. Knight is only named mid-clip, but the story reads as a software-bug tale without it.",
+      "over_band": true
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "knight-cold-open",
+      "start": 20.4,
+      "start_range": [
+        0.1,
+        20.4
+      ],
+      "end": 48.0,
+      "end_range": [
+        48.0,
+        48.0
+      ],
+      "why": "Cold open: 'software has always been held together with duct tape and the poverty of open-source maintainers', then Knight Capital, 10% of US stock trading, lost $440M in 45 minutes and was sold for parts four months later. A strong surprising fact, but it is a teaser that raises 'how?' without answering, so acceptable rather than required. Starting at 0.1 (the list of recent AI-era security incidents) also works as the hook; the range spans both, shorter preferred.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 48.1,
+      "end": 59.3,
+      "why": "Intro teaser: 'learn how to lose $10 million in a minute with this one weird trick', date, Code Report."
+    },
+    {
+      "start": 59.4,
+      "end": 102.0,
+      "why": "Exposition on Knight as market maker, 'citadel of its time', SMARS order router 'printed money' -- lively but background with no payoff."
+    },
+    {
+      "start": 102.2,
+      "end": 140.9,
+      "why": "NYSE Retail Liquidity Program setup and 'Just kidding, they did it in the most lazy way possible' -- a joke whose payoff is the story that follows."
+    },
+    {
+      "start": 243.1,
+      "end": 269.7,
+      "why": "Aftermath: Wizard Software $3 to $14, $440M down, stock -75%, sold to Getco, 'nothing bad ever happened again' -- big numbers whose support came in the previous minute."
+    },
+    {
+      "start": 269.8,
+      "end": 313.2,
+      "why": "Hyperagent sponsor read, opening with a tempting 'three people drowning in a thousand GitHub issues about daylight savings' line."
+    }
+  ]
+}

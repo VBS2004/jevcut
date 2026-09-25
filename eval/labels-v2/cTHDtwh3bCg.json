@@ -1,0 +1,32 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=cTHDtwh3bCg", "title": "The Kid Who Changed My Mind About Parenting", "channel": "Trevor Noah",
+            "genre": "stand-up comedy", "duration_s": 415.36, "sha256_prefix": "ba440dc768388811",
+            "local_path": "eval/media/trevor-cTHDtwh3bCg.mp4"},
+  "protocol": {
+    "status": "v2 labeler A (rubric v2)",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "barbie-is-not-4d", "start": 0.94, "start_range": [0.2, 2.3], "end": 26.7, "end_range": [26.7, 28.5],
+     "why": "Hook: in a movie theater a kid starts kicking his chair -- the chair shakes, 'Oh, is this a 4D movie?' -- 'No, man, Barbie's not 4D.' Payoff at 26.7.", "over_band": false},
+    {"id": "mikey-time-out", "start": 54.2, "start_range": [48.2, 54.2], "end": 148.8, "end_range": [148.8, 152.3],
+     "why": "'Is this your son? ... Your son is kicking my chair.' -- 'Mikey, are you kicking the man's chair?' -- 'Why are you asking? I just told you.' The dad asks Mikey to say sorry, Trevor waits for the punishment ('keep kicking, Mikey, any moment now... how come Mikey's not getting anything?'), and the dad's big move is 'That is not cool, Mikey. Time out.' Payoff 'Time out' needs the whole warning-and-wait build, so the tightest cut is 95s; opening on 'is this your son' sets up the premise in one line.", "over_band": true},
+    {"id": "dont-want-them-to-know-i-dont-want-to", "start": 265.7, "start_range": [262.1, 265.7], "end": 306.8, "end_range": [288.6, 312.8],
+     "why": "Hook: 'I do not want to ever hit my children, ever... but I also don't want to raise a child who thinks it's impossible for this side of a hand to meet this side of a face' (first payoff, 288.6) -- then 'I don't want to hit my kids. But I don't want them to know that I don't want to' (306.8). Ending at 288.6 works but runs 23s; 306.8 is the stronger button and in-band; 'a little tension in the house, just for control' (312.8) is an acceptable tag.", "over_band": false},
+    {"id": "trevor-im-daddy", "start": 316.18, "start_range": [315.68, 316.18], "end": 345.7, "end_range": [345.7, 348.0],
+     "why": "Hook: 'I've just got some American kids who don't respect me at all' -- house in chaos, 'Stop that! Are you listening to me?' 'Yes, Trevor.' 'Trevor? I'm Daddy.' -- 'Trevor.' Payoff at 345.7.", "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "teleport-to-load-shedding", "start": 316.18, "start_range": [315.68, 316.18], "end": 415.3, "end_range": [398.6, 415.3],
+     "why": "The 'Trevor, I'm Daddy' bit run on: he'd wish to be teleported to South Africa with the kid -- 'What did you say, Trevor? Come here. You see the time? It's five to two. In five minutes the electricity is gonna cut, and when that happens, you're gonna know me.' Big closer, but the load-shedding payoff needs the kid setup, so 99s.", "over_band": true}
+  ],
+  "negatives": [
+    {"start": 111.9, "end": 135.0, "why": "'Keep kicking, Mikey, any moment now... How come Mikey's not getting anything?' -- lively but mid-story; needs the dad's warning before it."},
+    {"start": 186.0, "end": 238.1, "why": "'Dad couldn't do anything to him... I tried every South African trick' then Mikey's 'Shut up!' and 'Pose' -- mid-story ('he', 'Mikey'), and the trick itself is a silent glare (209-219), so it doesn't read alone."},
+    {"start": 251.8, "end": 263.5, "why": "'That day terrified me in a way I wasn't ready for' -- points back at the Mikey story; run-up to the parenting take."}
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=BSG1849Lh_c", "title": "My Grandma Thought She Turned Me White", "channel": "Trevor Noah",
+            "genre": "stand-up comedy", "duration_s": 905.6, "sha256_prefix": "3db4fc71abeaa463",
+            "local_path": "eval/media/trevor-BSG1849Lh_c.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "malema-let-them-investigate", "start": 84.9, "start_range": [84.9, 85.0], "end": 129.8, "end_range": [129.8, 135.3],
+     "why": "Julius Malema charged with fraud; 'who would have thought the mild-mannered man with millions in assets and a 35,000 rand salary was corrupt?' Hook is the charge; payoff: on radio he dares SARS and the police to investigate -- 'And so they did.' Opens on his name so the later 'he' is anchored; 'That guy doesn't think' is an optional tag.",
+     "over_band": false},
+    {"id": "malema-is-a-vuvuzela", "start": 144.4, "start_range": [144.4, 144.4], "end": 196.5, "end_range": [196.5, 198.5],
+     "why": "Hook: 'Julius Malema to me is like a vuvuzela -- he's loud and he scares foreigners.' Builds to replacing his voice with a vuvuzela at a conference podium (long act-out/laugh 169-195), payoff 'They'd still be like, Thank you, Julius.'",
+     "over_band": false},
+    {"id": "paris-taxi-vuvuzela", "start": 206.9, "start_range": [201.3, 206.9], "end": 286.6, "end_range": [286.6, 298.5],
+     "why": "Hook: people around the world know the vuvuzela and nothing else about South Africa. Paris taxi rank, broken French, the Frenchman gets from Mandela to apartheid to 'Lavu Vuzela' -- the payoff at 286.6. The 'ah, no, apartheid, yeah' reversal (292.2) and 'so proud' (298.5) are toppers that also work as ends. Opening at 201.3 ('most famous thing that's ever come out of South Africa') is an equally good hook but longer. Cannot land inside 75s.",
+     "over_band": true},
+    {"id": "dad-so-you-clown", "start": 307.6, "start_range": [305.9, 307.6], "end": 362.9, "end_range": [362.3, 362.9],
+     "why": "Hook: his Swiss German dad is so different to him and doesn't understand what he does. 'So you clown, eh?' -- 'No, it's spoken word, more intelligent' -- 'But the people, do they laugh?' -- 'So clown, eh?' Payoff is the second 'so clown'.",
+     "over_band": false},
+    {"id": "dad-double-check", "start": 406.0, "start_range": [406.0, 408.3], "end": 442.3, "end_range": [442.3, 449.7],
+     "why": "Dad sends him to look for his watch; 'let me double check' -- 'What were you doing the first time then? You just go, you play, you play' -- ends 'We go double check the rubbish.' Opens on 'we'/'he' but 'Dad' is named within 10s and the accent carries it. 'Dad, I'll be there now' is a second example; 'Precise. Swiss.' (449.7) is an acceptable button.",
+     "over_band": false},
+    {"id": "grandpa-talks-english", "start": 470.0, "start_range": [470.0, 471.2], "end": 508.8, "end_range": [508.8, 511.2],
+     "why": "Grandfather Temperance Noah, 'the hot grandpa', spoke English only to friends who couldn't: 'Fancy meeting you here, squire... meandering about endlessly.' Payoff: 'What does that mean, Grandpa?' -- 'Even me, I don't know.'",
+     "over_band": false},
+    {"id": "ten-of-the-best-vs-stamina", "start": 639.9, "start_range": [639.7, 639.9], "end": 667.2, "end_range": [661.5, 670.3],
+     "why": "White friend Jeremy's dad promises 'ten of the best' -- 'You know when it's going to end? Where I'm from, it's you versus stamina. How much energy does your mom have?' Punchline at 661.5; the stamina tag keeps it in band.",
+     "over_band": false},
+    {"id": "know-your-different-cries", "start": 742.5, "start_range": [741.8, 744.5], "end": 780.7, "end_range": [763.4, 780.7],
+     "why": "Hook: 'the key is to know your different cries.' Choking cry in the pause ('he's almost dead, I've done a good job', 762.7), then the cry of mourning all day so they don't hit you again for the same thing (780.7). Ending after the choking cry also lands but runs ~21s, under band, so the mourning cry is preferred.",
+     "over_band": false},
+    {"id": "grandma-killed-a-white-man", "start": 844.8, "start_range": [844.8, 846.5], "end": 883.6, "end_range": [883.6, 898.1],
+     "why": "The title bit. Hook: 'My grand only hit me one time.' Mom finds grandmother crying: he turned blue, green, red, yellow -- 'I never saw those colors' -- 'They're gonna say I killed a white man.' Payoff at 883.6; the ASR garbage 884-894 is the laugh, and 'So my grand never ever hit me after that. It was fantastic' (898.1) is an acceptable tag.",
+     "over_band": false}
+  ],
+  "also_ok": [
+    {"id": "dad-clown-and-his-joke", "start": 307.6, "start_range": [305.9, 307.6], "end": 399.4, "end_range": [398.8, 402.3],
+     "why": "The dad-clown bit run on through the dad's own joke ('ten o'clock you say you come... twenty-five past ten') and 'you don't know time and you don't know jokes. You're stupid.' Arguably the better laugh, but over band; the joke part cannot open on its own without losing who the speaker is.",
+     "over_band": true},
+    {"id": "grandpa-good-evening-master", "start": 470.0, "start_range": [470.0, 471.2], "end": 531.0, "end_range": [531.0, 535.2],
+     "why": "Grandpa bit carried on to him greeting the family 'Good evening, ...' (ASR: 'blood purple') and Trevor 'Good evening, master' -- a race joke that fits the special's theme. Longer than the English-only cut.",
+     "over_band": false},
+    {"id": "grandmother-beats-out-of-love", "start": 539.0, "start_range": [539.0, 540.7], "end": 578.6, "end_range": [578.6, 580.0],
+     "why": "'My grandmother is the sane one... we have such a bond -- ever since she hit me.' Grandmothers do the beating because men hit out of anger and women beat out of love: 'I never felt the difference.'",
+     "over_band": false},
+    {"id": "how-to-cry-on-time", "start": 675.0, "start_range": [675.0, 676.3], "end": 729.2, "end_range": [701.5, 729.2],
+     "why": "'You had to know how to cry': never too early (false start, 'prepaid crying', 701.5), not too loud, not too quiet -- 'Are you bewitched, eh?' (729.2). Both ends work: 701.5 is the shortest landing, 729.2 finishes the rule-of-three.",
+     "over_band": false}
+  ],
+  "negatives": [
+    {"start": 7.4, "end": 75.8, "why": "Todd Akin 'legitimate rape' quote paying off on 'Julias, they're everywhere' -- the laugh depends on Julius Malema being a running local reference; opens mid-set ('the politics out there')."},
+    {"start": 77.3, "end": 84.0, "why": "'Most famous unemployed person in the country' -- 'he' points back to the previous bit; a one-liner with no setup in the cut."},
+    {"start": 451.6, "end": 469.5, "why": "Swiss half loves watches, Xhosa half never on time -- a quick tag leaning on the whole dad section; too short and not standalone."},
+    {"start": 783.2, "end": 843.9, "why": "Stuck in the room after the beating, playing with toys, grandmother walks in: mostly act-out and long silent gaps (790-808, 836-842); room-only, the joke is physical."}
+  ]
+}

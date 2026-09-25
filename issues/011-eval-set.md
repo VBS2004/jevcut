@@ -6,7 +6,7 @@
 | **Depends on** | 009 |
 | **Blocks** | 012, 003's recall check |
 | **Size** | XL (humans are the bottleneck) |
-| **Status** | **Pilot** — 8 videos, 7 genres (one multi-speaker podcast, one panel). Current labels: rubric v2 ([eval/RUBRIC.md](../eval/RUBRIC.md): the shortest cut that works, opening on its hook), two blind labelers, `eval/labels-v2/` (A, 56 clips) and `eval/labels-v2-b/` (B, 57); they share 80% of moments, start delta 0.0s p50 / 0.0s p90, end 6.0s p90. v1 (`eval/labels/`, `eval/labels-b/`, the natural cut, 54s median) is kept for the earlier results in RESEARCH.md. All labelers are the same model, so the floor is a lower bound; no human review yet. Not the 40-video set. |
+| **Status** | **38 videos, 13 genres** (2026-09-25): the 8-video pilot plus set 2 (`eval/sets/set2.txt`: 30 videos under 30 minutes from Caleb Writes Code, Olga Loiek, Fireship, Cleo Abram, Cult of Mush and Trevor Noah). Labeled twice, blind, under rubric v2 ([eval/RUBRIC.md](../eval/RUBRIC.md), brief [eval/LABELING.md](../eval/LABELING.md)): `eval/labels-v2/` (A, 188 clips) and `eval/labels-v2-b/` (B, 195). They share 83-86% of moments; starts 0.0s apart at the median and 2.3s at p90, ends 6.5s at p90. v1 (`eval/labels/`, `eval/labels-b/`) covers the pilot only. All labelers are the same model, so the floor is a lower bound; no human review yet. |
 
 ## Why
 

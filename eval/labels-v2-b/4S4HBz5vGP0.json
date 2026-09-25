@@ -1,0 +1,31 @@
+{
+  "video": {"url": "https://www.youtube.com/watch?v=4S4HBz5vGP0", "title": "Rockstar Just WENT AFTER Grand Theft Auto 6 MODDING and PC!", "channel": "Cult of Mush",
+            "genre": "game news and deals, screen-driven", "duration_s": 669.4, "sha256_prefix": "b0aaab5f64f65bc6",
+            "local_path": "eval/media/mush-4S4HBz5vGP0.mp4"},
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {"id": "gta-overrated-think-pieces", "start": 594.9, "start_range": [594.8, 595.0], "end": 626.1, "end_range": [626.1, 626.9],
+     "why": "Hot take with a punchline. Hook: 'I am fully convinced that after GTA 6 comes out there's gonna be so many think pieces' calling it overrated / the reason gaming is destroyed; it can never live up to the hype. Payoff lands on 'even if it's the greatest game of all time, bro, it's not gonna fix your personal life. I'm sorry to say, it's a video game.' 'It is what it is' / 'that'll do it for me' after is outro.", "over_band": false},
+    {"id": "playstation-free-exclusive", "start": 520.9, "start_range": [520.7, 521.1], "end": 560.2, "end_range": [552.8, 560.2],
+     "why": "Rant: because GTA 6 skips PC and Xbox is irrelevant, Sony gets a free exclusive that lets PlayStation get away with anything. Opens on 'What I hate more than anything is...' (dropping the leading 'And'). Payoff: 'Rockstar is literally handing PlayStation a free exclusive' (552.8), with 'I don't think PlayStation's paying whatsoever' as the preferred close at 560.2. L116-L119 restate the same point.", "over_band": false},
+    {"id": "pc-short-end-of-stick", "start": 51.5, "start_range": [51.5, 57.3], "end": 97.8, "end_range": [97.8, 125.0],
+     "why": "Take: PC players always get the short end of the stick from Rockstar; GTA 6 is day one on Xbox, a much smaller market than PC, so 'what do you mean it's not worth it? You guys are gonna have it on Xbox. You can get a PC version ready.' Start on 'For a myriad of reasons, PC players...' (after 'However,'), or at 57.3 on the GTA 6 point. Two endings both work: the preferred one at the Xbox punch (97.8), or after the list 'they didn't want to do it for GTA V... Red Dead 2... GTA 4... LA Noire, so it seems to be pretty consistent with Rockstar' (125.0); the hedging in between (98.8-106.8) is weaker.", "over_band": false},
+    {"id": "fan-storylines-who-cares", "start": 145.9, "start_range": [126.2, 145.9], "end": 178.9, "end_range": [178.9, 179.0],
+     "why": "News plus reaction: Rockstar's new mod guidelines, first section tells modders not to expand or modify official storylines or characters; his pushback 'Who cares if there's fan-made spin-off storylines? Is that that big of a deal?' is the payoff. Preferred start 'Rockstar splits its new mod guidelines into four sections'; an earlier start at 'it seems like Rockstar is updating a variety of their mod rules' (126.2) also works as the hook. His not-canon argument (195-230) would push it past 75s and is mostly restatement.", "over_band": false}
+  ],
+  "also_ok": [],
+  "negatives": [
+    {"start": 0.4, "end": 50.1, "why": "Intro plus throat-clearing about the 'general consensus' that Rockstar games are the best ever; energetic but no point yet."},
+    {"start": 349.7, "end": 382.7, "why": "Reading the second guideline section off the article (cheat menus, logos, voiceover), with a thin 'is that the biggest deal' aside; the section is a pointer to the list."},
+    {"start": 382.9, "end": 428.2, "why": "Third and fourth guideline sections read from the article; 'once you're making money off of it, that's when the game really changes' sounds like a closer but is a small aside on a list item."},
+    {"start": 302.8, "end": 349.7, "why": "Rambling on whether Rockstar will enforce it and modders not reaching the finish line; sounds like analysis but circles without a landing."},
+    {"start": 634.2, "end": 669.4, "why": "Post-roll call to hit the bell notification."}
+  ]
+}

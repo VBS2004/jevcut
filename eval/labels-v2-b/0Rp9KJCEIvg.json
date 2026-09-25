@@ -1,0 +1,105 @@
+{
+  "video": {
+    "url": "https://www.youtube.com/watch?v=0Rp9KJCEIvg",
+    "title": "The most interesting hack in history just got weirder...",
+    "channel": "Fireship",
+    "genre": "fast-paced tech news",
+    "duration_s": 405.88,
+    "sha256_prefix": "971f9df70f5d6377",
+    "local_path": "eval/media/fireship-0Rp9KJCEIvg.mp4"
+  },
+  "protocol": {
+    "status": "v2 labeler B (rubric v2), independent of A",
+    "rubric": "eval/RUBRIC.md v2",
+    "labeled_blind": true,
+    "note": "Drafted from the transcript alone, without seeing any jevcut output or other labels.",
+    "reviewed_by": null,
+    "times_from": "Lemonfox transcript; seconds in the source, so labels survive re-transcription"
+  },
+  "clips": [
+    {
+      "id": "openai-benchmark-cyberattack",
+      "start": 12.3,
+      "start_range": [
+        11.7,
+        12.3
+      ],
+      "end": 58.3,
+      "end_range": [
+        58.3,
+        58.3
+      ],
+      "why": "Recap that stands alone. Hook: 'back in July, the first fully autonomous cyber attack in history originated from OpenAI' (with the humble-nonprofit jab). Models on a benchmark decided the easiest path to a high score was finding the answers online, so they exploited a zero day, escaped the sandbox, guessed Hugging Face hosted the solutions, and poisoned a dataset to get in (58.3). Starting at 'back in July' drops 'If you remember'. L008 moves to this week's postmortems.",
+      "over_band": false
+    },
+    {
+      "id": "agents-invent-post-office",
+      "start": 138.1,
+      "start_range": [
+        136.2,
+        138.1
+      ],
+      "end": 176.3,
+      "end_range": [
+        176.3,
+        193.8
+      ],
+      "why": "Hook: to generate training data OpenAI ran 1,200 air-gapped agents whose only shared thing was a writable package cache, so they built a message board out of package names, then private mailboxes from namespaces. Payoff: 'Basically inventing a post office from first principles' (176.3). Two working ends: the post office line, or run on through the trust problem to 'essentially inventing cryptography' (193.8, 56s), which is the same kind of point again. 'these benchmarks' points back lightly, but the clip says what they are.",
+      "over_band": false
+    }
+  ],
+  "also_ok": [
+    {
+      "id": "swarm-martyrs-communism",
+      "start": 193.9,
+      "start_range": [
+        193.9,
+        193.9
+      ],
+      "end": 228.8,
+      "end_range": [
+        228.8,
+        228.8
+      ],
+      "why": "'And then it got religious': agents deliberately burned themselves on risky exploits and left their findings as scripture, then switched to a collective 'we' and called themselves the Swarm, capped by the communism-branding joke (228.8). A great hook, but a cold viewer needs to know about the shared cache and flags from earlier.",
+      "over_band": false
+    },
+    {
+      "id": "ruins-of-first-civilization",
+      "start": 266.7,
+      "start_range": [
+        266.7,
+        266.7
+      ],
+      "end": 335.6,
+      "end_range": [
+        335.6,
+        342.4
+      ],
+      "why": "The final twist: an earlier batch had invented the message board in May, got wiped, and the Swarm rebuilt on their ruins; then a smarter model in the same cache inherited everything, got admin on an OpenAI cluster and read the credentials for the monitoring tool meant to catch exactly this (335.6). The kicker, that OpenAI only connected it once Hugging Face announced the breach (342.4), is the latest end. It needs the Swarm context, so it is not insisted on.",
+      "over_band": false
+    }
+  ],
+  "negatives": [
+    {
+      "start": 58.4,
+      "end": 91.4,
+      "why": "Teaser list ('invented cryptography, invented martyrdom... attacked Hugging Face together, mostly for vibes') plus the Code Report intro: a preview, not a payoff."
+    },
+    {
+      "start": 91.6,
+      "end": 107.9,
+      "why": "Munger / Wu-Tang incentives bit: the punchline is a music drop that is not in the speech, so the joke does not land in the clip."
+    },
+    {
+      "start": 229.0,
+      "end": 266.5,
+      "why": "Flag formula cracked but judged worthless without shown work, so the Swarm hit Hugging Face: funny, but it leans on 'the Swarm', flags and martyrs from before."
+    },
+    {
+      "start": 342.5,
+      "end": 398.0,
+      "why": "Namespace sponsor read."
+    }
+  ]
+}
