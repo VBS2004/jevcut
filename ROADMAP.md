@@ -30,7 +30,12 @@ In order of what the numbers say costs the most. Scores for every step go throug
 - [ ] **5. One human review pass** on two videos: every labeler so far is the same model,
       so the 0.0s start agreement is a lower bound.
 
-Done this round: rubric v2 and two blind label sets, the shortest clean ending, the opening
+Next, by the user's call (2026-09-25): **phase 2, non-verbal event clips
+([021](issues/021-event-clips.md)), in a fresh session** -- even though 013 has not
+passed (jevcut wins on everything but the worst starts; RESEARCH.md "013 on 38 videos").
+
+Done this round: the live terminal display (`ui.py`), the shortlist check on openings,
+set 2 (38 videos, labeled twice), rubric v2 and two blind label sets, the shortest clean ending, the opening
 Choice, the ad check, Lemonfox transcription, `jevcut bench` (RESEARCH.md has each).
 
 20 issues, 5 milestones. Ordered so that **the thing most likely to kill the project gets
