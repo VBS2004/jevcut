@@ -1,7 +1,7 @@
 {
-  "order": 10,
+  "order": 15,
   "name": "base-naive",
   "what": "Baseline (013): the top-scoring sentence plus or minus 15s.",
-  "commit": "0fcf4db",
-  "gate_requests": 4118
+  "commit": "1523fa2",
+  "gate_requests": 8798
 }

@@ -1,0 +1,53 @@
+{
+ "source": "baseline naive",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L000",
+   "kind": "baseline",
+   "t0": 0.08,
+   "t1": 27.82,
+   "render_t0": 0.08,
+   "render_t1": 27.82,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.69
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L012",
+   "kind": "baseline",
+   "t0": 55.08,
+   "t1": 82.12,
+   "render_t0": 55.08,
+   "render_t1": 82.12,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.65
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L052",
+   "kind": "baseline",
+   "t0": 333.72,
+   "t1": 361.16,
+   "render_t0": 333.72,
+   "render_t1": 361.16,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.636
+   },
+   "rank": 3
+  }
+ ]
+}

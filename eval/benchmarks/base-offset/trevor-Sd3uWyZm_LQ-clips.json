@@ -1,0 +1,117 @@
+{
+ "source": "baseline offset",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L092",
+   "kind": "baseline",
+   "t0": 248.65999999999997,
+   "t1": 282.86,
+   "render_t0": 248.65999999999997,
+   "render_t1": 282.86,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.762
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L106",
+   "kind": "baseline",
+   "t0": 279.56,
+   "t1": 312.34,
+   "render_t0": 279.56,
+   "render_t1": 312.34,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.723
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L055",
+   "kind": "baseline",
+   "t0": 124.86000000000001,
+   "t1": 165.42000000000002,
+   "render_t0": 124.86000000000001,
+   "render_t1": 165.42000000000002,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.715
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L078",
+   "kind": "baseline",
+   "t0": 203.03999999999996,
+   "t1": 236.98,
+   "render_t0": 203.03999999999996,
+   "render_t1": 236.98,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.689
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L175",
+   "kind": "baseline",
+   "t0": 470.12,
+   "t1": 505.47999999999996,
+   "render_t0": 470.12,
+   "render_t1": 505.47999999999996,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.664
+   },
+   "rank": 5
+  },
+  {
+   "id": "clip006",
+   "anchor_id": "L001",
+   "kind": "baseline",
+   "t0": 0.06,
+   "t1": 25.760000000000005,
+   "render_t0": 0.06,
+   "render_t1": 25.760000000000005,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.648
+   },
+   "rank": 6
+  },
+  {
+   "id": "clip007",
+   "anchor_id": "L026",
+   "kind": "baseline",
+   "t0": 44.02000000000001,
+   "t1": 77.1,
+   "render_t0": 44.02000000000001,
+   "render_t1": 77.1,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.64
+   },
+   "rank": 7
+  }
+ ]
+}

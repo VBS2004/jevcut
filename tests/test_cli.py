@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from jevcut import cli
@@ -119,3 +120,57 @@ def test_all_endings_is_off_by_default_and_run_passes_it_to_clip(tmp_path, monke
     assert calls["clip"].all_endings is False  # the early stop: same clips, fewer requests
     assert cli.main(["run", "talk.mp4", "--out", str(tmp_path), "--all-endings"]) == 0
     assert calls["clip"].all_endings is True
+
+
+def test_bench_reports_how_many_videos_each_version_was_scored_on(tmp_path, monkeypatch):
+    from jevcut.edl import Clip, write_edl
+
+    monkeypatch.chdir(tmp_path)
+
+    def clip(n, t0, t1):
+        return Clip(
+            id=f"clip{n:03d}",
+            anchor_id=f"L{n:03d}",
+            kind="story",
+            t0=t0,
+            t1=t1,
+            render_t0=t0,
+            render_t1=t1,
+            start_cut="C00",
+            end_cut="C01",
+            text="hi",
+            scores={"composite": 0.5},
+            rank=n,
+        )
+
+    def label(stem):
+        return {
+            "video": {
+                "url": f"u?v={stem}",
+                "genre": "talk",
+                "duration_s": 600.0,
+                "local_path": f"media/{stem}.mp4",
+            },
+            "clips": [
+                {
+                    "id": "a",
+                    "start": 100,
+                    "start_range": [98, 104],
+                    "end": 150,
+                    "end_range": [148, 155],
+                }
+            ],
+            "negatives": [],
+        }
+
+    (tmp_path / "eval" / "labels-v2").mkdir(parents=True)
+    for stem in ("one", "two"):
+        (tmp_path / "eval" / "labels-v2" / f"{stem}.json").write_text(json.dumps(label(stem)))
+        run = tmp_path / "eval" / "media" / f"{stem}-clips"
+        run.mkdir(parents=True)
+        write_edl([clip(1, 101, 151)], run / "edl.json")
+
+    assert cli.main(["bench", "--snapshot", "v1", "--out", "BENCHMARKS.md"]) == 0
+    doc = (tmp_path / "BENCHMARKS.md").read_text()
+    assert "| version | videos | clips |" in doc
+    assert "| v1 | 2 | " in doc  # both labeled videos found a run

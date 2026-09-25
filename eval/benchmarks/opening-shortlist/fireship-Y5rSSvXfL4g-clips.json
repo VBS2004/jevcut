@@ -1,0 +1,109 @@
+{
+ "source": "",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L034",
+   "kind": "joke",
+   "t0": 157.6,
+   "t1": 190.06,
+   "render_t0": 157.51999999999998,
+   "render_t1": 190.06,
+   "start_cut": "C29",
+   "end_cut": "C36",
+   "text": "",
+   "scores": {
+    "p_moment": 0.96,
+    "anchor_confidence": 0.31,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.16,
+    "ends_mid_thought": 0.27,
+    "dangling_reference": 0.26,
+    "standalone": 0.78,
+    "promotion": 0.35,
+    "hook": 2.67,
+    "payoff": 1.89,
+    "composite": 0.911
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L053",
+   "kind": "joke",
+   "t0": 261.04,
+   "t1": 289.9,
+   "render_t0": 261.0,
+   "render_t1": 289.97999999999996,
+   "start_cut": "C51",
+   "end_cut": "C57",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.14,
+    "needs_the_room": 0.06,
+    "starts_mid_thought": 0.41,
+    "ends_mid_thought": 0.29,
+    "dangling_reference": 0.26,
+    "standalone": 0.69,
+    "promotion": 0.31,
+    "hook": 2.48,
+    "payoff": 1.86,
+    "composite": 0.865
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L008",
+   "kind": "joke",
+   "t0": 16.36,
+   "t1": 87.20000000000002,
+   "render_t0": 16.32,
+   "render_t1": 87.36,
+   "start_cut": "C03",
+   "end_cut": "C18",
+   "text": "",
+   "scores": {
+    "p_moment": 0.96,
+    "anchor_confidence": 0.1,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.21,
+    "ends_mid_thought": 0.63,
+    "dangling_reference": 0.47,
+    "standalone": 0.71,
+    "promotion": 0.21,
+    "hook": 2.7,
+    "payoff": 1.46,
+    "composite": 0.836
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L000",
+   "kind": "explanation",
+   "t0": 0.22,
+   "t1": 26.82,
+   "render_t0": 0.0,
+   "render_t1": 26.96,
+   "start_cut": "C00",
+   "end_cut": "C06",
+   "text": "",
+   "scores": {
+    "p_moment": 0.83,
+    "anchor_confidence": 0.38,
+    "needs_the_room": 0.07,
+    "starts_mid_thought": 0.12,
+    "ends_mid_thought": 0.21,
+    "dangling_reference": 0.24,
+    "standalone": 0.76,
+    "promotion": 0.05,
+    "hook": 2.09,
+    "payoff": 1.91,
+    "composite": 0.794
+   },
+   "rank": 4
+  }
+ ]
+}

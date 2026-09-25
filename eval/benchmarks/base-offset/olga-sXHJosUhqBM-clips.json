@@ -1,0 +1,117 @@
+{
+ "source": "baseline offset",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L010",
+   "kind": "baseline",
+   "t0": 40.84,
+   "t1": 75.03999999999999,
+   "render_t0": 40.84,
+   "render_t1": 75.03999999999999,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.884
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L000",
+   "kind": "baseline",
+   "t0": 0.26,
+   "t1": 34.78,
+   "render_t0": 0.26,
+   "render_t1": 34.78,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.817
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L055",
+   "kind": "baseline",
+   "t0": 278.1,
+   "t1": 307.58,
+   "render_t0": 278.1,
+   "render_t1": 307.58,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.736
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L080",
+   "kind": "baseline",
+   "t0": 407.48,
+   "t1": 443.02,
+   "render_t0": 407.48,
+   "render_t1": 443.02,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.733
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L035",
+   "kind": "baseline",
+   "t0": 163.46000000000004,
+   "t1": 203.41999999999996,
+   "render_t0": 163.46000000000004,
+   "render_t1": 203.41999999999996,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.718
+   },
+   "rank": 5
+  },
+  {
+   "id": "clip006",
+   "anchor_id": "L060",
+   "kind": "baseline",
+   "t0": 301.38,
+   "t1": 343.03999999999996,
+   "render_t0": 301.38,
+   "render_t1": 343.03999999999996,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.557
+   },
+   "rank": 6
+  },
+  {
+   "id": "clip007",
+   "anchor_id": "L095",
+   "kind": "baseline",
+   "t0": 512.68,
+   "t1": 549.28,
+   "render_t0": 512.68,
+   "render_t1": 549.28,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.538
+   },
+   "rank": 7
+  }
+ ]
+}

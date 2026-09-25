@@ -1,0 +1,7 @@
+{
+  "order": 19,
+  "name": "ad-context",
+  "what": "The ad check now reads the minute of transcript before and after the clip, and drops at 0.35 instead of 0.5.",
+  "commit": "bd61388",
+  "gate_requests": 4745
+}

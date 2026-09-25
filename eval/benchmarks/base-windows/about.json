@@ -1,7 +1,7 @@
 {
-  "order": 9,
+  "order": 14,
   "name": "base-windows",
   "what": "Baseline (013): 30s windows ending on sentence ends, each judged once, the best kept.",
-  "commit": "0fcf4db",
-  "gate_requests": 505
+  "commit": "1523fa2",
+  "gate_requests": 1089
 }
