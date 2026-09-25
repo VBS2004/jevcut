@@ -276,9 +276,7 @@ def transcribe_media(
         log.warning("ignoring empty ASR cache %s; re-transcribing", cache)
 
     if model_size == LEMONFOX:
-        words = lemonfox_words(media, language)
-        if not words:
-            raise RuntimeError(f"Lemonfox returned no words for {media}.")
+        words = _lemonfox_whole(media, language)
         _write_words(cache, words)
         return words
 
@@ -409,6 +407,43 @@ def lemonfox_words(media: str | Path, language: str | None = None) -> list[Word]
         detail = exc.read().decode(errors="replace")[:300]
         raise RuntimeError(f"Lemonfox HTTP {exc.code}: {detail}") from exc
     return words_from_lemonfox(data)
+
+
+#: How much of the audio's end a transcript may leave without words before it is suspect.
+#: Lemonfox once returned a 15-minute set stopping 66s early, mid-sentence, the title
+#: punchline gone; nothing downstream can tell a cut-short transcript from a quiet ending.
+LEMONFOX_TAIL_S = 30.0
+
+
+def _lemonfox_whole(media: str | Path, language: str | None) -> list[Word]:
+    """Lemonfox words for all of ``media``: one retry if they stop well before the audio
+    does. A second short answer is kept, with a warning -- some videos do end on a minute
+    of music, and that is not worth failing a run over."""
+    from jevcut.edl import probe_duration
+
+    duration = probe_duration(media)
+    best: list[Word] = []
+    for attempt in (1, 2):
+        words = lemonfox_words(media, language)
+        if words and (not best or words[-1].t1 > best[-1].t1):
+            best = words
+        if best and duration - best[-1].t1 <= LEMONFOX_TAIL_S:
+            return best
+        log.warning(
+            "Lemonfox attempt %d: words stop at %.0fs of %.0fs of audio",
+            attempt,
+            best[-1].t1 if best else 0.0,
+            duration,
+        )
+    if not best:
+        raise RuntimeError(f"Lemonfox returned no words for {media}.")
+    log.warning(
+        "keeping a transcript that ends %.0fs before the audio; if that tail has speech, "
+        "delete %s.words.lemonfox.json and transcribe again",
+        duration - best[-1].t1,
+        media,
+    )
+    return best
 
 
 def words_from_lemonfox(data: dict) -> list[Word]:

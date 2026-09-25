@@ -94,3 +94,48 @@ def test_lemonfox_words_keep_punctuation_and_speakers_and_skip_untimed():
     assert [w.speaker for w in words] == ["SPEAKER_00", "SPEAKER_00", "SPEAKER_01"]
     # The full stop Whisper small tends to drop is what makes this two sentences.
     assert [s.text for s in segment_words(words)] == ["Let guess.", "Right?"]
+
+
+def _lemonfox_answers(monkeypatch, *ends: float, audio_s: float = 900.0):
+    """Stand in for Lemonfox: each call returns words ending at the next of ``ends``."""
+    from jevcut import edl
+    from jevcut import transcript as tr
+    from jevcut.models import Word
+
+    calls = []
+
+    def answer(media, language=None):
+        calls.append(media)
+        end = ends[len(calls) - 1]
+        return [Word(text="hi.", t0=0.0, t1=1.0), Word(text="bye.", t0=end - 1, t1=end)]
+
+    monkeypatch.setattr(tr, "lemonfox_words", answer)
+    monkeypatch.setattr(edl, "probe_duration", lambda path: audio_s)
+    return calls
+
+
+def test_a_lemonfox_transcript_that_stops_early_is_asked_for_again(monkeypatch):
+    from jevcut.transcript import _lemonfox_whole
+
+    calls = _lemonfox_answers(monkeypatch, 840.0, 903.5)
+    words = _lemonfox_whole("talk.mp4", "en")
+    assert len(calls) == 2
+    assert words[-1].t1 == 903.5
+
+
+def test_a_quiet_ending_is_kept_after_one_retry_rather_than_failing(monkeypatch):
+    from jevcut.transcript import _lemonfox_whole
+
+    # Both answers stop 60s early: an outro of music, not a cut-off. Keep the longer one.
+    calls = _lemonfox_answers(monkeypatch, 830.0, 840.0)
+    words = _lemonfox_whole("talk.mp4", "en")
+    assert len(calls) == 2
+    assert words[-1].t1 == 840.0
+
+
+def test_a_whole_transcript_costs_one_request(monkeypatch):
+    from jevcut.transcript import _lemonfox_whole
+
+    calls = _lemonfox_answers(monkeypatch, 895.0)
+    _lemonfox_whole("talk.mp4", "en")
+    assert len(calls) == 1
