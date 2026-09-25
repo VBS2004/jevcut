@@ -26,3 +26,6 @@ venv/
 
 # agent worktrees (Claude Code) — separate checkouts, not part of this tree
 .claude/worktrees/
+
+# jevcut run output (rendered clips, per video)
+clips/
