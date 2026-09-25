@@ -1,0 +1,7 @@
+{
+  "order": 18,
+  "name": "opening-shortlist",
+  "what": "If the finished clip's opening reads mid-thought or has no hook, the Choice's next picks are tried against the same ending.",
+  "commit": "e7c73c0",
+  "gate_requests": null
+}

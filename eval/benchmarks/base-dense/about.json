@@ -1,7 +1,7 @@
 {
-  "order": 8,
+  "order": 13,
   "name": "base-dense",
   "what": "Baseline (013): every sentence judged with the gate's questions; clips around the peaks of a 12s rolling average.",
-  "commit": "0fcf4db",
-  "gate_requests": 4118
+  "commit": "1523fa2",
+  "gate_requests": 8798
 }

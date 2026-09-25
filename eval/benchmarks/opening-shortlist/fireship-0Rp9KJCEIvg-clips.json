@@ -1,0 +1,109 @@
+{
+ "source": "",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L002",
+   "kind": "story",
+   "t0": 11.66,
+   "t1": 58.31999999999999,
+   "render_t0": 11.620000000000001,
+   "render_t1": 58.4,
+   "start_cut": "C02",
+   "end_cut": "C08",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.2,
+    "needs_the_room": 0.07,
+    "starts_mid_thought": 0.34,
+    "ends_mid_thought": 0.59,
+    "dangling_reference": 0.25,
+    "standalone": 0.74,
+    "promotion": 0.02,
+    "hook": 2.47,
+    "payoff": 1.71,
+    "composite": 0.835
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L010",
+   "kind": "story",
+   "t0": 68.44,
+   "t1": 135.92000000000002,
+   "render_t0": 68.36,
+   "render_t1": 136.14000000000001,
+   "start_cut": "C09",
+   "end_cut": "C20",
+   "text": "",
+   "scores": {
+    "p_moment": 0.98,
+    "anchor_confidence": 0.25,
+    "needs_the_room": 0.07,
+    "starts_mid_thought": 0.23,
+    "ends_mid_thought": 0.69,
+    "dangling_reference": 0.69,
+    "standalone": 0.6,
+    "promotion": 0.04,
+    "hook": 2.86,
+    "payoff": 1,
+    "composite": 0.783
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L027",
+   "kind": "story",
+   "t0": 136.18,
+   "t1": 191.57999999999998,
+   "render_t0": 136.06,
+   "render_t1": 191.64000000000001,
+   "start_cut": "C20",
+   "end_cut": "C30",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.12,
+    "needs_the_room": 0.06,
+    "starts_mid_thought": 0.74,
+    "ends_mid_thought": 0.56,
+    "dangling_reference": 0.39,
+    "standalone": 0.7,
+    "promotion": 0.03,
+    "hook": 2.03,
+    "payoff": 1.87,
+    "composite": 0.774
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L043",
+   "kind": "story",
+   "t0": 255.8,
+   "t1": 283.36,
+   "render_t0": 255.75999999999996,
+   "render_t1": 283.50000000000006,
+   "start_cut": "C41",
+   "end_cut": "C44",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.21,
+    "needs_the_room": 0.06,
+    "starts_mid_thought": 0.73,
+    "ends_mid_thought": 0.24,
+    "dangling_reference": 0.66,
+    "standalone": 0.45,
+    "promotion": 0.02,
+    "hook": 1.77,
+    "payoff": 1.33,
+    "composite": 0.618
+   },
+   "rank": 4
+  }
+ ]
+}

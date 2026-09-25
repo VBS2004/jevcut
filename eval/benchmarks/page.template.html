@@ -154,12 +154,12 @@ code { font: 0.92em var(--mono); background: var(--grid); padding: 1px 5px; bord
 
 <div class="wrap">
   <header>
-    <span class="eyebrow">jevcut · pilot eval set</span>
-    <h1>Every version, scored on the same eight videos</h1>
+    <span class="eyebrow">jevcut · eval set</span>
+    <h1>Every version, scored on the same videos</h1>
     <p class="lede">Each row is a saved run of the pipeline, re-scored against every label set — including labels drawn after it ran. The spec is <b>the shortest cut that works, opening on its hook</b>; the v2 labels were drawn against it, so read those first.</p>
     <div class="facts">
-      <span><b>8</b> videos</span><span><b>7</b> genres</span><span><b>4.6 h</b> of media</span>
-      <span><b>2</b> blind labelers per label set</span><span>v2: <b>56 / 57</b> labeled clips</span>
+      <span><b>38</b> videos</span><span><b>13</b> genres</span><span><b>9.9 h</b> of media</span>
+      <span><b>2</b> blind labelers per label set</span><span>v2: <b>188 / 195</b> labeled clips</span>
     </div>
   </header>
 
@@ -195,7 +195,7 @@ code { font: 0.92em var(--mono); background: var(--grid); padding: 1px 5px; bord
       </div>
       <div class="card">
         <div class="card-head"><h3>Cost</h3><span class="dir">lower is cheaper</span></div>
-        <p class="note">Jev requests in the boundary search and gate, all 8 videos. The scan adds ~160–200 at 3 rounds per window, ~400 at 6. The offset and snap baselines reuse jevcut’s choice of moments and spend nothing on edges.</p>
+        <p class="note">Jev requests in the boundary search and gate, across all the videos that version has a run for (see the versions table). The offset and snap baselines reuse jevcut’s choice of moments and spend nothing on edges.</p>
         <div class="chart" id="cost"></div>
       </div>
     </div>
@@ -230,11 +230,13 @@ code { font: 0.92em var(--mono); background: var(--grid); padding: 1px 5px; bord
       <p>In order of what the numbers say is costing the most.</p>
     </div>
     <div class="steps">
-      <div class="step done"><h3>Compare against simpler systems (013) <span class="chip">done</span></h3><p>jevcut beats all five baselines on recall, clips with both edges right (10–11 against at most 3), precision and typical start error. It does not yet pass the issue’s ship bar: its worst starts are further off than simple padding’s, because when the opening pick misses, it misses by a lot.</p></div>
       <div class="step done"><h3>Find more moments in the scan <span class="chip">done</span></h3><p>Every window stopped on its 3-round cap, never on “is there a moment here” — that stayed at 0.88 by round 3. At 6 rounds, moments never anchored fell from 24 to 13 (labeler A) and recall rose from 0.38 to 0.54, for 2–4 points of precision and about 2.5× the requests — trimmed back by stopping the ending search at the first ending that works.</p></div>
+      <div class="step done"><h3>Compare against simpler systems (013) <span class="chip">done</span></h3><p>jevcut beats all five baselines on recall, clips with both edges right, precision and typical start error — on the 8-video pilot and again on the full 38-video set, including the 30 videos it was never developed on. It does not yet pass the issue’s ship bar: its worst starts are further off than simple padding’s, because when the opening pick misses, it misses by a lot.</p></div>
+      <div class="step done"><h3>Check the chosen opening against the finished clip <span class="chip">done</span></h3><p>If the opening Choice’s pick reads mid-thought or has no hook once the clip is finished, its next two picks are tried against the same ending. More clips with both edges right on both labelers (35→38, 33→37), recall up, for ~4% more requests. The worst-case tail (below) does not move: most of those misses were never offered as a candidate in the first place.</p></div>
+      <div class="step done"><h3>Judge ads with the surrounding transcript <span class="chip">done</span></h3><p>A real run shipped sponsor-read pieces cut from the middle of a segment, without the “brought to you by” or the link. The ad check now reads the minute before and after the clip and drops at 0.35: mid-read pieces caught go from 50% to 82%, with none of 545 real clips flagged.</p></div>
       <div class="step"><h3>Make Lemonfox the default when a key is set</h3><p>It raised recall on all four label sets and has the most fully right clips on three of them, for about $0.17 per hour of video. Fall back to local Whisper when there is no key.</p></div>
-      <div class="step"><h3>Win back precision with a screen question</h3><p>Lemonfox ships more clips, and precision fell 3–6 points. After ads, the hard negatives the gate still lets through are mostly narration of what is on screen — chart numbers, live demos. One “does the point depend on the screen?” question, spread-tested on the labeled texts before wiring in, as the ad check was.</p></div>
-      <div class="step"><h3>Fix the openings’ worst misses</h3><p>At the 90th percentile the opening Choice’s starts are 15–21s off — worse than simple padding — and it still starts late more often than early. This is what stands between jevcut and the baseline gate.</p></div>
+      <div class="step"><h3>Win back precision with a screen question</h3><p>Lemonfox ships more clips, and precision fell 3–6 points. After ads, the hard negatives the gate still lets through are mostly narration of what is on screen — chart numbers, live demos, deal screens. One “does the point depend on the screen?” question, spread-tested on the labeled texts before wiring in, as the ad check was.</p></div>
+      <div class="step"><h3>Fix the openings’ worst misses</h3><p>At the 90th percentile the opening Choice’s starts are still 17–20s off on 38 videos — worse than simple padding — mostly because the right start was never offered as a candidate: the scan’s anchor sits in the thought before the moment actually begins. Two rewordings of the opening question were tried and didn’t move it (RESEARCH.md). This is what stands between jevcut and the baseline gate.</p></div>
       <div class="step"><h3>One human review pass</h3><p>Every labeler so far is the same model, so the 0.0s start agreement is a lower bound. A human pass on two videos would bound the ruler from the other side.</p></div>
     </div>
   </section>
@@ -258,25 +260,25 @@ const LOST = [
 const NAMES = {
   "baseline": "First version", "search": "Search", "shortest-ending": "Shortest ending",
   "opening-choice": "Opening Choice", "promotion-gate": "Ad check", "lemonfox-asr": "Lemonfox ASR",
-  "six-rounds": "6 scan rounds",
+  "six-rounds": "6 scan rounds", "opening-shortlist": "Opening shortlist", "ad-context": "Ad check v2",
   "base-dense": "Baseline: dense", "base-windows": "Baseline: windows", "base-naive": "Baseline: naive",
   "base-offset": "Baseline: offset", "base-snap": "Baseline: snap",
 };
-const LATEST = "six-rounds";
+const LATEST = "ad-context";
 const pct = v => (v * 100).toFixed(0) + "%";
 const METRICS = [
   { key: "recall", title: "Recall", dir: "higher is better", fmt: pct, max: 0.6, ticks: [0, 0.2, 0.4, 0.6],
     note: "Share of labeled clips found.", extra: s => `chance ${pct(s.chance)}` },
   { key: "precision", title: "Precision", dir: "higher is better", fmt: pct, max: 0.5, ticks: [0, 0.25, 0.5],
     note: "Share of shipped clips that match a labeled or acceptable clip." },
-  { key: "both_right", title: "Clips with both edges right", dir: "higher is better", fmt: v => String(v), max: 25, ticks: [0, 10, 20],
+  { key: "both_right", title: "Clips with both edges right", dir: "higher is better", fmt: v => String(v), max: 40, ticks: [0, 20, 40],
     note: "Found clips whose start and end both land in the labeler’s range — the spec, as a count.",
     extra: s => `of ${s.hit} found` },
-  { key: "start_err", title: "Start error", dir: "lower is better", fmt: v => v.toFixed(1) + "s", max: 10, ticks: [0, 5, 10],
+  { key: "start_err", title: "Start error", dir: "lower is better", fmt: v => v.toFixed(1) + "s", max: 15, ticks: [0, 5, 10, 15],
     note: "Median distance from the labeled start, found clips." },
   { key: "length", title: "Clip length", dir: "closer to labels", fmt: v => Math.round(v) + "s", max: 70, ticks: [0, 20, 40, 60],
     note: "Median shipped length. The line marks the labeled median.", ref: "label_length" },
-  { key: "negative", title: "On a hard negative", dir: "lower is better", fmt: pct, max: 0.15, ticks: [0, 0.05, 0.1, 0.15],
+  { key: "negative", title: "On a hard negative", dir: "lower is better", fmt: pct, max: 0.2, ticks: [0, 0.1, 0.2],
     note: "Share of shipped clips sitting on something labelers flagged as tempting but wrong." },
 ];
 
@@ -393,8 +395,8 @@ function renderCost() {
   const host = document.getElementById("cost");
   const rows = DATA.versions.map(v => ({ id: v.id, name: NAMES[v.id], values: [v.gate_requests],
     tips: [`<b>${NAMES[v.id]}</b><br>${v.gate_requests == null ? "not recorded" : v.gate_requests.toLocaleString() + " gate requests"}`] }));
-  barChart(host, host.closest(".card"), { rows, series: [{ color: "var(--single)" }], max: 4500,
-    ticks: [0, 2000, 4000], fmt: v => v >= 1000 ? (v / 1000).toFixed(v % 1000 ? 1 : 0) + "k" : String(v) });
+  barChart(host, host.closest(".card"), { rows, series: [{ color: "var(--single)" }], max: 9000,
+    ticks: [0, 3000, 6000, 9000], fmt: v => v >= 1000 ? (v / 1000).toFixed(v % 1000 ? 1 : 0) + "k" : String(v) });
 }
 
 function renderLost() {

@@ -1,0 +1,83 @@
+{
+ "source": "",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L003",
+   "kind": "hot_take",
+   "t0": 15.68,
+   "t1": 62.42,
+   "render_t0": 15.64,
+   "render_t1": 62.57999999999999,
+   "start_cut": "C03",
+   "end_cut": "C11",
+   "text": "",
+   "scores": {
+    "p_moment": 0.97,
+    "anchor_confidence": 0.75,
+    "needs_the_room": 0.06,
+    "starts_mid_thought": 0.52,
+    "ends_mid_thought": 0.6,
+    "dangling_reference": 0.6,
+    "standalone": 0.53,
+    "promotion": 0.04,
+    "hook": 2.92,
+    "payoff": 1.31,
+    "composite": 0.854
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L049",
+   "kind": "story",
+   "t0": 243.62,
+   "t1": 307.0,
+   "render_t0": 243.5,
+   "render_t1": 307.12000000000006,
+   "start_cut": "C42",
+   "end_cut": "C53",
+   "text": "",
+   "scores": {
+    "p_moment": 0.96,
+    "anchor_confidence": 0.13,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.37,
+    "ends_mid_thought": 0.25,
+    "dangling_reference": 0.24,
+    "standalone": 0.79,
+    "promotion": 0.06,
+    "hook": 2.49,
+    "payoff": 1.75,
+    "composite": 0.847
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L029",
+   "kind": "explanation",
+   "t0": 166.95999999999998,
+   "t1": 214.86,
+   "render_t0": 166.84,
+   "render_t1": 214.96,
+   "start_cut": "C29",
+   "end_cut": "C38",
+   "text": "",
+   "scores": {
+    "p_moment": 0.95,
+    "anchor_confidence": 0.28,
+    "needs_the_room": 0.05,
+    "starts_mid_thought": 0.72,
+    "ends_mid_thought": 0.38,
+    "dangling_reference": 0.62,
+    "standalone": 0.59,
+    "promotion": 0.04,
+    "hook": 1.94,
+    "payoff": 1.87,
+    "composite": 0.755
+   },
+   "rank": 3
+  }
+ ]
+}

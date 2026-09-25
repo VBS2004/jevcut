@@ -15,6 +15,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 
 | column | meaning |
 | --- | --- |
+| videos | labeled videos this version has a run for -- compare counts, not rates, across rows |
 | clips / hit | clips shipped / labeled clips matched one-to-one (overlap IoU > 0.5) |
 | hit, both edges right | matched clips with start and end both inside the labeler's ranges |
 | P | share of shipped clips matching a labeled or also_ok clip |
@@ -23,7 +24,7 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | start / end err | median distance from the labeled edge, matched clips |
 | on a negative | share of shipped clips sitting mostly on a hard negative |
 | length (labels) | median shipped clip length (median labeled clip length) |
-| gate requests | Jev requests spent in the boundary search and gate, all 8 videos |
+| gate requests | Jev requests in the boundary search and gate, across the videos in `videos` |
 
 ## Versions
 
@@ -36,78 +37,88 @@ moments and put starts 0.0s apart at p90 -- the floor any edge error sits on.
 | promotion-gate | `b82d3d2` | Finished clips that are a sponsor read, an ad or a self-plug are dropped: one promotion Noul per shipped clip. |
 | lemonfox-asr | `1d10bc3` | Same pipeline as promotion-gate, on Lemonfox transcripts (hosted Whisper with punctuation and speaker labels) instead of local Whisper small. |
 | six-rounds | `f4b2d45` | Scan windows take up to 6 anchors instead of 3 (on Lemonfox transcripts); contains_moment never stopped a window, so the cap did. |
-| base-dense | `0fcf4db` | Baseline (013): every sentence judged with the gate's questions; clips around the peaks of a 12s rolling average. |
-| base-windows | `0fcf4db` | Baseline (013): 30s windows ending on sentence ends, each judged once, the best kept. |
-| base-naive | `0fcf4db` | Baseline (013): the top-scoring sentence plus or minus 15s. |
-| base-offset | `0fcf4db` | Baseline (013): jevcut's anchors, edges at a constant offset fitted leave-one-video-out. Selection requests are jevcut's. |
-| base-snap | `0fcf4db` | Baseline (013): jevcut's anchors, grown a sentence at a time to ~40s in code. Selection requests are jevcut's. |
+| base-dense | `1523fa2` | Baseline (013): every sentence judged with the gate's questions; clips around the peaks of a 12s rolling average. |
+| base-windows | `1523fa2` | Baseline (013): 30s windows ending on sentence ends, each judged once, the best kept. |
+| base-naive | `1523fa2` | Baseline (013): the top-scoring sentence plus or minus 15s. |
+| base-offset | `1523fa2` | Baseline (013): jevcut's anchors, edges at a constant offset fitted leave-one-video-out. Selection requests are jevcut's. |
+| base-snap | `1523fa2` | Baseline (013): jevcut's anchors, grown a sentence at a time to ~40s in code. Selection requests are jevcut's. |
+| opening-shortlist | `e7c73c0` | If the finished clip's opening reads mid-thought or has no hook, the Choice's next picks are tried against the same ending. |
+| ad-context | `bd61388` | The ad check now reads the minute of transcript before and after the clip, and drops at 0.35 instead of 0.5. |
 
 ## Scores
 
 ### Against v2 A (`eval/labels-v2`)
 
-| version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 13 | **2** | 0.25 | 0.23 (0.11) | 0.15 | 5.0s | 6.0s | 0.05 | 60s (42s) | - |
-| search | 98 | 23 | **6** | 0.30 | 0.41 (0.16) | 0.26 | 7.0s | 6.2s | 0.05 | 53s (42s) | 2,017 |
-| shortest-ending | 100 | 22 | **6** | 0.29 | 0.39 (0.16) | 0.27 | 6.9s | 4.0s | 0.06 | 49s (42s) | 2,017 |
-| opening-choice | 82 | 18 | **5** | 0.30 | 0.32 (0.14) | 0.28 | 1.8s | 4.6s | 0.10 | 41s (42s) | 1,050 |
-| promotion-gate | 78 | 18 | **5** | 0.32 | 0.32 (0.13) | 0.28 | 1.8s | 4.6s | 0.06 | 39s (42s) | 1,141 |
-| lemonfox-asr | 120 | 21 | **5** | 0.26 | 0.38 (0.17) | 0.24 | 1.2s | 4.4s | 0.07 | 45s (42s) | 1,477 |
-| six-rounds | 177 | 30 | **10** | 0.24 | 0.54 (0.25) | 0.33 | 1.1s | 4.3s | 0.07 | 44s (42s) | 2,646 |
-| base-dense | 177 | 25 | **1** | 0.19 | 0.45 (0.27) | 0.04 | 6.8s | 8.2s | 0.13 | 40s (42s) | 4,118 |
-| base-windows | 177 | 25 | **1** | 0.21 | 0.45 (0.24) | 0.04 | 8.0s | 5.8s | 0.10 | 32s (42s) | 505 |
-| base-naive | 177 | 24 | **3** | 0.18 | 0.43 (0.25) | 0.12 | 6.6s | 7.9s | 0.08 | 35s (42s) | 4,118 |
-| base-offset | 177 | 19 | **1** | 0.14 | 0.34 (0.24) | 0.05 | 9.4s | 4.6s | 0.07 | 35s (42s) | - |
-| base-snap | 177 | 21 | **0** | 0.16 | 0.38 (0.27) | 0.00 | 7.0s | 7.0s | 0.07 | 42s (42s) | - |
+| version | videos | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | 8 | 59 | 13 | **2** | 0.25 | 0.23 (0.11) | 0.15 | 5.0s | 6.0s | 0.05 | 59.5s (41.5s) | - |
+| search | 8 | 98 | 23 | **6** | 0.30 | 0.41 (0.16) | 0.26 | 7.0s | 6.2s | 0.05 | 53.2s (41.5s) | 2,017 |
+| shortest-ending | 8 | 100 | 22 | **6** | 0.29 | 0.39 (0.16) | 0.27 | 6.9s | 4.0s | 0.06 | 48.8s (41.5s) | 2,017 |
+| opening-choice | 8 | 82 | 18 | **5** | 0.30 | 0.32 (0.14) | 0.28 | 1.8s | 4.6s | 0.10 | 40.6s (41.5s) | 1,050 |
+| promotion-gate | 8 | 78 | 18 | **5** | 0.32 | 0.32 (0.13) | 0.28 | 1.8s | 4.6s | 0.06 | 38.7s (41.5s) | 1,141 |
+| lemonfox-asr | 8 | 120 | 21 | **5** | 0.26 | 0.38 (0.17) | 0.24 | 1.2s | 4.4s | 0.07 | 44.8s (41.5s) | 1,477 |
+| six-rounds | 8 | 177 | 30 | **10** | 0.24 | 0.54 (0.25) | 0.33 | 1.1s | 4.3s | 0.07 | 43.7s (41.5s) | 2,646 |
+| base-dense | 38 | 405 | 82 | **7** | 0.26 | 0.44 (0.28) | 0.09 | 5.9s | 7.3s | 0.17 | 39.9s (39.9s) | 8,798 |
+| base-windows | 38 | 405 | 85 | **15** | 0.27 | 0.45 (0.25) | 0.18 | 5.9s | 6.1s | 0.14 | 32.2s (39.9s) | 1,089 |
+| base-naive | 38 | 405 | 67 | **8** | 0.22 | 0.36 (0.26) | 0.12 | 5.9s | 7.2s | 0.15 | 35.1s (39.9s) | 8,798 |
+| base-offset | 38 | 405 | 72 | **6** | 0.24 | 0.38 (0.27) | 0.08 | 6.5s | 8.6s | 0.12 | 38.7s (39.9s) | - |
+| base-snap | 38 | 405 | 70 | **2** | 0.23 | 0.37 (0.29) | 0.03 | 5.4s | 9.5s | 0.11 | 42.3s (39.9s) | - |
+| opening-shortlist | 38 | 407 | 103 | **38** | 0.33 | 0.55 (0.27) | 0.37 | 1.3s | 4.2s | 0.12 | 43.0s (39.9s) | - |
+| ad-context | 38 | 400 | 102 | **37** | 0.33 | 0.54 (0.27) | 0.36 | 1.3s | 4.1s | 0.11 | 42.9s (39.9s) | 4,745 |
 
 ### Against v2 B (`eval/labels-v2-b`)
 
-| version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 10 | **1** | 0.27 | 0.18 (0.10) | 0.10 | 6.5s | 13.1s | 0.03 | 60s (40s) | - |
-| search | 98 | 21 | **7** | 0.30 | 0.37 (0.15) | 0.33 | 8.0s | 5.2s | 0.06 | 53s (40s) | 2,017 |
-| shortest-ending | 100 | 20 | **6** | 0.29 | 0.35 (0.15) | 0.30 | 4.7s | 3.2s | 0.06 | 49s (40s) | 2,017 |
-| opening-choice | 82 | 16 | **6** | 0.32 | 0.28 (0.13) | 0.38 | 2.0s | 4.2s | 0.04 | 41s (40s) | 1,050 |
-| promotion-gate | 78 | 16 | **6** | 0.33 | 0.28 (0.12) | 0.38 | 2.0s | 4.2s | 0.01 | 39s (40s) | 1,141 |
-| lemonfox-asr | 120 | 26 | **9** | 0.29 | 0.46 (0.16) | 0.35 | 1.9s | 0.4s | 0.06 | 45s (40s) | 1,477 |
-| six-rounds | 177 | 32 | **11** | 0.26 | 0.56 (0.24) | 0.34 | 1.9s | 0.6s | 0.06 | 44s (40s) | 2,646 |
-| base-dense | 177 | 22 | **1** | 0.20 | 0.39 (0.26) | 0.05 | 7.9s | 7.7s | 0.14 | 40s (40s) | 4,118 |
-| base-windows | 177 | 31 | **3** | 0.21 | 0.54 (0.23) | 0.10 | 7.0s | 5.6s | 0.10 | 32s (40s) | 505 |
-| base-naive | 177 | 19 | **3** | 0.15 | 0.33 (0.24) | 0.16 | 4.5s | 7.2s | 0.12 | 35s (40s) | 4,118 |
-| base-offset | 177 | 18 | **1** | 0.16 | 0.32 (0.24) | 0.06 | 7.0s | 8.3s | 0.07 | 35s (40s) | - |
-| base-snap | 177 | 16 | **0** | 0.15 | 0.28 (0.26) | 0.00 | 4.3s | 6.8s | 0.07 | 42s (40s) | - |
+| version | videos | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | 8 | 59 | 10 | **1** | 0.27 | 0.18 (0.10) | 0.10 | 6.5s | 13.1s | 0.03 | 59.5s (39.6s) | - |
+| search | 8 | 98 | 21 | **7** | 0.30 | 0.37 (0.15) | 0.33 | 8.0s | 5.2s | 0.06 | 53.2s (39.6s) | 2,017 |
+| shortest-ending | 8 | 100 | 20 | **6** | 0.29 | 0.35 (0.15) | 0.30 | 4.7s | 3.2s | 0.06 | 48.8s (39.6s) | 2,017 |
+| opening-choice | 8 | 82 | 16 | **6** | 0.32 | 0.28 (0.13) | 0.38 | 2.0s | 4.2s | 0.04 | 40.6s (39.6s) | 1,050 |
+| promotion-gate | 8 | 78 | 16 | **6** | 0.33 | 0.28 (0.12) | 0.38 | 2.0s | 4.2s | 0.01 | 38.7s (39.6s) | 1,141 |
+| lemonfox-asr | 8 | 120 | 26 | **9** | 0.29 | 0.46 (0.16) | 0.35 | 1.9s | 0.4s | 0.06 | 44.8s (39.6s) | 1,477 |
+| six-rounds | 8 | 177 | 32 | **11** | 0.26 | 0.56 (0.24) | 0.34 | 1.9s | 0.6s | 0.06 | 43.7s (39.6s) | 2,646 |
+| base-dense | 38 | 405 | 83 | **8** | 0.27 | 0.43 (0.28) | 0.10 | 6.2s | 7.9s | 0.18 | 39.9s (40.5s) | 8,798 |
+| base-windows | 38 | 405 | 88 | **12** | 0.26 | 0.45 (0.24) | 0.14 | 5.2s | 5.7s | 0.18 | 32.2s (40.5s) | 1,089 |
+| base-naive | 38 | 405 | 64 | **8** | 0.22 | 0.33 (0.26) | 0.12 | 5.4s | 6.8s | 0.18 | 35.1s (40.5s) | 8,798 |
+| base-offset | 38 | 405 | 73 | **8** | 0.23 | 0.37 (0.27) | 0.11 | 6.3s | 9.5s | 0.14 | 38.7s (40.5s) | - |
+| base-snap | 38 | 405 | 73 | **4** | 0.23 | 0.37 (0.29) | 0.05 | 6.9s | 8.0s | 0.14 | 42.3s (40.5s) | - |
+| opening-shortlist | 38 | 407 | 110 | **37** | 0.35 | 0.56 (0.27) | 0.34 | 1.8s | 4.0s | 0.11 | 43.0s (40.5s) | - |
+| ad-context | 38 | 400 | 110 | **37** | 0.35 | 0.56 (0.27) | 0.34 | 1.8s | 4.0s | 0.10 | 42.9s (40.5s) | 4,745 |
 
 ### Against v1 A (`eval/labels`)
 
-| version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 15 | **4** | 0.36 | 0.23 (0.14) | 0.27 | 8.0s | 6.0s | 0.08 | 60s (54s) | - |
-| search | 98 | 27 | **11** | 0.40 | 0.41 (0.19) | 0.41 | 8.0s | 4.6s | 0.12 | 53s (54s) | 2,017 |
-| shortest-ending | 100 | 26 | **9** | 0.38 | 0.39 (0.18) | 0.35 | 4.7s | 5.2s | 0.13 | 49s (54s) | 2,017 |
-| opening-choice | 82 | 14 | **8** | 0.33 | 0.21 (0.14) | 0.57 | 0.0s | 5.5s | 0.10 | 41s (54s) | 1,050 |
-| promotion-gate | 78 | 14 | **8** | 0.35 | 0.21 (0.13) | 0.57 | 0.0s | 5.5s | 0.08 | 39s (54s) | 1,141 |
-| lemonfox-asr | 120 | 25 | **13** | 0.33 | 0.38 (0.19) | 0.52 | 0.4s | 3.9s | 0.12 | 45s (54s) | 1,477 |
-| six-rounds | 177 | 34 | **20** | 0.29 | 0.52 (0.27) | 0.59 | 0.3s | 5.1s | 0.13 | 44s (54s) | 2,646 |
-| base-dense | 177 | 25 | **3** | 0.21 | 0.38 (0.29) | 0.12 | 9.1s | 7.0s | 0.18 | 40s (54s) | 4,118 |
-| base-windows | 177 | 30 | **4** | 0.22 | 0.45 (0.22) | 0.13 | 10.3s | 6.1s | 0.12 | 32s (54s) | 505 |
-| base-naive | 177 | 24 | **4** | 0.19 | 0.36 (0.24) | 0.17 | 6.3s | 8.1s | 0.16 | 35s (54s) | 4,118 |
-| base-offset | 177 | 22 | **4** | 0.16 | 0.33 (0.23) | 0.18 | 7.6s | 7.9s | 0.10 | 35s (54s) | - |
-| base-snap | 177 | 29 | **4** | 0.23 | 0.44 (0.30) | 0.14 | 10.3s | 8.2s | 0.11 | 42s (54s) | - |
+| version | videos | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | 8 | 59 | 15 | **4** | 0.36 | 0.23 (0.14) | 0.27 | 8.0s | 6.0s | 0.08 | 59.5s (53.9s) | - |
+| search | 8 | 98 | 27 | **11** | 0.40 | 0.41 (0.19) | 0.41 | 8.0s | 4.6s | 0.12 | 53.2s (53.9s) | 2,017 |
+| shortest-ending | 8 | 100 | 26 | **9** | 0.38 | 0.39 (0.18) | 0.35 | 4.7s | 5.2s | 0.13 | 48.8s (53.9s) | 2,017 |
+| opening-choice | 8 | 82 | 14 | **8** | 0.33 | 0.21 (0.14) | 0.57 | 0.0s | 5.5s | 0.10 | 40.6s (53.9s) | 1,050 |
+| promotion-gate | 8 | 78 | 14 | **8** | 0.35 | 0.21 (0.13) | 0.57 | 0.0s | 5.5s | 0.08 | 38.7s (53.9s) | 1,141 |
+| lemonfox-asr | 8 | 120 | 25 | **13** | 0.33 | 0.38 (0.19) | 0.52 | 0.4s | 3.9s | 0.12 | 44.8s (53.9s) | 1,477 |
+| six-rounds | 8 | 177 | 34 | **20** | 0.29 | 0.52 (0.27) | 0.59 | 0.3s | 5.1s | 0.13 | 43.7s (53.9s) | 2,646 |
+| base-dense | 8 | 177 | 25 | **3** | 0.21 | 0.38 (0.29) | 0.12 | 9.1s | 7.0s | 0.18 | 40.2s (53.9s) | 8,798 |
+| base-windows | 8 | 177 | 30 | **4** | 0.22 | 0.45 (0.22) | 0.13 | 10.3s | 6.1s | 0.12 | 32.2s (53.9s) | 1,089 |
+| base-naive | 8 | 177 | 24 | **4** | 0.19 | 0.36 (0.24) | 0.17 | 6.3s | 8.1s | 0.16 | 35.0s (53.9s) | 8,798 |
+| base-offset | 8 | 177 | 23 | **2** | 0.18 | 0.35 (0.27) | 0.09 | 10.7s | 9.2s | 0.11 | 39.0s (53.9s) | - |
+| base-snap | 8 | 177 | 29 | **4** | 0.23 | 0.44 (0.30) | 0.14 | 10.3s | 8.2s | 0.11 | 42.3s (53.9s) | - |
+| opening-shortlist | 8 | 180 | 36 | **20** | 0.29 | 0.55 (0.29) | 0.56 | 0.4s | 5.1s | 0.12 | 45.3s (53.9s) | - |
+| ad-context | 8 | 174 | 35 | **19** | 0.29 | 0.53 (0.28) | 0.54 | 0.4s | 4.4s | 0.10 | 45.3s (53.9s) | 4,745 |
 
 ### Against v1 B (`eval/labels-b`)
 
-| version | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | 59 | 11 | **1** | 0.34 | 0.20 (0.13) | 0.09 | 5.0s | 8.2s | 0.05 | 60s (55s) | - |
-| search | 98 | 22 | **8** | 0.34 | 0.39 (0.18) | 0.36 | 0.8s | 4.3s | 0.05 | 53s (55s) | 2,017 |
-| shortest-ending | 100 | 23 | **6** | 0.32 | 0.41 (0.18) | 0.26 | 1.5s | 5.2s | 0.06 | 49s (55s) | 2,017 |
-| opening-choice | 82 | 17 | **10** | 0.30 | 0.30 (0.14) | 0.59 | 0.0s | 4.2s | 0.10 | 41s (55s) | 1,050 |
-| promotion-gate | 78 | 17 | **10** | 0.32 | 0.30 (0.13) | 0.59 | 0.0s | 4.2s | 0.06 | 39s (55s) | 1,141 |
-| lemonfox-asr | 120 | 25 | **9** | 0.28 | 0.45 (0.19) | 0.36 | 0.4s | 4.2s | 0.10 | 45s (55s) | 1,477 |
-| six-rounds | 177 | 32 | **13** | 0.25 | 0.57 (0.26) | 0.41 | 0.4s | 5.1s | 0.10 | 44s (55s) | 2,646 |
-| base-dense | 177 | 22 | **1** | 0.20 | 0.39 (0.28) | 0.05 | 9.8s | 7.0s | 0.11 | 40s (55s) | 4,118 |
-| base-windows | 177 | 20 | **2** | 0.18 | 0.36 (0.21) | 0.10 | 12.8s | 5.8s | 0.10 | 32s (55s) | 505 |
-| base-naive | 177 | 22 | **3** | 0.19 | 0.39 (0.24) | 0.14 | 7.0s | 6.4s | 0.11 | 35s (55s) | 4,118 |
-| base-offset | 177 | 15 | **1** | 0.12 | 0.27 (0.23) | 0.07 | 9.3s | 7.2s | 0.08 | 35s (55s) | - |
-| base-snap | 177 | 20 | **4** | 0.16 | 0.36 (0.29) | 0.20 | 5.0s | 7.7s | 0.10 | 42s (55s) | - |
+| version | videos | clips | hit | hit, both edges right | P | R (chance) | both edges in range | start err | end err | on a negative | length (labels) | gate requests |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | 8 | 59 | 11 | **1** | 0.34 | 0.20 (0.13) | 0.09 | 5.0s | 8.2s | 0.05 | 59.5s (54.6s) | - |
+| search | 8 | 98 | 22 | **8** | 0.34 | 0.39 (0.18) | 0.36 | 0.8s | 4.3s | 0.05 | 53.2s (54.6s) | 2,017 |
+| shortest-ending | 8 | 100 | 23 | **6** | 0.32 | 0.41 (0.18) | 0.26 | 1.5s | 5.2s | 0.06 | 48.8s (54.6s) | 2,017 |
+| opening-choice | 8 | 82 | 17 | **10** | 0.30 | 0.30 (0.14) | 0.59 | 0.0s | 4.2s | 0.10 | 40.6s (54.6s) | 1,050 |
+| promotion-gate | 8 | 78 | 17 | **10** | 0.32 | 0.30 (0.13) | 0.59 | 0.0s | 4.2s | 0.06 | 38.7s (54.6s) | 1,141 |
+| lemonfox-asr | 8 | 120 | 25 | **9** | 0.28 | 0.45 (0.19) | 0.36 | 0.4s | 4.2s | 0.10 | 44.8s (54.6s) | 1,477 |
+| six-rounds | 8 | 177 | 32 | **13** | 0.25 | 0.57 (0.26) | 0.41 | 0.4s | 5.1s | 0.10 | 43.7s (54.6s) | 2,646 |
+| base-dense | 8 | 177 | 22 | **1** | 0.20 | 0.39 (0.28) | 0.05 | 9.8s | 7.0s | 0.11 | 40.2s (54.6s) | 8,798 |
+| base-windows | 8 | 177 | 20 | **2** | 0.18 | 0.36 (0.21) | 0.10 | 12.8s | 5.8s | 0.10 | 32.2s (54.6s) | 1,089 |
+| base-naive | 8 | 177 | 22 | **3** | 0.19 | 0.39 (0.24) | 0.14 | 7.0s | 6.4s | 0.11 | 35.0s (54.6s) | 8,798 |
+| base-offset | 8 | 177 | 14 | **1** | 0.13 | 0.25 (0.27) | 0.07 | 9.0s | 9.0s | 0.08 | 39.0s (54.6s) | - |
+| base-snap | 8 | 177 | 20 | **4** | 0.16 | 0.36 (0.29) | 0.20 | 5.0s | 7.7s | 0.10 | 42.3s (54.6s) | - |
+| opening-shortlist | 8 | 180 | 32 | **13** | 0.25 | 0.57 (0.28) | 0.41 | 0.4s | 5.9s | 0.08 | 45.3s (54.6s) | - |
+| ad-context | 8 | 174 | 31 | **13** | 0.25 | 0.55 (0.27) | 0.42 | 0.3s | 5.8s | 0.07 | 45.3s (54.6s) | 4,745 |

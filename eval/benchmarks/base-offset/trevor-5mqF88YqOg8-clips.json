@@ -1,0 +1,117 @@
+{
+ "source": "baseline offset",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L124",
+   "kind": "baseline",
+   "t0": 291.74,
+   "t1": 332.0799999999999,
+   "render_t0": 291.74,
+   "render_t1": 332.0799999999999,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.776
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L028",
+   "kind": "baseline",
+   "t0": 31.64,
+   "t1": 68.72,
+   "render_t0": 31.64,
+   "render_t1": 68.72,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.754
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L073",
+   "kind": "baseline",
+   "t0": 159.0,
+   "t1": 192.62,
+   "render_t0": 159.0,
+   "render_t1": 192.62,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.694
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L156",
+   "kind": "baseline",
+   "t0": 370.41999999999996,
+   "t1": 408.86,
+   "render_t0": 370.41999999999996,
+   "render_t1": 408.86,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.66
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L271",
+   "kind": "baseline",
+   "t0": 592.2,
+   "t1": 628.74,
+   "render_t0": 592.2,
+   "render_t1": 628.74,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.65
+   },
+   "rank": 5
+  },
+  {
+   "id": "clip006",
+   "anchor_id": "L238",
+   "kind": "baseline",
+   "t0": 531.78,
+   "t1": 569.3799999999999,
+   "render_t0": 531.78,
+   "render_t1": 569.3799999999999,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.575
+   },
+   "rank": 6
+  },
+  {
+   "id": "clip007",
+   "anchor_id": "L172",
+   "kind": "baseline",
+   "t0": 403.46,
+   "t1": 437.9,
+   "render_t0": 403.46,
+   "render_t1": 437.9,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.443
+   },
+   "rank": 7
+  }
+ ]
+}

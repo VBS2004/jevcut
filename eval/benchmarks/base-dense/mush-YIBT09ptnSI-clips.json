@@ -1,0 +1,133 @@
+{
+ "source": "baseline dense",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L075",
+   "kind": "baseline",
+   "t0": 299.17999999999995,
+   "t1": 339.4200000000001,
+   "render_t0": 299.17999999999995,
+   "render_t1": 339.4200000000001,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.727
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L111",
+   "kind": "baseline",
+   "t0": 428.28,
+   "t1": 469.48,
+   "render_t0": 428.28,
+   "render_t1": 469.48,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.614
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L021",
+   "kind": "baseline",
+   "t0": 74.4,
+   "t1": 115.4,
+   "render_t0": 74.4,
+   "render_t1": 115.4,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.605
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L045",
+   "kind": "baseline",
+   "t0": 184.62,
+   "t1": 224.86,
+   "render_t0": 184.62,
+   "render_t1": 224.86,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.589
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L027",
+   "kind": "baseline",
+   "t0": 97.68,
+   "t1": 138.72,
+   "render_t0": 97.68,
+   "render_t1": 138.72,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.575
+   },
+   "rank": 5
+  },
+  {
+   "id": "clip006",
+   "anchor_id": "L033",
+   "kind": "baseline",
+   "t0": 130.83999999999997,
+   "t1": 170.0,
+   "render_t0": 130.83999999999997,
+   "render_t1": 170.0,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.571
+   },
+   "rank": 6
+  },
+  {
+   "id": "clip007",
+   "anchor_id": "L091",
+   "kind": "baseline",
+   "t0": 360.02,
+   "t1": 400.14,
+   "render_t0": 360.02,
+   "render_t1": 400.14,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.532
+   },
+   "rank": 7
+  },
+  {
+   "id": "clip008",
+   "anchor_id": "L098",
+   "kind": "baseline",
+   "t0": 382.22,
+   "t1": 424.56000000000006,
+   "render_t0": 382.22,
+   "render_t1": 424.56000000000006,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.51
+   },
+   "rank": 8
+  }
+ ]
+}

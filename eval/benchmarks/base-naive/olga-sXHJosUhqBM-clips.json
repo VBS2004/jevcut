@@ -1,0 +1,117 @@
+{
+ "source": "baseline naive",
+ "clips": [
+  {
+   "id": "clip001",
+   "anchor_id": "L070",
+   "kind": "baseline",
+   "t0": 353.0,
+   "t1": 399.36,
+   "render_t0": 353.0,
+   "render_t1": 399.36,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.869
+   },
+   "rank": 1
+  },
+  {
+   "id": "clip002",
+   "anchor_id": "L001",
+   "kind": "baseline",
+   "t0": 0.26,
+   "t1": 34.78,
+   "render_t0": 0.26,
+   "render_t1": 34.78,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.866
+   },
+   "rank": 2
+  },
+  {
+   "id": "clip003",
+   "anchor_id": "L095",
+   "kind": "baseline",
+   "t0": 521.0,
+   "t1": 558.16,
+   "render_t0": 521.0,
+   "render_t1": 558.16,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.854
+   },
+   "rank": 3
+  },
+  {
+   "id": "clip004",
+   "anchor_id": "L074",
+   "kind": "baseline",
+   "t0": 380.43999999999994,
+   "t1": 410.9,
+   "render_t0": 380.43999999999994,
+   "render_t1": 410.9,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.838
+   },
+   "rank": 4
+  },
+  {
+   "id": "clip005",
+   "anchor_id": "L108",
+   "kind": "baseline",
+   "t0": 578.6599999999999,
+   "t1": 615.16,
+   "render_t0": 578.6599999999999,
+   "render_t1": 615.16,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.816
+   },
+   "rank": 5
+  },
+  {
+   "id": "clip006",
+   "anchor_id": "L008",
+   "kind": "baseline",
+   "t0": 21.52,
+   "t1": 72.28,
+   "render_t0": 21.52,
+   "render_t1": 72.28,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.814
+   },
+   "rank": 6
+  },
+  {
+   "id": "clip007",
+   "anchor_id": "L016",
+   "kind": "baseline",
+   "t0": 75.6,
+   "t1": 124.18,
+   "render_t0": 75.6,
+   "render_t1": 124.18,
+   "start_cut": "",
+   "end_cut": "",
+   "text": "",
+   "scores": {
+    "composite": 0.718
+   },
+   "rank": 7
+  }
+ ]
+}
