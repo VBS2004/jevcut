@@ -1,7 +1,7 @@
 """Command line entry points:
 
 run (transcribe + clip in one), and the stages one at a time: transcribe, cuts, region,
-scan, clip, smoke. The live (015-017) and eval (012) commands are not built yet.
+scan, clip, fcpxml, smoke. The live (015-017) and eval (012) commands are not built yet.
 """
 
 from __future__ import annotations
@@ -17,7 +17,8 @@ from jevcut import search as search_mod
 from jevcut.backends import load_env
 from jevcut.client import JevClient
 from jevcut.config import Config
-from jevcut.edl import Clip, composite, render_clip, write_edl
+from jevcut.edl import Clip, composite, read_edl, render_clip, write_edl
+from jevcut.fcpxml import write_fcpxml
 from jevcut.models import Transcript
 from jevcut.render import render_lines
 from jevcut.scan import read_scan, scan, windows, write_scan
@@ -235,6 +236,9 @@ def cmd_clip(args: argparse.Namespace) -> int:
         write_scan(result, out_dir / "anchors.json")
     edl_path = out_dir / "edl.json"
     write_edl(kept, edl_path, source=args.media or "")
+    if args.media:
+        # The EDL is jevcut's own format; this is the one an editor can open.
+        ui.timeline(write_fcpxml(kept, out_dir / "clips.fcpxml", source=args.media))
     ui.clips(kept, edl_path)
 
     if args.media:
@@ -253,6 +257,22 @@ def cmd_clip(args: argparse.Namespace) -> int:
         ui.no_render()
     ui.sheet(write_sheet(kept, out_dir / "index.html", source=args.media or ""))
     ui.finish(requests=scan_requests + requests, cost=scan_cost + search_cost, out_dir=out_dir)
+    return 0
+
+
+def cmd_fcpxml(args: argparse.Namespace) -> int:
+    """edl.json -> clips.fcpxml, a timeline Premiere, Resolve or Final Cut can open."""
+    source, clips = read_edl(args.edl)
+    media = args.media or source
+    if not media:
+        print("this EDL records no source video; pass --media", file=sys.stderr)
+        return 1
+    if not Path(media).exists():
+        print(f"source video not found: {media}", file=sys.stderr)
+        return 1
+    out = Path(args.out) if args.out else Path(args.edl).with_name("clips.fcpxml")
+    write_fcpxml(clips, out, source=media)
+    print(f"timeline -> {out}")
     return 0
 
 
@@ -661,6 +681,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out", help="output directory (default: clips/<video name>/)")
     _render_flags(p)
     p.set_defaults(func=cmd_clip)
+
+    p = sub.add_parser("fcpxml", help="edl.json -> clips.fcpxml for Premiere/Resolve/Final Cut")
+    p.add_argument("edl", help="an edl.json, including one edited by hand")
+    p.add_argument("--media", help="source video (default: the one recorded in the EDL)")
+    p.add_argument("--out", help="output path (default: clips.fcpxml beside the EDL)")
+    p.set_defaults(func=cmd_fcpxml)
 
     p = sub.add_parser("run", help="media -> ranked mp4s in one command (transcribe + clip)")
     p.add_argument("input")

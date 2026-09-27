@@ -90,6 +90,9 @@ class Plain:
     def sheet(self, path: Path) -> None:
         print(f"contact sheet -> {path}")
 
+    def timeline(self, path: Path) -> None:
+        print(f"timeline -> {path}")
+
     def finish(self, *, requests: int, cost: float, out_dir: Path) -> None:
         pass
 
@@ -270,6 +273,9 @@ class Live:
     def sheet(self, path: Path) -> None:
         self.sheet_path = path
 
+    def timeline(self, path: Path) -> None:
+        self.timeline_path = path
+
     def finish(self, *, requests: int, cost: float, out_dir: Path) -> None:
         from rich.columns import Columns
         from rich.panel import Panel
@@ -316,10 +322,14 @@ class Live:
             )
         )
         sheet = getattr(self, "sheet_path", out_dir / "index.html")
-        self.console.print(
+        line = (
             f"[bold green]✓[/] clips in [bold]{out_dir}/[/]  ·  "
             f"watch them: [bold cyan]{sheet}[/]  ·  edit the cut: [bold]{out_dir / 'edl.json'}[/]"
         )
+        timeline = getattr(self, "timeline_path", None)
+        if timeline:
+            line += f"  ·  open in an NLE: [bold]{timeline}[/]"
+        self.console.print(line)
 
     def _stop(self) -> None:
         if self.progress.live.is_started:
