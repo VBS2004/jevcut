@@ -142,8 +142,9 @@ uv run pytest                # no API key needed
 uv run ruff check .          # lint; the known findings are listed below
 uv run python scripts/check_docs.py   # do the docs still describe the code?
 
-# a real video, end to end -> ranked mp4s, an editable edl.json and index.html (a page
-# to watch them on, best first, with the scores that ranked them), all in clips/talk/.
+# a real video, end to end -> ranked mp4s, an editable edl.json, clips.fcpxml (the cut,
+# importable by Premiere/Resolve/Final Cut) and index.html (a page to watch them on, best
+# first, with the scores that ranked them), all in clips/talk/.
 # At a terminal it shows live progress, every moment kept or dropped and why, a ranked
 # table and a run summary; piped, or with --plain, it prints one line per event
 # a second run on the same video reuses its transcript, so ASR runs once (a transcript
@@ -160,6 +161,12 @@ uv run jevcut run talk.mp4 --language en --model lemonfox
 # the same in two steps
 uv run jevcut transcribe talk.mp4 --model small --language en --out t.json
 uv run jevcut clip t.json --media talk.mp4 --out clips/talk/
+
+# clips.fcpxml is written beside edl.json whenever the source video is known, so the cut
+# opens in Premiere, DaVinci Resolve or Final Cut with every clip as its own sequence,
+# trimmable: it points at the source, not at the rendered mp4s, so the handles are still
+# there. Re-make it from an EDL you have edited by hand:
+uv run jevcut fcpxml clips/talk/edl.json
 
 # without ASR, from the synthetic fixture
 uv run jevcut transcribe x --from-json eval/fixtures/interview.words.json --out t.json
