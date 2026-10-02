@@ -200,6 +200,13 @@ The formatting run is listed in `.git-blame-ignore-revs`. Turn it on with
 `typesafe` uses the first-party SDK and `TYPESAFE_API_KEY`. Copy `.env.example` to
 `.env.local` — it is gitignored, and a variable already set in your shell always wins.
 
+## Writing your own Jev questions
+
+The lessons from tuning jevcut's questions are a standalone Claude Code skill, with
+scripts that check its rules (a question linter, the spread test, a threshold calibrator):
+**[jev-questions-skill](https://github.com/VBS2004/jev-questions-skill)**. Every rule in it
+carries a number measured here, and it is about System One in general, not clipping.
+
 ## Review
 
 [docs/REVIEW-LOG.md](docs/REVIEW-LOG.md) records what a review of M0 found, with the
